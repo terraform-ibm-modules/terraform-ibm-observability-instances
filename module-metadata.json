@@ -1,12 +1,569 @@
 {
   "path": ".",
-  "variables": {},
-  "outputs": {},
+  "variables": {
+    "activity_tracker_instance_name": {
+      "name": "activity_tracker_instance_name",
+      "type": "string",
+      "description": "The name of the Activity Tracker instance to create. Defaults to 'activity-tracker-\u003cregion\u003e'",
+      "pos": {
+        "filename": "variables.tf",
+        "line": 115
+      }
+    },
+    "activity_tracker_manager_key_name": {
+      "name": "activity_tracker_manager_key_name",
+      "type": "string",
+      "description": "The name to give the Activity Tracker manager key.",
+      "default": "AtManagerKey",
+      "required": true,
+      "source": [
+        "ibm_resource_key.at_resource_key.name"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 132
+      },
+      "immutable": true
+    },
+    "activity_tracker_plan": {
+      "name": "activity_tracker_plan",
+      "type": "string",
+      "description": "The Activity Tracker plan to provision. Available: lite, 7-day, 14-day, 30-day, hipaa-30-day",
+      "default": "lite",
+      "required": true,
+      "source": [
+        "ibm_resource_instance.activity_tracker.plan"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 121
+      }
+    },
+    "activity_tracker_provision": {
+      "name": "activity_tracker_provision",
+      "type": "bool",
+      "description": "Provision an Activity Tracker instance?",
+      "default": true,
+      "source": [
+        "ibm_resource_instance.activity_tracker.count",
+        "ibm_resource_key.at_resource_key.count"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 109
+      }
+    },
+    "activity_tracker_tags": {
+      "name": "activity_tracker_tags",
+      "type": "list(string)",
+      "description": "Tags associated with the Activity Tracker instance (Optional, array of strings).",
+      "default": [],
+      "source": [
+        "ibm_resource_instance.activity_tracker.tags"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 138
+      },
+      "min_length": 1,
+      "max_length": 128,
+      "matches": "^[A-Za-z0-9:_ .-]+$",
+      "computed": true,
+      "elem": {
+        "type": "TypeString"
+      }
+    },
+    "enable_platform_logs": {
+      "name": "enable_platform_logs",
+      "type": "bool",
+      "description": "Receive platform logs in LogDNA",
+      "default": true,
+      "source": [
+        "ibm_resource_instance.logdna.parameters"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 56
+      }
+    },
+    "enable_platform_metrics": {
+      "name": "enable_platform_metrics",
+      "type": "bool",
+      "description": "Receive platform metrics in Sysdig",
+      "default": true,
+      "source": [
+        "ibm_resource_instance.sysdig.parameters"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 100
+      }
+    },
+    "logdna_instance_name": {
+      "name": "logdna_instance_name",
+      "type": "string",
+      "description": "The name of the LogDNA instance to create. Defaults to 'logdna-\u003cregion\u003e'",
+      "pos": {
+        "filename": "variables.tf",
+        "line": 27
+      }
+    },
+    "logdna_manager_key_name": {
+      "name": "logdna_manager_key_name",
+      "type": "string",
+      "description": "The name to give the LogDNA manager key.",
+      "default": "LogDnaManagerKey",
+      "required": true,
+      "source": [
+        "ibm_resource_key.log_dna_resource_key.name"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 44
+      },
+      "immutable": true
+    },
+    "logdna_plan": {
+      "name": "logdna_plan",
+      "type": "string",
+      "description": "The LogDNA plan to provision. Available: lite, 7-day, 14-day, 30-day, hipaa-30-day",
+      "default": "lite",
+      "required": true,
+      "source": [
+        "ibm_resource_instance.logdna.plan"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 33
+      }
+    },
+    "logdna_provision": {
+      "name": "logdna_provision",
+      "type": "bool",
+      "description": "Provision a LogDNA instance?",
+      "default": true,
+      "source": [
+        "ibm_resource_instance.logdna.count",
+        "ibm_resource_key.log_dna_resource_key.count"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 21
+      }
+    },
+    "logdna_tags": {
+      "name": "logdna_tags",
+      "type": "list(string)",
+      "description": "Tags associated with the LogDNA instance (Optional, array of strings).",
+      "default": [],
+      "source": [
+        "ibm_resource_instance.logdna.tags"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 50
+      },
+      "min_length": 1,
+      "max_length": 128,
+      "matches": "^[A-Za-z0-9:_ .-]+$",
+      "computed": true,
+      "elem": {
+        "type": "TypeString"
+      }
+    },
+    "region": {
+      "name": "region",
+      "type": "string",
+      "description": "The IBM Cloud region where instances will be created.",
+      "default": "us-south",
+      "required": true,
+      "source": [
+        "ibm_resource_instance.activity_tracker.location",
+        "ibm_resource_instance.logdna.location",
+        "ibm_resource_instance.sysdig.location"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 6
+      },
+      "cloud_data_type": "region",
+      "immutable": true
+    },
+    "resource_group_id": {
+      "name": "resource_group_id",
+      "type": "string",
+      "description": "The id of the IBM Cloud resource group where the instance(s) will be created.",
+      "source": [
+        "ibm_resource_instance.activity_tracker.resource_group_id",
+        "ibm_resource_instance.logdna.resource_group_id",
+        "ibm_resource_instance.sysdig.resource_group_id"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 12
+      },
+      "cloud_data_type": "resource_group",
+      "immutable": true,
+      "computed": true,
+      "cloud_data_range": [
+        "resolved_to:id"
+      ]
+    },
+    "sysdig_instance_name": {
+      "name": "sysdig_instance_name",
+      "type": "string",
+      "description": "The name of the Sysdig instance to create. Defaults to 'sysdig-\u003cregion\u003e'",
+      "pos": {
+        "filename": "variables.tf",
+        "line": 71
+      }
+    },
+    "sysdig_manager_key_name": {
+      "name": "sysdig_manager_key_name",
+      "type": "string",
+      "description": "The name to give the Sysdig manager key.",
+      "default": "SysdigManagerKey",
+      "required": true,
+      "source": [
+        "ibm_resource_key.sysdig_resource_key.name"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 88
+      },
+      "immutable": true
+    },
+    "sysdig_plan": {
+      "name": "sysdig_plan",
+      "type": "string",
+      "description": "The Sysdig plan to provision. Available: lite, graduated-tier, graduated-tier-sysdig-secure-plus-monitor",
+      "default": "lite",
+      "required": true,
+      "source": [
+        "ibm_resource_instance.sysdig.plan"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 77
+      }
+    },
+    "sysdig_provision": {
+      "name": "sysdig_provision",
+      "type": "bool",
+      "description": "Provision a Sysdig instance?",
+      "default": true,
+      "source": [
+        "ibm_resource_instance.sysdig.count",
+        "ibm_resource_key.sysdig_resource_key.count"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 65
+      }
+    },
+    "sysdig_tags": {
+      "name": "sysdig_tags",
+      "type": "list(string)",
+      "description": "Tags associated with the Sysdig instance (Optional, array of strings).",
+      "default": [],
+      "source": [
+        "ibm_resource_instance.sysdig.tags"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 94
+      },
+      "min_length": 1,
+      "max_length": 128,
+      "matches": "^[A-Za-z0-9:_ .-]+$",
+      "computed": true,
+      "elem": {
+        "type": "TypeString"
+      }
+    }
+  },
+  "outputs": {
+    "activity_tracker_crn": {
+      "name": "activity_tracker_crn",
+      "description": "The id of the provisioned Activity Tracker instance.",
+      "pos": {
+        "filename": "outputs.tf",
+        "line": 87
+      }
+    },
+    "activity_tracker_guid": {
+      "name": "activity_tracker_guid",
+      "description": "The guid of the provisioned Activity Tracker instance.",
+      "pos": {
+        "filename": "outputs.tf",
+        "line": 93
+      }
+    },
+    "activity_tracker_manager_key_name": {
+      "name": "activity_tracker_manager_key_name",
+      "description": "The Activity Tracker manager key name",
+      "value": "var.activity_tracker_manager_key_name",
+      "pos": {
+        "filename": "outputs.tf",
+        "line": 111
+      }
+    },
+    "activity_tracker_name": {
+      "name": "activity_tracker_name",
+      "description": "The name of the provisioned Activity Tracker instance.",
+      "pos": {
+        "filename": "outputs.tf",
+        "line": 98
+      }
+    },
+    "activity_tracker_resource_key": {
+      "name": "activity_tracker_resource_key",
+      "description": "The resource/service key for agents to use",
+      "sensitive": true,
+      "pos": {
+        "filename": "outputs.tf",
+        "line": 104
+      }
+    },
+    "logdna_crn": {
+      "name": "logdna_crn",
+      "description": "The id of the provisioned LogDNA instance.",
+      "pos": {
+        "filename": "outputs.tf",
+        "line": 19
+      }
+    },
+    "logdna_guid": {
+      "name": "logdna_guid",
+      "description": "The guid of the provisioned LogDNA instance.",
+      "pos": {
+        "filename": "outputs.tf",
+        "line": 24
+      }
+    },
+    "logdna_ingestion_key": {
+      "name": "logdna_ingestion_key",
+      "description": "LogDNA ingest key for agents to use",
+      "sensitive": true,
+      "pos": {
+        "filename": "outputs.tf",
+        "line": 39
+      }
+    },
+    "logdna_manager_key_name": {
+      "name": "logdna_manager_key_name",
+      "description": "The LogDNA manager key name",
+      "value": "var.logdna_manager_key_name",
+      "pos": {
+        "filename": "outputs.tf",
+        "line": 45
+      }
+    },
+    "logdna_name": {
+      "name": "logdna_name",
+      "description": "The name of the provisioned LogDNA instance.",
+      "pos": {
+        "filename": "outputs.tf",
+        "line": 29
+      }
+    },
+    "logdna_resource_group_id": {
+      "name": "logdna_resource_group_id",
+      "description": "The resource group where LogDNA instance resides",
+      "pos": {
+        "filename": "outputs.tf",
+        "line": 34
+      }
+    },
+    "region": {
+      "name": "region",
+      "description": "Region that instance(s) are provisioned to.",
+      "value": "var.region",
+      "pos": {
+        "filename": "outputs.tf",
+        "line": 6
+      }
+    },
+    "resource_group_id": {
+      "name": "resource_group_id",
+      "description": "Resource group ID that instance(s) are provisioned to.",
+      "value": "var.resource_group_id",
+      "pos": {
+        "filename": "outputs.tf",
+        "line": 11
+      }
+    },
+    "sysdig_access_key": {
+      "name": "sysdig_access_key",
+      "description": "Sysdig access key for agents to use",
+      "sensitive": true,
+      "pos": {
+        "filename": "outputs.tf",
+        "line": 73
+      }
+    },
+    "sysdig_crn": {
+      "name": "sysdig_crn",
+      "description": "The id of the provisioned Sysdig instance.",
+      "pos": {
+        "filename": "outputs.tf",
+        "line": 53
+      }
+    },
+    "sysdig_guid": {
+      "name": "sysdig_guid",
+      "description": "The guid of the provisioned Sisdig instance.",
+      "pos": {
+        "filename": "outputs.tf",
+        "line": 58
+      }
+    },
+    "sysdig_manager_key_name": {
+      "name": "sysdig_manager_key_name",
+      "description": "The Sysdig manager key name",
+      "value": "var.sysdig_manager_key_name",
+      "pos": {
+        "filename": "outputs.tf",
+        "line": 79
+      }
+    },
+    "sysdig_name": {
+      "name": "sysdig_name",
+      "description": "The name of the provisioned Sysdig instance.",
+      "pos": {
+        "filename": "outputs.tf",
+        "line": 63
+      }
+    },
+    "sysdig_resource_group_id": {
+      "name": "sysdig_resource_group_id",
+      "description": "The resource group where Sysdig monitor instance resides",
+      "pos": {
+        "filename": "outputs.tf",
+        "line": 68
+      }
+    }
+  },
   "required_core": [
     "\u003e= 1.0.0"
   ],
-  "required_providers": {},
-  "managed_resources": {},
+  "required_providers": {
+    "ibm": {
+      "source": "ibm-cloud/ibm",
+      "version_constraints": [
+        "\u003e= 1.45.0"
+      ]
+    }
+  },
+  "managed_resources": {
+    "ibm_resource_instance.activity_tracker": {
+      "mode": "managed",
+      "type": "ibm_resource_instance",
+      "name": "activity_tracker",
+      "attributes": {
+        "count": "activity_tracker_provision",
+        "location": "region",
+        "plan": "activity_tracker_plan",
+        "resource_group_id": "resource_group_id",
+        "tags": "activity_tracker_tags"
+      },
+      "provider": {
+        "name": "ibm"
+      },
+      "pos": {
+        "filename": "main.tf",
+        "line": 62
+      }
+    },
+    "ibm_resource_instance.logdna": {
+      "mode": "managed",
+      "type": "ibm_resource_instance",
+      "name": "logdna",
+      "attributes": {
+        "count": "logdna_provision",
+        "location": "region",
+        "parameters": "enable_platform_logs",
+        "plan": "logdna_plan",
+        "resource_group_id": "resource_group_id",
+        "tags": "logdna_tags"
+      },
+      "provider": {
+        "name": "ibm"
+      },
+      "pos": {
+        "filename": "main.tf",
+        "line": 14
+      }
+    },
+    "ibm_resource_instance.sysdig": {
+      "mode": "managed",
+      "type": "ibm_resource_instance",
+      "name": "sysdig",
+      "attributes": {
+        "count": "sysdig_provision",
+        "location": "region",
+        "parameters": "enable_platform_metrics",
+        "plan": "sysdig_plan",
+        "resource_group_id": "resource_group_id",
+        "tags": "sysdig_tags"
+      },
+      "provider": {
+        "name": "ibm"
+      },
+      "pos": {
+        "filename": "main.tf",
+        "line": 38
+      }
+    },
+    "ibm_resource_key.at_resource_key": {
+      "mode": "managed",
+      "type": "ibm_resource_key",
+      "name": "at_resource_key",
+      "attributes": {
+        "count": "activity_tracker_provision",
+        "name": "activity_tracker_manager_key_name"
+      },
+      "provider": {
+        "name": "ibm"
+      },
+      "pos": {
+        "filename": "main.tf",
+        "line": 73
+      }
+    },
+    "ibm_resource_key.log_dna_resource_key": {
+      "mode": "managed",
+      "type": "ibm_resource_key",
+      "name": "log_dna_resource_key",
+      "attributes": {
+        "count": "logdna_provision",
+        "name": "logdna_manager_key_name"
+      },
+      "provider": {
+        "name": "ibm"
+      },
+      "pos": {
+        "filename": "main.tf",
+        "line": 29
+      }
+    },
+    "ibm_resource_key.sysdig_resource_key": {
+      "mode": "managed",
+      "type": "ibm_resource_key",
+      "name": "sysdig_resource_key",
+      "attributes": {
+        "count": "sysdig_provision",
+        "name": "sysdig_manager_key_name"
+      },
+      "provider": {
+        "name": "ibm"
+      },
+      "pos": {
+        "filename": "main.tf",
+        "line": 53
+      }
+    }
+  },
   "data_resources": {},
   "module_calls": {}
 }

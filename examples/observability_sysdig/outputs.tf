@@ -2,7 +2,7 @@
 # Outputs
 ##############################################################################
 
-output "vpc_id" {
-  description = "ID of the existing VPC"
-  value       = data.ibm_is_vpc.example.id
+output "sysdig_name" {
+  value       = module.test_observability_instance_creation.sysdig_name
+  description = "The name of the provisioned Sysdig instance."
 }
