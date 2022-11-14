@@ -33,9 +33,11 @@ func TestRunDefaultExample(t *testing.T) {
 		CloudInfoService:              sharedInfoSvc,
 		ExcludeActivityTrackerRegions: true,
 		TerraformVars: map[string]interface{}{
-			"logdna_plan":           "7-day",
-			"sysdig_plan":           "graduated-tier",
-			"activity_tracker_plan": "7-day",
+			"logdna_plan":             "7-day",
+			"sysdig_plan":             "graduated-tier",
+			"activity_tracker_plan":   "7-day",
+			"enable_platform_logs":    false,
+			"enable_platform_metrics": false,
 		},
 	})
 
@@ -57,9 +59,11 @@ func TestRunUpgradeExample(t *testing.T) {
 		CloudInfoService:              sharedInfoSvc,
 		ExcludeActivityTrackerRegions: true,
 		TerraformVars: map[string]interface{}{
-			"logdna_plan":           "7-day",
-			"sysdig_plan":           "graduated-tier",
-			"activity_tracker_plan": "7-day",
+			"logdna_plan":             "7-day",
+			"sysdig_plan":             "graduated-tier",
+			"activity_tracker_plan":   "7-day",
+			"enable_platform_logs":    false,
+			"enable_platform_metrics": false,
 		},
 	})
 
