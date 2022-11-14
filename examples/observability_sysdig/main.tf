@@ -2,14 +2,17 @@ provider "ibm" {
   ibmcloud_api_key = var.ibmcloud_api_key
 }
 
-resource "ibm_resource_group" "test_resource_group" {
-  name     = "${var.prefix}-rg"
-  quota_id = null
+module "resource_group" {
+  source = "git::https://github.com/terraform-ibm-modules/terraform-ibm-resource-group.git?ref=v1.0.2"
+  # if an existing resource group is not set (null) create a new one using prefix
+  resource_group_name          = var.resource_group == null ? "${var.prefix}-resource-group" : null
+  existing_resource_group_name = var.resource_group
 }
+
 
 module "test_observability_instance_creation" {
   source                     = "../../"
-  resource_group_id          = ibm_resource_group.test_resource_group.id
+  resource_group_id          = module.resource_group.resource_group_id
   region                     = var.region
   sysdig_instance_name       = var.prefix
   enable_platform_metrics    = false
