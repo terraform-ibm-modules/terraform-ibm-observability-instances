@@ -8,11 +8,6 @@ output "region" {
   value       = var.region
 }
 
-output "resource_group_id" {
-  description = "Resource group ID that instance(s) are provisioned to."
-  value       = var.resource_group_id
-}
-
 ##############################################################################
 
 # LogDNA
@@ -98,6 +93,11 @@ output "activity_tracker_guid" {
 output "activity_tracker_name" {
   value       = length(ibm_resource_instance.activity_tracker) > 0 ? ibm_resource_instance.activity_tracker[0].name : null
   description = "The name of the provisioned Activity Tracker instance."
+}
+
+output "activity_tracker_resource_group_id" {
+  value       = length(ibm_resource_instance.activity_tracker) > 0 ? ibm_resource_instance.activity_tracker[0].resource_group_id : null
+  description = "The resource group where Activity Tracker instance resides"
 }
 
 # Activity Tracker Resource/Service Key

@@ -288,7 +288,7 @@
       "description": "The id of the provisioned Activity Tracker instance.",
       "pos": {
         "filename": "outputs.tf",
-        "line": 87
+        "line": 82
       }
     },
     "activity_tracker_guid": {
@@ -296,7 +296,7 @@
       "description": "The guid of the provisioned Activity Tracker instance.",
       "pos": {
         "filename": "outputs.tf",
-        "line": 93
+        "line": 88
       }
     },
     "activity_tracker_manager_key_name": {
@@ -311,6 +311,14 @@
     "activity_tracker_name": {
       "name": "activity_tracker_name",
       "description": "The name of the provisioned Activity Tracker instance.",
+      "pos": {
+        "filename": "outputs.tf",
+        "line": 93
+      }
+    },
+    "activity_tracker_resource_group_id": {
+      "name": "activity_tracker_resource_group_id",
+      "description": "The resource group where Activity Tracker instance resides",
       "pos": {
         "filename": "outputs.tf",
         "line": 98
@@ -330,7 +338,7 @@
       "description": "The id of the provisioned LogDNA instance.",
       "pos": {
         "filename": "outputs.tf",
-        "line": 19
+        "line": 14
       }
     },
     "logdna_guid": {
@@ -338,7 +346,7 @@
       "description": "The guid of the provisioned LogDNA instance.",
       "pos": {
         "filename": "outputs.tf",
-        "line": 24
+        "line": 19
       }
     },
     "logdna_ingestion_key": {
@@ -347,7 +355,7 @@
       "sensitive": true,
       "pos": {
         "filename": "outputs.tf",
-        "line": 39
+        "line": 34
       }
     },
     "logdna_manager_key_name": {
@@ -356,7 +364,7 @@
       "value": "var.logdna_manager_key_name",
       "pos": {
         "filename": "outputs.tf",
-        "line": 45
+        "line": 40
       }
     },
     "logdna_name": {
@@ -364,7 +372,7 @@
       "description": "The name of the provisioned LogDNA instance.",
       "pos": {
         "filename": "outputs.tf",
-        "line": 29
+        "line": 24
       }
     },
     "logdna_resource_group_id": {
@@ -372,7 +380,7 @@
       "description": "The resource group where LogDNA instance resides",
       "pos": {
         "filename": "outputs.tf",
-        "line": 34
+        "line": 29
       }
     },
     "region": {
@@ -384,22 +392,13 @@
         "line": 6
       }
     },
-    "resource_group_id": {
-      "name": "resource_group_id",
-      "description": "Resource group ID that instance(s) are provisioned to.",
-      "value": "var.resource_group_id",
-      "pos": {
-        "filename": "outputs.tf",
-        "line": 11
-      }
-    },
     "sysdig_access_key": {
       "name": "sysdig_access_key",
       "description": "Sysdig access key for agents to use",
       "sensitive": true,
       "pos": {
         "filename": "outputs.tf",
-        "line": 73
+        "line": 68
       }
     },
     "sysdig_crn": {
@@ -407,7 +406,7 @@
       "description": "The id of the provisioned Sysdig instance.",
       "pos": {
         "filename": "outputs.tf",
-        "line": 53
+        "line": 48
       }
     },
     "sysdig_guid": {
@@ -415,7 +414,7 @@
       "description": "The guid of the provisioned Sisdig instance.",
       "pos": {
         "filename": "outputs.tf",
-        "line": 58
+        "line": 53
       }
     },
     "sysdig_manager_key_name": {
@@ -424,7 +423,7 @@
       "value": "var.sysdig_manager_key_name",
       "pos": {
         "filename": "outputs.tf",
-        "line": 79
+        "line": 74
       }
     },
     "sysdig_name": {
@@ -432,7 +431,7 @@
       "description": "The name of the provisioned Sysdig instance.",
       "pos": {
         "filename": "outputs.tf",
-        "line": 63
+        "line": 58
       }
     },
     "sysdig_resource_group_id": {
@@ -440,7 +439,7 @@
       "description": "The resource group where Sysdig monitor instance resides",
       "pos": {
         "filename": "outputs.tf",
-        "line": 68
+        "line": 63
       }
     }
   },
