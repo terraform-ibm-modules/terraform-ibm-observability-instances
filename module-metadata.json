@@ -302,7 +302,6 @@
     "activity_tracker_manager_key_name": {
       "name": "activity_tracker_manager_key_name",
       "description": "The Activity Tracker manager key name",
-      "value": "var.activity_tracker_manager_key_name",
       "pos": {
         "filename": "outputs.tf",
         "line": 111
@@ -361,7 +360,6 @@
     "logdna_manager_key_name": {
       "name": "logdna_manager_key_name",
       "description": "The LogDNA manager key name",
-      "value": "var.logdna_manager_key_name",
       "pos": {
         "filename": "outputs.tf",
         "line": 40
@@ -420,7 +418,6 @@
     "sysdig_manager_key_name": {
       "name": "sysdig_manager_key_name",
       "description": "The Sysdig manager key name",
-      "value": "var.sysdig_manager_key_name",
       "pos": {
         "filename": "outputs.tf",
         "line": 74

@@ -38,7 +38,7 @@ output "logdna_ingestion_key" {
 }
 
 output "logdna_manager_key_name" {
-  value       = var.logdna_manager_key_name
+  value       = length(ibm_resource_key.log_dna_resource_key) > 0 ? ibm_resource_key.log_dna_resource_key[0].name : null
   description = "The LogDNA manager key name"
 }
 
@@ -72,7 +72,7 @@ output "sysdig_access_key" {
 }
 
 output "sysdig_manager_key_name" {
-  value       = var.sysdig_manager_key_name
+  value       = length(ibm_resource_key.sysdig_resource_key) > 0 ? ibm_resource_key.sysdig_resource_key[0].name : null
   description = "The Sysdig manager key name"
 }
 
@@ -109,7 +109,7 @@ output "activity_tracker_resource_key" {
 
 # Activity Tracker Resource/Service Key name
 output "activity_tracker_manager_key_name" {
-  value       = var.activity_tracker_manager_key_name
+  value       = length(ibm_resource_instance.activity_tracker) > 0 ? ibm_resource_key.at_resource_key[0].name : null
   description = "The Activity Tracker manager key name"
 }
 ##############################################################################
