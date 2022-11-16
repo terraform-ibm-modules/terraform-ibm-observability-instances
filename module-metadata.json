@@ -383,12 +383,14 @@
     },
     "region": {
       "name": "region",
-      "description": "Region that instance(s) are provisioned to.",
+      "description": "The IBM Cloud region where instances will be created.",
       "value": "var.region",
       "pos": {
         "filename": "outputs.tf",
         "line": 6
-      }
+      },
+      "type": "string",
+      "cloud_data_type": "region"
     },
     "sysdig_access_key": {
       "name": "sysdig_access_key",
