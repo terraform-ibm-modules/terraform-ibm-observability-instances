@@ -1,19 +1,19 @@
 variable "ibmcloud_api_key" {
   type        = string
-  description = "The IBM Cloud API Key"
+  description = "The IBM Cloud API Token"
   sensitive   = true
-}
-
-variable "region" {
-  type        = string
-  description = "Region to provision all resources created by this example"
-  default     = "us-south"
 }
 
 variable "prefix" {
   type        = string
-  description = "Prefix to append to all resources created by this example"
-  default     = "terraform"
+  description = "Prefix for name of all resource created by this example"
+  default     = "test-observability-sysdig-instance"
+}
+
+variable "region" {
+  description = "Region where resources will be created"
+  type        = string
+  default     = "eu-de"
 }
 
 variable "resource_group" {
