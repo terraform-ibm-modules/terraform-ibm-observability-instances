@@ -76,7 +76,7 @@
     "enable_platform_logs": {
       "name": "enable_platform_logs",
       "type": "bool",
-      "description": "Receive platform logs in LogDNA",
+      "description": "Receive platform logs in the provisioned IBM Cloud Logging instance.",
       "default": true,
       "source": [
         "ibm_resource_instance.logdna.parameters"
@@ -89,7 +89,7 @@
     "enable_platform_metrics": {
       "name": "enable_platform_metrics",
       "type": "bool",
-      "description": "Receive platform metrics in Sysdig",
+      "description": "Receive platform metrics in the provisioned IBM Cloud Monitoring instance.",
       "default": true,
       "source": [
         "ibm_resource_instance.sysdig.parameters"
@@ -102,7 +102,7 @@
     "logdna_instance_name": {
       "name": "logdna_instance_name",
       "type": "string",
-      "description": "The name of the LogDNA instance to create. Defaults to 'logdna-\u003cregion\u003e'",
+      "description": "The name of the IBM Cloud Logging instance to create. Defaults to 'logdna-\u003cregion\u003e'",
       "pos": {
         "filename": "variables.tf",
         "line": 27
@@ -111,7 +111,7 @@
     "logdna_manager_key_name": {
       "name": "logdna_manager_key_name",
       "type": "string",
-      "description": "The name to give the LogDNA manager key.",
+      "description": "The name to give the IBM Cloud Logging manager key.",
       "default": "LogDnaManagerKey",
       "required": true,
       "source": [
@@ -126,7 +126,7 @@
     "logdna_plan": {
       "name": "logdna_plan",
       "type": "string",
-      "description": "The LogDNA plan to provision. Available: lite, 7-day, 14-day, 30-day, hipaa-30-day",
+      "description": "The IBM Cloud Logging plan to provision. Available: lite, 7-day, 14-day, 30-day, hipaa-30-day",
       "default": "lite",
       "required": true,
       "source": [
@@ -140,7 +140,7 @@
     "logdna_provision": {
       "name": "logdna_provision",
       "type": "bool",
-      "description": "Provision a LogDNA instance?",
+      "description": "Provision an IBM Cloud Logging instance?",
       "default": true,
       "source": [
         "ibm_resource_instance.logdna.count",
@@ -154,7 +154,7 @@
     "logdna_tags": {
       "name": "logdna_tags",
       "type": "list(string)",
-      "description": "Tags associated with the LogDNA instance (Optional, array of strings).",
+      "description": "Tags associated with the IBM Cloud Logging instance (Optional, array of strings).",
       "default": [],
       "source": [
         "ibm_resource_instance.logdna.tags"
@@ -212,7 +212,7 @@
     "sysdig_instance_name": {
       "name": "sysdig_instance_name",
       "type": "string",
-      "description": "The name of the Sysdig instance to create. Defaults to 'sysdig-\u003cregion\u003e'",
+      "description": "The name of the IBM Cloud Monitoring instance to create. Defaults to 'sysdig-\u003cregion\u003e'",
       "pos": {
         "filename": "variables.tf",
         "line": 71
@@ -221,7 +221,7 @@
     "sysdig_manager_key_name": {
       "name": "sysdig_manager_key_name",
       "type": "string",
-      "description": "The name to give the Sysdig manager key.",
+      "description": "The name to give the IBM Cloud Monitoring manager key.",
       "default": "SysdigManagerKey",
       "required": true,
       "source": [
@@ -236,7 +236,7 @@
     "sysdig_plan": {
       "name": "sysdig_plan",
       "type": "string",
-      "description": "The Sysdig plan to provision. Available: lite, graduated-tier, graduated-tier-sysdig-secure-plus-monitor",
+      "description": "The IBM Cloud Monitoring plan to provision. Available: lite, graduated-tier, graduated-tier-sysdig-secure-plus-monitor",
       "default": "lite",
       "required": true,
       "source": [
@@ -264,7 +264,7 @@
     "sysdig_tags": {
       "name": "sysdig_tags",
       "type": "list(string)",
-      "description": "Tags associated with the Sysdig instance (Optional, array of strings).",
+      "description": "Tags associated with the IBM Cloud Monitoring instance (Optional, array of strings).",
       "default": [],
       "source": [
         "ibm_resource_instance.sysdig.tags"
