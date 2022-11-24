@@ -19,20 +19,20 @@ variable "resource_group_id" {
 
 # LogDNA
 variable "logdna_provision" {
-  description = "Provision a LogDNA instance?"
+  description = "Provision an IBM Cloud Logging instance?"
   type        = bool
   default     = true
 }
 
 variable "logdna_instance_name" {
   type        = string
-  description = "The name of the LogDNA instance to create. Defaults to 'logdna-<region>'"
+  description = "The name of the IBM Cloud Logging instance to create. Defaults to 'logdna-<region>'"
   default     = null
 }
 
 variable "logdna_plan" {
   type        = string
-  description = "The LogDNA plan to provision. Available: lite, 7-day, 14-day, 30-day, hipaa-30-day"
+  description = "The IBM Cloud Logging plan to provision. Available: lite, 7-day, 14-day, 30-day, hipaa-30-day"
   default     = "lite"
 
   validation {
@@ -43,19 +43,19 @@ variable "logdna_plan" {
 
 variable "logdna_manager_key_name" {
   type        = string
-  description = "The name to give the LogDNA manager key."
+  description = "The name to give the IBM Cloud Logging manager key."
   default     = "LogDnaManagerKey"
 }
 
 variable "logdna_tags" {
   type        = list(string)
-  description = "Tags associated with the LogDNA instance (Optional, array of strings)."
+  description = "Tags associated with the IBM Cloud Logging instance (Optional, array of strings)."
   default     = []
 }
 
 variable "enable_platform_logs" {
   type        = bool
-  description = "Receive platform logs in LogDNA"
+  description = "Receive platform logs in the provisioned IBM Cloud Logging instance."
   default     = true
 }
 
@@ -70,13 +70,13 @@ variable "sysdig_provision" {
 
 variable "sysdig_instance_name" {
   type        = string
-  description = "The name of the Sysdig instance to create. Defaults to 'sysdig-<region>'"
+  description = "The name of the IBM Cloud Monitoring instance to create. Defaults to 'sysdig-<region>'"
   default     = null
 }
 
 variable "sysdig_plan" {
   type        = string
-  description = "The Sysdig plan to provision. Available: lite, graduated-tier, graduated-tier-sysdig-secure-plus-monitor"
+  description = "The IBM Cloud Monitoring plan to provision. Available: lite, graduated-tier, graduated-tier-sysdig-secure-plus-monitor"
   default     = "lite"
 
   validation {
@@ -87,19 +87,19 @@ variable "sysdig_plan" {
 
 variable "sysdig_manager_key_name" {
   type        = string
-  description = "The name to give the Sysdig manager key."
+  description = "The name to give the IBM Cloud Monitoring manager key."
   default     = "SysdigManagerKey"
 }
 
 variable "sysdig_tags" {
   type        = list(string)
-  description = "Tags associated with the Sysdig instance (Optional, array of strings)."
+  description = "Tags associated with the IBM Cloud Monitoring instance (Optional, array of strings)."
   default     = []
 }
 
 variable "enable_platform_metrics" {
   type        = bool
-  description = "Receive platform metrics in Sysdig"
+  description = "Receive platform metrics in the provisioned IBM Cloud Monitoring instance."
   default     = true
 }
 
