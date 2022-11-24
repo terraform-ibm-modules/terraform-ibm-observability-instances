@@ -10,7 +10,16 @@
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 [![latest release](https://img.shields.io/github/v/release/terraform-ibm-modules/terraform-ibm-observability-instances?logo=GitHub&sort=semver)](https://github.com/terraform-ibm-modules/terraform-ibm-observability-instances/releases/latest)
 
-This module supports the creation of LogDNA, SysDig, and Activity Tracker instances. The module also creates a manager key for each instance.
+This module supports provisioning the following observability instances:
+
+* **IBM Cloud Activity Tracker**
+  * Records events, compliant with CADF standard, triggered by user-initiated activities that change the state of a service in the cloud.
+* **IBM Cloud Logging with LogDNA**
+  * Manage operating system logs, application logs, and platform logs in IBM Cloud.
+* **IBM Cloud Monitoring with SysDig**
+  * Monitor the health of services and applications in IBM Cloud.
+
+:information_source: The module also creates a manager key for each instance.
 
 ## Usage
 
