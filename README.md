@@ -127,6 +127,7 @@ No modules.
 | <a name="output_logdna_manager_key_name"></a> [logdna\_manager\_key\_name](#output\_logdna\_manager\_key\_name) | The LogDNA manager key name |
 | <a name="output_logdna_name"></a> [logdna\_name](#output\_logdna\_name) | The name of the provisioned LogDNA instance. |
 | <a name="output_logdna_resource_group_id"></a> [logdna\_resource\_group\_id](#output\_logdna\_resource\_group\_id) | The resource group where LogDNA instance resides |
+| <a name="output_logdna_resource_key"></a> [logdna\_resource\_key](#output\_logdna\_resource\_key) | LogDNA service key for agents to use |
 | <a name="output_region"></a> [region](#output\_region) | Region that instance(s) are provisioned to. |
 | <a name="output_sysdig_access_key"></a> [sysdig\_access\_key](#output\_sysdig\_access\_key) | Sysdig access key for agents to use |
 | <a name="output_sysdig_crn"></a> [sysdig\_crn](#output\_sysdig\_crn) | The id of the provisioned Sysdig instance. |
