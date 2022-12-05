@@ -31,6 +31,12 @@ output "logdna_resource_group_id" {
   description = "The resource group where LogDNA instance resides"
 }
 
+output "logdna_resource_key" {
+  value       = length(ibm_resource_key.log_dna_resource_key) > 0 ? ibm_resource_key.log_dna_resource_key[0].credentials["service_key"] : null
+  description = "LogDNA service key for agents to use"
+  sensitive   = true
+}
+
 output "logdna_ingestion_key" {
   value       = length(ibm_resource_key.log_dna_resource_key) > 0 ? ibm_resource_key.log_dna_resource_key[0].credentials.ingestion_key : null
   description = "LogDNA ingest key for agents to use"
