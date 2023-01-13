@@ -6,6 +6,20 @@ module "resource_group" {
 }
 
 
+#target
+module "cos_bucket" {
+  source             = "git::https://github.com/terraform-ibm-modules/terraform-ibm-cos?ref=v5.0.0"
+  resource_group_id  = module.resource_group.resource_group_id
+  region             = var.region
+  cos_instance_name  = "${var.prefix}-cos-test"
+  cos_tags           = var.resource_tags
+  bucket_name        = "${var.prefix}-cos-bucket"
+  encryption_enabled = false
+  retention_enabled  = false
+}
+
+
+
 module "test_observability_instance_creation" {
   source                         = "../../"
   resource_group_id              = module.resource_group.resource_group_id
@@ -17,4 +31,14 @@ module "test_observability_instance_creation" {
   logdna_tags                    = var.resource_tags
   sysdig_tags                    = var.resource_tags
   activity_tracker_tags          = var.resource_tags
+  cos_endpoint = [
+    {
+      api_key : var.ibmcloud_api_key,
+      bucket_name : module.cos_bucket.bucket_name[0],
+      endpoint : module.cos_bucket.s3_endpoint_private[0],
+      target_crn : module.cos_bucket.cos_instance_id
+      service_to_service_enabled = false
+  }]
+
+  regions_target_cos = [var.region, "global"] # review later
 }

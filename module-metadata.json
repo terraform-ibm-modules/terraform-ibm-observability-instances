@@ -7,7 +7,7 @@
       "description": "The name of the Activity Tracker instance to create. Defaults to 'activity-tracker-\u003cregion\u003e'",
       "pos": {
         "filename": "variables.tf",
-        "line": 115
+        "line": 116
       }
     },
     "activity_tracker_manager_key_name": {
@@ -21,7 +21,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 132
+        "line": 133
       },
       "immutable": true
     },
@@ -36,7 +36,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 121
+        "line": 122
       }
     },
     "activity_tracker_provision": {
@@ -50,7 +50,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 109
+        "line": 110
       }
     },
     "activity_tracker_tags": {
@@ -63,7 +63,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 138
+        "line": 139
       },
       "min_length": 1,
       "max_length": 128,
@@ -71,6 +71,48 @@
       "computed": true,
       "elem": {
         "type": "TypeString"
+      }
+    },
+    "cos_endpoint": {
+      "name": "cos_endpoint",
+      "type": "list(object({\n    endpoint                   = string\n    bucket_name                = string\n    target_crn                 = string\n    api_key                    = string\n    service_to_service_enabled = bool\n  }))",
+      "description": "(Optional, List) Property values for a Cloud Object Storage Endpoint.",
+      "default": [],
+      "source": [
+        "ibm_atracker_route.atracker_route_cos.count",
+        "ibm_atracker_target.atracker_cos_target.count"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 204
+      }
+    },
+    "cos_route_name": {
+      "name": "cos_route_name",
+      "type": "string",
+      "description": "(Required, String) The name of the COS route.",
+      "pos": {
+        "filename": "variables.tf",
+        "line": 181
+      }
+    },
+    "cos_target_name": {
+      "name": "cos_target_name",
+      "type": "string",
+      "description": "(Required, String) The name of the COS target.",
+      "pos": {
+        "filename": "variables.tf",
+        "line": 217
+      }
+    },
+    "default_targets": {
+      "name": "default_targets",
+      "type": "list(string)",
+      "description": "(Optional, List) The target ID List. In the event that no routing rule causes the event to be sent to a target, these targets will receive the event.",
+      "default": [],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 148
       }
     },
     "enable_platform_logs": {
@@ -83,7 +125,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 56
+        "line": 57
       }
     },
     "enable_platform_metrics": {
@@ -96,7 +138,53 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 100
+        "line": 101
+      }
+    },
+    "eventstreams_endpoint": {
+      "name": "eventstreams_endpoint",
+      "type": "list(object({\n    target_crn = string\n    brokers    = list(string)\n    topic      = string\n    api_key    = string\n  }))",
+      "description": "(List) Property values for Event streams Endpoint",
+      "default": [],
+      "source": [
+        "ibm_atracker_route.atracker_route_eventstreams.count",
+        "ibm_atracker_target.atracker_eventstreams_target.count"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 259
+      }
+    },
+    "eventstreams_route_name": {
+      "name": "eventstreams_route_name",
+      "type": "string",
+      "description": "(Required, String) The name of the Event Streams route.",
+      "pos": {
+        "filename": "variables.tf",
+        "line": 193
+      }
+    },
+    "eventstreams_target_name": {
+      "name": "eventstreams_target_name",
+      "type": "string",
+      "description": "(Required, String) The name of the logDNA target.",
+      "pos": {
+        "filename": "variables.tf",
+        "line": 270
+      }
+    },
+    "logdna_endpoint": {
+      "name": "logdna_endpoint",
+      "type": "list(object({\n    target_crn    = string\n    ingestion_key = string\n  }))",
+      "description": "(Optional, List) Property values for a LogDNA Endpoint.",
+      "default": [],
+      "source": [
+        "ibm_atracker_route.atracker_route_logdna.count",
+        "ibm_atracker_target.atracker_logdna_target.count"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 233
       }
     },
     "logdna_instance_name": {
@@ -105,7 +193,7 @@
       "description": "The name of the IBM Cloud Logging instance to create. Defaults to 'logdna-\u003cregion\u003e'",
       "pos": {
         "filename": "variables.tf",
-        "line": 27
+        "line": 28
       }
     },
     "logdna_manager_key_name": {
@@ -119,7 +207,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 44
+        "line": 45
       },
       "immutable": true
     },
@@ -134,7 +222,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 33
+        "line": 34
       }
     },
     "logdna_provision": {
@@ -148,7 +236,16 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 21
+        "line": 22
+      }
+    },
+    "logdna_route_name": {
+      "name": "logdna_route_name",
+      "type": "string",
+      "description": "(Required, String) The name of the LogDNA route.",
+      "pos": {
+        "filename": "variables.tf",
+        "line": 187
       }
     },
     "logdna_tags": {
@@ -161,7 +258,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 50
+        "line": 51
       },
       "min_length": 1,
       "max_length": 128,
@@ -171,6 +268,79 @@
         "type": "TypeString"
       }
     },
+    "logdna_target_name": {
+      "name": "logdna_target_name",
+      "type": "string",
+      "description": "(Required, String) The name of the logDNA target.",
+      "pos": {
+        "filename": "variables.tf",
+        "line": 243
+      }
+    },
+    "metadata_region_backup": {
+      "name": "metadata_region_backup",
+      "type": "string",
+      "description": "(Optional, String) To store all your meta data in a backup region.",
+      "default": "us-east",
+      "source": [
+        "ibm_atracker_settings.atracker_settings.metadata_region_backup"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 160
+      },
+      "max_length": 256,
+      "matches": "^[a-zA-Z0-9 -_]*"
+    },
+    "metadata_region_primary": {
+      "name": "metadata_region_primary",
+      "type": "string",
+      "description": "(Required, String) To store all your meta data in a single region.",
+      "default": "us-south",
+      "required": true,
+      "source": [
+        "ibm_atracker_settings.atracker_settings.metadata_region_primary"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 154
+      },
+      "min_length": 3,
+      "max_length": 256,
+      "matches": "^[a-zA-Z0-9 -_]"
+    },
+    "permitted_target_regions": {
+      "name": "permitted_target_regions",
+      "type": "list(string)",
+      "description": "(Optional, List) If present then only these regions may be used to define a target.",
+      "default": [
+        "us-south"
+      ],
+      "source": [
+        "ibm_atracker_settings.atracker_settings.permitted_target_regions"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 166
+      },
+      "elem": {
+        "type": "TypeString"
+      }
+    },
+    "private_api_endpoint_only": {
+      "name": "private_api_endpoint_only",
+      "type": "bool",
+      "description": "(Required, Boolean) If you set this true then you cannot access api through public network.",
+      "default": false,
+      "required": true,
+      "source": [
+        "ibm_atracker_settings.atracker_settings.private_api_endpoint_only"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 172
+      }
+    },
     "region": {
       "name": "region",
       "type": "string",
@@ -178,6 +348,9 @@
       "default": "us-south",
       "required": true,
       "source": [
+        "ibm_atracker_target.atracker_cos_target.region",
+        "ibm_atracker_target.atracker_eventstreams_target.region",
+        "ibm_atracker_target.atracker_logdna_target.region",
         "ibm_resource_instance.activity_tracker.location",
         "ibm_resource_instance.logdna.location",
         "ibm_resource_instance.sysdig.location"
@@ -187,7 +360,40 @@
         "line": 6
       },
       "cloud_data_type": "region",
-      "immutable": true
+      "immutable": true,
+      "min_length": 3,
+      "max_length": 1000,
+      "matches": "^[a-zA-Z0-9 -._:]+$"
+    },
+    "regions_target_cos": {
+      "name": "regions_target_cos",
+      "type": "list(string)",
+      "description": "Route the events generated in regions to COS",
+      "default": [],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 224
+      }
+    },
+    "regions_target_eventstreams": {
+      "name": "regions_target_eventstreams",
+      "type": "list(string)",
+      "description": "Route the events generated in regions to Event Streams",
+      "default": [],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 276
+      }
+    },
+    "regions_target_logdna": {
+      "name": "regions_target_logdna",
+      "type": "list(string)",
+      "description": "Route the events generated in regions to LogDNA",
+      "default": [],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 249
+      }
     },
     "resource_group_id": {
       "name": "resource_group_id",
@@ -215,7 +421,7 @@
       "description": "The name of the IBM Cloud Monitoring instance to create. Defaults to 'sysdig-\u003cregion\u003e'",
       "pos": {
         "filename": "variables.tf",
-        "line": 71
+        "line": 72
       }
     },
     "sysdig_manager_key_name": {
@@ -229,7 +435,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 88
+        "line": 89
       },
       "immutable": true
     },
@@ -244,7 +450,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 77
+        "line": 78
       }
     },
     "sysdig_provision": {
@@ -258,7 +464,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 65
+        "line": 66
       }
     },
     "sysdig_tags": {
@@ -271,7 +477,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 94
+        "line": 95
       },
       "min_length": 1,
       "max_length": 128,
@@ -463,6 +669,117 @@
     }
   },
   "managed_resources": {
+    "ibm_atracker_route.atracker_route_cos": {
+      "mode": "managed",
+      "type": "ibm_atracker_route",
+      "name": "atracker_route_cos",
+      "attributes": {
+        "count": "cos_endpoint"
+      },
+      "provider": {
+        "name": "ibm"
+      },
+      "pos": {
+        "filename": "main.tf",
+        "line": 156
+      }
+    },
+    "ibm_atracker_route.atracker_route_eventstreams": {
+      "mode": "managed",
+      "type": "ibm_atracker_route",
+      "name": "atracker_route_eventstreams",
+      "attributes": {
+        "count": "eventstreams_endpoint"
+      },
+      "provider": {
+        "name": "ibm"
+      },
+      "pos": {
+        "filename": "main.tf",
+        "line": 185
+      }
+    },
+    "ibm_atracker_route.atracker_route_logdna": {
+      "mode": "managed",
+      "type": "ibm_atracker_route",
+      "name": "atracker_route_logdna",
+      "attributes": {
+        "count": "logdna_endpoint"
+      },
+      "provider": {
+        "name": "ibm"
+      },
+      "pos": {
+        "filename": "main.tf",
+        "line": 171
+      }
+    },
+    "ibm_atracker_settings.atracker_settings": {
+      "mode": "managed",
+      "type": "ibm_atracker_settings",
+      "name": "atracker_settings",
+      "attributes": {
+        "metadata_region_backup": "metadata_region_backup",
+        "metadata_region_primary": "metadata_region_primary",
+        "permitted_target_regions": "permitted_target_regions",
+        "private_api_endpoint_only": "private_api_endpoint_only"
+      },
+      "provider": {
+        "name": "ibm"
+      },
+      "pos": {
+        "filename": "main.tf",
+        "line": 144
+      }
+    },
+    "ibm_atracker_target.atracker_cos_target": {
+      "mode": "managed",
+      "type": "ibm_atracker_target",
+      "name": "atracker_cos_target",
+      "attributes": {
+        "count": "cos_endpoint",
+        "region": "region"
+      },
+      "provider": {
+        "name": "ibm"
+      },
+      "pos": {
+        "filename": "main.tf",
+        "line": 93
+      }
+    },
+    "ibm_atracker_target.atracker_eventstreams_target": {
+      "mode": "managed",
+      "type": "ibm_atracker_target",
+      "name": "atracker_eventstreams_target",
+      "attributes": {
+        "count": "eventstreams_endpoint",
+        "region": "region"
+      },
+      "provider": {
+        "name": "ibm"
+      },
+      "pos": {
+        "filename": "main.tf",
+        "line": 127
+      }
+    },
+    "ibm_atracker_target.atracker_logdna_target": {
+      "mode": "managed",
+      "type": "ibm_atracker_target",
+      "name": "atracker_logdna_target",
+      "attributes": {
+        "count": "logdna_endpoint",
+        "region": "region"
+      },
+      "provider": {
+        "name": "ibm"
+      },
+      "pos": {
+        "filename": "main.tf",
+        "line": 111
+      }
+    },
     "ibm_resource_instance.activity_tracker": {
       "mode": "managed",
       "type": "ibm_resource_instance",
@@ -479,7 +796,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 62
+        "line": 72
       }
     },
     "ibm_resource_instance.logdna": {
@@ -499,7 +816,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 14
+        "line": 24
       }
     },
     "ibm_resource_instance.sysdig": {
@@ -519,7 +836,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 38
+        "line": 48
       }
     },
     "ibm_resource_key.at_resource_key": {
@@ -535,7 +852,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 73
+        "line": 83
       }
     },
     "ibm_resource_key.log_dna_resource_key": {
@@ -551,7 +868,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 29
+        "line": 39
       }
     },
     "ibm_resource_key.sysdig_resource_key": {
@@ -567,7 +884,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 53
+        "line": 63
       }
     }
   },

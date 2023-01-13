@@ -15,6 +15,7 @@ variable "resource_group_id" {
   default     = null
 }
 
+
 ##############################################################################
 
 # LogDNA
@@ -142,3 +143,138 @@ variable "activity_tracker_tags" {
 }
 
 ##############################################################################
+
+#Event Routing Setting
+variable "default_targets" {
+  type        = list(string)
+  description = "(Optional, List) The target ID List. In the event that no routing rule causes the event to be sent to a target, these targets will receive the event."
+  default     = []
+}
+
+variable "metadata_region_primary" {
+  type        = string
+  description = "(Required, String) To store all your meta data in a single region."
+  default     = "us-south" #review later
+}
+
+variable "metadata_region_backup" {
+  type        = string
+  description = "(Optional, String) To store all your meta data in a backup region."
+  default     = "us-east" #review later
+}
+
+variable "permitted_target_regions" {
+  type        = list(string)
+  description = "(Optional, List) If present then only these regions may be used to define a target."
+  default     = ["us-south"] #remove later
+}
+
+variable "private_api_endpoint_only" {
+  type        = bool
+  description = "(Required, Boolean) If you set this true then you cannot access api through public network."
+  default     = false
+}
+
+##############################################################################
+
+#Event Routing Route
+variable "cos_route_name" {
+  type        = string
+  description = "(Required, String) The name of the COS route."
+  default     = null
+}
+
+variable "logdna_route_name" {
+  type        = string
+  description = "(Required, String) The name of the LogDNA route."
+  default     = null
+}
+
+variable "eventstreams_route_name" {
+  type        = string
+  description = "(Required, String) The name of the Event Streams route."
+  default     = null
+}
+
+
+
+##############################################################################
+
+#COS Target
+variable "cos_endpoint" {
+  type = list(object({
+    endpoint                   = string
+    bucket_name                = string
+    target_crn                 = string
+    api_key                    = string
+    service_to_service_enabled = bool
+  }))
+  description = "(Optional, List) Property values for a Cloud Object Storage Endpoint."
+  default     = []
+}
+
+
+variable "cos_target_name" {
+  type        = string
+  description = "(Required, String) The name of the COS target."
+  default     = null
+}
+
+
+variable "regions_target_cos" { # review later
+  type        = list(string)
+  description = "Route the events generated in regions to COS"
+  default     = []
+}
+
+##############################################################################
+
+#logDNA Target
+variable "logdna_endpoint" {
+  type = list(object({
+    target_crn    = string
+    ingestion_key = string
+  }))
+  description = "(Optional, List) Property values for a LogDNA Endpoint."
+  default     = []
+}
+
+
+variable "logdna_target_name" {
+  type        = string
+  description = "(Required, String) The name of the logDNA target."
+  default     = null
+}
+
+variable "regions_target_logdna" { # review later
+  type        = list(string)
+  description = "Route the events generated in regions to LogDNA"
+  default     = []
+}
+
+
+##############################################################################
+
+#Event Streams Target
+variable "eventstreams_endpoint" {
+  type = list(object({
+    target_crn = string
+    brokers    = list(string)
+    topic      = string
+    api_key    = string
+  }))
+  description = "(List) Property values for Event streams Endpoint"
+  default     = [] ## Remove later
+}
+
+variable "eventstreams_target_name" {
+  type        = string
+  description = "(Required, String) The name of the logDNA target."
+  default     = null
+}
+
+variable "regions_target_eventstreams" { # review later
+  type        = list(string)
+  description = "Route the events generated in regions to Event Streams"
+  default     = []
+}
