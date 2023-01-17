@@ -122,7 +122,7 @@ No modules.
 | <a name="input_logdna_target_name"></a> [logdna\_target\_name](#input\_logdna\_target\_name) | (Required, String) The name of the logDNA target. | `string` | `null` | no |
 | <a name="input_metadata_region_backup"></a> [metadata\_region\_backup](#input\_metadata\_region\_backup) | (Optional, String) To store all your meta data in a backup region. | `string` | `"us-east"` | no |
 | <a name="input_metadata_region_primary"></a> [metadata\_region\_primary](#input\_metadata\_region\_primary) | (Required, String) To store all your meta data in a single region. | `string` | `"us-south"` | no |
-| <a name="input_permitted_target_regions"></a> [permitted\_target\_regions](#input\_permitted\_target\_regions) | (Optional, List) If present then only these regions may be used to define a target. | `list(string)` | <pre>[<br>  "us-south"<br>]</pre> | no |
+| <a name="input_permitted_target_regions"></a> [permitted\_target\_regions](#input\_permitted\_target\_regions) | (Optional, List) If present then only these regions may be used to define a target. | `list(string)` | <pre>[<br>  "us-south",<br>  "eu-de"<br>]</pre> | no |
 | <a name="input_private_api_endpoint_only"></a> [private\_api\_endpoint\_only](#input\_private\_api\_endpoint\_only) | (Required, Boolean) If you set this true then you cannot access api through public network. | `bool` | `false` | no |
 | <a name="input_region"></a> [region](#input\_region) | The IBM Cloud region where instances will be created. | `string` | `"us-south"` | no |
 | <a name="input_regions_target_cos"></a> [regions\_target\_cos](#input\_regions\_target\_cos) | Route the events generated in regions to COS | `list(string)` | `[]` | no |

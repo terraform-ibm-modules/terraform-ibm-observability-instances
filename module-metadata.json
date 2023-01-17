@@ -314,7 +314,8 @@
       "type": "list(string)",
       "description": "(Optional, List) If present then only these regions may be used to define a target.",
       "default": [
-        "us-south"
+        "us-south",
+        "eu-de"
       ],
       "source": [
         "ibm_atracker_settings.atracker_settings.permitted_target_regions"
@@ -681,7 +682,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 156
+        "line": 160
       }
     },
     "ibm_atracker_route.atracker_route_eventstreams": {
@@ -696,7 +697,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 185
+        "line": 189
       }
     },
     "ibm_atracker_route.atracker_route_logdna": {
@@ -711,7 +712,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 171
+        "line": 175
       }
     },
     "ibm_atracker_settings.atracker_settings": {
@@ -729,7 +730,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 144
+        "line": 146
       }
     },
     "ibm_atracker_target.atracker_cos_target": {
@@ -745,7 +746,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 93
+        "line": 95
       }
     },
     "ibm_atracker_target.atracker_eventstreams_target": {
@@ -761,7 +762,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 127
+        "line": 129
       }
     },
     "ibm_atracker_target.atracker_logdna_target": {
@@ -777,7 +778,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 111
+        "line": 113
       }
     },
     "ibm_resource_instance.activity_tracker": {
@@ -796,7 +797,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 72
+        "line": 74
       }
     },
     "ibm_resource_instance.logdna": {
@@ -816,7 +817,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 24
+        "line": 26
       }
     },
     "ibm_resource_instance.sysdig": {
@@ -836,7 +837,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 48
+        "line": 50
       }
     },
     "ibm_resource_key.at_resource_key": {
@@ -852,7 +853,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 83
+        "line": 85
       }
     },
     "ibm_resource_key.log_dna_resource_key": {
@@ -868,7 +869,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 39
+        "line": 41
       }
     },
     "ibm_resource_key.sysdig_resource_key": {
@@ -884,7 +885,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 63
+        "line": 65
       }
     }
   },

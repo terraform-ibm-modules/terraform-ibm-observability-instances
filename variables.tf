@@ -166,7 +166,7 @@ variable "metadata_region_backup" {
 variable "permitted_target_regions" {
   type        = list(string)
   description = "(Optional, List) If present then only these regions may be used to define a target."
-  default     = ["us-south"] #remove later
+  default     = ["us-south", "eu-de"] #remove later
 }
 
 variable "private_api_endpoint_only" {

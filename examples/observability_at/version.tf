@@ -6,5 +6,9 @@ terraform {
       source  = "ibm-cloud/ibm"
       version = "1.49.0"
     }
+    logdna = {
+      source  = "logdna/logdna"
+      version = "1.7.0"
+    }
   }
 }

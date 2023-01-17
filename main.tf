@@ -18,6 +18,8 @@ locals {
   eventstreams_route_name = var.eventstreams_route_name != null ? var.eventstreams_route_name : "eventstreams-route"
 
   default_targets = length(var.default_targets) > 0 ? var.default_targets : [ibm_atracker_target.atracker_cos_target[0].id] ## change this to event streams
+
+
 }
 
 # LogDNA
@@ -115,7 +117,7 @@ resource "ibm_atracker_target" "atracker_logdna_target" {
     for_each = var.logdna_endpoint
     content {
       target_crn    = logdna_endpoint.value.target_crn
-      ingestion_key = logdna.value.ingestion_key
+      ingestion_key = logdna_endpoint.value.ingestion_key
     }
   }
   name        = local.logdna_target_name
@@ -142,11 +144,13 @@ resource "ibm_atracker_target" "atracker_eventstreams_target" {
 }
 
 resource "ibm_atracker_settings" "atracker_settings" {
+
   default_targets           = local.default_targets
   metadata_region_primary   = var.metadata_region_primary
   metadata_region_backup    = var.metadata_region_backup
   permitted_target_regions  = var.permitted_target_regions # allow tracking from following regions only
   private_api_endpoint_only = var.private_api_endpoint_only
+
   # Optional but recommended lifecycle flag to ensure target delete order is correct
   lifecycle {
     create_before_destroy = true
@@ -184,7 +188,9 @@ resource "ibm_atracker_route" "atracker_route_logdna" {
 
 resource "ibm_atracker_route" "atracker_route_eventstreams" {
   count = length(var.eventstreams_endpoint) > 0 ? 1 : 0
-
+  depends_on = [
+    ibm_atracker_route.atracker_route_eventstreams
+  ]
   name = local.eventstreams_route_name
   rules {
     target_ids = [ibm_atracker_target.atracker_eventstreams_target[0].id]
