@@ -142,3 +142,28 @@ variable "activity_tracker_tags" {
 }
 
 ##############################################################################
+# Archive options, including key protect instance, key, COS and COS bucket
+variable "enable_archive" {
+  type        = bool
+  description = "Enable archive on logDNA and Activity Tracker instances"
+  default     = false
+}
+
+variable "ibmcloud_api_key" {
+  type        = string
+  description = "Only required to archive. The IBM Cloud API Token."
+  default     = null
+  sensitive   = true
+}
+
+variable "key_protect_key_crn" {
+  type        = string
+  description = "Only required to archive. A key protect key crn for encryption of archive bucket"
+  default     = null
+}
+
+variable "existing_cos_instance_id" {
+  type        = string
+  description = "Only required to archive. The ID of the cloud object storage instance in which to create the bucket(s)."
+  default     = null
+}
