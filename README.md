@@ -59,6 +59,7 @@ You need the following permissions to run this module.
 <!-- BEGIN EXAMPLES HOOK -->
 ## Examples
 
+- [ Provision LogDNA with a COS bucket for achive](examples/observability_archive)
 - [ Provision Activity Tracker only](examples/observability_at)
 - [ Provision observability instance with default config (LogDNA, Sysdig, AT)](examples/observability_default)
 - [ Provision LogDNA only](examples/observability_logdna)
@@ -75,10 +76,7 @@ You need the following permissions to run this module.
 
 ## Modules
 
-| Name | Source | Version |
-|------|--------|---------|
-| <a name="module_cos_at_bucket"></a> [cos\_at\_bucket](#module\_cos\_at\_bucket) | terraform-ibm-modules/cos/ibm | 5.0.0 |
-| <a name="module_cos_logdna_bucket"></a> [cos\_logdna\_bucket](#module\_cos\_logdna\_bucket) | terraform-ibm-modules/cos/ibm | 5.0.0 |
+No modules.
 
 ## Resources
 
@@ -102,12 +100,16 @@ You need the following permissions to run this module.
 | <a name="input_activity_tracker_plan"></a> [activity\_tracker\_plan](#input\_activity\_tracker\_plan) | The Activity Tracker plan to provision. Available: lite, 7-day, 14-day, 30-day, hipaa-30-day | `string` | `"lite"` | no |
 | <a name="input_activity_tracker_provision"></a> [activity\_tracker\_provision](#input\_activity\_tracker\_provision) | Provision an Activity Tracker instance? | `bool` | `true` | no |
 | <a name="input_activity_tracker_tags"></a> [activity\_tracker\_tags](#input\_activity\_tracker\_tags) | Tags associated with the Activity Tracker instance (Optional, array of strings). | `list(string)` | `[]` | no |
+| <a name="input_at_cos_bucket_endpoint"></a> [at\_cos\_bucket\_endpoint](#input\_at\_cos\_bucket\_endpoint) | Only required to archive. The 'public' or 'private' endpoint for the COS bucket for the Activity Tracker archive | `string` | `null` | no |
+| <a name="input_at_cos_bucket_name"></a> [at\_cos\_bucket\_name](#input\_at\_cos\_bucket\_name) | Only required to archive. The name of an existing COS bucket to be used for the Activity Tracker archive | `string` | `null` | no |
+| <a name="input_at_cos_instance_id"></a> [at\_cos\_instance\_id](#input\_at\_cos\_instance\_id) | Only required to archive. The ID of the cloud object storage instance containing the bucket | `string` | `null` | no |
 | <a name="input_enable_archive"></a> [enable\_archive](#input\_enable\_archive) | Enable archive on logDNA and Activity Tracker instances | `bool` | `false` | no |
 | <a name="input_enable_platform_logs"></a> [enable\_platform\_logs](#input\_enable\_platform\_logs) | Receive platform logs in the provisioned IBM Cloud Logging instance. | `bool` | `true` | no |
 | <a name="input_enable_platform_metrics"></a> [enable\_platform\_metrics](#input\_enable\_platform\_metrics) | Receive platform metrics in the provisioned IBM Cloud Monitoring instance. | `bool` | `true` | no |
-| <a name="input_existing_cos_instance_id"></a> [existing\_cos\_instance\_id](#input\_existing\_cos\_instance\_id) | Only required to archive. The ID of the cloud object storage instance in which to create the bucket(s). | `string` | `null` | no |
 | <a name="input_ibmcloud_api_key"></a> [ibmcloud\_api\_key](#input\_ibmcloud\_api\_key) | Only required to archive. The IBM Cloud API Token. | `string` | `null` | no |
-| <a name="input_key_protect_key_crn"></a> [key\_protect\_key\_crn](#input\_key\_protect\_key\_crn) | Only required to archive. A key protect key crn for encryption of archive bucket | `string` | `null` | no |
+| <a name="input_logdna_cos_bucket_endpoint"></a> [logdna\_cos\_bucket\_endpoint](#input\_logdna\_cos\_bucket\_endpoint) | Only required to archive. The 'public' or 'private' endpoint for the COS bucket for the LogDNA archive | `string` | `null` | no |
+| <a name="input_logdna_cos_bucket_name"></a> [logdna\_cos\_bucket\_name](#input\_logdna\_cos\_bucket\_name) | Only required to archive. The name of an existing COS bucket to be used for the LogDNA archive | `string` | `null` | no |
+| <a name="input_logdna_cos_instance_id"></a> [logdna\_cos\_instance\_id](#input\_logdna\_cos\_instance\_id) | Only required to archive. The ID of the cloud object storage instance containing the bucket | `string` | `null` | no |
 | <a name="input_logdna_instance_name"></a> [logdna\_instance\_name](#input\_logdna\_instance\_name) | The name of the IBM Cloud Logging instance to create. Defaults to 'logdna-<region>' | `string` | `null` | no |
 | <a name="input_logdna_manager_key_name"></a> [logdna\_manager\_key\_name](#input\_logdna\_manager\_key\_name) | The name to give the IBM Cloud Logging manager key. | `string` | `"LogDnaManagerKey"` | no |
 | <a name="input_logdna_plan"></a> [logdna\_plan](#input\_logdna\_plan) | The IBM Cloud Logging plan to provision. Available: lite, 7-day, 14-day, 30-day, hipaa-30-day | `string` | `"lite"` | no |

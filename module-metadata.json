@@ -47,8 +47,7 @@
       "source": [
         "ibm_resource_instance.activity_tracker.count",
         "ibm_resource_key.at_resource_key.count",
-        "logdna_archive.activity_tracker_config.count",
-        "module.cos_at_bucket"
+        "logdna_archive.activity_tracker_config.count"
       ],
       "pos": {
         "filename": "variables.tf",
@@ -73,6 +72,33 @@
       "computed": true,
       "elem": {
         "type": "TypeString"
+      }
+    },
+    "at_cos_bucket_endpoint": {
+      "name": "at_cos_bucket_endpoint",
+      "type": "string",
+      "description": "Only required to archive. The 'public' or 'private' endpoint for the COS bucket for the Activity Tracker archive",
+      "pos": {
+        "filename": "variables.tf",
+        "line": 189
+      }
+    },
+    "at_cos_bucket_name": {
+      "name": "at_cos_bucket_name",
+      "type": "string",
+      "description": "Only required to archive. The name of an existing COS bucket to be used for the Activity Tracker archive",
+      "pos": {
+        "filename": "variables.tf",
+        "line": 183
+      }
+    },
+    "at_cos_instance_id": {
+      "name": "at_cos_instance_id",
+      "type": "string",
+      "description": "Only required to archive. The ID of the cloud object storage instance containing the bucket",
+      "pos": {
+        "filename": "variables.tf",
+        "line": 177
       }
     },
     "enable_archive": {
@@ -111,19 +137,6 @@
         "line": 100
       }
     },
-    "existing_cos_instance_id": {
-      "name": "existing_cos_instance_id",
-      "type": "string",
-      "description": "Only required to archive. The ID of the cloud object storage instance in which to create the bucket(s).",
-      "source": [
-        "module.cos_at_bucket",
-        "module.cos_logdna_bucket"
-      ],
-      "pos": {
-        "filename": "variables.tf",
-        "line": 165
-      }
-    },
     "ibmcloud_api_key": {
       "name": "ibmcloud_api_key",
       "type": "string",
@@ -134,19 +147,32 @@
         "line": 152
       }
     },
-    "key_protect_key_crn": {
-      "name": "key_protect_key_crn",
+    "logdna_cos_bucket_endpoint": {
+      "name": "logdna_cos_bucket_endpoint",
       "type": "string",
-      "description": "Only required to archive. A key protect key crn for encryption of archive bucket",
-      "source": [
-        "module.cos_at_bucket.ibm_cos_bucket.cos_bucket.key_protect",
-        "module.cos_logdna_bucket.ibm_cos_bucket.cos_bucket.key_protect"
-      ],
+      "description": "Only required to archive. The 'public' or 'private' endpoint for the COS bucket for the LogDNA archive",
+      "pos": {
+        "filename": "variables.tf",
+        "line": 171
+      }
+    },
+    "logdna_cos_bucket_name": {
+      "name": "logdna_cos_bucket_name",
+      "type": "string",
+      "description": "Only required to archive. The name of an existing COS bucket to be used for the LogDNA archive",
+      "pos": {
+        "filename": "variables.tf",
+        "line": 165
+      }
+    },
+    "logdna_cos_instance_id": {
+      "name": "logdna_cos_instance_id",
+      "type": "string",
+      "description": "Only required to archive. The ID of the cloud object storage instance containing the bucket",
       "pos": {
         "filename": "variables.tf",
         "line": 159
-      },
-      "immutable": true
+      }
     },
     "logdna_instance_name": {
       "name": "logdna_instance_name",
@@ -194,8 +220,7 @@
       "source": [
         "ibm_resource_instance.logdna.count",
         "ibm_resource_key.log_dna_resource_key.count",
-        "logdna_archive.logdna_config.count",
-        "module.cos_logdna_bucket"
+        "logdna_archive.logdna_config.count"
       ],
       "pos": {
         "filename": "variables.tf",
@@ -244,13 +269,10 @@
       "name": "resource_group_id",
       "type": "string",
       "description": "The id of the IBM Cloud resource group where the instance(s) will be created.",
-      "required": true,
       "source": [
         "ibm_resource_instance.activity_tracker.resource_group_id",
         "ibm_resource_instance.logdna.resource_group_id",
-        "ibm_resource_instance.sysdig.resource_group_id",
-        "module.cos_at_bucket.ibm_resource_instance.cos_instance.resource_group_id",
-        "module.cos_logdna_bucket.ibm_resource_instance.cos_instance.resource_group_id"
+        "ibm_resource_instance.sysdig.resource_group_id"
       ],
       "pos": {
         "filename": "variables.tf",
@@ -549,7 +571,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 82
+        "line": 81
       }
     },
     "ibm_resource_instance.logdna": {
@@ -569,7 +591,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 34
+        "line": 33
       }
     },
     "ibm_resource_instance.sysdig": {
@@ -589,7 +611,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 58
+        "line": 57
       }
     },
     "ibm_resource_key.at_resource_key": {
@@ -605,7 +627,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 93
+        "line": 92
       }
     },
     "ibm_resource_key.log_dna_resource_key": {
@@ -621,7 +643,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 49
+        "line": 48
       }
     },
     "ibm_resource_key.sysdig_resource_key": {
@@ -637,7 +659,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 73
+        "line": 72
       }
     },
     "logdna_archive.activity_tracker_config": {
@@ -653,7 +675,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 133
+        "line": 100
       }
     },
     "logdna_archive.logdna_config": {
@@ -669,329 +691,10 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 169
+        "line": 112
       }
     }
   },
   "data_resources": {},
-  "module_calls": {
-    "cos_at_bucket": {
-      "name": "cos_at_bucket",
-      "source": "terraform-ibm-modules/cos/ibm",
-      "version": "5.0.0",
-      "attributes": {
-        "count": "activity_tracker_provision",
-        "existing_cos_instance_id": "existing_cos_instance_id",
-        "key_protect_key_crn": "key_protect_key_crn",
-        "resource_group_id": "resource_group_id"
-      },
-      "managed_resources": {
-        "ibm_cos_bucket.cos_bucket": {
-          "mode": "managed",
-          "type": "ibm_cos_bucket",
-          "name": "cos_bucket",
-          "attributes": {
-            "bucket_name": "bucket_name",
-            "count": "encryption_enabled",
-            "key_protect": "key_protect_key_crn",
-            "region_location": "region"
-          },
-          "provider": {
-            "name": "ibm"
-          },
-          "pos": {
-            "filename": ".terraform/modules/cos_at_bucket/main.tf",
-            "line": 62
-          }
-        },
-        "ibm_cos_bucket.cos_bucket1": {
-          "mode": "managed",
-          "type": "ibm_cos_bucket",
-          "name": "cos_bucket1",
-          "attributes": {
-            "bucket_name": "bucket_name",
-            "count": "encryption_enabled",
-            "region_location": "region"
-          },
-          "provider": {
-            "name": "ibm"
-          },
-          "pos": {
-            "filename": ".terraform/modules/cos_at_bucket/main.tf",
-            "line": 136
-          }
-        },
-        "ibm_iam_authorization_policy.policy": {
-          "mode": "managed",
-          "type": "ibm_iam_authorization_policy",
-          "name": "policy",
-          "attributes": {
-            "target_resource_instance_id": "existing_key_protect_instance_guid"
-          },
-          "provider": {
-            "name": "ibm"
-          },
-          "pos": {
-            "filename": ".terraform/modules/cos_at_bucket/main.tf",
-            "line": 47
-          }
-        },
-        "ibm_resource_instance.cos_instance": {
-          "mode": "managed",
-          "type": "ibm_resource_instance",
-          "name": "cos_instance",
-          "attributes": {
-            "count": "create_cos_instance",
-            "location": "cos_location",
-            "name": "cos_instance_name",
-            "plan": "cos_plan",
-            "resource_group_id": "resource_group_id",
-            "tags": "cos_tags"
-          },
-          "provider": {
-            "name": "ibm"
-          },
-          "pos": {
-            "filename": ".terraform/modules/cos_at_bucket/main.tf",
-            "line": 31
-          }
-        }
-      },
-      "data_resources": {},
-      "outputs": {
-        "bucket_id": {
-          "name": "bucket_id",
-          "description": "Bucket id",
-          "value": "local.bucket_id",
-          "pos": {
-            "filename": ".terraform/modules/cos_at_bucket/outputs.tf",
-            "line": 19
-          }
-        },
-        "bucket_name": {
-          "name": "bucket_name",
-          "description": "Bucket Name",
-          "value": "local.bucket_name",
-          "pos": {
-            "filename": ".terraform/modules/cos_at_bucket/outputs.tf",
-            "line": 24
-          }
-        },
-        "cos_instance_id": {
-          "name": "cos_instance_id",
-          "description": "The ID of the Cloud Object Storage Instance where the buckets are created",
-          "value": "local.cos_instance_id",
-          "pos": {
-            "filename": ".terraform/modules/cos_at_bucket/outputs.tf",
-            "line": 34
-          }
-        },
-        "key_protect_key_crn": {
-          "name": "key_protect_key_crn",
-          "description": "CRN of the Key Protect Key to use to encrypt the data in the COS Bucket. Required if var.encryption_enabled and var.create_cos_bucket are true.",
-          "value": "var.key_protect_key_crn",
-          "pos": {
-            "filename": ".terraform/modules/cos_at_bucket/outputs.tf",
-            "line": 29
-          },
-          "type": "string"
-        },
-        "resource_group_id": {
-          "name": "resource_group_id",
-          "description": "The resource group ID where resources will be provisioned.",
-          "value": "var.resource_group_id",
-          "pos": {
-            "filename": ".terraform/modules/cos_at_bucket/outputs.tf",
-            "line": 4
-          },
-          "type": "string",
-          "cloud_data_type": "resource_group",
-          "cloud_data_range": [
-            "resolved_to:id"
-          ]
-        },
-        "s3_endpoint_private": {
-          "name": "s3_endpoint_private",
-          "description": "S3 private endpoint",
-          "value": "local.s3_endpoint_private",
-          "pos": {
-            "filename": ".terraform/modules/cos_at_bucket/outputs.tf",
-            "line": 9
-          }
-        },
-        "s3_endpoint_public": {
-          "name": "s3_endpoint_public",
-          "description": "S3 public endpoint",
-          "value": "local.s3_endpoint_public",
-          "pos": {
-            "filename": ".terraform/modules/cos_at_bucket/outputs.tf",
-            "line": 14
-          }
-        }
-      },
-      "pos": {
-        "filename": "main.tf",
-        "line": 109
-      }
-    },
-    "cos_logdna_bucket": {
-      "name": "cos_logdna_bucket",
-      "source": "terraform-ibm-modules/cos/ibm",
-      "version": "5.0.0",
-      "attributes": {
-        "count": "logdna_provision",
-        "existing_cos_instance_id": "existing_cos_instance_id",
-        "key_protect_key_crn": "key_protect_key_crn",
-        "resource_group_id": "resource_group_id"
-      },
-      "managed_resources": {
-        "ibm_cos_bucket.cos_bucket": {
-          "mode": "managed",
-          "type": "ibm_cos_bucket",
-          "name": "cos_bucket",
-          "attributes": {
-            "bucket_name": "bucket_name",
-            "count": "encryption_enabled",
-            "key_protect": "key_protect_key_crn",
-            "region_location": "region"
-          },
-          "provider": {
-            "name": "ibm"
-          },
-          "pos": {
-            "filename": ".terraform/modules/cos_logdna_bucket/main.tf",
-            "line": 62
-          }
-        },
-        "ibm_cos_bucket.cos_bucket1": {
-          "mode": "managed",
-          "type": "ibm_cos_bucket",
-          "name": "cos_bucket1",
-          "attributes": {
-            "bucket_name": "bucket_name",
-            "count": "encryption_enabled",
-            "region_location": "region"
-          },
-          "provider": {
-            "name": "ibm"
-          },
-          "pos": {
-            "filename": ".terraform/modules/cos_logdna_bucket/main.tf",
-            "line": 136
-          }
-        },
-        "ibm_iam_authorization_policy.policy": {
-          "mode": "managed",
-          "type": "ibm_iam_authorization_policy",
-          "name": "policy",
-          "attributes": {
-            "target_resource_instance_id": "existing_key_protect_instance_guid"
-          },
-          "provider": {
-            "name": "ibm"
-          },
-          "pos": {
-            "filename": ".terraform/modules/cos_logdna_bucket/main.tf",
-            "line": 47
-          }
-        },
-        "ibm_resource_instance.cos_instance": {
-          "mode": "managed",
-          "type": "ibm_resource_instance",
-          "name": "cos_instance",
-          "attributes": {
-            "count": "create_cos_instance",
-            "location": "cos_location",
-            "name": "cos_instance_name",
-            "plan": "cos_plan",
-            "resource_group_id": "resource_group_id",
-            "tags": "cos_tags"
-          },
-          "provider": {
-            "name": "ibm"
-          },
-          "pos": {
-            "filename": ".terraform/modules/cos_logdna_bucket/main.tf",
-            "line": 31
-          }
-        }
-      },
-      "data_resources": {},
-      "outputs": {
-        "bucket_id": {
-          "name": "bucket_id",
-          "description": "Bucket id",
-          "value": "local.bucket_id",
-          "pos": {
-            "filename": ".terraform/modules/cos_logdna_bucket/outputs.tf",
-            "line": 19
-          }
-        },
-        "bucket_name": {
-          "name": "bucket_name",
-          "description": "Bucket Name",
-          "value": "local.bucket_name",
-          "pos": {
-            "filename": ".terraform/modules/cos_logdna_bucket/outputs.tf",
-            "line": 24
-          }
-        },
-        "cos_instance_id": {
-          "name": "cos_instance_id",
-          "description": "The ID of the Cloud Object Storage Instance where the buckets are created",
-          "value": "local.cos_instance_id",
-          "pos": {
-            "filename": ".terraform/modules/cos_logdna_bucket/outputs.tf",
-            "line": 34
-          }
-        },
-        "key_protect_key_crn": {
-          "name": "key_protect_key_crn",
-          "description": "CRN of the Key Protect Key to use to encrypt the data in the COS Bucket. Required if var.encryption_enabled and var.create_cos_bucket are true.",
-          "value": "var.key_protect_key_crn",
-          "pos": {
-            "filename": ".terraform/modules/cos_logdna_bucket/outputs.tf",
-            "line": 29
-          },
-          "type": "string"
-        },
-        "resource_group_id": {
-          "name": "resource_group_id",
-          "description": "The resource group ID where resources will be provisioned.",
-          "value": "var.resource_group_id",
-          "pos": {
-            "filename": ".terraform/modules/cos_logdna_bucket/outputs.tf",
-            "line": 4
-          },
-          "type": "string",
-          "cloud_data_type": "resource_group",
-          "cloud_data_range": [
-            "resolved_to:id"
-          ]
-        },
-        "s3_endpoint_private": {
-          "name": "s3_endpoint_private",
-          "description": "S3 private endpoint",
-          "value": "local.s3_endpoint_private",
-          "pos": {
-            "filename": ".terraform/modules/cos_logdna_bucket/outputs.tf",
-            "line": 9
-          }
-        },
-        "s3_endpoint_public": {
-          "name": "s3_endpoint_public",
-          "description": "S3 public endpoint",
-          "value": "local.s3_endpoint_public",
-          "pos": {
-            "filename": ".terraform/modules/cos_logdna_bucket/outputs.tf",
-            "line": 14
-          }
-        }
-      },
-      "pos": {
-        "filename": "main.tf",
-        "line": 145
-      }
-    }
-  }
+  "module_calls": {}
 }
