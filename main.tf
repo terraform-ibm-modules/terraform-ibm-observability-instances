@@ -17,7 +17,7 @@ locals {
   logdna_route_name       = var.logdna_route_name != null ? var.logdna_route_name : "logdna-route"
   eventstreams_route_name = var.eventstreams_route_name != null ? var.eventstreams_route_name : "eventstreams-route"
 
-  default_targets = length(var.default_targets) > 0 ? var.default_targets : [ibm_atracker_target.atracker_cos_target[0].id] ## change this to event streams
+  default_targets = length(var.default_targets) > 0 ? var.default_targets : [ibm_atracker_target.atracker_eventstreams_target[0].id] ## change this to event streams
 
 
 }
