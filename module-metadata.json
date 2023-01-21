@@ -91,19 +91,49 @@
       "name": "cos_route_name",
       "type": "string",
       "description": "(Required, String) The name of the COS route.",
+      "required": true,
+      "source": [
+        "ibm_atracker_route.atracker_route_cos.name"
+      ],
       "pos": {
         "filename": "variables.tf",
         "line": 181
-      }
+      },
+      "min_length": 1,
+      "max_length": 1000,
+      "matches": "^[a-zA-Z0-9 -._:]+$"
     },
     "cos_target_name": {
       "name": "cos_target_name",
       "type": "string",
-      "description": "(Required, String) The name of the COS target.",
+      "description": "(Optional, String) The name of the COS target.",
+      "required": true,
+      "source": [
+        "ibm_atracker_target.atracker_cos_target.name"
+      ],
       "pos": {
         "filename": "variables.tf",
         "line": 217
-      }
+      },
+      "min_length": 1,
+      "max_length": 1000,
+      "matches": "^[a-zA-Z0-9 -._:]+$"
+    },
+    "cos_target_region": {
+      "name": "cos_target_region",
+      "type": "string",
+      "description": "(Optional, String) Region where is COS target is created",
+      "source": [
+        "ibm_atracker_target.atracker_cos_target.region"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 230
+      },
+      "immutable": true,
+      "min_length": 3,
+      "max_length": 1000,
+      "matches": "^[a-zA-Z0-9 -._:]+$"
     },
     "default_targets": {
       "name": "default_targets",
@@ -144,7 +174,7 @@
     "eventstreams_endpoint": {
       "name": "eventstreams_endpoint",
       "type": "list(object({\n    target_crn = string\n    brokers    = list(string)\n    topic      = string\n    api_key    = string\n  }))",
-      "description": "(List) Property values for Event streams Endpoint",
+      "description": "(Required, List) Property values for Event streams Endpoint",
       "default": [],
       "source": [
         "ibm_atracker_route.atracker_route_eventstreams.count",
@@ -152,26 +182,56 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 259
+        "line": 271
       }
     },
     "eventstreams_route_name": {
       "name": "eventstreams_route_name",
       "type": "string",
       "description": "(Required, String) The name of the Event Streams route.",
+      "required": true,
+      "source": [
+        "ibm_atracker_route.atracker_route_eventstreams.name"
+      ],
       "pos": {
         "filename": "variables.tf",
         "line": 193
-      }
+      },
+      "min_length": 1,
+      "max_length": 1000,
+      "matches": "^[a-zA-Z0-9 -._:]+$"
     },
     "eventstreams_target_name": {
       "name": "eventstreams_target_name",
       "type": "string",
-      "description": "(Required, String) The name of the logDNA target.",
+      "description": "(Optional, String) The name of the logDNA target.",
+      "required": true,
+      "source": [
+        "ibm_atracker_target.atracker_eventstreams_target.name"
+      ],
       "pos": {
         "filename": "variables.tf",
-        "line": 270
-      }
+        "line": 282
+      },
+      "min_length": 1,
+      "max_length": 1000,
+      "matches": "^[a-zA-Z0-9 -._:]+$"
+    },
+    "eventstreams_target_region": {
+      "name": "eventstreams_target_region",
+      "type": "string",
+      "description": "Region where is Event streams target is created",
+      "source": [
+        "ibm_atracker_target.atracker_eventstreams_target.region"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 295
+      },
+      "immutable": true,
+      "min_length": 3,
+      "max_length": 1000,
+      "matches": "^[a-zA-Z0-9 -._:]+$"
     },
     "logdna_endpoint": {
       "name": "logdna_endpoint",
@@ -184,7 +244,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 233
+        "line": 239
       }
     },
     "logdna_instance_name": {
@@ -243,10 +303,17 @@
       "name": "logdna_route_name",
       "type": "string",
       "description": "(Required, String) The name of the LogDNA route.",
+      "required": true,
+      "source": [
+        "ibm_atracker_route.atracker_route_logdna.name"
+      ],
       "pos": {
         "filename": "variables.tf",
         "line": 187
-      }
+      },
+      "min_length": 1,
+      "max_length": 1000,
+      "matches": "^[a-zA-Z0-9 -._:]+$"
     },
     "logdna_tags": {
       "name": "logdna_tags",
@@ -271,11 +338,34 @@
     "logdna_target_name": {
       "name": "logdna_target_name",
       "type": "string",
-      "description": "(Required, String) The name of the logDNA target.",
+      "description": "(Optional, String) The name of the logDNA target.",
+      "required": true,
+      "source": [
+        "ibm_atracker_target.atracker_logdna_target.name"
+      ],
       "pos": {
         "filename": "variables.tf",
-        "line": 243
-      }
+        "line": 249
+      },
+      "min_length": 1,
+      "max_length": 1000,
+      "matches": "^[a-zA-Z0-9 -._:]+$"
+    },
+    "logdna_target_region": {
+      "name": "logdna_target_region",
+      "type": "string",
+      "description": "(Optional, List) Region where is LogDNA target is created",
+      "source": [
+        "ibm_atracker_target.atracker_logdna_target.region"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 261
+      },
+      "immutable": true,
+      "min_length": 3,
+      "max_length": 1000,
+      "matches": "^[a-zA-Z0-9 -._:]+$"
     },
     "metadata_region_backup": {
       "name": "metadata_region_backup",
@@ -315,7 +405,11 @@
       "description": "(Optional, List) If present then only these regions may be used to define a target.",
       "default": [
         "us-south",
-        "eu-de"
+        "eu-de",
+        "us-east",
+        "eu-gb",
+        "jp-tok",
+        "au-syd"
       ],
       "source": [
         "ibm_atracker_settings.atracker_settings.permitted_target_regions"
@@ -349,9 +443,6 @@
       "default": "us-south",
       "required": true,
       "source": [
-        "ibm_atracker_target.atracker_cos_target.region",
-        "ibm_atracker_target.atracker_eventstreams_target.region",
-        "ibm_atracker_target.atracker_logdna_target.region",
         "ibm_resource_instance.activity_tracker.location",
         "ibm_resource_instance.logdna.location",
         "ibm_resource_instance.sysdig.location"
@@ -361,39 +452,45 @@
         "line": 6
       },
       "cloud_data_type": "region",
-      "immutable": true,
-      "min_length": 3,
-      "max_length": 1000,
-      "matches": "^[a-zA-Z0-9 -._:]+$"
+      "immutable": true
     },
-    "regions_target_cos": {
-      "name": "regions_target_cos",
+    "regions_targeting_cos": {
+      "name": "regions_targeting_cos",
       "type": "list(string)",
-      "description": "Route the events generated in regions to COS",
-      "default": [],
+      "description": "(Optional, List) Route the events generated in these regions to COS target",
+      "default": [
+        "*",
+        "global"
+      ],
       "pos": {
         "filename": "variables.tf",
         "line": 224
       }
     },
-    "regions_target_eventstreams": {
-      "name": "regions_target_eventstreams",
+    "regions_targeting_eventstreams": {
+      "name": "regions_targeting_eventstreams",
       "type": "list(string)",
-      "description": "Route the events generated in regions to Event Streams",
-      "default": [],
+      "description": "(Optional, String) Route the events generated in these regions to Event Streams target",
+      "default": [
+        "*",
+        "global"
+      ],
       "pos": {
         "filename": "variables.tf",
-        "line": 276
+        "line": 288
       }
     },
-    "regions_target_logdna": {
-      "name": "regions_target_logdna",
+    "regions_targeting_logdna": {
+      "name": "regions_targeting_logdna",
       "type": "list(string)",
-      "description": "Route the events generated in regions to LogDNA",
-      "default": [],
+      "description": "(Optional, List) Route the events generated in these regions to LogDNA target",
+      "default": [
+        "*",
+        "global"
+      ],
       "pos": {
         "filename": "variables.tf",
-        "line": 249
+        "line": 255
       }
     },
     "resource_group_id": {
@@ -675,14 +772,15 @@
       "type": "ibm_atracker_route",
       "name": "atracker_route_cos",
       "attributes": {
-        "count": "cos_endpoint"
+        "count": "cos_endpoint",
+        "name": "cos_route_name"
       },
       "provider": {
         "name": "ibm"
       },
       "pos": {
         "filename": "main.tf",
-        "line": 160
+        "line": 157
       }
     },
     "ibm_atracker_route.atracker_route_eventstreams": {
@@ -690,14 +788,15 @@
       "type": "ibm_atracker_route",
       "name": "atracker_route_eventstreams",
       "attributes": {
-        "count": "eventstreams_endpoint"
+        "count": "eventstreams_endpoint",
+        "name": "eventstreams_route_name"
       },
       "provider": {
         "name": "ibm"
       },
       "pos": {
         "filename": "main.tf",
-        "line": 189
+        "line": 187
       }
     },
     "ibm_atracker_route.atracker_route_logdna": {
@@ -705,14 +804,15 @@
       "type": "ibm_atracker_route",
       "name": "atracker_route_logdna",
       "attributes": {
-        "count": "logdna_endpoint"
+        "count": "logdna_endpoint",
+        "name": "logdna_route_name"
       },
       "provider": {
         "name": "ibm"
       },
       "pos": {
         "filename": "main.tf",
-        "line": 175
+        "line": 172
       }
     },
     "ibm_atracker_settings.atracker_settings": {
@@ -730,7 +830,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 146
+        "line": 142
       }
     },
     "ibm_atracker_target.atracker_cos_target": {
@@ -739,14 +839,15 @@
       "name": "atracker_cos_target",
       "attributes": {
         "count": "cos_endpoint",
-        "region": "region"
+        "name": "cos_target_name",
+        "region": "cos_target_region"
       },
       "provider": {
         "name": "ibm"
       },
       "pos": {
         "filename": "main.tf",
-        "line": 95
+        "line": 90
       }
     },
     "ibm_atracker_target.atracker_eventstreams_target": {
@@ -755,14 +856,15 @@
       "name": "atracker_eventstreams_target",
       "attributes": {
         "count": "eventstreams_endpoint",
-        "region": "region"
+        "name": "eventstreams_target_name",
+        "region": "eventstreams_target_region"
       },
       "provider": {
         "name": "ibm"
       },
       "pos": {
         "filename": "main.tf",
-        "line": 129
+        "line": 108
       }
     },
     "ibm_atracker_target.atracker_logdna_target": {
@@ -771,14 +873,15 @@
       "name": "atracker_logdna_target",
       "attributes": {
         "count": "logdna_endpoint",
-        "region": "region"
+        "name": "logdna_target_name",
+        "region": "logdna_target_region"
       },
       "provider": {
         "name": "ibm"
       },
       "pos": {
         "filename": "main.tf",
-        "line": 113
+        "line": 126
       }
     },
     "ibm_resource_instance.activity_tracker": {
@@ -797,7 +900,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 74
+        "line": 68
       }
     },
     "ibm_resource_instance.logdna": {
@@ -817,7 +920,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 26
+        "line": 20
       }
     },
     "ibm_resource_instance.sysdig": {
@@ -837,7 +940,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 50
+        "line": 44
       }
     },
     "ibm_resource_key.at_resource_key": {
@@ -853,7 +956,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 85
+        "line": 79
       }
     },
     "ibm_resource_key.log_dna_resource_key": {
@@ -869,7 +972,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 41
+        "line": 35
       }
     },
     "ibm_resource_key.sysdig_resource_key": {
@@ -885,7 +988,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 65
+        "line": 59
       }
     }
   },

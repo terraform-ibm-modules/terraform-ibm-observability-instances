@@ -9,17 +9,11 @@ locals {
   sysdig_instance_name           = var.sysdig_instance_name != null ? var.sysdig_instance_name : "sysdig-${var.region}"
   activity_tracker_instance_name = var.activity_tracker_instance_name != null ? var.activity_tracker_instance_name : "activity-tracker-${var.region}"
 
-  cos_target_name          = var.cos_target_name != null ? var.cos_target_name : "cos-target"
-  logdna_target_name       = var.logdna_target_name != null ? var.logdna_target_name : "logdna-target"
-  eventstreams_target_name = var.eventstreams_target_name != null ? var.eventstreams_target_name : "eventstreams-target"
-
-  cos_route_name          = var.cos_route_name != null ? var.cos_route_name : "cos-route"
-  logdna_route_name       = var.logdna_route_name != null ? var.logdna_route_name : "logdna-route"
-  eventstreams_route_name = var.eventstreams_route_name != null ? var.eventstreams_route_name : "eventstreams-route"
-
-  default_targets = length(var.default_targets) > 0 ? var.default_targets : [ibm_atracker_target.atracker_eventstreams_target[0].id] ## change this to event streams
-
-
+  default_targets = length(var.default_targets) > 0 ? var.default_targets : (
+    length(var.eventstreams_endpoint) > 0 ? [ibm_atracker_target.atracker_eventstreams_target[0].id] :
+    length(var.cos_endpoint) > 0 ? [ibm_atracker_target.atracker_cos_target[0].id] :
+    length(var.logdna_endpoint) > 0 ? [ibm_atracker_target.atracker_logdna_target[0].id] : []
+  )
 }
 
 # LogDNA
@@ -90,6 +84,7 @@ resource "ibm_resource_key" "at_resource_key" {
   role                 = "Manager"
 }
 
+# Activity Tracker Event Routing
 
 # Event Routing To COS
 resource "ibm_atracker_target" "atracker_cos_target" {
@@ -104,25 +99,9 @@ resource "ibm_atracker_target" "atracker_cos_target" {
       api_key    = cos_endpoint.value.api_key
     }
   }
-  name        = local.cos_target_name
+  name        = var.cos_target_name
   target_type = "cloud_object_storage"
-  region      = var.region # review later
-}
-
-# Event Routing To LogDNA
-resource "ibm_atracker_target" "atracker_logdna_target" {
-  count = length(var.logdna_endpoint) > 0 ? 1 : 0
-
-  dynamic "logdna_endpoint" {
-    for_each = var.logdna_endpoint
-    content {
-      target_crn    = logdna_endpoint.value.target_crn
-      ingestion_key = logdna_endpoint.value.ingestion_key
-    }
-  }
-  name        = local.logdna_target_name
-  target_type = "logdna"
-  region      = var.region # review later
+  region      = var.cos_target_region
 }
 
 # Event Routing To Event Streams
@@ -138,11 +117,28 @@ resource "ibm_atracker_target" "atracker_eventstreams_target" {
       api_key    = eventstreams_endpoint.value.api_key
     }
   }
-  name        = local.eventstreams_target_name
+  name        = var.eventstreams_target_name
   target_type = "event_streams"
-  region      = var.region # review later
+  region      = var.eventstreams_target_region
 }
 
+# Event Routing To LogDNA
+resource "ibm_atracker_target" "atracker_logdna_target" {
+  count = length(var.logdna_endpoint) > 0 ? 1 : 0
+
+  dynamic "logdna_endpoint" {
+    for_each = var.logdna_endpoint
+    content {
+      target_crn    = logdna_endpoint.value.target_crn
+      ingestion_key = logdna_endpoint.value.ingestion_key
+    }
+  }
+  name        = var.logdna_target_name
+  target_type = "logdna"
+  region      = var.logdna_target_region
+}
+
+# Event Routing Setting
 resource "ibm_atracker_settings" "atracker_settings" {
 
   default_targets           = local.default_targets
@@ -157,13 +153,14 @@ resource "ibm_atracker_settings" "atracker_settings" {
   }
 }
 
+# COS Route
 resource "ibm_atracker_route" "atracker_route_cos" {
   count = length(var.cos_endpoint) > 0 ? 1 : 0
 
-  name = local.cos_route_name
+  name = var.cos_route_name
   rules {
     target_ids = [ibm_atracker_target.atracker_cos_target[0].id]
-    locations  = var.regions_target_cos
+    locations  = var.regions_targeting_cos
   }
   lifecycle {
     # Recommended to ensure that if a target ID is removed here and destroyed in a plan, this is updated first
@@ -171,14 +168,14 @@ resource "ibm_atracker_route" "atracker_route_cos" {
   }
 }
 
-
+# LogDNA Route
 resource "ibm_atracker_route" "atracker_route_logdna" {
   count = length(var.logdna_endpoint) > 0 ? 1 : 0
 
-  name = local.logdna_route_name
+  name = var.logdna_route_name
   rules {
     target_ids = [ibm_atracker_target.atracker_logdna_target[0].id]
-    locations  = var.regions_target_logdna
+    locations  = var.regions_targeting_logdna
   }
   lifecycle {
     # Recommended to ensure that if a target ID is removed here and destroyed in a plan, this is updated first
@@ -186,15 +183,14 @@ resource "ibm_atracker_route" "atracker_route_logdna" {
   }
 }
 
+# Event Streams Route
 resource "ibm_atracker_route" "atracker_route_eventstreams" {
   count = length(var.eventstreams_endpoint) > 0 ? 1 : 0
-  depends_on = [
-    ibm_atracker_route.atracker_route_eventstreams
-  ]
-  name = local.eventstreams_route_name
+
+  name = var.eventstreams_route_name
   rules {
     target_ids = [ibm_atracker_target.atracker_eventstreams_target[0].id]
-    locations  = var.regions_target_eventstreams
+    locations  = var.regions_targeting_eventstreams
   }
   lifecycle {
     # Recommended to ensure that if a target ID is removed here and destroyed in a plan, this is updated first

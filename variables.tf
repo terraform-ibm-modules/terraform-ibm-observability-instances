@@ -166,7 +166,7 @@ variable "metadata_region_backup" {
 variable "permitted_target_regions" {
   type        = list(string)
   description = "(Optional, List) If present then only these regions may be used to define a target."
-  default     = ["us-south", "eu-de"] #remove later
+  default     = ["us-south", "eu-de", "us-east", "eu-gb", "jp-tok", "au-syd"]
 }
 
 variable "private_api_endpoint_only" {
@@ -216,15 +216,21 @@ variable "cos_endpoint" {
 
 variable "cos_target_name" {
   type        = string
-  description = "(Required, String) The name of the COS target."
+  description = "(Optional, String) The name of the COS target."
   default     = null
 }
 
 
-variable "regions_target_cos" { # review later
+variable "regions_targeting_cos" {
   type        = list(string)
-  description = "Route the events generated in regions to COS"
-  default     = []
+  description = "(Optional, List) Route the events generated in these regions to COS target"
+  default     = ["*", "global"]
+}
+
+variable "cos_target_region" {
+  type        = string
+  description = "(Optional, String) Region where is COS target is created"
+  default     = null
 }
 
 ##############################################################################
@@ -242,14 +248,20 @@ variable "logdna_endpoint" {
 
 variable "logdna_target_name" {
   type        = string
-  description = "(Required, String) The name of the logDNA target."
+  description = "(Optional, String) The name of the logDNA target."
   default     = null
 }
 
-variable "regions_target_logdna" { # review later
+variable "regions_targeting_logdna" {
   type        = list(string)
-  description = "Route the events generated in regions to LogDNA"
-  default     = []
+  description = "(Optional, List) Route the events generated in these regions to LogDNA target"
+  default     = ["*", "global"]
+}
+
+variable "logdna_target_region" {
+  type        = string
+  description = "(Optional, List) Region where is LogDNA target is created"
+  default     = null
 }
 
 
@@ -263,18 +275,25 @@ variable "eventstreams_endpoint" {
     topic      = string
     api_key    = string
   }))
-  description = "(List) Property values for Event streams Endpoint"
-  default     = [] ## Remove later
+  description = "(Required, List) Property values for Event streams Endpoint"
+  default     = []
 }
 
 variable "eventstreams_target_name" {
   type        = string
-  description = "(Required, String) The name of the logDNA target."
+  description = "(Optional, String) The name of the logDNA target."
   default     = null
 }
 
-variable "regions_target_eventstreams" { # review later
+variable "regions_targeting_eventstreams" {
   type        = list(string)
-  description = "Route the events generated in regions to Event Streams"
-  default     = []
+  description = "(Optional, String) Route the events generated in these regions to Event Streams target"
+  default     = ["*", "global"]
+
+}
+
+variable "eventstreams_target_region" {
+  type        = string
+  description = "Region where is Event streams target is created"
+  default     = null
 }
