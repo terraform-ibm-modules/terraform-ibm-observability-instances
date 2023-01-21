@@ -24,8 +24,14 @@ module "cos_bucket" {
   retention_enabled  = false
 }
 
+resource "ibm_resource_key" "cos_resource_key" {
+  name                 = "${var.prefix}-cos-service-key"
+  resource_instance_id = module.cos_bucket.cos_instance_id
+  role                 = "Writer"
+}
+
 # Event stream target
-resource "ibm_resource_instance" "es_instance_1" {
+resource "ibm_resource_instance" "es_instance" {
   name              = "${var.prefix}-eventsteams-instance"
   service           = "messagehub"
   plan              = "standard"
@@ -33,8 +39,8 @@ resource "ibm_resource_instance" "es_instance_1" {
   resource_group_id = module.resource_group.resource_group_id
 }
 
-resource "ibm_event_streams_topic" "es_topic_1" {
-  resource_instance_id = ibm_resource_instance.es_instance_1.id
+resource "ibm_event_streams_topic" "es_topic" {
+  resource_instance_id = ibm_resource_instance.es_instance.id
   name                 = "${var.prefix}-topic"
   partitions           = 1
   config = {
@@ -47,7 +53,7 @@ resource "ibm_event_streams_topic" "es_topic_1" {
 
 resource "ibm_resource_key" "es_resource_key" {
   name                 = "${var.prefix}-eventstreams-service-key"
-  resource_instance_id = ibm_resource_instance.es_instance_1.id
+  resource_instance_id = ibm_resource_instance.es_instance.id
   role                 = "Writer"
 }
 
@@ -87,44 +93,41 @@ module "test_observability_instance_creation" {
   sysdig_tags                    = var.resource_tags
   activity_tracker_tags          = var.resource_tags
 
-  cos_endpoint = [
-    {
-      api_key : var.ibmcloud_api_key,
-      bucket_name : module.cos_bucket.bucket_name[0],
-      endpoint : module.cos_bucket.s3_endpoint_private[0],
-      target_crn : module.cos_bucket.cos_instance_id,
-      service_to_service_enabled = false,
-  }]
+  cos_target = {
+    endpoints = [{
+      api_key                    = ibm_resource_key.cos_resource_key.credentials.apikey
+      bucket_name                = module.cos_bucket.bucket_name[0]
+      endpoint                   = module.cos_bucket.s3_endpoint_private[0]
+      target_crn                 = module.cos_bucket.cos_instance_id
+      service_to_service_enabled = false
+    }]
+    route_name            = "${var.prefix}-cos-route"
+    target_name           = "${var.prefix}-cos-target"
+    target_region         = local.cos_target_region
+    regions_targeting_cos = ["*", "global"]
+  }
 
-  eventstreams_endpoint = [
-    {
-      api_key : ibm_resource_key.es_resource_key.credentials.api_key
-      target_crn : ibm_resource_instance.es_instance_1.id
-      brokers : ibm_event_streams_topic.es_topic_1.kafka_brokers_sasl
-      topic : ibm_event_streams_topic.es_topic_1.name
-    }
-  ]
+  eventstreams_target = {
+    endpoints = [{
+      api_key    = ibm_resource_key.es_resource_key.credentials.apikey
+      target_crn = ibm_resource_instance.es_instance.id
+      brokers    = ibm_event_streams_topic.es_topic.kafka_brokers_sasl
+      topic      = ibm_event_streams_topic.es_topic.name
+    }]
+    route_name                     = "${var.prefix}-eventstreams-route"
+    target_name                    = "${var.prefix}-eventstreams-target"
+    target_region                  = local.eventstreams_target_region
+    regions_targeting_eventstreams = ["*", "global"]
+  }
 
-  logdna_endpoint = [
-    {
-      target_crn : ibm_resource_instance.logdna.id
-      ingestion_key : ibm_resource_key.log_dna_resource_key.credentials.ingestion_key
-    }
-  ]
-
-  cos_target_name          = "${var.prefix}-cos-target"
-  eventstreams_target_name = "${var.prefix}-eventstreams-target"
-  logdna_target_name       = "${var.prefix}-logdna-target"
-
-  cos_route_name          = "${var.prefix}-cos-route"
-  eventstreams_route_name = "${var.prefix}-eventstreams-route"
-  logdna_route_name       = "${var.prefix}-logdna-route"
-
-  cos_target_region          = local.cos_target_region
-  eventstreams_target_region = local.eventstreams_target_region
-  logdna_target_region       = local.logdna_target_region
-
-  regions_targeting_cos          = ["*", "global"]
-  regions_targeting_eventstreams = ["*", "global"]
-  regions_targeting_logdna       = ["*", "global"]
+  logdna_target = {
+    endpoints = [{
+      target_crn    = ibm_resource_instance.logdna.id
+      ingestion_key = ibm_resource_key.log_dna_resource_key.credentials.ingestion_key
+    }]
+    route_name               = "${var.prefix}-logdna-route"
+    target_name              = "${var.prefix}-logdna-target"
+    target_region            = local.logdna_target_region
+    regions_targeting_logdna = ["*", "global"]
+  }
 }

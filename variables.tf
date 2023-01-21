@@ -166,7 +166,7 @@ variable "metadata_region_backup" {
 variable "permitted_target_regions" {
   type        = list(string)
   description = "(Optional, List) If present then only these regions may be used to define a target."
-  default     = ["us-south", "eu-de", "us-east", "eu-gb", "jp-tok", "au-syd"]
+  default     = ["us-south", "eu-de", "us-east", "eu-gb", "au-syd"]
 }
 
 variable "private_api_endpoint_only" {
@@ -177,123 +177,97 @@ variable "private_api_endpoint_only" {
 
 ##############################################################################
 
-#Event Routing Route
-variable "cos_route_name" {
-  type        = string
-  description = "(Required, String) The name of the COS route."
-  default     = null
-}
-
-variable "logdna_route_name" {
-  type        = string
-  description = "(Required, String) The name of the LogDNA route."
-  default     = null
-}
-
-variable "eventstreams_route_name" {
-  type        = string
-  description = "(Required, String) The name of the Event Streams route."
-  default     = null
-}
-
-
-
-##############################################################################
-
 #COS Target
-variable "cos_endpoint" {
-  type = list(object({
-    endpoint                   = string
-    bucket_name                = string
-    target_crn                 = string
-    api_key                    = string
-    service_to_service_enabled = bool
-  }))
-  description = "(Optional, List) Property values for a Cloud Object Storage Endpoint."
-  default     = []
+variable "cos_target" {
+  type = object({
+    endpoints = list(object({
+      endpoint                   = string
+      bucket_name                = string
+      target_crn                 = string
+      api_key                    = string
+      service_to_service_enabled = bool
+    }))
+    target_name           = string
+    route_name            = string
+    target_region         = string
+    regions_targeting_cos = list(string)
+  })
+  default = {
+    endpoints             = []
+    target_name           = null
+    route_name            = null
+    target_region         = null
+    regions_targeting_cos = null
+  }
+  description = <<EOT
+    cos_target = {
+      endpoints: "(List) Property values for COS Endpoint"
+      target_name: "(String) The name of the COS target."
+      route_name: "(String) The name of the COS route."
+      target_region: "(String) Region where is COS target is created"
+      regions_targeting_logdna: (List) Route the events generated in these regions to COS target"
+    }
+  EOT
 }
-
-
-variable "cos_target_name" {
-  type        = string
-  description = "(Optional, String) The name of the COS target."
-  default     = null
-}
-
-
-variable "regions_targeting_cos" {
-  type        = list(string)
-  description = "(Optional, List) Route the events generated in these regions to COS target"
-  default     = ["*", "global"]
-}
-
-variable "cos_target_region" {
-  type        = string
-  description = "(Optional, String) Region where is COS target is created"
-  default     = null
-}
-
-##############################################################################
-
-#logDNA Target
-variable "logdna_endpoint" {
-  type = list(object({
-    target_crn    = string
-    ingestion_key = string
-  }))
-  description = "(Optional, List) Property values for a LogDNA Endpoint."
-  default     = []
-}
-
-
-variable "logdna_target_name" {
-  type        = string
-  description = "(Optional, String) The name of the logDNA target."
-  default     = null
-}
-
-variable "regions_targeting_logdna" {
-  type        = list(string)
-  description = "(Optional, List) Route the events generated in these regions to LogDNA target"
-  default     = ["*", "global"]
-}
-
-variable "logdna_target_region" {
-  type        = string
-  description = "(Optional, List) Region where is LogDNA target is created"
-  default     = null
-}
-
-
-##############################################################################
 
 #Event Streams Target
-variable "eventstreams_endpoint" {
-  type = list(object({
-    target_crn = string
-    brokers    = list(string)
-    topic      = string
-    api_key    = string
-  }))
-  description = "(Required, List) Property values for Event streams Endpoint"
-  default     = []
+variable "eventstreams_target" {
+  type = object({
+    endpoints = list(object({
+      target_crn = string
+      brokers    = list(string)
+      topic      = string
+      api_key    = string
+    }))
+    target_name                    = string
+    route_name                     = string
+    target_region                  = string
+    regions_targeting_eventstreams = list(string)
+  })
+  default = {
+    endpoints                      = []
+    target_name                    = null
+    route_name                     = null
+    target_region                  = null
+    regions_targeting_eventstreams = null
+  }
+  description = <<EOT
+    eventstreams_target = {
+      endpoints: "(List) Property values for event streams Endpoint"
+      target_name: "(String) The name of the event streams target."
+      route_name: "(String) The name of the event streams route."
+      target_region: "(String) Region where is event streams target is created"
+      regions_targeting_logdna: (List) Route the events generated in these regions to event streams target"
+    }
+  EOT
 }
 
-variable "eventstreams_target_name" {
-  type        = string
-  description = "(Optional, String) The name of the logDNA target."
-  default     = null
-}
-
-variable "regions_targeting_eventstreams" {
-  type        = list(string)
-  description = "(Optional, String) Route the events generated in these regions to Event Streams target"
-  default     = ["*", "global"]
-
-}
-
-variable "eventstreams_target_region" {
-  type        = string
-  description = "Region where is Event streams target is created"
-  default     = null
+#logDNA Target
+variable "logdna_target" {
+  type = object({
+    endpoints = list(object({
+      target_crn    = string
+      ingestion_key = string
+    }))
+    target_name              = string
+    route_name               = string
+    target_region            = string
+    regions_targeting_logdna = list(string)
+  })
+  default = {
+    endpoints                = []
+    target_name              = null
+    route_name               = null
+    target_region            = null
+    regions_targeting_logdna = null
+  }
+  description = <<EOT
+    logdna_target = {
+      endpoints: "(List) Property values for LogDNA Endpoint"
+      target_name: "(String) The name of the logDNA target."
+      route_name: "(String) The name of the LogDNA route."
+      target_region: "(String) Region where is LogDNA target is created"
+      regions_targeting_logdna: (List) Route the events generated in these regions to LogDNA target"
+    }
+  EOT
 }
