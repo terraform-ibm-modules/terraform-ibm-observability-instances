@@ -44,7 +44,7 @@ module "observability_instances" {
   # Provide these object to enable event routing to COS, Event streams and logDNA respectively
   cos_target = {
     endpoints = [{
-      api_key                    = ibm_resource_key.cos_resource_key.credentials.apikey
+      api_key                    = ibm_resource_key.cos_resource_key.credentials.apikey `pragma: allowlist secret`
       bucket_name                = module.cos_bucket.bucket_name[0]
       endpoint                   = module.cos_bucket.s3_endpoint_private[0]
       target_crn                 = module.cos_bucket.cos_instance_id
@@ -58,7 +58,7 @@ module "observability_instances" {
 
   eventstreams_target = {
     endpoints = [{
-      api_key    = ibm_resource_key.es_resource_key.credentials.apikey
+      api_key    = ibm_resource_key.es_resource_key.credentials.apikey `pragma: allowlist secret`
       target_crn = ibm_resource_instance.es_instance.id
       brokers    = ibm_event_streams_topic.es_topic.kafka_brokers_sasl
       topic      = ibm_event_streams_topic.es_topic.name
@@ -113,7 +113,7 @@ You need the following permissions to run this module.
 ## Examples
 
 - [ Provision Activity Tracker only](examples/observability_at)
-- [ Provision observability instance with default config (LogDNA, Sysdig, AT) along wwith event routing to COS bucket, Event streams and LogDNA](examples/observability_default)
+- [ Provision observability instance with default config (LogDNA, Sysdig, AT) along with event routing to COS bucket, Event streams and LogDNA](examples/observability_default)
 - [ Provision LogDNA only](examples/observability_logdna)
 - [ Provision SysDig only](examples/observability_sysdig)
 <!-- END EXAMPLES HOOK -->
