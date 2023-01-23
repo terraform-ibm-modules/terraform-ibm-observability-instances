@@ -99,13 +99,13 @@ You need the following permissions to run this module.
   - **IBM Log Analysis** service
     - `Editor` platform access
     - `Manager` service access
-  - **Event Routing To COS** service
+  - **Event Routing To COS bucket** instance
     - `Editor` platform access
     - `Writer` service access
-  - **Event Routing To Event streams** service
+  - **Event Routing To Event streams** instance
     - `Editor` platform access
     - `Writer` service access
-  - **Event Routing To LogDNA** service
+  - **Event Routing To LogDNA** instance
     - `Editor` platform access
     - `Manager` service access
 
