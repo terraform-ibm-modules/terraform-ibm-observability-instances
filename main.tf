@@ -9,6 +9,8 @@ locals {
   sysdig_instance_name           = var.sysdig_instance_name != null ? var.sysdig_instance_name : "sysdig-${var.region}"
   activity_tracker_instance_name = var.activity_tracker_instance_name != null ? var.activity_tracker_instance_name : "activity-tracker-${var.region}"
 
+  enable_event_routing = length(var.logdna_target.endpoints) > 0 || length(var.cos_target.endpoints) > 0 || length(var.eventstreams_target.endpoints) > 0
+
   default_targets = length(var.default_targets) > 0 ? var.default_targets : (
     length(var.eventstreams_target.endpoints) > 0 ? [ibm_atracker_target.atracker_eventstreams_target[0].id] :
     length(var.cos_target.endpoints) > 0 ? [ibm_atracker_target.atracker_cos_target[0].id] :
@@ -140,6 +142,7 @@ resource "ibm_atracker_target" "atracker_logdna_target" {
 
 # Event Routing Setting
 resource "ibm_atracker_settings" "atracker_settings" {
+  count = local.enable_event_routing == true ? 1 : 0
 
   default_targets           = local.default_targets
   metadata_region_primary   = var.metadata_region_primary

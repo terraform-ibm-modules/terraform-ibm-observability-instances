@@ -20,6 +20,8 @@ This module supports provisioning the following observability instances:
   - Manage operating system logs, application logs, and platform logs in IBM Cloud.
 - **IBM Cloud Monitoring with SysDig**
   - Monitor the health of services and applications in IBM Cloud.
+- **Activity tracker event routing**
+  - Routes the events to COS bucket, LogDNA, Event streams.
 
 :information_source: The module also creates a manager key for each instance.
 
@@ -38,6 +40,45 @@ module "observability_instances" {
   logdna_plan                        = "7-day"
   sysdig_plan                        = "graduated-tier"
   activity_tracker_plan              = "7-day"
+
+  # Provide these object to enable event routing to COS, Event streams and logDNA respectively
+  cos_target = {
+    endpoints = [{
+      api_key                    = ibm_resource_key.cos_resource_key.credentials.apikey
+      bucket_name                = module.cos_bucket.bucket_name[0]
+      endpoint                   = module.cos_bucket.s3_endpoint_private[0]
+      target_crn                 = module.cos_bucket.cos_instance_id
+      service_to_service_enabled = false
+    }]
+    route_name            = "${var.prefix}-cos-route"
+    target_name           = "${var.prefix}-cos-target"
+    target_region         = local.cos_target_region
+    regions_targeting_cos = ["*", "global"]
+  }
+
+  eventstreams_target = {
+    endpoints = [{
+      api_key    = ibm_resource_key.es_resource_key.credentials.apikey
+      target_crn = ibm_resource_instance.es_instance.id
+      brokers    = ibm_event_streams_topic.es_topic.kafka_brokers_sasl
+      topic      = ibm_event_streams_topic.es_topic.name
+    }]
+    route_name                     = "${var.prefix}-eventstreams-route"
+    target_name                    = "${var.prefix}-eventstreams-target"
+    target_region                  = local.eventstreams_target_region
+    regions_targeting_eventstreams = ["*", "global"]
+  }
+
+  logdna_target = {
+    endpoints = [{
+      target_crn    = ibm_resource_instance.logdna.id
+      ingestion_key = ibm_resource_key.log_dna_resource_key.credentials.ingestion_key
+    }]
+    route_name               = "${var.prefix}-logdna-route"
+    target_name              = "${var.prefix}-logdna-target"
+    target_region            = local.logdna_target_region
+    regions_targeting_logdna = ["*", "global"]
+  }
 }
 ```
 
@@ -58,12 +99,21 @@ You need the following permissions to run this module.
   - **IBM Log Analysis** service
     - `Editor` platform access
     - `Manager` service access
+  - **Event Routing To COS** service
+    - `Editor` platform access
+    - `Writer` service access
+  - **Event Routing To Event streams** service
+    - `Editor` platform access
+    - `Writer` service access
+  - **Event Routing To LogDNA** service
+    - `Editor` platform access
+    - `Manager` service access
 
 <!-- BEGIN EXAMPLES HOOK -->
 ## Examples
 
 - [ Provision Activity Tracker only](examples/observability_at)
-- [ Provision observability instance with default config (LogDNA, Sysdig, AT)](examples/observability_default)
+- [ Provision observability instance with default config (LogDNA, Sysdig, AT) along wwith event routing to COS bucket, Event streams and LogDNA](examples/observability_default)
 - [ Provision LogDNA only](examples/observability_logdna)
 - [ Provision SysDig only](examples/observability_sysdig)
 <!-- END EXAMPLES HOOK -->

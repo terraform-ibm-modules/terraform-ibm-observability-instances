@@ -13,7 +13,7 @@ variable "prefix" {
 variable "region" {
   description = "Region where resources will be created"
   type        = string
-  default     = "us-south"
+  default     = "eu-gb"
 }
 
 variable "resource_group" {
