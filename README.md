@@ -14,14 +14,12 @@
 
 This module supports provisioning the following observability instances:
 
-- **IBM Cloud Activity Tracker**
-  - Records events, compliant with CADF standard, triggered by user-initiated activities that change the state of a service in the cloud.
+- **IBM Cloud Activity Tracker with Event Routing**
+  - Records events, compliant with CADF standard, triggered by user-initiated activities that change the state of a service in the cloud and routes those to to COS, Event Streams and LogDNA.
 - **IBM Cloud Logging with LogDNA**
   - Manage operating system logs, application logs, and platform logs in IBM Cloud.
 - **IBM Cloud Monitoring with SysDig**
   - Monitor the health of services and applications in IBM Cloud.
-- **Activity tracker event routing**
-  - Routes the events to COS bucket, LogDNA, Event streams.
 
 :information_source: The module also creates a manager key for each instance.
 
