@@ -152,7 +152,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 214
+        "line": 238
       }
     },
     "logdna_instance_name": {
@@ -247,7 +247,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 246
+        "line": 294
       }
     },
     "metadata_region_backup": {

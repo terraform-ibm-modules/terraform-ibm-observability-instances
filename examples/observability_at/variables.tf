@@ -46,3 +46,9 @@ variable "eventstreams_target_region" {
   description = "The region event streams target is to be created on"
   default     = null
 }
+
+variable "cos_service_to_service_enabled" {
+  type        = bool
+  description = "ATracker service is enabled to support service to service authentication. If service to service is enabled then set this flag is true and do not supply apikey."
+  default     = false
+}

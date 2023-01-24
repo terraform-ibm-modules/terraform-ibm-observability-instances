@@ -57,4 +57,3 @@ variable "activity_tracker_plan" {
   description = "The Activity Tracker plan to provision. Available: lite, 7-day, 14-day, 30-day, hipaa-30-day"
   default     = "lite"
 }
-

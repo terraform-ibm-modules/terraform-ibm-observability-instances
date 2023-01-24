@@ -221,7 +221,7 @@ variable "cos_target" {
     error_message = "The target name must be 1000 characters or less, and cannot include any special characters other than (space) - . _ :."
   }
 
-   validation {
+  validation {
     condition = anytrue([
       var.cos_target.route_name == null,
       alltrue([
@@ -277,7 +277,7 @@ variable "eventstreams_target" {
     error_message = "The target name must be 1000 characters or less, and cannot include any special characters other than (space) - . _ :."
   }
 
-   validation {
+  validation {
     condition = anytrue([
       var.eventstreams_target.route_name == null,
       alltrue([

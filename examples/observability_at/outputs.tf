@@ -37,4 +37,3 @@ output "logdna_route_name" {
   value       = module.test_observability_instance_creation.logdna_route_name
   description = "The name of the provisioned LogDNA target route."
 }
-

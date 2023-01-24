@@ -112,8 +112,8 @@ You need the following permissions to run this module.
 <!-- BEGIN EXAMPLES HOOK -->
 ## Examples
 
-- [ Provision Activity Tracker only](examples/observability_at)
-- [ Provision observability instance with default config (LogDNA, Sysdig, AT) along with event routing to COS bucket, Event streams and LogDNA](examples/observability_default)
+- [ Provision Activity Tracker along with event routing to COS bucket, Event streams and LogDNA](examples/observability_at)
+- [ Provision observability instance with default config (LogDNA, Sysdig, AT)](examples/observability_default)
 - [ Provision LogDNA only](examples/observability_logdna)
 - [ Provision SysDig only](examples/observability_sysdig)
 <!-- END EXAMPLES HOOK -->

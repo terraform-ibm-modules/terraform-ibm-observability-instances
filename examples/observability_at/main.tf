@@ -94,7 +94,7 @@ module "test_observability_instance_creation" {
       bucket_name                = module.cos_bucket.bucket_name[0]
       endpoint                   = module.cos_bucket.s3_endpoint_private[0]
       target_crn                 = module.cos_bucket.cos_instance_id
-      service_to_service_enabled = false
+      service_to_service_enabled = var.cos_service_to_service_enabled
     }]
     route_name            = "${var.prefix}-cos-route"
     target_name           = "${var.prefix}-cos-target"
