@@ -208,6 +208,30 @@ variable "cos_target" {
       regions_targeting_logdna: (List) Route the events generated in these regions to COS target"
     }
   EOT
+
+  validation {
+    condition = anytrue([
+      var.cos_target.target_name == null,
+      alltrue([
+        can(length(var.cos_target.target_name) >= 1),
+        can(length(var.cos_target.target_name) <= 1000),
+        can(regex("^[0-9A-Za-z \\-]+$", var.cos_target.target_name))
+      ])
+    ])
+    error_message = "The target name must be 1000 characters or less, and cannot include any special characters other than (space) - . _ :."
+  }
+
+   validation {
+    condition = anytrue([
+      var.cos_target.route_name == null,
+      alltrue([
+        can(length(var.cos_target.route_name) >= 1),
+        can(length(var.cos_target.route_name) <= 1000),
+        can(regex("^[0-9A-Za-z \\-]+$", var.cos_target.route_name))
+      ])
+    ])
+    error_message = "The route name must be 1000 characters or less, and cannot include any special characters other than (space) - . _ :."
+  }
 }
 
 #Event Streams Target
@@ -240,6 +264,30 @@ variable "eventstreams_target" {
       regions_targeting_logdna: (List) Route the events generated in these regions to event streams target"
     }
   EOT
+
+  validation {
+    condition = anytrue([
+      var.eventstreams_target.target_name == null,
+      alltrue([
+        can(length(var.eventstreams_target.target_name) >= 1),
+        can(length(var.eventstreams_target.target_name) <= 1000),
+        can(regex("^[0-9A-Za-z \\-]+$", var.eventstreams_target.target_name))
+      ])
+    ])
+    error_message = "The target name must be 1000 characters or less, and cannot include any special characters other than (space) - . _ :."
+  }
+
+   validation {
+    condition = anytrue([
+      var.eventstreams_target.route_name == null,
+      alltrue([
+        can(length(var.eventstreams_target.route_name) >= 1),
+        can(length(var.eventstreams_target.route_name) <= 1000),
+        can(regex("^[0-9A-Za-z \\-]+$", var.eventstreams_target.route_name))
+      ])
+    ])
+    error_message = "The route name must be 1000 characters or less, and cannot include any special characters other than (space) - . _ :."
+  }
 }
 
 #logDNA Target
@@ -270,4 +318,28 @@ variable "logdna_target" {
       regions_targeting_logdna: (List) Route the events generated in these regions to LogDNA target"
     }
   EOT
+
+  validation {
+    condition = anytrue([
+      var.logdna_target.target_name == null,
+      alltrue([
+        can(length(var.logdna_target.target_name) >= 1),
+        can(length(var.logdna_target.target_name) <= 1000),
+        can(regex("^[0-9A-Za-z \\-]+$", var.logdna_target.target_name))
+      ])
+    ])
+    error_message = "The target name must be 1000 characters or less, and cannot include any special characters other than (space) - . _ :."
+  }
+
+  validation {
+    condition = anytrue([
+      var.logdna_target.route_name == null,
+      alltrue([
+        can(length(var.logdna_target.route_name) >= 1),
+        can(length(var.logdna_target.route_name) <= 1000),
+        can(regex("^[0-9A-Za-z \\-]+$", var.logdna_target.route_name))
+      ])
+    ])
+    error_message = "The route name must be 1000 characters or less, and cannot include any special characters other than (space) - . _ :."
+  }
 }

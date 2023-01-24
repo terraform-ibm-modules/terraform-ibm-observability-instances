@@ -58,21 +58,3 @@ variable "activity_tracker_plan" {
   default     = "lite"
 }
 
-#Activity Tracker Event Routing
-variable "cos_target_region" {
-  type        = string
-  description = "The region cos target is to be created on"
-  default     = null
-}
-
-variable "logdna_target_region" {
-  type        = string
-  description = "The region logDNA target is to be created on"
-  default     = null
-}
-
-variable "eventstreams_target_region" {
-  type        = string
-  description = "The region event streams target is to be created on"
-  default     = null
-}

@@ -1,3 +1,3 @@
-# Provision Activity Tracker only
+# Provision Activity Tracker along with event routing to COS bucket, Event streams and LogDNA
 
-Example that deploys only an Activity Tracker instance.
+Example that deploys  an Activity Tracker instance along with event routing to COS bucket, Event streams and LogDNA.

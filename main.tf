@@ -160,7 +160,7 @@ resource "ibm_atracker_settings" "atracker_settings" {
 resource "ibm_atracker_route" "atracker_cos_route" {
   count = length(var.cos_target.endpoints) > 0 ? 1 : 0
 
-  name = var.cos_target.target_name
+  name = var.cos_target.route_name
   rules {
     target_ids = [ibm_atracker_target.atracker_cos_target[0].id]
     locations  = var.cos_target.regions_targeting_cos # Regions whose events will be forwarded to COS
@@ -175,7 +175,7 @@ resource "ibm_atracker_route" "atracker_cos_route" {
 resource "ibm_atracker_route" "atracker_eventstreams_route" {
   count = length(var.eventstreams_target.endpoints) > 0 ? 1 : 0
 
-  name = var.eventstreams_target.target_name
+  name = var.eventstreams_target.route_name
   rules {
     target_ids = [ibm_atracker_target.atracker_eventstreams_target[0].id]
     locations  = var.eventstreams_target.regions_targeting_eventstreams # Regions whose events will be forwarded to event streams
