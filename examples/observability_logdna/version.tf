@@ -8,7 +8,7 @@ terraform {
     }
     logdna = {
       source  = "logdna/logdna"
-      version = "1.13.1"
+      version = "1.14.2"
     }
   }
 }

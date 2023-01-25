@@ -151,7 +151,7 @@ variable "enable_archive" {
 
 variable "ibmcloud_api_key" {
   type        = string
-  description = "Only required to archive. The IBM Cloud API Token."
+  description = "Only required to archive. The IBM Cloud API Key."
   default     = null
   sensitive   = true
 }
@@ -170,7 +170,7 @@ variable "logdna_cos_bucket_name" {
 
 variable "logdna_cos_bucket_endpoint" {
   type        = string
-  description = "Only required to archive. The 'public' or 'private' endpoint for the COS bucket for the LogDNA archive"
+  description = "Only required to archive. An endpoint for the COS bucket for the LogDNA archive. Pass either the public or private endpoint"
   default     = null
 }
 
@@ -188,6 +188,6 @@ variable "at_cos_bucket_name" {
 
 variable "at_cos_bucket_endpoint" {
   type        = string
-  description = "Only required to archive. The 'public' or 'private' endpoint for the COS bucket for the Activity Tracker archive"
+  description = "Only required to archive. An endpoint for the COS bucket for the Activity Tracker archive. Pass either the public or private endpoint"
   default     = null
 }
