@@ -142,3 +142,52 @@ variable "activity_tracker_tags" {
 }
 
 ##############################################################################
+# Archive options, access key and information about COS bucket
+variable "enable_archive" {
+  type        = bool
+  description = "Enable archive on logDNA and Activity Tracker instances"
+  default     = false
+}
+
+variable "ibmcloud_api_key" {
+  type        = string
+  description = "Only required to archive. The IBM Cloud API Key."
+  default     = null
+  sensitive   = true
+}
+
+variable "logdna_cos_instance_id" {
+  type        = string
+  description = "Only required to archive. The ID of the cloud object storage instance containing the bucket"
+  default     = null
+}
+
+variable "logdna_cos_bucket_name" {
+  type        = string
+  description = "Only required to archive. The name of an existing COS bucket to be used for the LogDNA archive"
+  default     = null
+}
+
+variable "logdna_cos_bucket_endpoint" {
+  type        = string
+  description = "Only required to archive. An endpoint for the COS bucket for the LogDNA archive. Pass either the public or private endpoint"
+  default     = null
+}
+
+variable "at_cos_instance_id" {
+  type        = string
+  description = "Only required to archive. The ID of the cloud object storage instance containing the bucket"
+  default     = null
+}
+
+variable "at_cos_bucket_name" {
+  type        = string
+  description = "Only required to archive. The name of an existing COS bucket to be used for the Activity Tracker archive"
+  default     = null
+}
+
+variable "at_cos_bucket_endpoint" {
+  type        = string
+  description = "Only required to archive. An endpoint for the COS bucket for the Activity Tracker archive. Pass either the public or private endpoint"
+  default     = null
+}

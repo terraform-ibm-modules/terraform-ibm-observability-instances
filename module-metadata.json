@@ -46,7 +46,8 @@
       "default": true,
       "source": [
         "ibm_resource_instance.activity_tracker.count",
-        "ibm_resource_key.at_resource_key.count"
+        "ibm_resource_key.at_resource_key.count",
+        "logdna_archive.activity_tracker_config.count"
       ],
       "pos": {
         "filename": "variables.tf",
@@ -73,6 +74,43 @@
         "type": "TypeString"
       }
     },
+    "at_cos_bucket_endpoint": {
+      "name": "at_cos_bucket_endpoint",
+      "type": "string",
+      "description": "Only required to archive. An endpoint for the COS bucket for the Activity Tracker archive. Pass either the public or private endpoint",
+      "pos": {
+        "filename": "variables.tf",
+        "line": 189
+      }
+    },
+    "at_cos_bucket_name": {
+      "name": "at_cos_bucket_name",
+      "type": "string",
+      "description": "Only required to archive. The name of an existing COS bucket to be used for the Activity Tracker archive",
+      "pos": {
+        "filename": "variables.tf",
+        "line": 183
+      }
+    },
+    "at_cos_instance_id": {
+      "name": "at_cos_instance_id",
+      "type": "string",
+      "description": "Only required to archive. The ID of the cloud object storage instance containing the bucket",
+      "pos": {
+        "filename": "variables.tf",
+        "line": 177
+      }
+    },
+    "enable_archive": {
+      "name": "enable_archive",
+      "type": "bool",
+      "description": "Enable archive on logDNA and Activity Tracker instances",
+      "default": false,
+      "pos": {
+        "filename": "variables.tf",
+        "line": 146
+      }
+    },
     "enable_platform_logs": {
       "name": "enable_platform_logs",
       "type": "bool",
@@ -97,6 +135,43 @@
       "pos": {
         "filename": "variables.tf",
         "line": 100
+      }
+    },
+    "ibmcloud_api_key": {
+      "name": "ibmcloud_api_key",
+      "type": "string",
+      "description": "Only required to archive. The IBM Cloud API Key.",
+      "sensitive": true,
+      "pos": {
+        "filename": "variables.tf",
+        "line": 152
+      }
+    },
+    "logdna_cos_bucket_endpoint": {
+      "name": "logdna_cos_bucket_endpoint",
+      "type": "string",
+      "description": "Only required to archive. An endpoint for the COS bucket for the LogDNA archive. Pass either the public or private endpoint",
+      "pos": {
+        "filename": "variables.tf",
+        "line": 171
+      }
+    },
+    "logdna_cos_bucket_name": {
+      "name": "logdna_cos_bucket_name",
+      "type": "string",
+      "description": "Only required to archive. The name of an existing COS bucket to be used for the LogDNA archive",
+      "pos": {
+        "filename": "variables.tf",
+        "line": 165
+      }
+    },
+    "logdna_cos_instance_id": {
+      "name": "logdna_cos_instance_id",
+      "type": "string",
+      "description": "Only required to archive. The ID of the cloud object storage instance containing the bucket",
+      "pos": {
+        "filename": "variables.tf",
+        "line": 159
       }
     },
     "logdna_instance_name": {
@@ -144,7 +219,8 @@
       "default": true,
       "source": [
         "ibm_resource_instance.logdna.count",
-        "ibm_resource_key.log_dna_resource_key.count"
+        "ibm_resource_key.log_dna_resource_key.count",
+        "logdna_archive.logdna_config.count"
       ],
       "pos": {
         "filename": "variables.tf",
@@ -460,6 +536,22 @@
       "version_constraints": [
         "\u003e= 1.49.0"
       ]
+    },
+    "logdna": {
+      "source": "logdna/logdna",
+      "version_constraints": [
+        "\u003e= 1.14.2"
+      ],
+      "aliases": [
+        {
+          "name": "logdna",
+          "alias": "at"
+        },
+        {
+          "name": "logdna",
+          "alias": "ld"
+        }
+      ]
     }
   },
   "managed_resources": {
@@ -479,7 +571,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 62
+        "line": 81
       }
     },
     "ibm_resource_instance.logdna": {
@@ -499,7 +591,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 14
+        "line": 33
       }
     },
     "ibm_resource_instance.sysdig": {
@@ -519,7 +611,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 38
+        "line": 57
       }
     },
     "ibm_resource_key.at_resource_key": {
@@ -535,7 +627,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 73
+        "line": 92
       }
     },
     "ibm_resource_key.log_dna_resource_key": {
@@ -551,7 +643,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 29
+        "line": 48
       }
     },
     "ibm_resource_key.sysdig_resource_key": {
@@ -567,7 +659,39 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 53
+        "line": 72
+      }
+    },
+    "logdna_archive.activity_tracker_config": {
+      "mode": "managed",
+      "type": "logdna_archive",
+      "name": "activity_tracker_config",
+      "attributes": {
+        "count": "activity_tracker_provision"
+      },
+      "provider": {
+        "name": "logdna",
+        "alias": "at"
+      },
+      "pos": {
+        "filename": "main.tf",
+        "line": 100
+      }
+    },
+    "logdna_archive.logdna_config": {
+      "mode": "managed",
+      "type": "logdna_archive",
+      "name": "logdna_config",
+      "attributes": {
+        "count": "logdna_provision"
+      },
+      "provider": {
+        "name": "logdna",
+        "alias": "ld"
+      },
+      "pos": {
+        "filename": "main.tf",
+        "line": 112
       }
     }
   },
