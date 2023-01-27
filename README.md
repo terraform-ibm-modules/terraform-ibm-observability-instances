@@ -72,18 +72,18 @@ This configuration block is added to the `providers.tf` file in all the [example
 You need the following permissions to run this module.
 
 - Account Management
-  - **Resource Group** service
-    - `Viewer` platform access
+    - **Resource Group** service
+        - `Viewer` platform access
 - IAM Services
-  - **IBM Cloud Activity Tracker** service
-    - `Editor` platform access
-    - `Manager` service access
-  - **IBM Cloud Monitoring** service
-    - `Editor` platform access
-    - `Manager` service access
-  - **IBM Log Analysis** service
-    - `Editor` platform access
-    - `Manager` service access
+    - **IBM Cloud Activity Tracker** service
+        - `Editor` platform access
+        - `Manager` service access
+    - **IBM Cloud Monitoring** service
+        - `Editor` platform access
+        - `Manager` service access
+    - **IBM Log Analysis** service
+        - `Editor` platform access
+        - `Manager` service access
 
 <!-- BEGIN EXAMPLES HOOK -->
 ## Examples
