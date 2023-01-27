@@ -1,12 +1,10 @@
 <!-- BEGIN MODULE HOOK -->
 
 <!-- Update the title to match the module name and add a description -->
-
 # Terraform IBM Observability instances module
 
 <!-- UPDATE BADGE: Update the link for the following badge-->
-
-[![Stable (With quality checks)](<https://img.shields.io/badge/Status-Stable%20(With%20quality%20checks)-green?style=plastic>)](https://terraform-ibm-modules.github.io/documentation/#/badge-status)
+[![Stable (With quality checks)](https://img.shields.io/badge/Status-Stable%20(With%20quality%20checks)-green?style=plastic)](https://terraform-ibm-modules.github.io/documentation/#/badge-status)
 [![Build status](https://github.com/terraform-ibm-modules/terraform-ibm-observability-instances/actions/workflows/ci.yml/badge.svg)](https://github.com/terraform-ibm-modules/terraform-ibm-observability-instances/actions/workflows/ci.yml)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
@@ -14,12 +12,12 @@
 
 This module supports provisioning the following observability instances:
 
-- **IBM Cloud Activity Tracker**
-  - Records events, compliant with CADF standard, triggered by user-initiated activities that change the state of a service in the cloud.
-- **IBM Cloud Logging with LogDNA**
-  - Manage operating system logs, application logs, and platform logs in IBM Cloud.
-- **IBM Cloud Monitoring with SysDig**
-  - Monitor the health of services and applications in IBM Cloud.
+* **IBM Cloud Activity Tracker**
+  * Records events, compliant with CADF standard, triggered by user-initiated activities that change the state of a service in the cloud.
+* **IBM Cloud Logging with LogDNA**
+  * Manage operating system logs, application logs, and platform logs in IBM Cloud.
+* **IBM Cloud Monitoring with SysDig**
+  * Monitor the health of services and applications in IBM Cloud.
 
 :information_source: The module also creates a manager key for each instance.
 
@@ -68,7 +66,6 @@ provider "logdna" {
 This configuration block is added to the `providers.tf` file in all the [examples](#examples) that are available in this module.
 
 ## Required IAM access policies
-
 You need the following permissions to run this module.
 
 - Account Management
@@ -94,7 +91,7 @@ You need the following permissions to run this module.
 - [ Provision LogDNA only](examples/observability_logdna)
 - [ Provision SysDig only](examples/observability_sysdig)
 <!-- END EXAMPLES HOOK -->
-    <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
 
 | Name | Version |
@@ -183,12 +180,10 @@ No modules.
 <!-- BEGIN CONTRIBUTING HOOK -->
 
 <!-- Leave this section as is so that your module has a link to local development environment set up steps for contributors to follow -->
-
 ## Contributing
 
 You can report issues and request features for this module in GitHub issues in the module repo. See [Report an issue or request a feature](https://github.com/terraform-ibm-modules/.github/blob/main/.github/SUPPORT.md).
 
 To set up your local development environment, see [Local development setup](https://terraform-ibm-modules.github.io/documentation/#/local-dev-setup) in the project documentation.
-
 <!-- Source for this readme file: https://github.com/terraform-ibm-modules/common-dev-assets/tree/main/module-assets/ci/module-template-automation -->
 <!-- END CONTRIBUTING HOOK -->
