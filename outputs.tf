@@ -58,7 +58,7 @@ output "sysdig_crn" {
 
 output "sysdig_guid" {
   value       = length(ibm_resource_instance.sysdig) > 0 ? ibm_resource_instance.sysdig[0].guid : null
-  description = "The guid of the provisioned Sisdig instance."
+  description = "The guid of the provisioned Sysdig instance."
 }
 
 output "sysdig_name" {
