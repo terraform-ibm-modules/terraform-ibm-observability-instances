@@ -5,9 +5,16 @@ module "resource_group" {
   existing_resource_group_name = var.resource_group
 }
 
+locals {
+  at_endpoint = "https://api.${var.region}.logging.cloud.ibm.com"
+}
 
 module "test_observability_instance_creation" {
-  source                     = "../../"
+  source = "../../"
+  providers = {
+    logdna.at = logdna.at
+    logdna.ld = logdna.ld
+  }
   resource_group_id          = module.resource_group.resource_group_id
   region                     = var.region
   sysdig_instance_name       = var.prefix

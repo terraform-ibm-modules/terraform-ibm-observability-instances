@@ -76,7 +76,11 @@ resource "ibm_resource_key" "log_dna_resource_key" {
 }
 
 module "test_observability_instance_creation" {
-  source                         = "../../"
+  source = "../../"
+  providers = {
+    logdna.at = logdna.at
+    logdna.ld = logdna.ld
+  }
   resource_group_id              = module.resource_group.resource_group_id
   region                         = var.region
   logdna_provision               = false
