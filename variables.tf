@@ -59,6 +59,16 @@ variable "enable_platform_logs" {
   default     = true
 }
 
+variable "logdna_service_endpoints" {
+  description = "The type of the service endpoint that will be set for the LogDNA instance."
+  type        = string
+  default     = "public-and-private"
+  validation {
+    condition     = contains(["public", "private", "public-and-private"], var.logdna_service_endpoints)
+    error_message = "The specified service_endpoints is not a valid selection!"
+  }
+}
+
 ##############################################################################
 
 # Sysdig
@@ -103,6 +113,16 @@ variable "enable_platform_metrics" {
   default     = true
 }
 
+variable "sisdig_service_endpoints" {
+  description = "The type of the service endpoint that will be set for the Sisdig instance."
+  type        = string
+  default     = "public-and-private"
+  validation {
+    condition     = contains(["public", "private", "public-and-private"], var.sisdig_service_endpoints)
+    error_message = "The specified service_endpoints is not a valid selection!"
+  }
+}
+
 ##############################################################################
 
 # Activity Tracker
@@ -139,6 +159,16 @@ variable "activity_tracker_tags" {
   type        = list(string)
   description = "Tags associated with the Activity Tracker instance (Optional, array of strings)."
   default     = []
+}
+
+variable "activity_tracker_service_endpoints" {
+  description = "The type of the service endpoint that will be set for the activity tracker instance."
+  type        = string
+  default     = "public-and-private"
+  validation {
+    condition     = contains(["public", "private", "public-and-private"], var.activity_tracker_service_endpoints)
+    error_message = "The specified service_endpoints is not a valid selection!"
+  }
 }
 
 ##############################################################################

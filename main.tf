@@ -39,6 +39,7 @@ resource "ibm_resource_instance" "logdna" {
   plan              = var.logdna_plan
   location          = var.region
   tags              = var.logdna_tags
+  service_endpoints = var.logdna_service_endpoints
 
   parameters = {
     "default_receiver" = var.enable_platform_logs
@@ -63,6 +64,7 @@ resource "ibm_resource_instance" "sysdig" {
   plan              = var.sysdig_plan
   location          = var.region
   tags              = var.sysdig_tags
+  service_endpoints = var.sisdig_service_endpoints
 
   parameters = {
     "default_receiver" = var.enable_platform_metrics
@@ -87,6 +89,7 @@ resource "ibm_resource_instance" "activity_tracker" {
   plan              = var.activity_tracker_plan
   location          = var.region
   tags              = var.activity_tracker_tags
+  service_endpoints = var.activity_tracker_service_endpoints
 }
 
 resource "ibm_resource_key" "at_resource_key" {
