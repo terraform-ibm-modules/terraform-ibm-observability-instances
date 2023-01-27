@@ -65,7 +65,7 @@ variable "logdna_service_endpoints" {
   default     = "public-and-private"
   validation {
     condition     = contains(["public", "private", "public-and-private"], var.logdna_service_endpoints)
-    error_message = "The specified service_endpoints is not a valid selection!"
+    error_message = "The specified service_endpoints is not a valid selection"
   }
 }
 
@@ -114,12 +114,12 @@ variable "enable_platform_metrics" {
 }
 
 variable "sysdig_service_endpoints" {
-  description = "The type of the service endpoint that will be set for the sysdig instance."
+  description = "The type of the service endpoint that will be set for the Sisdig instance."
   type        = string
   default     = "public-and-private"
   validation {
     condition     = contains(["public", "private", "public-and-private"], var.sysdig_service_endpoints)
-    error_message = "The specified service_endpoints is not a valid selection!"
+    error_message = "The specified service_endpoints is not a valid selection"
   }
 }
 
@@ -167,7 +167,7 @@ variable "activity_tracker_service_endpoints" {
   default     = "public-and-private"
   validation {
     condition     = contains(["public", "private", "public-and-private"], var.activity_tracker_service_endpoints)
-    error_message = "The specified service_endpoints is not a valid selection!"
+    error_message = "The specified service_endpoints is not a valid selection"
   }
 }
 
