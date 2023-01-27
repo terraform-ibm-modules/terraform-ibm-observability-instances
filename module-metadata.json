@@ -313,20 +313,6 @@
         "resolved_to:id"
       ]
     },
-    "sisdig_service_endpoints": {
-      "name": "sisdig_service_endpoints",
-      "type": "string",
-      "description": "The type of the service endpoint that will be set for the Sisdig instance.",
-      "default": "public-and-private",
-      "source": [
-        "ibm_resource_instance.sysdig.service_endpoints"
-      ],
-      "pos": {
-        "filename": "variables.tf",
-        "line": 116
-      },
-      "computed": true
-    },
     "sysdig_instance_name": {
       "name": "sysdig_instance_name",
       "type": "string",
@@ -378,6 +364,20 @@
         "filename": "variables.tf",
         "line": 75
       }
+    },
+    "sysdig_service_endpoints": {
+      "name": "sysdig_service_endpoints",
+      "type": "string",
+      "description": "The type of the service endpoint that will be set for the sysdig instance.",
+      "default": "public-and-private",
+      "source": [
+        "ibm_resource_instance.sysdig.service_endpoints"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 116
+      },
+      "computed": true
     },
     "sysdig_tags": {
       "name": "sysdig_tags",
@@ -538,7 +538,7 @@
     },
     "sysdig_guid": {
       "name": "sysdig_guid",
-      "description": "The guid of the provisioned Sisdig instance.",
+      "description": "The guid of the provisioned Sysdig instance.",
       "pos": {
         "filename": "outputs.tf",
         "line": 59
@@ -648,7 +648,7 @@
         "parameters": "enable_platform_metrics",
         "plan": "sysdig_plan",
         "resource_group_id": "resource_group_id",
-        "service_endpoints": "sisdig_service_endpoints",
+        "service_endpoints": "sysdig_service_endpoints",
         "tags": "sysdig_tags"
       },
       "provider": {

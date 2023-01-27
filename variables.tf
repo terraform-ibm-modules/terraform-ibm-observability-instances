@@ -113,12 +113,12 @@ variable "enable_platform_metrics" {
   default     = true
 }
 
-variable "sisdig_service_endpoints" {
-  description = "The type of the service endpoint that will be set for the Sisdig instance."
+variable "sysdig_service_endpoints" {
+  description = "The type of the service endpoint that will be set for the sysdig instance."
   type        = string
   default     = "public-and-private"
   validation {
-    condition     = contains(["public", "private", "public-and-private"], var.sisdig_service_endpoints)
+    condition     = contains(["public", "private", "public-and-private"], var.sysdig_service_endpoints)
     error_message = "The specified service_endpoints is not a valid selection!"
   }
 }

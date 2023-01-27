@@ -64,7 +64,7 @@ resource "ibm_resource_instance" "sysdig" {
   plan              = var.sysdig_plan
   location          = var.region
   tags              = var.sysdig_tags
-  service_endpoints = var.sisdig_service_endpoints
+  service_endpoints = var.sysdig_service_endpoints
 
   parameters = {
     "default_receiver" = var.enable_platform_metrics

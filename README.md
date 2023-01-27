@@ -1,10 +1,12 @@
 <!-- BEGIN MODULE HOOK -->
 
 <!-- Update the title to match the module name and add a description -->
+
 # Terraform IBM Observability instances module
 
 <!-- UPDATE BADGE: Update the link for the following badge-->
-[![Stable (With quality checks)](https://img.shields.io/badge/Status-Stable%20(With%20quality%20checks)-green?style=plastic)](https://terraform-ibm-modules.github.io/documentation/#/badge-status)
+
+[![Stable (With quality checks)](<https://img.shields.io/badge/Status-Stable%20(With%20quality%20checks)-green?style=plastic>)](https://terraform-ibm-modules.github.io/documentation/#/badge-status)
 [![Build status](https://github.com/terraform-ibm-modules/terraform-ibm-observability-instances/actions/workflows/ci.yml/badge.svg)](https://github.com/terraform-ibm-modules/terraform-ibm-observability-instances/actions/workflows/ci.yml)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
@@ -12,12 +14,12 @@
 
 This module supports provisioning the following observability instances:
 
-* **IBM Cloud Activity Tracker**
-  * Records events, compliant with CADF standard, triggered by user-initiated activities that change the state of a service in the cloud.
-* **IBM Cloud Logging with LogDNA**
-  * Manage operating system logs, application logs, and platform logs in IBM Cloud.
-* **IBM Cloud Monitoring with SysDig**
-  * Monitor the health of services and applications in IBM Cloud.
+- **IBM Cloud Activity Tracker**
+  - Records events, compliant with CADF standard, triggered by user-initiated activities that change the state of a service in the cloud.
+- **IBM Cloud Logging with LogDNA**
+  - Manage operating system logs, application logs, and platform logs in IBM Cloud.
+- **IBM Cloud Monitoring with SysDig**
+  - Monitor the health of services and applications in IBM Cloud.
 
 :information_source: The module also creates a manager key for each instance.
 
@@ -66,21 +68,22 @@ provider "logdna" {
 This configuration block is added to the `providers.tf` file in all the [examples](#examples) that are available in this module.
 
 ## Required IAM access policies
+
 You need the following permissions to run this module.
 
 - Account Management
-    - **Resource Group** service
-        - `Viewer` platform access
+  - **Resource Group** service
+    - `Viewer` platform access
 - IAM Services
-    - **IBM Cloud Activity Tracker** service
-        - `Editor` platform access
-        - `Manager` service access
-    - **IBM Cloud Monitoring** service
-        - `Editor` platform access
-        - `Manager` service access
-    - **IBM Log Analysis** service
-        - `Editor` platform access
-        - `Manager` service access
+  - **IBM Cloud Activity Tracker** service
+    - `Editor` platform access
+    - `Manager` service access
+  - **IBM Cloud Monitoring** service
+    - `Editor` platform access
+    - `Manager` service access
+  - **IBM Log Analysis** service
+    - `Editor` platform access
+    - `Manager` service access
 
 <!-- BEGIN EXAMPLES HOOK -->
 ## Examples
@@ -91,7 +94,7 @@ You need the following permissions to run this module.
 - [ Provision LogDNA only](examples/observability_logdna)
 - [ Provision SysDig only](examples/observability_sysdig)
 <!-- END EXAMPLES HOOK -->
-<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+  <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
 
 | Name | Version |
@@ -145,11 +148,11 @@ No modules.
 | <a name="input_logdna_tags"></a> [logdna\_tags](#input\_logdna\_tags) | Tags associated with the IBM Cloud Logging instance (Optional, array of strings). | `list(string)` | `[]` | no |
 | <a name="input_region"></a> [region](#input\_region) | The IBM Cloud region where instances will be created. | `string` | `"us-south"` | no |
 | <a name="input_resource_group_id"></a> [resource\_group\_id](#input\_resource\_group\_id) | The id of the IBM Cloud resource group where the instance(s) will be created. | `string` | `null` | no |
-| <a name="input_sisdig_service_endpoints"></a> [sisdig\_service\_endpoints](#input\_sisdig\_service\_endpoints) | The type of the service endpoint that will be set for the Sisdig instance. | `string` | `"public-and-private"` | no |
 | <a name="input_sysdig_instance_name"></a> [sysdig\_instance\_name](#input\_sysdig\_instance\_name) | The name of the IBM Cloud Monitoring instance to create. Defaults to 'sysdig-<region>' | `string` | `null` | no |
 | <a name="input_sysdig_manager_key_name"></a> [sysdig\_manager\_key\_name](#input\_sysdig\_manager\_key\_name) | The name to give the IBM Cloud Monitoring manager key. | `string` | `"SysdigManagerKey"` | no |
 | <a name="input_sysdig_plan"></a> [sysdig\_plan](#input\_sysdig\_plan) | The IBM Cloud Monitoring plan to provision. Available: lite, graduated-tier, graduated-tier-sysdig-secure-plus-monitor | `string` | `"lite"` | no |
 | <a name="input_sysdig_provision"></a> [sysdig\_provision](#input\_sysdig\_provision) | Provision a Sysdig instance? | `bool` | `true` | no |
+| <a name="input_sysdig_service_endpoints"></a> [sysdig\_service\_endpoints](#input\_sysdig\_service\_endpoints) | The type of the service endpoint that will be set for the sysdig instance. | `string` | `"public-and-private"` | no |
 | <a name="input_sysdig_tags"></a> [sysdig\_tags](#input\_sysdig\_tags) | Tags associated with the IBM Cloud Monitoring instance (Optional, array of strings). | `list(string)` | `[]` | no |
 
 ## Outputs
@@ -172,7 +175,7 @@ No modules.
 | <a name="output_region"></a> [region](#output\_region) | Region that instance(s) are provisioned to. |
 | <a name="output_sysdig_access_key"></a> [sysdig\_access\_key](#output\_sysdig\_access\_key) | Sysdig access key for agents to use |
 | <a name="output_sysdig_crn"></a> [sysdig\_crn](#output\_sysdig\_crn) | The id of the provisioned Sysdig instance. |
-| <a name="output_sysdig_guid"></a> [sysdig\_guid](#output\_sysdig\_guid) | The guid of the provisioned Sisdig instance. |
+| <a name="output_sysdig_guid"></a> [sysdig\_guid](#output\_sysdig\_guid) | The guid of the provisioned Sysdig instance. |
 | <a name="output_sysdig_manager_key_name"></a> [sysdig\_manager\_key\_name](#output\_sysdig\_manager\_key\_name) | The Sysdig manager key name |
 | <a name="output_sysdig_name"></a> [sysdig\_name](#output\_sysdig\_name) | The name of the provisioned Sysdig instance. |
 | <a name="output_sysdig_resource_group_id"></a> [sysdig\_resource\_group\_id](#output\_sysdig\_resource\_group\_id) | The resource group where Sysdig monitor instance resides |
@@ -180,10 +183,12 @@ No modules.
 <!-- BEGIN CONTRIBUTING HOOK -->
 
 <!-- Leave this section as is so that your module has a link to local development environment set up steps for contributors to follow -->
+
 ## Contributing
 
 You can report issues and request features for this module in GitHub issues in the module repo. See [Report an issue or request a feature](https://github.com/terraform-ibm-modules/.github/blob/main/.github/SUPPORT.md).
 
 To set up your local development environment, see [Local development setup](https://terraform-ibm-modules.github.io/documentation/#/local-dev-setup) in the project documentation.
+
 <!-- Source for this readme file: https://github.com/terraform-ibm-modules/common-dev-assets/tree/main/module-assets/ci/module-template-automation -->
 <!-- END CONTRIBUTING HOOK -->
