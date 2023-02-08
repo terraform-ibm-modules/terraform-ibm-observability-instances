@@ -11,7 +11,7 @@ locals {
 
 module "cos_bucket" {
   source             = "terraform-ibm-modules/cos/ibm"
-  version            = "5.3.1"
+  version            = "5.4.0"
   resource_group_id  = module.resource_group.resource_group_id
   region             = var.region
   encryption_enabled = false
