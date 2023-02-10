@@ -7,23 +7,23 @@ variable "ibmcloud_api_key" {
 variable "prefix" {
   type        = string
   description = "Prefix for name of all resource created by this example"
-  default     = "test-observability-sysdig-instance"
+  default     = "test-all-observability-instances"
 }
 
 variable "region" {
   description = "Region where resources will be created"
   type        = string
-  default     = "eu-de"
-}
-
-variable "resource_group" {
-  type        = string
-  description = "An existing resource group name to use for this example, if unset a new resource group will be created"
-  default     = null
+  default     = "us-east"
 }
 
 variable "resource_tags" {
   type        = list(string)
   description = "Optional list of tags to be added to created resources"
   default     = []
+}
+
+variable "resource_group" {
+  type        = string
+  description = "An existing resource group name to use for this example, if unset a new resource group will be created"
+  default     = null
 }

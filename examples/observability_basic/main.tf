@@ -5,19 +5,22 @@ module "resource_group" {
   existing_resource_group_name = var.resource_group
 }
 
-
 module "test_observability_instance_creation" {
   source = "../../"
   providers = {
     logdna.at = logdna.at
     logdna.ld = logdna.ld
   }
-  resource_group_id              = module.resource_group.resource_group_id
   region                         = var.region
-  logdna_provision               = false
-  sysdig_provision               = false
+  logdna_instance_name           = var.prefix
+  resource_group_id              = module.resource_group.resource_group_id
+  sysdig_instance_name           = var.prefix
   activity_tracker_instance_name = var.prefix
+  logdna_plan                    = "7-day"
+  sysdig_plan                    = "graduated-tier"
   activity_tracker_plan          = "7-day"
+  enable_platform_logs           = false
+  enable_platform_metrics        = false
   logdna_tags                    = var.resource_tags
   sysdig_tags                    = var.resource_tags
   activity_tracker_tags          = var.resource_tags
