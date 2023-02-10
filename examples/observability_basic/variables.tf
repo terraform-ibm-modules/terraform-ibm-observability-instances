@@ -7,7 +7,7 @@ variable "ibmcloud_api_key" {
 variable "prefix" {
   type        = string
   description = "Prefix for name of all resource created by this example"
-  default     = "test-all-observability-instances"
+  default     = "test-basic-observability-instances"
 }
 
 variable "region" {
