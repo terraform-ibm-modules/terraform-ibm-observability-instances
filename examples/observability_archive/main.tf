@@ -68,9 +68,9 @@ module "observability_instance_creation" {
   enable_archive                 = true
   ibmcloud_api_key               = var.ibmcloud_api_key
   logdna_cos_instance_id         = module.cos.cos_instance_id
-  logdna_cos_bucket_name         = module.cos.bucket_name[0]
+  logdna_cos_bucket_name         = local.bucket_name
   logdna_cos_bucket_endpoint     = module.cos.s3_endpoint_public[0]
-  at_cos_bucket_name             = module.cos.bucket_name[0]
+  at_cos_bucket_name             = local.bucket_name
   at_cos_instance_id             = module.cos.cos_instance_id
   at_cos_bucket_endpoint         = module.cos.s3_endpoint_private[0]
 }
