@@ -7,7 +7,7 @@
       "description": "The name of the Activity Tracker instance to create. Defaults to 'activity-tracker-\u003cregion\u003e'",
       "pos": {
         "filename": "variables.tf",
-        "line": 135
+        "line": 166
       }
     },
     "activity_tracker_manager_key_name": {
@@ -21,7 +21,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 152
+        "line": 183
       },
       "immutable": true
     },
@@ -36,7 +36,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 141
+        "line": 172
       }
     },
     "activity_tracker_provision": {
@@ -51,7 +51,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 129
+        "line": 160
       }
     },
     "activity_tracker_service_endpoints": {
@@ -64,7 +64,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 164
+        "line": 195
       },
       "computed": true
     },
@@ -78,7 +78,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 158
+        "line": 189
       },
       "min_length": 1,
       "max_length": 128,
@@ -91,28 +91,28 @@
     "at_cos_bucket_endpoint": {
       "name": "at_cos_bucket_endpoint",
       "type": "string",
-      "description": "Only required to archive. An endpoint for the COS bucket for the Activity Tracker archive. Pass either the public or private endpoint",
+      "description": "An endpoint for the COS bucket for the Activity Tracker archive. Pass either the public or private endpoint (Only required when var.enable_archive and var.activity_tracker_provision are true)",
       "pos": {
         "filename": "variables.tf",
-        "line": 219
+        "line": 217
       }
     },
     "at_cos_bucket_name": {
       "name": "at_cos_bucket_name",
       "type": "string",
-      "description": "Only required to archive. The name of an existing COS bucket to be used for the Activity Tracker archive",
+      "description": "The name of an existing COS bucket to be used for the Activity Tracker archive (Only required when var.enable_archive and var.activity_tracker_provision are true).",
       "pos": {
         "filename": "variables.tf",
-        "line": 213
+        "line": 211
       }
     },
     "at_cos_instance_id": {
       "name": "at_cos_instance_id",
       "type": "string",
-      "description": "Only required to archive. The ID of the cloud object storage instance containing the bucket",
+      "description": "The ID of the cloud object storage instance containing the Activity Tracker archive bucket (Only required when var.enable_archive and var.activity_tracker_provision are true).",
       "pos": {
         "filename": "variables.tf",
-        "line": 207
+        "line": 205
       }
     },
     "enable_archive": {
@@ -122,7 +122,7 @@
       "default": false,
       "pos": {
         "filename": "variables.tf",
-        "line": 176
+        "line": 18
       }
     },
     "enable_platform_logs": {
@@ -135,7 +135,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 56
+        "line": 69
       }
     },
     "enable_platform_metrics": {
@@ -148,7 +148,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 110
+        "line": 141
       }
     },
     "ibmcloud_api_key": {
@@ -158,34 +158,34 @@
       "sensitive": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 182
+        "line": 24
       }
     },
     "logdna_cos_bucket_endpoint": {
       "name": "logdna_cos_bucket_endpoint",
       "type": "string",
-      "description": "Only required to archive. An endpoint for the COS bucket for the LogDNA archive. Pass either the public or private endpoint",
+      "description": "An endpoint for the COS bucket for the LogDNA archive. Pass either the public or private endpoint. (Only required when var.enable_archive and var.logdna_provision are true).",
       "pos": {
         "filename": "variables.tf",
-        "line": 201
+        "line": 97
       }
     },
     "logdna_cos_bucket_name": {
       "name": "logdna_cos_bucket_name",
       "type": "string",
-      "description": "Only required to archive. The name of an existing COS bucket to be used for the LogDNA archive",
+      "description": "The name of an existing COS bucket to be used for the LogDNA archive. (Only required when var.enable_archive and var.logdna_provision are true).",
       "pos": {
         "filename": "variables.tf",
-        "line": 195
+        "line": 91
       }
     },
     "logdna_cos_instance_id": {
       "name": "logdna_cos_instance_id",
       "type": "string",
-      "description": "Only required to archive. The ID of the cloud object storage instance containing the bucket",
+      "description": "The ID of the cloud object storage instance containing the LogDNA archive bucket. (Only required when var.enable_archive and var.logdna_provision are true).",
       "pos": {
         "filename": "variables.tf",
-        "line": 189
+        "line": 85
       }
     },
     "logdna_instance_name": {
@@ -194,7 +194,7 @@
       "description": "The name of the IBM Cloud Logging instance to create. Defaults to 'logdna-\u003cregion\u003e'",
       "pos": {
         "filename": "variables.tf",
-        "line": 27
+        "line": 40
       }
     },
     "logdna_manager_key_name": {
@@ -208,7 +208,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 44
+        "line": 57
       },
       "immutable": true
     },
@@ -223,7 +223,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 33
+        "line": 46
       }
     },
     "logdna_provision": {
@@ -238,7 +238,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 21
+        "line": 34
       }
     },
     "logdna_service_endpoints": {
@@ -251,7 +251,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 62
+        "line": 75
       },
       "computed": true
     },
@@ -265,7 +265,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 50
+        "line": 63
       },
       "min_length": 1,
       "max_length": 128,
@@ -319,7 +319,7 @@
       "description": "The name of the IBM Cloud Monitoring instance to create. Defaults to 'sysdig-\u003cregion\u003e'",
       "pos": {
         "filename": "variables.tf",
-        "line": 81
+        "line": 112
       }
     },
     "sysdig_manager_key_name": {
@@ -333,7 +333,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 98
+        "line": 129
       },
       "immutable": true
     },
@@ -348,7 +348,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 87
+        "line": 118
       }
     },
     "sysdig_provision": {
@@ -362,7 +362,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 75
+        "line": 106
       }
     },
     "sysdig_service_endpoints": {
@@ -375,7 +375,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 116
+        "line": 147
       },
       "computed": true
     },
@@ -389,7 +389,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 104
+        "line": 135
       },
       "min_length": 1,
       "max_length": 128,

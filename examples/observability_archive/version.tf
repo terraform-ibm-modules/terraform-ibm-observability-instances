@@ -10,5 +10,9 @@ terraform {
       source  = "logdna/logdna"
       version = "1.14.2"
     }
+    restapi = {
+      source  = "Mastercard/restapi"
+      version = ">= 1.18.0"
+    }
   }
 }

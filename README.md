@@ -1,9 +1,5 @@
-<!-- BEGIN MODULE HOOK -->
-
-<!-- Update the title to match the module name and add a description -->
 # Terraform IBM Observability instances module
 
-<!-- UPDATE BADGE: Update the link for the following badge-->
 [![Stable (With quality checks)](https://img.shields.io/badge/Status-Stable%20(With%20quality%20checks)-green?style=plastic)](https://terraform-ibm-modules.github.io/documentation/#/badge-status)
 [![Build status](https://github.com/terraform-ibm-modules/terraform-ibm-observability-instances/actions/workflows/ci.yml/badge.svg)](https://github.com/terraform-ibm-modules/terraform-ibm-observability-instances/actions/workflows/ci.yml)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
@@ -19,51 +15,44 @@ This module supports provisioning the following observability instances:
 * **IBM Cloud Monitoring with SysDig**
   * Monitor the health of services and applications in IBM Cloud.
 
-:information_source: The module also creates a manager key for each instance.
+:information_source: The module also creates a manager key for each instance, and supports passing COS bucket details to enable archiving for LogDNA and AT.
 
 ## Usage
 
 ```hcl
-# Replace "main" with a GIT release version to lock into a specific release
-module "observability_instances" {
-  source                             = "git::https://github.com/terraform-ibm-modules/terraform-ibm-observability-instances?ref=main"
-  providers = {
-    logdna.at  = logdna.at
-    logdna.ld  = logdna.ld
-  }
-  logdna_resource_group_id           = var.resource_group.id
-  sysdig_resource_group_id           = var.resource_group.id
-  activity_tracker_resource_group_id = var.resource_group.id
-  logdna_region                      = var.ibm_region
-  sysdig_region                      = var.ibm_region
-  activity_tracker_region            = var.ibm_region
-  logdna_plan                        = "7-day"
-  sysdig_plan                        = "graduated-tier"
-  activity_tracker_plan              = "7-day"
+# required ibm provider config
+provider "ibm" {
+  ibmcloud_api_key = var.ibmcloud_api_key
 }
-```
 
-In addition, this module requires additional logdna provider configuration blocks in the Terraform file that calls the API. The blocks need an `alias` that is set to `at` and `ld` as shown in the following example:
-
-```hcl
+# required logdna provider config
 locals {
   at_endpoint = "https://api.${var.region}.logging.cloud.ibm.com"
 }
 
 provider "logdna" {
   alias      = "at"
-  servicekey = module.test_observability_instance_creation.activity_tracker_resource_key != null ? module.test_observability_instance_creation.activity_tracker_resource_key : ""
+  servicekey = module.observability_instances.activity_tracker_resource_key != null ? module.observability_instances.activity_tracker_resource_key : ""
   url        = local.at_endpoint
 }
 
 provider "logdna" {
   alias      = "ld"
-  servicekey = module.test_observability_instance_creation.logdna_resource_key != null ? module.test_observability_instance_creation.logdna_resource_key : ""
+  servicekey = module.observability_instances.logdna_resource_key != null ? module.observability_instances.logdna_resource_key : ""
   url        = local.at_endpoint
 }
-```
 
-This configuration block is added to the `providers.tf` file in all the [examples](#examples) that are available in this module.
+module "observability_instances" {
+  # Replace "main" with a GIT release version to lock into a specific release
+  source                             = "git::https://github.com/terraform-ibm-modules/terraform-ibm-observability-instances?ref=main"
+  providers = {
+    logdna.at  = logdna.at
+    logdna.ld  = logdna.ld
+  }
+  resource_group_id  = var.resource_group.id
+  region             = var.ibm_region
+}
+```
 
 ## Required IAM access policies
 You need the following permissions to run this module.
@@ -85,11 +74,8 @@ You need the following permissions to run this module.
 <!-- BEGIN EXAMPLES HOOK -->
 ## Examples
 
-- [ Provision LogDNA with a COS bucket for archive](examples/observability_archive)
-- [ Provision Activity Tracker only](examples/observability_at)
-- [ Provision observability instance with default config (LogDNA, Sysdig, AT)](examples/observability_default)
-- [ Provision LogDNA only](examples/observability_logdna)
-- [ Provision SysDig only](examples/observability_sysdig)
+- [ Provision Sysdig and LogDNA + AT with archiving enabled using encrypted COS bucket](examples/observability_archive)
+- [ Provision basic observability instances (LogDNA, Sysdig, AT)](examples/observability_basic)
 <!-- END EXAMPLES HOOK -->
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
@@ -127,16 +113,16 @@ No modules.
 | <a name="input_activity_tracker_provision"></a> [activity\_tracker\_provision](#input\_activity\_tracker\_provision) | Provision an Activity Tracker instance? | `bool` | `true` | no |
 | <a name="input_activity_tracker_service_endpoints"></a> [activity\_tracker\_service\_endpoints](#input\_activity\_tracker\_service\_endpoints) | The type of the service endpoint that will be set for the activity tracker instance. | `string` | `"public-and-private"` | no |
 | <a name="input_activity_tracker_tags"></a> [activity\_tracker\_tags](#input\_activity\_tracker\_tags) | Tags associated with the Activity Tracker instance (Optional, array of strings). | `list(string)` | `[]` | no |
-| <a name="input_at_cos_bucket_endpoint"></a> [at\_cos\_bucket\_endpoint](#input\_at\_cos\_bucket\_endpoint) | Only required to archive. An endpoint for the COS bucket for the Activity Tracker archive. Pass either the public or private endpoint | `string` | `null` | no |
-| <a name="input_at_cos_bucket_name"></a> [at\_cos\_bucket\_name](#input\_at\_cos\_bucket\_name) | Only required to archive. The name of an existing COS bucket to be used for the Activity Tracker archive | `string` | `null` | no |
-| <a name="input_at_cos_instance_id"></a> [at\_cos\_instance\_id](#input\_at\_cos\_instance\_id) | Only required to archive. The ID of the cloud object storage instance containing the bucket | `string` | `null` | no |
+| <a name="input_at_cos_bucket_endpoint"></a> [at\_cos\_bucket\_endpoint](#input\_at\_cos\_bucket\_endpoint) | An endpoint for the COS bucket for the Activity Tracker archive. Pass either the public or private endpoint (Only required when var.enable\_archive and var.activity\_tracker\_provision are true) | `string` | `null` | no |
+| <a name="input_at_cos_bucket_name"></a> [at\_cos\_bucket\_name](#input\_at\_cos\_bucket\_name) | The name of an existing COS bucket to be used for the Activity Tracker archive (Only required when var.enable\_archive and var.activity\_tracker\_provision are true). | `string` | `null` | no |
+| <a name="input_at_cos_instance_id"></a> [at\_cos\_instance\_id](#input\_at\_cos\_instance\_id) | The ID of the cloud object storage instance containing the Activity Tracker archive bucket (Only required when var.enable\_archive and var.activity\_tracker\_provision are true). | `string` | `null` | no |
 | <a name="input_enable_archive"></a> [enable\_archive](#input\_enable\_archive) | Enable archive on logDNA and Activity Tracker instances | `bool` | `false` | no |
 | <a name="input_enable_platform_logs"></a> [enable\_platform\_logs](#input\_enable\_platform\_logs) | Receive platform logs in the provisioned IBM Cloud Logging instance. | `bool` | `true` | no |
 | <a name="input_enable_platform_metrics"></a> [enable\_platform\_metrics](#input\_enable\_platform\_metrics) | Receive platform metrics in the provisioned IBM Cloud Monitoring instance. | `bool` | `true` | no |
 | <a name="input_ibmcloud_api_key"></a> [ibmcloud\_api\_key](#input\_ibmcloud\_api\_key) | Only required to archive. The IBM Cloud API Key. | `string` | `null` | no |
-| <a name="input_logdna_cos_bucket_endpoint"></a> [logdna\_cos\_bucket\_endpoint](#input\_logdna\_cos\_bucket\_endpoint) | Only required to archive. An endpoint for the COS bucket for the LogDNA archive. Pass either the public or private endpoint | `string` | `null` | no |
-| <a name="input_logdna_cos_bucket_name"></a> [logdna\_cos\_bucket\_name](#input\_logdna\_cos\_bucket\_name) | Only required to archive. The name of an existing COS bucket to be used for the LogDNA archive | `string` | `null` | no |
-| <a name="input_logdna_cos_instance_id"></a> [logdna\_cos\_instance\_id](#input\_logdna\_cos\_instance\_id) | Only required to archive. The ID of the cloud object storage instance containing the bucket | `string` | `null` | no |
+| <a name="input_logdna_cos_bucket_endpoint"></a> [logdna\_cos\_bucket\_endpoint](#input\_logdna\_cos\_bucket\_endpoint) | An endpoint for the COS bucket for the LogDNA archive. Pass either the public or private endpoint. (Only required when var.enable\_archive and var.logdna\_provision are true). | `string` | `null` | no |
+| <a name="input_logdna_cos_bucket_name"></a> [logdna\_cos\_bucket\_name](#input\_logdna\_cos\_bucket\_name) | The name of an existing COS bucket to be used for the LogDNA archive. (Only required when var.enable\_archive and var.logdna\_provision are true). | `string` | `null` | no |
+| <a name="input_logdna_cos_instance_id"></a> [logdna\_cos\_instance\_id](#input\_logdna\_cos\_instance\_id) | The ID of the cloud object storage instance containing the LogDNA archive bucket. (Only required when var.enable\_archive and var.logdna\_provision are true). | `string` | `null` | no |
 | <a name="input_logdna_instance_name"></a> [logdna\_instance\_name](#input\_logdna\_instance\_name) | The name of the IBM Cloud Logging instance to create. Defaults to 'logdna-<region>' | `string` | `null` | no |
 | <a name="input_logdna_manager_key_name"></a> [logdna\_manager\_key\_name](#input\_logdna\_manager\_key\_name) | The name to give the IBM Cloud Logging manager key. | `string` | `"LogDnaManagerKey"` | no |
 | <a name="input_logdna_plan"></a> [logdna\_plan](#input\_logdna\_plan) | The IBM Cloud Logging plan to provision. Available: lite, 7-day, 14-day, 30-day, hipaa-30-day | `string` | `"lite"` | no |

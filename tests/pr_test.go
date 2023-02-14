@@ -9,7 +9,7 @@ import (
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/testhelper"
 )
 
-const defaultExampleTerraformDir = "examples/observability_default"
+const completeExampleTerraformDir = "examples/observability_archive"
 const resourceGroup = "geretain-test-observability-instances"
 
 var sharedInfoSvc *cloudinfo.CloudInfoService
@@ -22,25 +22,23 @@ func TestMain(m *testing.M) {
 	os.Exit(m.Run())
 }
 
-func TestRunDefaultExample(t *testing.T) {
-	t.Parallel()
-
+func setupOptions(t *testing.T, prefix string, dir string) *testhelper.TestOptions {
 	options := testhelper.TestOptionsDefaultWithVars(&testhelper.TestOptions{
 		Testing:                       t,
-		TerraformDir:                  defaultExampleTerraformDir,
-		Prefix:                        "obs-all",
+		TerraformDir:                  dir,
+		Prefix:                        prefix,
 		ResourceGroup:                 resourceGroup,
 		CloudInfoService:              sharedInfoSvc,
 		ExcludeActivityTrackerRegions: true,
-		TerraformVars: map[string]interface{}{
-			"logdna_plan":             "7-day",
-			"sysdig_plan":             "graduated-tier",
-			"activity_tracker_plan":   "7-day",
-			"enable_platform_logs":    false,
-			"enable_platform_metrics": false,
-		},
 	})
 
+	return options
+}
+
+func TestRunCompleteExample(t *testing.T) {
+	t.Parallel()
+
+	options := setupOptions(t, "obs-complete", completeExampleTerraformDir)
 	output, err := options.RunTestConsistency()
 	assert.Nil(t, err, "This should not have errored")
 	assert.NotNil(t, output, "Expected some output")
@@ -49,22 +47,7 @@ func TestRunDefaultExample(t *testing.T) {
 func TestRunUpgradeExample(t *testing.T) {
 	t.Parallel()
 
-	options := testhelper.TestOptionsDefaultWithVars(&testhelper.TestOptions{
-		Testing:                       t,
-		TerraformDir:                  defaultExampleTerraformDir,
-		Prefix:                        "obs-upg",
-		ResourceGroup:                 resourceGroup,
-		CloudInfoService:              sharedInfoSvc,
-		ExcludeActivityTrackerRegions: true,
-		TerraformVars: map[string]interface{}{
-			"logdna_plan":             "7-day",
-			"sysdig_plan":             "graduated-tier",
-			"activity_tracker_plan":   "7-day",
-			"enable_platform_logs":    false,
-			"enable_platform_metrics": false,
-		},
-	})
-
+	options := setupOptions(t, "obs-upg", completeExampleTerraformDir)
 	output, err := options.RunTestUpgrade()
 	if !options.UpgradeTestSkipped {
 		assert.Nil(t, err, "This should not have errored")
