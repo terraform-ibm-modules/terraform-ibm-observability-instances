@@ -52,6 +52,7 @@ resource "ibm_resource_key" "log_dna_resource_key" {
   name                 = var.logdna_manager_key_name
   resource_instance_id = ibm_resource_instance.logdna[0].id
   role                 = "Manager"
+  tags                 = var.logdna_manager_key_tags
 }
 
 # Sysdig
@@ -77,6 +78,7 @@ resource "ibm_resource_key" "sysdig_resource_key" {
   name                 = var.sysdig_manager_key_name
   resource_instance_id = ibm_resource_instance.sysdig[0].id
   role                 = "Manager"
+  tags                 = var.sysdig_manager_key_tags
 }
 
 # Activity Tracker
@@ -98,6 +100,7 @@ resource "ibm_resource_key" "at_resource_key" {
   name                 = var.activity_tracker_manager_key_name
   resource_instance_id = ibm_resource_instance.activity_tracker[0].id
   role                 = "Manager"
+  tags                 = var.activity_tracker_manager_key_tags
 }
 
 resource "logdna_archive" "activity_tracker_config" {
