@@ -7,7 +7,7 @@
       "description": "The name of the Activity Tracker instance to create. Defaults to 'activity-tracker-\u003cregion\u003e'",
       "pos": {
         "filename": "variables.tf",
-        "line": 166
+        "line": 178
       }
     },
     "activity_tracker_manager_key_name": {
@@ -21,9 +21,26 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 183
+        "line": 195
       },
       "immutable": true
+    },
+    "activity_tracker_manager_key_tags": {
+      "name": "activity_tracker_manager_key_tags",
+      "type": "list(string)",
+      "description": "Tags associated with the Activity Tracker manager key.",
+      "default": [],
+      "source": [
+        "ibm_resource_key.at_resource_key.tags"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 201
+      },
+      "cloud_data_type": "tags",
+      "elem": {
+        "type": "TypeString"
+      }
     },
     "activity_tracker_plan": {
       "name": "activity_tracker_plan",
@@ -36,7 +53,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 172
+        "line": 184
       }
     },
     "activity_tracker_provision": {
@@ -51,7 +68,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 160
+        "line": 172
       }
     },
     "activity_tracker_service_endpoints": {
@@ -64,7 +81,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 195
+        "line": 213
       },
       "computed": true
     },
@@ -78,7 +95,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 189
+        "line": 207
       },
       "min_length": 1,
       "max_length": 128,
@@ -94,7 +111,7 @@
       "description": "An endpoint for the COS bucket for the Activity Tracker archive. Pass either the public or private endpoint (Only required when var.enable_archive and var.activity_tracker_provision are true)",
       "pos": {
         "filename": "variables.tf",
-        "line": 217
+        "line": 235
       }
     },
     "at_cos_bucket_name": {
@@ -103,7 +120,7 @@
       "description": "The name of an existing COS bucket to be used for the Activity Tracker archive (Only required when var.enable_archive and var.activity_tracker_provision are true).",
       "pos": {
         "filename": "variables.tf",
-        "line": 211
+        "line": 229
       }
     },
     "at_cos_instance_id": {
@@ -112,7 +129,7 @@
       "description": "The ID of the cloud object storage instance containing the Activity Tracker archive bucket (Only required when var.enable_archive and var.activity_tracker_provision are true).",
       "pos": {
         "filename": "variables.tf",
-        "line": 205
+        "line": 223
       }
     },
     "enable_archive": {
@@ -135,7 +152,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 69
+        "line": 75
       }
     },
     "enable_platform_metrics": {
@@ -148,7 +165,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 141
+        "line": 153
       }
     },
     "ibmcloud_api_key": {
@@ -167,7 +184,7 @@
       "description": "An endpoint for the COS bucket for the LogDNA archive. Pass either the public or private endpoint. (Only required when var.enable_archive and var.logdna_provision are true).",
       "pos": {
         "filename": "variables.tf",
-        "line": 97
+        "line": 103
       }
     },
     "logdna_cos_bucket_name": {
@@ -176,7 +193,7 @@
       "description": "The name of an existing COS bucket to be used for the LogDNA archive. (Only required when var.enable_archive and var.logdna_provision are true).",
       "pos": {
         "filename": "variables.tf",
-        "line": 91
+        "line": 97
       }
     },
     "logdna_cos_instance_id": {
@@ -185,7 +202,7 @@
       "description": "The ID of the cloud object storage instance containing the LogDNA archive bucket. (Only required when var.enable_archive and var.logdna_provision are true).",
       "pos": {
         "filename": "variables.tf",
-        "line": 85
+        "line": 91
       }
     },
     "logdna_instance_name": {
@@ -211,6 +228,23 @@
         "line": 57
       },
       "immutable": true
+    },
+    "logdna_manager_key_tags": {
+      "name": "logdna_manager_key_tags",
+      "type": "list(string)",
+      "description": "Tags associated with the IBM Cloud Logging manager key.",
+      "default": [],
+      "source": [
+        "ibm_resource_key.log_dna_resource_key.tags"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 63
+      },
+      "cloud_data_type": "tags",
+      "elem": {
+        "type": "TypeString"
+      }
     },
     "logdna_plan": {
       "name": "logdna_plan",
@@ -251,7 +285,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 75
+        "line": 81
       },
       "computed": true
     },
@@ -265,7 +299,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 63
+        "line": 69
       },
       "min_length": 1,
       "max_length": 128,
@@ -319,7 +353,7 @@
       "description": "The name of the IBM Cloud Monitoring instance to create. Defaults to 'sysdig-\u003cregion\u003e'",
       "pos": {
         "filename": "variables.tf",
-        "line": 112
+        "line": 118
       }
     },
     "sysdig_manager_key_name": {
@@ -333,9 +367,26 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 129
+        "line": 135
       },
       "immutable": true
+    },
+    "sysdig_manager_key_tags": {
+      "name": "sysdig_manager_key_tags",
+      "type": "list(string)",
+      "description": "Tags associated with the IBM Cloud Monitoring manager key.",
+      "default": [],
+      "source": [
+        "ibm_resource_key.sysdig_resource_key.tags"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 141
+      },
+      "cloud_data_type": "tags",
+      "elem": {
+        "type": "TypeString"
+      }
     },
     "sysdig_plan": {
       "name": "sysdig_plan",
@@ -348,7 +399,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 118
+        "line": 124
       }
     },
     "sysdig_provision": {
@@ -362,7 +413,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 106
+        "line": 112
       }
     },
     "sysdig_service_endpoints": {
@@ -375,7 +426,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 147
+        "line": 159
       },
       "computed": true
     },
@@ -389,7 +440,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 135
+        "line": 147
       },
       "min_length": 1,
       "max_length": 128,
@@ -614,7 +665,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 83
+        "line": 85
       }
     },
     "ibm_resource_instance.logdna": {
@@ -656,7 +707,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 58
+        "line": 59
       }
     },
     "ibm_resource_key.at_resource_key": {
@@ -665,14 +716,15 @@
       "name": "at_resource_key",
       "attributes": {
         "count": "activity_tracker_provision",
-        "name": "activity_tracker_manager_key_name"
+        "name": "activity_tracker_manager_key_name",
+        "tags": "activity_tracker_manager_key_tags"
       },
       "provider": {
         "name": "ibm"
       },
       "pos": {
         "filename": "main.tf",
-        "line": 95
+        "line": 97
       }
     },
     "ibm_resource_key.log_dna_resource_key": {
@@ -681,7 +733,8 @@
       "name": "log_dna_resource_key",
       "attributes": {
         "count": "logdna_provision",
-        "name": "logdna_manager_key_name"
+        "name": "logdna_manager_key_name",
+        "tags": "logdna_manager_key_tags"
       },
       "provider": {
         "name": "ibm"
@@ -697,14 +750,15 @@
       "name": "sysdig_resource_key",
       "attributes": {
         "count": "sysdig_provision",
-        "name": "sysdig_manager_key_name"
+        "name": "sysdig_manager_key_name",
+        "tags": "sysdig_manager_key_tags"
       },
       "provider": {
         "name": "ibm"
       },
       "pos": {
         "filename": "main.tf",
-        "line": 74
+        "line": 75
       }
     },
     "logdna_archive.activity_tracker_config": {
@@ -720,7 +774,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 103
+        "line": 106
       }
     },
     "logdna_archive.logdna_config": {
@@ -736,7 +790,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 115
+        "line": 118
       }
     }
   },

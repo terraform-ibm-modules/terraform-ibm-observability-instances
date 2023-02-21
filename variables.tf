@@ -60,6 +60,12 @@ variable "logdna_manager_key_name" {
   default     = "LogDnaManagerKey"
 }
 
+variable "logdna_manager_key_tags" {
+  type        = list(string)
+  description = "Tags associated with the IBM Cloud Logging manager key."
+  default     = []
+}
+
 variable "logdna_tags" {
   type        = list(string)
   description = "Tags associated with the IBM Cloud Logging instance (Optional, array of strings)."
@@ -132,6 +138,12 @@ variable "sysdig_manager_key_name" {
   default     = "SysdigManagerKey"
 }
 
+variable "sysdig_manager_key_tags" {
+  type        = list(string)
+  description = "Tags associated with the IBM Cloud Monitoring manager key."
+  default     = []
+}
+
 variable "sysdig_tags" {
   type        = list(string)
   description = "Tags associated with the IBM Cloud Monitoring instance (Optional, array of strings)."
@@ -184,6 +196,12 @@ variable "activity_tracker_manager_key_name" {
   type        = string
   description = "The name to give the Activity Tracker manager key."
   default     = "AtManagerKey"
+}
+
+variable "activity_tracker_manager_key_tags" {
+  type        = list(string)
+  description = "Tags associated with the Activity Tracker manager key."
+  default     = []
 }
 
 variable "activity_tracker_tags" {
