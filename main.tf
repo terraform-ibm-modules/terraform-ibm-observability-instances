@@ -49,10 +49,10 @@ resource "ibm_resource_instance" "logdna" {
 resource "ibm_resource_key" "log_dna_resource_key" {
   count = var.logdna_provision ? 1 : 0
 
-  name                 = var.logdna_manager_key_name
+  name                 = var.logdna_key_name
   resource_instance_id = ibm_resource_instance.logdna[0].id
-  role                 = "Manager"
-  tags                 = var.logdna_manager_key_tags
+  role                 = var.logdna_key_role
+  tags                 = var.logdna_key_tags
 }
 
 # Sysdig

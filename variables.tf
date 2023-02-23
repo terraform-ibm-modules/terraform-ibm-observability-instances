@@ -54,15 +54,26 @@ variable "logdna_plan" {
   }
 }
 
-variable "logdna_manager_key_name" {
+variable "logdna_key_name" {
   type        = string
-  description = "The name to give the IBM Cloud Logging manager key."
-  default     = "LogDnaManagerKey"
+  description = "The name to give the IBM Cloud Logging key."
+  default     = "LogDnaKey"
 }
 
-variable "logdna_manager_key_tags" {
+variable "logdna_key_role" {
+  type        = string
+  description = "The role to give the IBM Cloud Logging key."
+  default     = "Manager"
+
+  validation {
+    condition     = contains(["Manager", "Reader", "Standard Member"], var.logdna_key_role)
+    error_message = "Valid values for var: logdna_key_role are (Manager, Reader, Standard Member)."
+  }
+}
+
+variable "logdna_key_tags" {
   type        = list(string)
-  description = "Tags associated with the IBM Cloud Logging manager key."
+  description = "Tags associated with the IBM Cloud Logging key."
   default     = []
 }
 

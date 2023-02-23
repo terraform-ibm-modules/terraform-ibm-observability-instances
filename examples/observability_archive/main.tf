@@ -65,7 +65,7 @@ module "observability_instance_creation" {
   logdna_tags                       = var.resource_tags
   sysdig_tags                       = var.resource_tags
   activity_tracker_tags             = var.resource_tags
-  logdna_manager_key_tags           = var.resource_tags
+  logdna_key_tags                   = var.resource_tags
   sysdig_manager_key_tags           = var.resource_tags
   activity_tracker_manager_key_tags = var.resource_tags
   enable_archive                    = true
