@@ -12,6 +12,11 @@ import (
 const completeExampleTerraformDir = "examples/observability_archive"
 const resourceGroup = "geretain-test-observability-instances"
 
+// Temporarly ignore until we bump to v4 of key protect all inclusive
+var ignoreDestroys = []string{
+	"module.key_protect.module.key_protect[0].restapi_object.enable_metrics[0]",
+}
+
 var sharedInfoSvc *cloudinfo.CloudInfoService
 
 // TestMain will be run before any parallel tests, used to set up a shared InfoService object to track region usage
@@ -24,10 +29,13 @@ func TestMain(m *testing.M) {
 
 func setupOptions(t *testing.T, prefix string, dir string) *testhelper.TestOptions {
 	options := testhelper.TestOptionsDefaultWithVars(&testhelper.TestOptions{
-		Testing:                       t,
-		TerraformDir:                  dir,
-		Prefix:                        prefix,
-		ResourceGroup:                 resourceGroup,
+		Testing:       t,
+		TerraformDir:  dir,
+		Prefix:        prefix,
+		ResourceGroup: resourceGroup,
+		IgnoreDestroys: testhelper.Exemptions{
+			List: ignoreDestroys,
+		},
 		CloudInfoService:              sharedInfoSvc,
 		ExcludeActivityTrackerRegions: true,
 	})
