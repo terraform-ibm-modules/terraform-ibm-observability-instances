@@ -32,7 +32,7 @@ locals {
 
 module "cos" {
   source                             = "terraform-ibm-modules/cos/ibm"
-  version                            = "5.8.1"
+  version                            = "5.9.0"
   resource_group_id                  = module.resource_group.resource_group_id
   region                             = var.region
   cos_instance_name                  = "${var.prefix}-cos"
