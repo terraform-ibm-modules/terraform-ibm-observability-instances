@@ -278,7 +278,7 @@
     "logdna_resource_key_role": {
       "name": "logdna_resource_key_role",
       "type": "string",
-      "description": "The role to give the IBM Cloud Logging key.",
+      "description": "Role assigned to provide the IBM Cloud Logging key.",
       "default": "Manager",
       "source": [
         "ibm_resource_key.log_dna_resource_key.role"
