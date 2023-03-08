@@ -1,11 +1,11 @@
 ##############################################################################
 # observability-instances-module
 #
-# Deploy the observability instances - LogDNA, Sysdig and Activity Tracker
+# Deploy the observability instances - Log Analysis, IBM Cloud Monitoring and Activity Tracker
 ##############################################################################
 
 locals {
-  logdna_instance_name           = var.logdna_instance_name != null ? var.logdna_instance_name : "logdna-${var.region}"
+  log_analysis_instance_name     = var.log_analysis_instance_name != null ? var.log_analysis_instance_name : "log_analysis-${var.region}"
   sysdig_instance_name           = var.sysdig_instance_name != null ? var.sysdig_instance_name : "sysdig-${var.region}"
   activity_tracker_instance_name = var.activity_tracker_instance_name != null ? var.activity_tracker_instance_name : "activity-tracker-${var.region}"
 
@@ -22,37 +22,37 @@ locals {
   # tflint-ignore: terraform_unused_declarations
   cos_at_validate_check = regex("^${local.cos_at_validate_msg}$", (!local.cos_at_validate_condition ? local.cos_at_validate_msg : ""))
 
-  cos_logdna_validate_condition = var.enable_archive && var.logdna_provision && ((var.logdna_cos_instance_id == null || var.logdna_cos_bucket_name == null || var.logdna_cos_bucket_endpoint == null))
-  cos_logdna_validate_msg       = "'logdna_cos_instance_id', 'logdna_cos_bucket_name' and 'logdna_cos_bucket_endpoint' are required when 'enable_archive' is true"
+  cos_log_analysis_validate_condition = var.enable_archive && var.log_analysis_provision && ((var.log_analysis_cos_instance_id == null || var.log_analysis_cos_bucket_name == null || var.log_analysis_cos_bucket_endpoint == null))
+  cos_log_analysis_validate_msg       = "'log_analysis_cos_instance_id', 'log_analysis_cos_bucket_name' and 'log_analysis_cos_bucket_endpoint' are required when 'enable_archive' is true"
   # tflint-ignore: terraform_unused_declarations
-  cos_logdna_validate_check = regex("^${local.cos_logdna_validate_msg}$", (!local.cos_logdna_validate_condition ? local.cos_logdna_validate_msg : ""))
+  cos_log_analysis_validate_check = regex("^${local.cos_log_analysis_validate_msg}$", (!local.cos_log_analysis_validate_condition ? local.cos_log_analysis_validate_msg : ""))
 
 }
 
-# LogDNA
-resource "ibm_resource_instance" "logdna" {
-  count = var.logdna_provision ? 1 : 0
+# LogAnalysis
+resource "ibm_resource_instance" "log_analysis" {
+  count = var.log_analysis_provision ? 1 : 0
 
-  name              = local.logdna_instance_name
+  name              = local.log_analysis_instance_name
   resource_group_id = var.resource_group_id
   service           = "logdna"
-  plan              = var.logdna_plan
+  plan              = var.log_analysis_plan
   location          = var.region
-  tags              = var.logdna_tags
-  service_endpoints = var.logdna_service_endpoints
+  tags              = var.log_analysis_tags
+  service_endpoints = var.log_analysis_service_endpoints
 
   parameters = {
     "default_receiver" = var.enable_platform_logs
   }
 }
 
-resource "ibm_resource_key" "log_dna_resource_key" {
-  count = var.logdna_provision ? 1 : 0
+resource "ibm_resource_key" "log_analysis_resource_key" {
+  count = var.log_analysis_provision ? 1 : 0
 
-  name                 = var.logdna_manager_key_name
-  resource_instance_id = ibm_resource_instance.logdna[0].id
-  role                 = var.logdna_resource_key_role
-  tags                 = var.logdna_manager_key_tags
+  name                 = var.log_analysis_manager_key_name
+  resource_instance_id = ibm_resource_instance.log_analysis[0].id
+  role                 = var.log_analysis_resource_key_role
+  tags                 = var.log_analysis_manager_key_tags
 }
 
 # Sysdig
@@ -115,14 +115,14 @@ resource "logdna_archive" "activity_tracker_config" {
   }
 }
 
-resource "logdna_archive" "logdna_config" {
-  count       = var.logdna_provision && var.enable_archive ? 1 : 0
+resource "logdna_archive" "log_analysis_config" {
+  count       = var.log_analysis_provision && var.enable_archive ? 1 : 0
   provider    = logdna.ld
   integration = "ibm"
   ibm_config {
     apikey             = var.ibmcloud_api_key
-    bucket             = var.logdna_cos_bucket_name
-    endpoint           = var.logdna_cos_bucket_endpoint
-    resourceinstanceid = var.logdna_cos_instance_id
+    bucket             = var.log_analysis_cos_bucket_name
+    endpoint           = var.log_analysis_cos_bucket_endpoint
+    resourceinstanceid = var.log_analysis_cos_instance_id
   }
 }

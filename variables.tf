@@ -17,7 +17,7 @@ variable "resource_group_id" {
 
 variable "enable_archive" {
   type        = bool
-  description = "Enable archive on logDNA and Activity Tracker instances"
+  description = "Enable archive on LogAnalysis and Activity Tracker instances"
   default     = false
 }
 
@@ -30,54 +30,54 @@ variable "ibmcloud_api_key" {
 
 ##############################################################################
 
-# LogDNA
-variable "logdna_provision" {
+# LogAnalysis
+variable "log_analysis_provision" {
   description = "Provision an IBM Cloud Logging instance?"
   type        = bool
   default     = true
 }
 
-variable "logdna_instance_name" {
+variable "log_analysis_instance_name" {
   type        = string
-  description = "The name of the IBM Cloud Logging instance to create. Defaults to 'logdna-<region>'"
+  description = "The name of the IBM Cloud Logging instance to create. Defaults to 'log_analysis-<region>'"
   default     = null
 }
 
-variable "logdna_plan" {
+variable "log_analysis_plan" {
   type        = string
   description = "The IBM Cloud Logging plan to provision. Available: lite, 7-day, 14-day, 30-day, hipaa-30-day"
   default     = "lite"
 
   validation {
-    condition     = can(regex("^lite$|^7-day$|^14-day$|^30-day$|^hipaa-30-day$", var.logdna_plan))
-    error_message = "The logdna_plan value must be one of the following: lite, 7-day, 14-day, 30-day, hipaa-30-day."
+    condition     = can(regex("^lite$|^7-day$|^14-day$|^30-day$|^hipaa-30-day$", var.log_analysis_plan))
+    error_message = "The log_analysis_plan value must be one of the following: lite, 7-day, 14-day, 30-day, hipaa-30-day."
   }
 }
 
-variable "logdna_manager_key_name" {
+variable "log_analysis_manager_key_name" {
   type        = string
   description = "The name to give the IBM Cloud Logging manager key."
-  default     = "LogDnaManagerKey"
+  default     = "LogAnalysisManagerKey"
 }
 
-variable "logdna_resource_key_role" {
+variable "log_analysis_resource_key_role" {
   type        = string
   description = "Role assigned to provide the IBM Cloud Logging key."
   default     = "Manager"
 
   validation {
-    condition     = contains(["Manager", "Reader", "Standard Member"], var.logdna_resource_key_role)
+    condition     = contains(["Manager", "Reader", "Standard Member"], var.log_analysis_resource_key_role)
     error_message = "Allowed roles can be Manager, Reader or Standard Member."
   }
 }
 
-variable "logdna_manager_key_tags" {
+variable "log_analysis_manager_key_tags" {
   type        = list(string)
   description = "Tags associated with the IBM Cloud Logging manager key."
   default     = []
 }
 
-variable "logdna_tags" {
+variable "log_analysis_tags" {
   type        = list(string)
   description = "Tags associated with the IBM Cloud Logging instance (Optional, array of strings)."
   default     = []
@@ -89,31 +89,31 @@ variable "enable_platform_logs" {
   default     = true
 }
 
-variable "logdna_service_endpoints" {
-  description = "The type of the service endpoint that will be set for the LogDNA instance."
+variable "log_analysis_service_endpoints" {
+  description = "The type of the service endpoint that will be set for the LogAnalysis instance."
   type        = string
   default     = "public-and-private"
   validation {
-    condition     = contains(["public", "private", "public-and-private"], var.logdna_service_endpoints)
+    condition     = contains(["public", "private", "public-and-private"], var.log_analysis_service_endpoints)
     error_message = "The specified service_endpoints is not a valid selection"
   }
 }
 
-variable "logdna_cos_instance_id" {
+variable "log_analysis_cos_instance_id" {
   type        = string
-  description = "The ID of the cloud object storage instance containing the LogDNA archive bucket. (Only required when var.enable_archive and var.logdna_provision are true)."
+  description = "The ID of the cloud object storage instance containing the LogAnalysis archive bucket. (Only required when var.enable_archive and var.log_analysis_provision are true)."
   default     = null
 }
 
-variable "logdna_cos_bucket_name" {
+variable "log_analysis_cos_bucket_name" {
   type        = string
-  description = "The name of an existing COS bucket to be used for the LogDNA archive. (Only required when var.enable_archive and var.logdna_provision are true)."
+  description = "The name of an existing COS bucket to be used for the log_analysis archive. (Only required when var.enable_archive and var.log_analysis_provision are true)."
   default     = null
 }
 
-variable "logdna_cos_bucket_endpoint" {
+variable "log_analysis_cos_bucket_endpoint" {
   type        = string
-  description = "An endpoint for the COS bucket for the LogDNA archive. Pass either the public or private endpoint. (Only required when var.enable_archive and var.logdna_provision are true)."
+  description = "An endpoint for the COS bucket for the LogAnalysis archive. Pass either the public or private endpoint. (Only required when var.enable_archive and var.log_analysis_provision are true)."
   default     = null
 }
 
