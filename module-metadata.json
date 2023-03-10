@@ -678,6 +678,12 @@
     "\u003e= 1.0.0"
   ],
   "required_providers": {
+    "ibm": {
+      "source": "ibm-cloud/ibm",
+      "version_constraints": [
+        "\u003e= 1.49.0"
+      ]
+    },
     "logdna": {
       "source": "logdna/logdna",
       "version_constraints": [
