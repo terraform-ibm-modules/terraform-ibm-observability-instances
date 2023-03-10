@@ -20,6 +20,7 @@ This module supports provisioning the following observability instances:
 ## Usage
 
 ```hcl
+Provisions Activity Tracker, LogDNA and Sysdig
 # required ibm provider config
 provider "ibm" {
   ibmcloud_api_key = var.ibmcloud_api_key
@@ -51,6 +52,69 @@ module "observability_instances" {
   }
   resource_group_id  = var.resource_group.id
   region             = var.ibm_region
+}
+```
+
+```
+# Provisions LogDNA only
+# required ibm provider config
+provider "ibm" {
+  ibmcloud_api_key = var.ibmcloud_api_key
+}
+
+# required logdna provider config
+locals {
+  at_endpoint = "https://api.${var.region}.logging.cloud.ibm.com"
+}
+
+provider "logdna" {
+  alias      = "ld"
+  servicekey = module.logdna.logdna_resource_key
+  url        = local.at_endpoint
+}
+
+module "logdna" {
+  source = "git::https://github.com/terraform-ibm-modules/terraform-ibm-observability-instances//modules/logdna?ref=main"
+  providers = {
+    logdna.ld = logdna.ld
+  }
+  resource_group_id = module.resource_group.resource_group_id
+  region = var.region
+}
+```
+
+```
+# Provisions Activity Tracker only
+provider "ibm" {
+  ibmcloud_api_key = var.ibmcloud_api_key
+}
+
+locals {
+  at_endpoint = "https://api.${var.region}.logging.cloud.ibm.com"
+}
+
+provider "logdna" {
+  alias      = "at"
+  servicekey = module.activity_tracker.at_resource_key
+  url        = local.at_endpoint
+}
+
+module "activity_tracker" {
+  source = "git::https://github.com/terraform-ibm-modules/terraform-ibm-observability-instances//modules/activity_tracker?ref=main"
+  providers = {
+    logdna.at = logdna.at
+  }
+  resource_group_id = module.resource_group.resource_group_id
+  region = var.region
+}
+```
+
+```
+# Provisions Sysdig only
+module "sysdig" {
+  source = "git::https://github.com/terraform-ibm-modules/terraform-ibm-observability-instances//modules/sysdig?ref=main"
+  resource_group_id = module.resource_group.resource_group_id
+  region = var.region
 }
 ```
 

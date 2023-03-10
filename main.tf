@@ -4,15 +4,6 @@
 # Deploy the observability instances - LogDNA, Sysdig and Activity Tracker
 ##############################################################################
 
-locals {
-  # Validation approach based on https://stackoverflow.com/a/66682419
-  # When archive is enabled ibmcloud api key is required
-  apikey_validate_condition = var.enable_archive == true && var.ibmcloud_api_key == null
-  apikey_validate_msg       = "'ibmcloud_api_key' is required when 'enable_archive' is true"
-  # tflint-ignore: terraform_unused_declarations
-  apikey_validate_check = regex("^${local.apikey_validate_msg}$", (!local.apikey_validate_condition ? local.apikey_validate_msg : ""))
-}
-
 # Sysdig
 module "sysdig" {
   source                   = "./modules/sysdig"
@@ -28,6 +19,7 @@ module "sysdig" {
   sysdig_service_endpoints = var.sysdig_service_endpoints
 }
 
+# Activity tracker
 module "activity_tracker" {
   source = "./modules/activity_tracker"
   providers = {
@@ -49,6 +41,7 @@ module "activity_tracker" {
   at_cos_bucket_endpoint             = var.at_cos_bucket_endpoint
 }
 
+# LogDNA
 module "logdna" {
   source = "./modules/logdna"
   providers = {
@@ -69,44 +62,4 @@ module "logdna" {
   logdna_cos_instance_id     = var.logdna_cos_instance_id
   logdna_cos_bucket_name     = var.logdna_cos_bucket_name
   logdna_cos_bucket_endpoint = var.logdna_cos_bucket_endpoint
-}
-
-moved {
-  from = logdna_archive.logdna_config
-  to   = module.logdna.logdna_archive.logdna_config
-}
-
-moved {
-  from = logdna_archive.activity_tracker_config
-  to   = module.activity_tracker.logdna_archive.activity_tracker_config
-}
-
-moved {
-  from = ibm_resource_instance.logdna
-  to   = module.logdna.ibm_resource_instance.logdna
-}
-
-moved {
-  from = ibm_resource_key.log_dna_resource_key
-  to   = module.logdna.ibm_resource_key.log_dna_resource_key
-}
-
-moved {
-  from = ibm_resource_instance.sysdig
-  to   = module.sysdig.ibm_resource_instance.sysdig
-}
-
-moved {
-  from = ibm_resource_key.sysdig_resource_key
-  to   = module.sysdig.ibm_resource_key.sysdig_resource_key
-}
-
-moved {
-  from = ibm_resource_instance.activity_tracker
-  to   = module.activity_tracker.ibm_resource_instance.activity_tracker
-}
-
-moved {
-  from = ibm_resource_key.at_resource_key
-  to   = module.activity_tracker.ibm_resource_key.at_resource_key
 }
