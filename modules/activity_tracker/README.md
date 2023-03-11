@@ -17,16 +17,16 @@ This module supports provisioning the following observability instances:
 
 ```hcl
 # Provisions Activity Tracker
-# required ibm provider config
+# Required ibm provider config
 provider "ibm" {
   ibmcloud_api_key = var.ibmcloud_api_key
 }
 
+# Required logdna provider config
 locals {
   at_endpoint = "https://api.${var.region}.logging.cloud.ibm.com"
 }
 
-# required logdna provider config
 provider "logdna" {
   alias      = "at"
   servicekey = module.activity_tracker.at_resource_key

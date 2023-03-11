@@ -15,14 +15,14 @@ This module supports provisioning the following observability instances:
 
 ## Usage
 
-```
+```hcl
 # Provisions LogDNA only
-# required ibm provider config
+# Required ibm provider config
 provider "ibm" {
   ibmcloud_api_key = var.ibmcloud_api_key
 }
 
-# required logdna provider config
+# Required logdna provider config
 locals {
   at_endpoint = "https://api.${var.region}.logging.cloud.ibm.com"
 }
