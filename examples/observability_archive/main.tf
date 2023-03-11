@@ -14,7 +14,7 @@ module "resource_group" {
 ##############################################################################
 
 module "key_protect" {
-  source                    = "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-all-inclusive.git?ref=v4.0.0"
+  source                    = "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-all-inclusive.git?ref=v3.1.2"
   resource_group_id         = module.resource_group.resource_group_id
   region                    = var.region
   resource_tags             = var.resource_tags
@@ -42,7 +42,7 @@ module "cos" {
   create_hmac_key                    = false
   retention_enabled                  = false
   activity_tracker_crn               = module.observability_instance_creation.activity_tracker_crn
-  sysdig_crn                         = module.observability_instance_creation.sysdig_crn
+  sysdig_crn                         = module.observability_instance_creation.cloud_monitoring_crn
   key_protect_key_crn                = module.key_protect.keys["observability.observability-key"].crn
 }
 
@@ -55,18 +55,18 @@ module "observability_instance_creation" {
   resource_group_id                 = module.resource_group.resource_group_id
   region                            = var.region
   log_analysis_instance_name        = var.prefix
-  sysdig_instance_name              = var.prefix
+  cloud_monitoring_instance_name    = var.prefix
   activity_tracker_instance_name    = var.prefix
   enable_platform_metrics           = false
   enable_platform_logs              = false
   log_analysis_plan                 = "7-day"
-  sysdig_plan                       = "graduated-tier"
+  cloud_monitoring_plan             = "graduated-tier"
   activity_tracker_plan             = "7-day"
   log_analysis_tags                 = var.resource_tags
-  sysdig_tags                       = var.resource_tags
+  cloud_monitoring_tags             = var.resource_tags
   activity_tracker_tags             = var.resource_tags
   log_analysis_manager_key_tags     = var.resource_tags
-  sysdig_manager_key_tags           = var.resource_tags
+  cloud_monitoring_manager_key_tags = var.resource_tags
   activity_tracker_manager_key_tags = var.resource_tags
   enable_archive                    = true
   ibmcloud_api_key                  = var.ibmcloud_api_key

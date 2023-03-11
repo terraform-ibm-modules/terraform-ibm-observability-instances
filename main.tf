@@ -6,7 +6,7 @@
 
 locals {
   log_analysis_instance_name     = var.log_analysis_instance_name != null ? var.log_analysis_instance_name : "log_analysis-${var.region}"
-  sysdig_instance_name           = var.sysdig_instance_name != null ? var.sysdig_instance_name : "sysdig-${var.region}"
+  cloud_monitoring_instance_name = var.cloud_monitoring_instance_name != null ? var.cloud_monitoring_instance_name : "cloud_monitoring-${var.region}"
   activity_tracker_instance_name = var.activity_tracker_instance_name != null ? var.activity_tracker_instance_name : "activity-tracker-${var.region}"
 
   # Validation approach based on https://stackoverflow.com/a/66682419
@@ -27,6 +27,25 @@ locals {
   # tflint-ignore: terraform_unused_declarations
   cos_log_analysis_validate_check = regex("^${local.cos_log_analysis_validate_msg}$", (!local.cos_log_analysis_validate_condition ? local.cos_log_analysis_validate_msg : ""))
 
+}
+
+moved {
+  from = ibm_resource_instance.logdna
+  to   = ibm_resource_instance.log_analysis
+}
+moved {
+  from = ibm_resource_key.log_dna_resource_key
+  to   = module.logdna.ibm_resource_key.log_analysis_resource_key
+}
+
+moved {
+  from = ibm_resource_instance.sysdig
+  to   = module.sysdig.ibm_resource_instance.cloud_monitoring
+}
+
+moved {
+  from = ibm_resource_key.sysdig_resource_key
+  to   = module.sysdig.ibm_resource_key.cloud_monitoring_resource_key
 }
 
 # LogAnalysis
@@ -55,30 +74,30 @@ resource "ibm_resource_key" "log_analysis_resource_key" {
   tags                 = var.log_analysis_manager_key_tags
 }
 
-# Sysdig
-resource "ibm_resource_instance" "sysdig" {
-  count = var.sysdig_provision ? 1 : 0
+# CloudMonitoring
+resource "ibm_resource_instance" "cloud_monitoring" {
+  count = var.cloud_monitoring_provision ? 1 : 0
 
-  name              = local.sysdig_instance_name
+  name              = local.cloud_monitoring_instance_name
   resource_group_id = var.resource_group_id
   service           = "sysdig-monitor"
-  plan              = var.sysdig_plan
+  plan              = var.cloud_monitoring_plan
   location          = var.region
-  tags              = var.sysdig_tags
-  service_endpoints = var.sysdig_service_endpoints
+  tags              = var.cloud_monitoring_tags
+  service_endpoints = var.cloud_monitoring_service_endpoints
 
   parameters = {
     "default_receiver" = var.enable_platform_metrics
   }
 }
 
-resource "ibm_resource_key" "sysdig_resource_key" {
-  count = var.sysdig_provision ? 1 : 0
+resource "ibm_resource_key" "cloud_monitoring_resource_key" {
+  count = var.cloud_monitoring_provision ? 1 : 0
 
-  name                 = var.sysdig_manager_key_name
-  resource_instance_id = ibm_resource_instance.sysdig[0].id
+  name                 = var.cloud_monitoring_manager_key_name
+  resource_instance_id = ibm_resource_instance.cloud_monitoring[0].id
   role                 = "Manager"
-  tags                 = var.sysdig_manager_key_tags
+  tags                 = var.cloud_monitoring_manager_key_tags
 }
 
 # Activity Tracker
