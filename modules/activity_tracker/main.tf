@@ -1,7 +1,7 @@
 locals {
   activity_tracker_instance_name = var.activity_tracker_instance_name != null ? var.activity_tracker_instance_name : "activity-tracker-${var.region}"
 
-  # When archive is enabled cos instance information is required identify bucket
+  # When archive is enabled cos instance information is required to identify bucket
   cos_at_validate_condition = var.enable_archive && var.activity_tracker_provision && ((var.at_cos_instance_id == null || var.at_cos_bucket_name == null || var.at_cos_bucket_endpoint == null))
   cos_at_validate_msg       = "'at_cos_instance_id', 'at_cos_bucket_name' and 'at_cos_bucket_endpoint' are required when 'enable_archive' is true"
   # tflint-ignore: terraform_unused_declarations

@@ -1,28 +1,22 @@
-# Terraform IBM Observability LogDNA instances sub-module
+# IBM Observability LogDNA instance sub-module
 
-[![Stable (With quality checks)](https://img.shields.io/badge/Status-Stable%20(With%20quality%20checks)-green?style=plastic)](https://terraform-ibm-modules.github.io/documentation/#/badge-status)
-[![Build status](https://github.com/terraform-ibm-modules/terraform-ibm-observability-instances/actions/workflows/ci.yml/badge.svg)](https://github.com/terraform-ibm-modules/terraform-ibm-observability-instances/actions/workflows/ci.yml)
-[![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
-[![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
-[![latest release](https://img.shields.io/github/v/release/terraform-ibm-modules/terraform-ibm-observability-instances?logo=GitHub&sort=semver)](https://github.com/terraform-ibm-modules/terraform-ibm-observability-instances/releases/latest)
-
-This module supports provisioning the following observability instances:
+This sub-module supports provisioning the following observability instances:
 
 * **IBM Cloud Logging with LogDNA**
   * Manage operating system logs, application logs, and platform logs in IBM Cloud.
 
-:information_source: The sub-module also creates a manager key, and supports passing COS bucket details to enable archiving for LogDNA.
+:information_source: This sub-module also creates a manager key, and supports passing COS bucket details to enable archiving for LogDNA.
 
 ## Usage
 
+Provisioning LogDNA instance
 ```hcl
-# Provisions LogDNA only
-# Required ibm provider config
+# required ibm provider config
 provider "ibm" {
   ibmcloud_api_key = var.ibmcloud_api_key
 }
 
-# Required logdna provider config
+# required logdna provider config
 locals {
   at_endpoint = "https://api.${var.region}.logging.cloud.ibm.com"
 }

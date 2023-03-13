@@ -1,28 +1,22 @@
-# Terraform IBM Observability AT instances sub-module
+# IBM Observability Activity Tracker instance sub-module
 
-[![Stable (With quality checks)](https://img.shields.io/badge/Status-Stable%20(With%20quality%20checks)-green?style=plastic)](https://terraform-ibm-modules.github.io/documentation/#/badge-status)
-[![Build status](https://github.com/terraform-ibm-modules/terraform-ibm-observability-instances/actions/workflows/ci.yml/badge.svg)](https://github.com/terraform-ibm-modules/terraform-ibm-observability-instances/actions/workflows/ci.yml)
-[![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
-[![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
-[![latest release](https://img.shields.io/github/v/release/terraform-ibm-modules/terraform-ibm-observability-instances?logo=GitHub&sort=semver)](https://github.com/terraform-ibm-modules/terraform-ibm-observability-instances/releases/latest)
-
-This module supports provisioning the following observability instances:
+This module supports provisioning the following observability instance:
 
 * **IBM Cloud Activity Tracker**
   * Records events, compliant with CADF standard, triggered by user-initiated activities that change the state of a service in the cloud.
 
-:information_source: The sub-module also creates a manager key, and supports passing COS bucket details to enable archiving for AT.
+:information_source: The sub-module also creates a manager key, and supports passing COS bucket details to enable archiving for Activity Tracker.
 
 ## Usage
 
+Provisioning Activity Tracker instance
 ```hcl
-# Provisions Activity Tracker
-# Required ibm provider config
+# required ibm provider config
 provider "ibm" {
   ibmcloud_api_key = var.ibmcloud_api_key
 }
 
-# Required logdna provider config
+# required logdna provider config
 locals {
   at_endpoint = "https://api.${var.region}.logging.cloud.ibm.com"
 }

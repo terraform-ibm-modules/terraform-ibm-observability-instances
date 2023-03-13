@@ -1,22 +1,16 @@
-# Terraform IBM Observability Sysdig instances sub-module
+# IBM Observability Sysdig instance sub-module
 
-[![Stable (With quality checks)](https://img.shields.io/badge/Status-Stable%20(With%20quality%20checks)-green?style=plastic)](https://terraform-ibm-modules.github.io/documentation/#/badge-status)
-[![Build status](https://github.com/terraform-ibm-modules/terraform-ibm-observability-instances/actions/workflows/ci.yml/badge.svg)](https://github.com/terraform-ibm-modules/terraform-ibm-observability-instances/actions/workflows/ci.yml)
-[![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
-[![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
-[![latest release](https://img.shields.io/github/v/release/terraform-ibm-modules/terraform-ibm-observability-instances?logo=GitHub&sort=semver)](https://github.com/terraform-ibm-modules/terraform-ibm-observability-instances/releases/latest)
-
-This module supports provisioning the following observability instances:
+This sub-module supports provisioning the following observability instances:
 
 * **IBM Cloud Monitoring with SysDig**
   * Monitor the health of services and applications in IBM Cloud.
 
-:information_source: The sub-module also creates a manager key.
+:information_source: This sub-module also creates a manager key.
 
 ## Usage
 
+Provisioning Sysdig instance
 ```hcl
-# Provisions Sysdig only
 module "sysdig" {
   source = "git::https://github.com/terraform-ibm-modules/terraform-ibm-observability-instances//modules/sysdig?ref=main"
   resource_group_id = module.resource_group.resource_group_id

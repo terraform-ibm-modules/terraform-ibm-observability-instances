@@ -15,18 +15,18 @@ This module supports provisioning the following observability instances:
 * **IBM Cloud Monitoring with SysDig**
   * Monitor the health of services and applications in IBM Cloud.
 
-:information_source: The module also creates a manager key for each instance, and supports passing COS bucket details to enable archiving for LogDNA and AT.
+:information_source: The module also creates a manager key for each instance, and supports passing COS bucket details to enable archiving for LogDNA and Activity Tracker.
 
 ## Usage
 
+Provisioning Activity Tracker, LogDNA and Sysdig
 ```hcl
-# Provisions Activity Tracker, LogDNA and Sysdig
-# Required ibm provider config
+# required ibm provider config
 provider "ibm" {
   ibmcloud_api_key = var.ibmcloud_api_key
 }
 
-# Required logdna provider config
+# required logdna provider config
 locals {
   at_endpoint = "https://api.${var.region}.logging.cloud.ibm.com"
 }
@@ -55,14 +55,14 @@ module "observability_instances" {
 }
 ```
 
+Provisioning LogDNA only
 ```hcl
-# Provisions LogDNA only
-# Required ibm provider config
+# required ibm provider config
 provider "ibm" {
   ibmcloud_api_key = var.ibmcloud_api_key
 }
 
-# Required logdna provider config
+# required logdna provider config
 locals {
   at_endpoint = "https://api.${var.region}.logging.cloud.ibm.com"
 }
@@ -83,14 +83,14 @@ module "logdna" {
 }
 ```
 
+Provisioning Activity Tracker only
 ```hcl
-# Provisions Activity Tracker only
-# Required ibm provider config
+# required ibm provider config
 provider "ibm" {
   ibmcloud_api_key = var.ibmcloud_api_key
 }
 
-# Required logdna provider config
+# required logdna provider config
 locals {
   at_endpoint = "https://api.${var.region}.logging.cloud.ibm.com"
 }
@@ -111,8 +111,8 @@ module "activity_tracker" {
 }
 ```
 
+Provisioning Sysdig only
 ```hcl
-# Provisions Sysdig only
 moRule "sysdig" {
   source = "git::https://github.com/terraform-ibm-modules/terraform-ibm-observability-instances//modules/sysdig?ref=main"
   resource_group_id = module.resource_group.resource_group_id

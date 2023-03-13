@@ -1,7 +1,7 @@
 locals {
   logdna_instance_name = var.logdna_instance_name != null ? var.logdna_instance_name : "logdna-${var.region}"
 
-  # When archive is enabled cos instance information is required identify bucket
+  # When archive is enabled cos instance information is required to identify bucket
   cos_logdna_validate_condition = var.enable_archive && var.logdna_provision && ((var.logdna_cos_instance_id == null || var.logdna_cos_bucket_name == null || var.logdna_cos_bucket_endpoint == null))
   cos_logdna_validate_msg       = "'logdna_cos_instance_id', 'logdna_cos_bucket_name' and 'logdna_cos_bucket_endpoint' are required when 'enable_archive' is true"
   # tflint-ignore: terraform_unused_declarations
