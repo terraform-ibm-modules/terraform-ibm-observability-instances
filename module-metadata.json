@@ -679,7 +679,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 104
+        "line": 110
       }
     },
     "ibm_resource_instance.cloud_monitoring": {
@@ -700,7 +700,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 78
+        "line": 84
       }
     },
     "ibm_resource_instance.log_analysis": {
@@ -721,7 +721,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 52
+        "line": 58
       }
     },
     "ibm_resource_key.at_resource_key": {
@@ -738,7 +738,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 116
+        "line": 122
       }
     },
     "ibm_resource_key.cloud_monitoring_resource_key": {
@@ -755,7 +755,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 94
+        "line": 100
       }
     },
     "ibm_resource_key.log_analysis_resource_key": {
@@ -773,7 +773,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 68
+        "line": 74
       }
     },
     "logdna_archive.activity_tracker_config": {
@@ -789,7 +789,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 125
+        "line": 131
       }
     },
     "logdna_archive.log_analysis_config": {
@@ -805,7 +805,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 137
+        "line": 143
       }
     }
   },

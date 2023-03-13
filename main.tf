@@ -30,22 +30,28 @@ locals {
 }
 
 moved {
+  from = logdna_archive.logdna_config
+  to   = logdna_archive.log_analysis_config
+}
+
+moved {
   from = ibm_resource_instance.logdna
   to   = ibm_resource_instance.log_analysis
 }
+
 moved {
   from = ibm_resource_key.log_dna_resource_key
-  to   = module.logdna.ibm_resource_key.log_analysis_resource_key
+  to   = ibm_resource_key.log_analysis_resource_key
 }
 
 moved {
   from = ibm_resource_instance.sysdig
-  to   = module.sysdig.ibm_resource_instance.cloud_monitoring
+  to   = ibm_resource_instance.cloud_monitoring
 }
 
 moved {
   from = ibm_resource_key.sysdig_resource_key
-  to   = module.sysdig.ibm_resource_key.cloud_monitoring_resource_key
+  to   = ibm_resource_key.cloud_monitoring_resource_key
 }
 
 # LogAnalysis
