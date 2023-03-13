@@ -80,6 +80,17 @@ variable "logdna_service_endpoints" {
   }
 }
 
+variable "logdna_resource_key_role" {
+  type        = string
+  description = "Role assigned to provide the IBM Cloud Logging key."
+  default     = "Manager"
+
+  validation {
+    condition     = contains(["Manager", "Reader", "Standard Member"], var.logdna_resource_key_role)
+    error_message = "Allowed roles can be Manager, Reader or Standard Member."
+  }
+}
+
 variable "logdna_cos_instance_id" {
   type        = string
   description = "The ID of the cloud object storage instance containing the LogDNA archive bucket. (Only required when var.enable_archive and var.logdna_provision are true)."

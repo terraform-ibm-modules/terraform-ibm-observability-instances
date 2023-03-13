@@ -41,6 +41,7 @@ module "logdna" {
   logdna_plan                = var.logdna_plan
   logdna_manager_key_name    = var.logdna_manager_key_name
   logdna_manager_key_tags    = var.logdna_manager_key_tags
+  logdna_resource_key_role   = var.logdna_resource_key_role
   logdna_tags                = var.logdna_tags
   enable_platform_logs       = var.enable_platform_logs
   logdna_service_endpoints   = var.logdna_service_endpoints

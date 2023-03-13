@@ -60,6 +60,17 @@ variable "logdna_manager_key_name" {
   default     = "LogDnaManagerKey"
 }
 
+variable "logdna_resource_key_role" {
+  type        = string
+  description = "Role assigned to provide the IBM Cloud Logging key."
+  default     = "Manager"
+
+  validation {
+    condition     = contains(["Manager", "Reader", "Standard Member"], var.logdna_resource_key_role)
+    error_message = "Allowed roles can be Manager, Reader or Standard Member."
+  }
+}
+
 variable "logdna_manager_key_tags" {
   type        = list(string)
   description = "Tags associated with the IBM Cloud Logging manager key."
