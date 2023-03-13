@@ -1,4 +1,3 @@
-# LogDNA
 output "logdna_crn" {
   value       = length(ibm_resource_instance.logdna) > 0 ? ibm_resource_instance.logdna[0].id : null
   description = "The id of the provisioned LogDNA instance."

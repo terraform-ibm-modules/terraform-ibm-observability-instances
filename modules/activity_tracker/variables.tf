@@ -23,7 +23,6 @@ variable "ibmcloud_api_key" {
   sensitive   = true
 }
 
-# Activity Tracker
 variable "activity_tracker_provision" {
   description = "Provision an Activity Tracker instance?"
   type        = bool

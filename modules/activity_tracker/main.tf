@@ -8,7 +8,6 @@ locals {
   cos_at_validate_check = regex("^${local.cos_at_validate_msg}$", (!local.cos_at_validate_condition ? local.cos_at_validate_msg : ""))
 }
 
-# Activity Tracker
 resource "ibm_resource_instance" "activity_tracker" {
   count = var.activity_tracker_provision ? 1 : 0
 

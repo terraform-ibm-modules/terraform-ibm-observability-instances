@@ -1,4 +1,3 @@
-##############################################################################
 variable "region" {
   type        = string
   description = "The IBM Cloud region where instances will be created."
@@ -11,7 +10,6 @@ variable "resource_group_id" {
   default     = null
 }
 
-# Sysdig
 variable "sysdig_provision" {
   description = "Provision a Sysdig instance?"
   type        = bool

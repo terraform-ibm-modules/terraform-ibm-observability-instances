@@ -84,18 +84,17 @@ output "sysdig_manager_key_name" {
 
 ##############################################################################
 
-# Activity Tracker CRN/ID
+# Activity Tracker
 output "activity_tracker_crn" {
   value       = module.activity_tracker.activity_tracker_crn
   description = "The id of the provisioned Activity Tracker instance."
 }
 
-# Activity Tracker GUID
 output "activity_tracker_guid" {
   value       = module.activity_tracker.activity_tracker_guid
   description = "The guid of the provisioned Activity Tracker instance."
 }
-# Activity Tracker Name
+
 output "activity_tracker_name" {
   value       = module.activity_tracker.activity_tracker_name
   description = "The name of the provisioned Activity Tracker instance."
@@ -106,14 +105,12 @@ output "activity_tracker_resource_group_id" {
   description = "The resource group where Activity Tracker instance resides"
 }
 
-# Activity Tracker Resource/Service Key
 output "activity_tracker_resource_key" {
   value       = module.activity_tracker.activity_tracker_resource_key
   description = "The resource/service key for agents to use"
   sensitive   = true
 }
 
-# Activity Tracker Resource/Service Key name
 output "activity_tracker_manager_key_name" {
   value       = module.activity_tracker.activity_tracker_manager_key_name
   description = "The Activity Tracker manager key name"

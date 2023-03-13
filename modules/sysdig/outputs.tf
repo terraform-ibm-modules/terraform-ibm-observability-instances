@@ -1,4 +1,3 @@
-# Sysdig
 output "sysdig_crn" {
   value       = length(ibm_resource_instance.sysdig) > 0 ? ibm_resource_instance.sysdig[0].id : null
   description = "The id of the provisioned Sysdig instance."

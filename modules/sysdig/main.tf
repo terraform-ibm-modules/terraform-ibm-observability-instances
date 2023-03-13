@@ -2,7 +2,6 @@ locals {
   sysdig_instance_name = var.sysdig_instance_name != null ? var.sysdig_instance_name : "sysdig-${var.region}"
 }
 
-# Sysdig
 resource "ibm_resource_instance" "sysdig" {
   count = var.sysdig_provision ? 1 : 0
 

@@ -1,8 +1,3 @@
-##############################################################################
-# Input Variables
-##############################################################################
-
-# Common
 variable "region" {
   type        = string
   description = "The IBM Cloud region where instances will be created."
@@ -28,9 +23,6 @@ variable "ibmcloud_api_key" {
   sensitive   = true
 }
 
-##############################################################################
-
-# LogDNA
 variable "logdna_provision" {
   description = "Provision an IBM Cloud Logging instance?"
   type        = bool
