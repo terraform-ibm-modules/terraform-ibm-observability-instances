@@ -129,6 +129,7 @@ No modules.
 | <a name="input_logdna_manager_key_tags"></a> [logdna\_manager\_key\_tags](#input\_logdna\_manager\_key\_tags) | Tags associated with the IBM Cloud Logging manager key. | `list(string)` | `[]` | no |
 | <a name="input_logdna_plan"></a> [logdna\_plan](#input\_logdna\_plan) | The IBM Cloud Logging plan to provision. Available: lite, 7-day, 14-day, 30-day, hipaa-30-day | `string` | `"lite"` | no |
 | <a name="input_logdna_provision"></a> [logdna\_provision](#input\_logdna\_provision) | Provision an IBM Cloud Logging instance? | `bool` | `true` | no |
+| <a name="input_logdna_resource_key_role"></a> [logdna\_resource\_key\_role](#input\_logdna\_resource\_key\_role) | Role assigned to provide the IBM Cloud Logging key. | `string` | `"Manager"` | no |
 | <a name="input_logdna_service_endpoints"></a> [logdna\_service\_endpoints](#input\_logdna\_service\_endpoints) | The type of the service endpoint that will be set for the LogDNA instance. | `string` | `"public-and-private"` | no |
 | <a name="input_logdna_tags"></a> [logdna\_tags](#input\_logdna\_tags) | Tags associated with the IBM Cloud Logging instance (Optional, array of strings). | `list(string)` | `[]` | no |
 | <a name="input_region"></a> [region](#input\_region) | The IBM Cloud region where instances will be created. | `string` | `"us-south"` | no |
