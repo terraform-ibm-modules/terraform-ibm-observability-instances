@@ -700,7 +700,7 @@
   "module_calls": {
     "activity_tracker": {
       "name": "activity_tracker",
-      "source": "./modules/activity_tracker",
+      "source": "./submodules/activity_tracker",
       "attributes": {
         "activity_tracker_instance_name": "activity_tracker_instance_name",
         "activity_tracker_manager_key_name": "activity_tracker_manager_key_name",
@@ -734,7 +734,7 @@
             "name": "ibm"
           },
           "pos": {
-            "filename": "modules/activity_tracker/main.tf",
+            "filename": "submodules/activity_tracker/main.tf",
             "line": 11
           }
         },
@@ -751,7 +751,7 @@
             "name": "ibm"
           },
           "pos": {
-            "filename": "modules/activity_tracker/main.tf",
+            "filename": "submodules/activity_tracker/main.tf",
             "line": 23
           }
         },
@@ -767,7 +767,7 @@
             "alias": "at"
           },
           "pos": {
-            "filename": "modules/activity_tracker/main.tf",
+            "filename": "submodules/activity_tracker/main.tf",
             "line": 32
           }
         }
@@ -778,7 +778,7 @@
           "name": "activity_tracker_crn",
           "description": "The id of the provisioned Activity Tracker instance.",
           "pos": {
-            "filename": "modules/activity_tracker/outputs.tf",
+            "filename": "submodules/activity_tracker/outputs.tf",
             "line": 1
           }
         },
@@ -786,7 +786,7 @@
           "name": "activity_tracker_guid",
           "description": "The guid of the provisioned Activity Tracker instance.",
           "pos": {
-            "filename": "modules/activity_tracker/outputs.tf",
+            "filename": "submodules/activity_tracker/outputs.tf",
             "line": 6
           }
         },
@@ -794,7 +794,7 @@
           "name": "activity_tracker_manager_key_name",
           "description": "The Activity Tracker manager key name",
           "pos": {
-            "filename": "modules/activity_tracker/outputs.tf",
+            "filename": "submodules/activity_tracker/outputs.tf",
             "line": 26
           }
         },
@@ -802,7 +802,7 @@
           "name": "activity_tracker_name",
           "description": "The name of the provisioned Activity Tracker instance.",
           "pos": {
-            "filename": "modules/activity_tracker/outputs.tf",
+            "filename": "submodules/activity_tracker/outputs.tf",
             "line": 10
           }
         },
@@ -810,7 +810,7 @@
           "name": "activity_tracker_resource_group_id",
           "description": "The resource group where Activity Tracker instance resides",
           "pos": {
-            "filename": "modules/activity_tracker/outputs.tf",
+            "filename": "submodules/activity_tracker/outputs.tf",
             "line": 15
           }
         },
@@ -819,19 +819,19 @@
           "description": "The resource/service key for agents to use",
           "sensitive": true,
           "pos": {
-            "filename": "modules/activity_tracker/outputs.tf",
+            "filename": "submodules/activity_tracker/outputs.tf",
             "line": 20
           }
         }
       },
       "pos": {
         "filename": "main.tf",
-        "line": 23
+        "line": 8
       }
     },
     "logdna": {
       "name": "logdna",
-      "source": "./modules/logdna",
+      "source": "./submodules/logdna",
       "attributes": {
         "enable_archive": "enable_archive",
         "enable_platform_logs": "enable_platform_logs",
@@ -867,7 +867,7 @@
             "name": "ibm"
           },
           "pos": {
-            "filename": "modules/logdna/main.tf",
+            "filename": "submodules/logdna/main.tf",
             "line": 12
           }
         },
@@ -884,7 +884,7 @@
             "name": "ibm"
           },
           "pos": {
-            "filename": "modules/logdna/main.tf",
+            "filename": "submodules/logdna/main.tf",
             "line": 27
           }
         },
@@ -900,7 +900,7 @@
             "alias": "ld"
           },
           "pos": {
-            "filename": "modules/logdna/main.tf",
+            "filename": "submodules/logdna/main.tf",
             "line": 35
           }
         }
@@ -911,7 +911,7 @@
           "name": "logdna_crn",
           "description": "The id of the provisioned LogDNA instance.",
           "pos": {
-            "filename": "modules/logdna/outputs.tf",
+            "filename": "submodules/logdna/outputs.tf",
             "line": 1
           }
         },
@@ -919,7 +919,7 @@
           "name": "logdna_guid",
           "description": "The guid of the provisioned LogDNA instance.",
           "pos": {
-            "filename": "modules/logdna/outputs.tf",
+            "filename": "submodules/logdna/outputs.tf",
             "line": 6
           }
         },
@@ -928,7 +928,7 @@
           "description": "LogDNA ingest key for agents to use",
           "sensitive": true,
           "pos": {
-            "filename": "modules/logdna/outputs.tf",
+            "filename": "submodules/logdna/outputs.tf",
             "line": 27
           }
         },
@@ -936,7 +936,7 @@
           "name": "logdna_manager_key_name",
           "description": "The LogDNA manager key name",
           "pos": {
-            "filename": "modules/logdna/outputs.tf",
+            "filename": "submodules/logdna/outputs.tf",
             "line": 33
           }
         },
@@ -944,7 +944,7 @@
           "name": "logdna_name",
           "description": "The name of the provisioned LogDNA instance.",
           "pos": {
-            "filename": "modules/logdna/outputs.tf",
+            "filename": "submodules/logdna/outputs.tf",
             "line": 11
           }
         },
@@ -952,7 +952,7 @@
           "name": "logdna_resource_group_id",
           "description": "The resource group where LogDNA instance resides",
           "pos": {
-            "filename": "modules/logdna/outputs.tf",
+            "filename": "submodules/logdna/outputs.tf",
             "line": 16
           }
         },
@@ -961,19 +961,19 @@
           "description": "LogDNA service key for agents to use",
           "sensitive": true,
           "pos": {
-            "filename": "modules/logdna/outputs.tf",
+            "filename": "submodules/logdna/outputs.tf",
             "line": 21
           }
         }
       },
       "pos": {
         "filename": "main.tf",
-        "line": 45
+        "line": 30
       }
     },
     "sysdig": {
       "name": "sysdig",
-      "source": "./modules/sysdig",
+      "source": "./submodules/sysdig",
       "attributes": {
         "enable_platform_metrics": "enable_platform_metrics",
         "region": "region",
@@ -1004,7 +1004,7 @@
             "name": "ibm"
           },
           "pos": {
-            "filename": "modules/sysdig/main.tf",
+            "filename": "submodules/sysdig/main.tf",
             "line": 5
           }
         },
@@ -1021,7 +1021,7 @@
             "name": "ibm"
           },
           "pos": {
-            "filename": "modules/sysdig/main.tf",
+            "filename": "submodules/sysdig/main.tf",
             "line": 21
           }
         }
@@ -1033,7 +1033,7 @@
           "description": "Sysdig access key for agents to use",
           "sensitive": true,
           "pos": {
-            "filename": "modules/sysdig/outputs.tf",
+            "filename": "submodules/sysdig/outputs.tf",
             "line": 21
           }
         },
@@ -1041,7 +1041,7 @@
           "name": "sysdig_crn",
           "description": "The id of the provisioned Sysdig instance.",
           "pos": {
-            "filename": "modules/sysdig/outputs.tf",
+            "filename": "submodules/sysdig/outputs.tf",
             "line": 1
           }
         },
@@ -1049,7 +1049,7 @@
           "name": "sysdig_guid",
           "description": "The guid of the provisioned Sysdig instance.",
           "pos": {
-            "filename": "modules/sysdig/outputs.tf",
+            "filename": "submodules/sysdig/outputs.tf",
             "line": 6
           }
         },
@@ -1057,7 +1057,7 @@
           "name": "sysdig_manager_key_name",
           "description": "The Sysdig manager key name",
           "pos": {
-            "filename": "modules/sysdig/outputs.tf",
+            "filename": "submodules/sysdig/outputs.tf",
             "line": 27
           }
         },
@@ -1065,7 +1065,7 @@
           "name": "sysdig_name",
           "description": "The name of the provisioned Sysdig instance.",
           "pos": {
-            "filename": "modules/sysdig/outputs.tf",
+            "filename": "submodules/sysdig/outputs.tf",
             "line": 11
           }
         },
@@ -1073,14 +1073,14 @@
           "name": "sysdig_resource_group_id",
           "description": "The resource group where Sysdig monitor instance resides",
           "pos": {
-            "filename": "modules/sysdig/outputs.tf",
+            "filename": "submodules/sysdig/outputs.tf",
             "line": 16
           }
         }
       },
       "pos": {
         "filename": "main.tf",
-        "line": 8
+        "line": 53
       }
     }
   }

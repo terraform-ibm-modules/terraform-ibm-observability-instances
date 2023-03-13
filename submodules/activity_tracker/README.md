@@ -1,4 +1,4 @@
-# IBM Observability Activity Tracker instance sub-module
+# Activity Tracker instance sub-module
 
 This sub-module supports provisioning the following observability instance:
 
@@ -28,7 +28,7 @@ provider "logdna" {
 }
 
 module "activity_tracker" {
-  source = "git::https://github.com/terraform-ibm-modules/terraform-ibm-observability-instances//modules/activity_tracker?ref=main"
+  source = "git::https://github.com/terraform-ibm-modules/terraform-ibm-observability-instances//submodules/activity_tracker?ref=main"
   providers = {
     logdna.at = logdna.at
   }

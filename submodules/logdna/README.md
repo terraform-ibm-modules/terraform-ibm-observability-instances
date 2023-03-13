@@ -1,4 +1,4 @@
-# IBM Observability LogDNA instance sub-module
+# LogDNA instance sub-module
 
 This sub-module supports provisioning the following observability instances:
 
@@ -28,7 +28,7 @@ provider "logdna" {
 }
 
 module "logdna" {
-  source = "git::https://github.com/terraform-ibm-modules/terraform-ibm-observability-instances//modules/logdna?ref=main"
+  source = "git::https://github.com/terraform-ibm-modules/terraform-ibm-observability-instances//submodules/logdna?ref=main"
   providers = {
     logdna.ld = logdna.ld
   }

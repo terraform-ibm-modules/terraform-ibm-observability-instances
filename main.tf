@@ -4,24 +4,9 @@
 # Deploy the observability instances - LogDNA, Sysdig and Activity Tracker
 ##############################################################################
 
-# Sysdig
-module "sysdig" {
-  source                   = "./modules/sysdig"
-  region                   = var.region
-  resource_group_id        = var.resource_group_id
-  sysdig_provision         = var.sysdig_provision
-  sysdig_instance_name     = var.sysdig_instance_name
-  sysdig_plan              = var.sysdig_plan
-  sysdig_manager_key_name  = var.sysdig_manager_key_name
-  sysdig_manager_key_tags  = var.sysdig_manager_key_tags
-  sysdig_tags              = var.sysdig_tags
-  enable_platform_metrics  = var.enable_platform_metrics
-  sysdig_service_endpoints = var.sysdig_service_endpoints
-}
-
 # Activity tracker
 module "activity_tracker" {
-  source = "./modules/activity_tracker"
+  source = "./submodules/activity_tracker"
   providers = {
     logdna.at = logdna.at
   }
@@ -43,7 +28,7 @@ module "activity_tracker" {
 
 # LogDNA
 module "logdna" {
-  source = "./modules/logdna"
+  source = "./submodules/logdna"
   providers = {
     logdna.ld = logdna.ld
   }
@@ -62,4 +47,19 @@ module "logdna" {
   logdna_cos_instance_id     = var.logdna_cos_instance_id
   logdna_cos_bucket_name     = var.logdna_cos_bucket_name
   logdna_cos_bucket_endpoint = var.logdna_cos_bucket_endpoint
+}
+
+# Sysdig
+module "sysdig" {
+  source                   = "./submodules/sysdig"
+  region                   = var.region
+  resource_group_id        = var.resource_group_id
+  sysdig_provision         = var.sysdig_provision
+  sysdig_instance_name     = var.sysdig_instance_name
+  sysdig_plan              = var.sysdig_plan
+  sysdig_manager_key_name  = var.sysdig_manager_key_name
+  sysdig_manager_key_tags  = var.sysdig_manager_key_tags
+  sysdig_tags              = var.sysdig_tags
+  enable_platform_metrics  = var.enable_platform_metrics
+  sysdig_service_endpoints = var.sysdig_service_endpoints
 }

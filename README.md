@@ -102,7 +102,7 @@ provider "logdna" {
 }
 
 module "activity_tracker" {
-  source = "git::https://github.com/terraform-ibm-modules/terraform-ibm-observability-instances//modules/activity_tracker?ref=main"
+  source = "git::https://github.com/terraform-ibm-modules/terraform-ibm-observability-instances//submodules/activity_tracker?ref=main"
   providers = {
     logdna.at = logdna.at
   }
@@ -114,7 +114,7 @@ module "activity_tracker" {
 Provisioning Sysdig only
 ```hcl
 moRule "sysdig" {
-  source = "git::https://github.com/terraform-ibm-modules/terraform-ibm-observability-instances//modules/sysdig?ref=main"
+  source = "git::https://github.com/terraform-ibm-modules/terraform-ibm-observability-instances//submodules/sysdig?ref=main"
   resource_group_id = module.resource_group.resource_group_id
   region = var.region
 }
@@ -155,9 +155,9 @@ You need the following permissions to run this module.
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_activity_tracker"></a> [activity\_tracker](#module\_activity\_tracker) | ./modules/activity_tracker | n/a |
-| <a name="module_logdna"></a> [logdna](#module\_logdna) | ./modules/logdna | n/a |
-| <a name="module_sysdig"></a> [sysdig](#module\_sysdig) | ./modules/sysdig | n/a |
+| <a name="module_activity_tracker"></a> [activity\_tracker](#module\_activity\_tracker) | ./submodules/activity_tracker | n/a |
+| <a name="module_logdna"></a> [logdna](#module\_logdna) | ./submodules/logdna | n/a |
+| <a name="module_sysdig"></a> [sysdig](#module\_sysdig) | ./submodules/sysdig | n/a |
 
 ## Resources
 
