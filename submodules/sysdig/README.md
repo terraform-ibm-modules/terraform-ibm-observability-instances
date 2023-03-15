@@ -9,7 +9,7 @@ This sub-module supports provisioning the following observability instances:
 
 ## Usage
 
-Provisioning Sysdig instance
+To provision Sysdig instance
 ```hcl
 module "sysdig" {
   source = "git::https://github.com/terraform-ibm-modules/terraform-ibm-observability-instances//submodules/sysdig?ref=main"

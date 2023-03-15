@@ -19,7 +19,7 @@ This module supports provisioning the following observability instances:
 
 ## Usage
 
-Provisioning Activity Tracker, LogDNA and Sysdig
+To provision Activity Tracker, LogDNA and Sysdig
 ```hcl
 # required ibm provider config
 provider "ibm" {
@@ -55,7 +55,7 @@ module "observability_instances" {
 }
 ```
 
-Provisioning LogDNA only
+To provision LogDNA only
 ```hcl
 # required ibm provider config
 provider "ibm" {
@@ -83,7 +83,7 @@ module "logdna" {
 }
 ```
 
-Provisioning Activity Tracker only
+To provision Activity Tracker only
 ```hcl
 # required ibm provider config
 provider "ibm" {
@@ -111,7 +111,7 @@ module "activity_tracker" {
 }
 ```
 
-Provisioning Sysdig only
+To provision Sysdig only
 ```hcl
 moRule "sysdig" {
   source = "git::https://github.com/terraform-ibm-modules/terraform-ibm-observability-instances//submodules/sysdig?ref=main"

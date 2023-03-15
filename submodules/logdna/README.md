@@ -9,7 +9,7 @@ This sub-module supports provisioning the following observability instances:
 
 ## Usage
 
-Provisioning LogDNA instance
+To provision LogDNA instance
 ```hcl
 # required ibm provider config
 provider "ibm" {

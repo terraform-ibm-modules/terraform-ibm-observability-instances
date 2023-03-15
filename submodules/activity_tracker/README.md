@@ -9,7 +9,7 @@ This sub-module supports provisioning the following observability instance:
 
 ## Usage
 
-Provisioning Activity Tracker instance
+To provision Activity Tracker instance
 ```hcl
 # required ibm provider config
 provider "ibm" {
