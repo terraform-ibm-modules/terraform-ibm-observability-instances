@@ -74,6 +74,7 @@ provider "logdna" {
 }
 
 module "logdna" {
+  # Replace "main" with a GIT release version to lock into a specific release
   source = "git::https://github.com/terraform-ibm-modules/terraform-ibm-observability-instances//modules/logdna?ref=main"
   providers = {
     logdna.ld = logdna.ld
@@ -102,6 +103,7 @@ provider "logdna" {
 }
 
 module "activity_tracker" {
+  # Replace "main" with a GIT release version to lock into a specific release
   source = "git::https://github.com/terraform-ibm-modules/terraform-ibm-observability-instances//submodules/activity_tracker?ref=main"
   providers = {
     logdna.at = logdna.at
@@ -113,7 +115,8 @@ module "activity_tracker" {
 
 To provision Sysdig only
 ```hcl
-moRule "sysdig" {
+module "sysdig" {
+  # Replace "main" with a GIT release version to lock into a specific release
   source = "git::https://github.com/terraform-ibm-modules/terraform-ibm-observability-instances//submodules/sysdig?ref=main"
   resource_group_id = module.resource_group.resource_group_id
   region = var.region
