@@ -5,7 +5,7 @@ moved {
 }
 
 moved {
-  from = logdna_archive.activity_tracker_config
+  from = logdna_archive.archive_config
   to   = module.activity_tracker.logdna_archive.archive_config
 }
 
