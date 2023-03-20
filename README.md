@@ -1,6 +1,6 @@
 # Terraform IBM Observability instances module
 
-[![Stable (With quality checks)](https://img.shields.io/badge/Status-Stable%20(With%20quality%20checks)-green?style=plastic)](https://terraform-ibm-modules.github.io/documentation/#/badge-status)
+[![Stable (With quality checks)](<https://img.shields.io/badge/Status-Stable%20(With%20quality%20checks)-green?style=plastic>)](https://terraform-ibm-modules.github.io/documentation/#/badge-status)
 [![Build status](https://github.com/terraform-ibm-modules/terraform-ibm-observability-instances/actions/workflows/ci.yml/badge.svg)](https://github.com/terraform-ibm-modules/terraform-ibm-observability-instances/actions/workflows/ci.yml)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
@@ -8,18 +8,19 @@
 
 This module supports provisioning the following observability instances:
 
-* **IBM Cloud Activity Tracker**
-  * Records events, compliant with CADF standard, triggered by user-initiated activities that change the state of a service in the cloud.
-* **IBM Cloud Logging with LogDNA**
-  * Manage operating system logs, application logs, and platform logs in IBM Cloud.
-* **IBM Cloud Monitoring with SysDig**
-  * Monitor the health of services and applications in IBM Cloud.
+- **IBM Cloud Activity Tracker**
+  - Records events, compliant with CADF standard, triggered by user-initiated activities that change the state of a service in the cloud.
+- **IBM Cloud Logging with LogDNA**
+  - Manage operating system logs, application logs, and platform logs in IBM Cloud.
+- **IBM Cloud Monitoring with SysDig**
+  - Monitor the health of services and applications in IBM Cloud.
 
 :information_source: The module also creates a manager key for each instance, and supports passing COS bucket details to enable archiving for LogDNA and Activity Tracker.
 
 ## Usage
 
 To provision Activity Tracker, LogDNA and Sysdig
+
 ```hcl
 # required ibm provider config
 provider "ibm" {
@@ -56,6 +57,7 @@ module "observability_instances" {
 ```
 
 To provision LogDNA only
+
 ```hcl
 # required ibm provider config
 provider "ibm" {
@@ -85,6 +87,7 @@ module "logdna" {
 ```
 
 To provision Activity Tracker only
+
 ```hcl
 # required ibm provider config
 provider "ibm" {
@@ -114,6 +117,7 @@ module "activity_tracker" {
 ```
 
 To provision Sysdig only
+
 ```hcl
 module "sysdig" {
   # Replace "main" with a GIT release version to lock into a specific release
@@ -124,21 +128,22 @@ module "sysdig" {
 ```
 
 ## Required IAM access policies
+
 You need the following permissions to run this module.
 
 - Account Management
-    - **Resource Group** service
-        - `Viewer` platform access
+  - **Resource Group** service
+    - `Viewer` platform access
 - IAM Services
-    - **IBM Cloud Activity Tracker** service
-        - `Editor` platform access
-        - `Manager` service access
-    - **IBM Cloud Monitoring** service
-        - `Editor` platform access
-        - `Manager` service access
-    - **IBM Log Analysis** service
-        - `Editor` platform access
-        - `Manager` service access
+  - **IBM Cloud Activity Tracker** service
+    - `Editor` platform access
+    - `Manager` service access
+  - **IBM Cloud Monitoring** service
+    - `Editor` platform access
+    - `Manager` service access
+  - **IBM Log Analysis** service
+    - `Editor` platform access
+    - `Manager` service access
 
 <!-- BEGIN EXAMPLES HOOK -->
 ## Examples
@@ -146,21 +151,22 @@ You need the following permissions to run this module.
 - [ Provision Sysdig and LogDNA + Activity Tracker with archiving enabled using encrypted COS bucket](examples/observability_archive)
 - [ Provision basic observability instances (LogDNA, Sysdig, Activity Tracker)](examples/observability_basic)
 <!-- END EXAMPLES HOOK -->
-<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+  <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
 
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0.0 |
+| <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | >= 1.49.0 |
 | <a name="requirement_logdna"></a> [logdna](#requirement\_logdna) | >= 1.14.2 |
 
 ## Modules
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_activity_tracker"></a> [activity\_tracker](#module\_activity\_tracker) | ./submodules/activity_tracker | n/a |
-| <a name="module_logdna"></a> [logdna](#module\_logdna) | ./submodules/logdna | n/a |
-| <a name="module_sysdig"></a> [sysdig](#module\_sysdig) | ./submodules/sysdig | n/a |
+| <a name="module_activity_tracker"></a> [activity\_tracker](#module\_activity\_tracker) | ./modules/activity_tracker | n/a |
+| <a name="module_logdna"></a> [logdna](#module\_logdna) | ./modules/logdna | n/a |
+| <a name="module_sysdig"></a> [sysdig](#module\_sysdig) | ./modules/sysdig | n/a |
 
 ## Resources
 
@@ -233,10 +239,12 @@ No resources.
 <!-- BEGIN CONTRIBUTING HOOK -->
 
 <!-- Leave this section as is so that your module has a link to local development environment set up steps for contributors to follow -->
+
 ## Contributing
 
 You can report issues and request features for this module in GitHub issues in the module repo. See [Report an issue or request a feature](https://github.com/terraform-ibm-modules/.github/blob/main/.github/SUPPORT.md).
 
 To set up your local development environment, see [Local development setup](https://terraform-ibm-modules.github.io/documentation/#/local-dev-setup) in the project documentation.
+
 <!-- Source for this readme file: https://github.com/terraform-ibm-modules/common-dev-assets/tree/main/module-assets/ci/module-template-automation -->
 <!-- END CONTRIBUTING HOOK -->
