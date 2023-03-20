@@ -32,7 +32,7 @@ resource "ibm_resource_key" "resource_key" {
   tags                 = var.manager_key_tags
 }
 
-resource "logdna_archive" "config" {
+resource "logdna_archive" "archive_config" {
   count       = var.logdna_provision && var.enable_archive ? 1 : 0
   provider    = logdna.ld
   integration = "ibm"
