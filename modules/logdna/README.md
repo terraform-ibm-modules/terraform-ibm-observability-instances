@@ -30,7 +30,7 @@ provider "logdna" {
 
 module "logdna" {
   # Replace "main" with a GIT release version to lock into a specific release
-  source = "git::https://github.com/terraform-ibm-modules/terraform-ibm-observability-instances//submodules/logdna?ref=main"
+  source = "git::https://github.com/terraform-ibm-modules/terraform-ibm-observability-instances//modules/logdna?ref=main"
   providers = {
     logdna.ld = logdna.ld
   }

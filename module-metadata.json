@@ -772,7 +772,7 @@
           },
           "pos": {
             "filename": "modules/activity_tracker/main.tf",
-            "line": 23
+            "line": 22
           }
         },
         "logdna_archive.archive_config": {
@@ -788,7 +788,7 @@
           },
           "pos": {
             "filename": "modules/activity_tracker/main.tf",
-            "line": 32
+            "line": 30
           }
         }
       },
@@ -1044,7 +1044,7 @@
           },
           "pos": {
             "filename": "modules/sysdig/main.tf",
-            "line": 21
+            "line": 20
           }
         }
       },

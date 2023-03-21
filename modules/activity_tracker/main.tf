@@ -9,8 +9,7 @@ locals {
 }
 
 resource "ibm_resource_instance" "activity_tracker" {
-  count = var.activity_tracker_provision ? 1 : 0
-
+  count             = var.activity_tracker_provision ? 1 : 0
   name              = local.instance_name
   resource_group_id = var.resource_group_id
   service           = "logdnaat"
@@ -21,8 +20,7 @@ resource "ibm_resource_instance" "activity_tracker" {
 }
 
 resource "ibm_resource_key" "resource_key" {
-  count = var.activity_tracker_provision ? 1 : 0
-
+  count                = var.activity_tracker_provision ? 1 : 0
   name                 = var.manager_key_name
   resource_instance_id = ibm_resource_instance.activity_tracker[0].id
   role                 = "Manager"

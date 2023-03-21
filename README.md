@@ -8,12 +8,12 @@
 
 This module supports provisioning the following observability instances:
 
-- **IBM Cloud Activity Tracker**
-  - Records events, compliant with CADF standard, triggered by user-initiated activities that change the state of a service in the cloud.
-- **IBM Cloud Logging with LogDNA**
-  - Manage operating system logs, application logs, and platform logs in IBM Cloud.
-- **IBM Cloud Monitoring with SysDig**
-  - Monitor the health of services and applications in IBM Cloud.
+* **IBM Cloud Activity Tracker**
+  * Records events, compliant with CADF standard, triggered by user-initiated activities that change the state of a service in the cloud.
+* **IBM Cloud Logging with LogDNA**
+  * Manage operating system logs, application logs, and platform logs in IBM Cloud.
+* **IBM Cloud Monitoring with SysDig**
+  * Monitor the health of services and applications in IBM Cloud.
 
 :information_source: The module also creates a manager key for each instance, and supports passing COS bucket details to enable archiving for LogDNA and Activity Tracker.
 
@@ -107,7 +107,7 @@ provider "logdna" {
 
 module "activity_tracker" {
   # Replace "main" with a GIT release version to lock into a specific release
-  source = "git::https://github.com/terraform-ibm-modules/terraform-ibm-observability-instances//submodules/activity_tracker?ref=main"
+  source = "git::https://github.com/terraform-ibm-modules/terraform-ibm-observability-instances//modules/activity_tracker?ref=main"
   providers = {
     logdna.at = logdna.at
   }
@@ -121,7 +121,7 @@ To provision Sysdig only
 ```hcl
 module "sysdig" {
   # Replace "main" with a GIT release version to lock into a specific release
-  source = "git::https://github.com/terraform-ibm-modules/terraform-ibm-observability-instances//submodules/sysdig?ref=main"
+  source = "git::https://github.com/terraform-ibm-modules/terraform-ibm-observability-instances//modules/sysdig?ref=main"
   resource_group_id = module.resource_group.resource_group_id
   region = var.region
 }
@@ -132,18 +132,18 @@ module "sysdig" {
 You need the following permissions to run this module.
 
 - Account Management
-  - **Resource Group** service
-    - `Viewer` platform access
+    - **Resource Group** service
+        - `Viewer` platform access
 - IAM Services
-  - **IBM Cloud Activity Tracker** service
-    - `Editor` platform access
-    - `Manager` service access
-  - **IBM Cloud Monitoring** service
-    - `Editor` platform access
-    - `Manager` service access
-  - **IBM Log Analysis** service
-    - `Editor` platform access
-    - `Manager` service access
+    - **IBM Cloud Activity Tracker** service
+        - `Editor` platform access
+        - `Manager` service access
+    - **IBM Cloud Monitoring** service
+        - `Editor` platform access
+        - `Manager` service access
+    - **IBM Log Analysis** service
+        - `Editor` platform access
+        - `Manager` service access
 
 <!-- BEGIN EXAMPLES HOOK -->
 ## Examples
@@ -151,7 +151,7 @@ You need the following permissions to run this module.
 - [ Provision Sysdig and LogDNA + Activity Tracker with archiving enabled using encrypted COS bucket](examples/observability_archive)
 - [ Provision basic observability instances (LogDNA, Sysdig, Activity Tracker)](examples/observability_basic)
 <!-- END EXAMPLES HOOK -->
-  <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
 
 | Name | Version |
@@ -239,12 +239,10 @@ No resources.
 <!-- BEGIN CONTRIBUTING HOOK -->
 
 <!-- Leave this section as is so that your module has a link to local development environment set up steps for contributors to follow -->
-
 ## Contributing
 
 You can report issues and request features for this module in GitHub issues in the module repo. See [Report an issue or request a feature](https://github.com/terraform-ibm-modules/.github/blob/main/.github/SUPPORT.md).
 
 To set up your local development environment, see [Local development setup](https://terraform-ibm-modules.github.io/documentation/#/local-dev-setup) in the project documentation.
-
 <!-- Source for this readme file: https://github.com/terraform-ibm-modules/common-dev-assets/tree/main/module-assets/ci/module-template-automation -->
 <!-- END CONTRIBUTING HOOK -->
