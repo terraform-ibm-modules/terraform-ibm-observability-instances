@@ -253,7 +253,7 @@
       "default": "LogDnaManagerKey",
       "required": true,
       "source": [
-        "module.logdna.ibm_resource_key.log_dna_resource_key.name"
+        "module.logdna.ibm_resource_key.resource_key.name"
       ],
       "pos": {
         "filename": "variables.tf",
@@ -267,7 +267,7 @@
       "description": "Tags associated with the IBM Cloud Logging manager key.",
       "default": [],
       "source": [
-        "module.logdna.ibm_resource_key.log_dna_resource_key.tags"
+        "module.logdna.ibm_resource_key.resource_key.tags"
       ],
       "pos": {
         "filename": "variables.tf",
@@ -299,8 +299,8 @@
       "default": true,
       "source": [
         "module.logdna.ibm_resource_instance.logdna.count",
-        "module.logdna.ibm_resource_key.log_dna_resource_key.count",
-        "module.logdna.logdna_archive.config.count"
+        "module.logdna.ibm_resource_key.resource_key.count",
+        "module.logdna.logdna_archive.archive_config.count"
       ],
       "pos": {
         "filename": "variables.tf",
@@ -313,7 +313,7 @@
       "description": "Role assigned to provide the IBM Cloud Logging key.",
       "default": "Manager",
       "source": [
-        "module.logdna.ibm_resource_key.log_dna_resource_key.role"
+        "module.logdna.ibm_resource_key.resource_key.role"
       ],
       "pos": {
         "filename": "variables.tf",
@@ -892,10 +892,10 @@
             "line": 12
           }
         },
-        "ibm_resource_key.log_dna_resource_key": {
+        "ibm_resource_key.resource_key": {
           "mode": "managed",
           "type": "ibm_resource_key",
-          "name": "log_dna_resource_key",
+          "name": "resource_key",
           "attributes": {
             "count": "logdna_provision",
             "name": "manager_key_name",
@@ -910,10 +910,10 @@
             "line": 27
           }
         },
-        "logdna_archive.config": {
+        "logdna_archive.archive_config": {
           "mode": "managed",
           "type": "logdna_archive",
-          "name": "config",
+          "name": "archive_config",
           "attributes": {
             "count": "logdna_provision"
           },
