@@ -39,23 +39,6 @@ module "activity_tracker" {
 }
 ```
 
-## Required IAM access policies
-
-You need the following permissions to run this module.
-
-- Account Management
-  - **Resource Group** service
-    - `Viewer` platform access
-- IAM Services
-  - **IBM Cloud Activity Tracker** service
-    - `Editor` platform access
-    - `Manager` service access
-
-<!-- BEGIN EXAMPLES HOOK -->
-
-## Examples
-
-<!-- END EXAMPLES HOOK -->
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
 

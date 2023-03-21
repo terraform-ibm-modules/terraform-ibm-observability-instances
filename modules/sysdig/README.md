@@ -20,25 +20,6 @@ module "sysdig" {
 }
 ```
 
-## Required IAM access policies
-
-You need the following permissions to run this module.
-
-- Account Management
-  - **Resource Group** service
-    - `Viewer` platform access
-- IAM Services
-  - **IBM Cloud Monitoring** service
-    - `Editor` platform access
-    - `Manager` service access
-
-<!-- BEGIN EXAMPLES HOOK -->
-
-## Examples
-
-- [ Provision Sysdig and LogDNA + AT with archiving enabled using encrypted COS bucket](examples/observability_archive)
-- [ Provision basic observability instances (LogDNA, Sysdig, AT)](examples/observability_basic)
-  <!-- END EXAMPLES HOOK -->
   <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
 
