@@ -1,6 +1,6 @@
 # Terraform IBM Observability instances module
 
-[![Stable (With quality checks)](https://img.shields.io/badge/Status-Stable%20(With%20quality%20checks)-green?style=plastic)](https://terraform-ibm-modules.github.io/documentation/#/badge-status)
+[![Stable (With quality checks)](<https://img.shields.io/badge/Status-Stable%20(With%20quality%20checks)-green?style=plastic>)](https://terraform-ibm-modules.github.io/documentation/#/badge-status)
 [![Build status](https://github.com/terraform-ibm-modules/terraform-ibm-observability-instances/actions/workflows/ci.yml/badge.svg)](https://github.com/terraform-ibm-modules/terraform-ibm-observability-instances/actions/workflows/ci.yml)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
@@ -15,9 +15,11 @@ This module supports provisioning the following observability instances:
 * **IBM Cloud Monitoring with SysDig**
   * Monitor the health of services and applications in IBM Cloud.
 
-:information_source: The module also creates a manager key for each instance, and supports passing COS bucket details to enable archiving for LogDNA and AT.
+:information_source: The module also creates a manager key for each instance, and supports passing COS bucket details to enable archiving for LogDNA and Activity Tracker.
 
 ## Usage
+
+To provision Activity Tracker, LogDNA and Sysdig
 
 ```hcl
 # required ibm provider config
@@ -54,7 +56,79 @@ module "observability_instances" {
 }
 ```
 
+To provision LogDNA only
+
+```hcl
+# required ibm provider config
+provider "ibm" {
+  ibmcloud_api_key = var.ibmcloud_api_key
+}
+
+# required logdna provider config
+locals {
+  at_endpoint = "https://api.${var.region}.logging.cloud.ibm.com"
+}
+
+provider "logdna" {
+  alias      = "ld"
+  servicekey = module.logdna.logdna_resource_key
+  url        = local.at_endpoint
+}
+
+module "logdna" {
+  # Replace "main" with a GIT release version to lock into a specific release
+  source = "git::https://github.com/terraform-ibm-modules/terraform-ibm-observability-instances//modules/logdna?ref=main"
+  providers = {
+    logdna.ld = logdna.ld
+  }
+  resource_group_id = module.resource_group.resource_group_id
+  region = var.region
+}
+```
+
+To provision Activity Tracker only
+
+```hcl
+# required ibm provider config
+provider "ibm" {
+  ibmcloud_api_key = var.ibmcloud_api_key
+}
+
+# required logdna provider config
+locals {
+  at_endpoint = "https://api.${var.region}.logging.cloud.ibm.com"
+}
+
+provider "logdna" {
+  alias      = "at"
+  servicekey = module.activity_tracker.at_resource_key
+  url        = local.at_endpoint
+}
+
+module "activity_tracker" {
+  # Replace "main" with a GIT release version to lock into a specific release
+  source = "git::https://github.com/terraform-ibm-modules/terraform-ibm-observability-instances//modules/activity_tracker?ref=main"
+  providers = {
+    logdna.at = logdna.at
+  }
+  resource_group_id = module.resource_group.resource_group_id
+  region = var.region
+}
+```
+
+To provision Sysdig only
+
+```hcl
+module "sysdig" {
+  # Replace "main" with a GIT release version to lock into a specific release
+  source = "git::https://github.com/terraform-ibm-modules/terraform-ibm-observability-instances//modules/sysdig?ref=main"
+  resource_group_id = module.resource_group.resource_group_id
+  region = var.region
+}
+```
+
 ## Required IAM access policies
+
 You need the following permissions to run this module.
 
 - Account Management
@@ -74,8 +148,8 @@ You need the following permissions to run this module.
 <!-- BEGIN EXAMPLES HOOK -->
 ## Examples
 
-- [ Provision Sysdig and LogDNA + AT with archiving enabled using encrypted COS bucket](examples/observability_archive)
-- [ Provision basic observability instances (LogDNA, Sysdig, AT)](examples/observability_basic)
+- [ Provision Sysdig and LogDNA + Activity Tracker with archiving enabled using encrypted COS bucket](examples/observability_archive)
+- [ Provision basic observability instances (LogDNA, Sysdig, Activity Tracker)](examples/observability_basic)
 <!-- END EXAMPLES HOOK -->
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
@@ -88,20 +162,15 @@ You need the following permissions to run this module.
 
 ## Modules
 
-No modules.
+| Name | Source | Version |
+|------|--------|---------|
+| <a name="module_activity_tracker"></a> [activity\_tracker](#module\_activity\_tracker) | ./modules/activity_tracker | n/a |
+| <a name="module_logdna"></a> [logdna](#module\_logdna) | ./modules/logdna | n/a |
+| <a name="module_sysdig"></a> [sysdig](#module\_sysdig) | ./modules/sysdig | n/a |
 
 ## Resources
 
-| Name | Type |
-|------|------|
-| [ibm_resource_instance.activity_tracker](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/resource_instance) | resource |
-| [ibm_resource_instance.logdna](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/resource_instance) | resource |
-| [ibm_resource_instance.sysdig](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/resource_instance) | resource |
-| [ibm_resource_key.at_resource_key](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/resource_key) | resource |
-| [ibm_resource_key.log_dna_resource_key](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/resource_key) | resource |
-| [ibm_resource_key.sysdig_resource_key](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/resource_key) | resource |
-| [logdna_archive.activity_tracker_config](https://registry.terraform.io/providers/logdna/logdna/latest/docs/resources/archive) | resource |
-| [logdna_archive.logdna_config](https://registry.terraform.io/providers/logdna/logdna/latest/docs/resources/archive) | resource |
+No resources.
 
 ## Inputs
 
