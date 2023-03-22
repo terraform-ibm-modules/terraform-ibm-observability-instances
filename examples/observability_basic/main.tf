@@ -5,7 +5,7 @@ module "resource_group" {
   existing_resource_group_name = var.resource_group
 }
 
-module "test_observability_instance_creation" {
+module "activity_tracker" {
   source = "../../"
   providers = {
     logdna.at = logdna.at

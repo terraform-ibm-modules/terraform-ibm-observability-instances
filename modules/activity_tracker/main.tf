@@ -38,3 +38,95 @@ resource "logdna_archive" "archive_config" {
     resourceinstanceid = var.cos_instance_id
   }
 }
+
+# Activity Tracker Event Routing
+
+# Event Routing To COS
+resource "ibm_atracker_target" "atracker_cos_target" {
+  count = length(var.cos_target.cos_endpoint == null ? [] : [1])
+
+  cos_endpoint {
+    endpoint   = var.cos_target.cos_endpoint.endpoint
+    bucket     = var.cos_target.cos_endpoint.bucket_name
+    target_crn = var.cos_target.cos_endpoint.target_crn
+    api_key    = var.cos_target.cos_endpoint.api_key
+  }
+  name        = var.cos_target.target_name
+  target_type = "cloud_object_storage"
+  region      = var.cos_target.target_region # Region where COS is created
+}
+
+
+# COS Route
+resource "ibm_atracker_route" "atracker_cos_route" {
+  count = length(var.cos_target.cos_endpoint == null ? [] : [1])
+
+  name = var.cos_target.route_name
+  rules {
+    target_ids = [ibm_atracker_target.atracker_cos_target[0].id]
+    locations  = var.cos_target.regions_targeting_cos # Regions whose events will be forwarded to COS
+  }
+  lifecycle {
+    # Recommended to ensure that if a target ID is removed here and destroyed in a plan, this is updated first
+    create_before_destroy = true
+  }
+}
+
+
+# Event Routing To Event Streams
+resource "ibm_atracker_target" "atracker_eventstreams_target" {
+  count = length(var.eventstreams_target.eventstreams_endpoint == null ? [] : [1])
+
+  eventstreams_endpoint {
+    target_crn = var.eventstreams_target.eventstreams_endpoint.target_crn
+    brokers    = var.eventstreams_target.eventstreams_endpoint.brokers
+    topic      = var.eventstreams_target.eventstreams_endpoint.topic
+    api_key    = var.eventstreams_target.eventstreams_endpoint.api_key
+  }
+  name        = var.eventstreams_target.target_name
+  target_type = "event_streams"
+  region      = var.eventstreams_target.target_region # Region where event streams is created
+}
+
+# Event Streams Route
+resource "ibm_atracker_route" "atracker_eventstreams_route" {
+  count = length(var.eventstreams_target.eventstreams_endpoint == null ? [] : [1])
+
+  name = var.eventstreams_target.route_name
+  rules {
+    target_ids = [ibm_atracker_target.atracker_eventstreams_target[0].id]
+    locations  = var.eventstreams_target.regions_targeting_eventstreams # Regions whose events will be forwarded to event streams
+  }
+  lifecycle {
+    # Recommended to ensure that if a target ID is removed here and destroyed in a plan, this is updated first
+    create_before_destroy = true
+  }
+}
+
+# Event Routing To LogDNA
+resource "ibm_atracker_target" "atracker_logdna_target" {
+  count = length(var.logdna_target.logdna_endpoint == null ? [] : [1])
+
+  logdna_endpoint {
+    target_crn    = var.logdna_target.logdna_endpoint.target_crn
+    ingestion_key = var.logdna_target.logdna_endpoint.ingestion_key
+  }
+  name        = var.logdna_target.target_name
+  target_type = "logdna"
+  region      = var.logdna_target.target_region # Region where LogDNA is created
+}
+
+# LogDNA Route
+resource "ibm_atracker_route" "atracker_logdna_route" {
+  count = length(var.logdna_target.logdna_endpoint == null ? [] : [1])
+
+  name = var.logdna_target.route_name
+  rules {
+    target_ids = [ibm_atracker_target.atracker_logdna_target[0].id]
+    locations  = var.logdna_target.regions_targeting_logdna # Regions whose events will be forwarded to LogDNA
+  }
+  lifecycle {
+    # Recommended to ensure that if a target ID is removed here and destroyed in a plan, this is updated first
+    create_before_destroy = true
+  }
+}
