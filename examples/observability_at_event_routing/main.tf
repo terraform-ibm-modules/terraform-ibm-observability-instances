@@ -141,7 +141,6 @@ module "activity_tracker" {
         endpoint    = module.cos_bucket_1.s3_endpoint_private[0]
         target_crn  = module.cos_bucket_1.cos_instance_id
       }
-      target_name   = "${var.prefix}-cos-target"
       target_region = local.cos_target_region
     }
 
@@ -152,7 +151,6 @@ module "activity_tracker" {
         endpoint    = module.cos_bucket_2.s3_endpoint_private[0]
         target_crn  = module.cos_bucket_2.cos_instance_id
       }
-      target_name   = "${var.prefix}-cos-target"
       target_region = local.cos_target_region
     }
   }
@@ -165,7 +163,6 @@ module "activity_tracker" {
         brokers    = ibm_event_streams_topic.es_topic.kafka_brokers_sasl
         topic      = ibm_event_streams_topic.es_topic.name
       }
-      target_name   = "${var.prefix}-eventstreams-target"
       target_region = local.eventstreams_target_region
     }
   }
@@ -176,7 +173,6 @@ module "activity_tracker" {
         target_crn    = module.logdna_1.crn
         ingestion_key = module.logdna_1.ingestion_key
       }
-      target_name   = "${var.prefix}-logdna-target"
       target_region = local.logdna_target_region
     }
 
@@ -185,7 +181,6 @@ module "activity_tracker" {
         target_crn    = module.logdna_2.crn
         ingestion_key = module.logdna_2.ingestion_key
       }
-      target_name   = "${var.prefix}-logdna-target_2"
       target_region = local.logdna_target_region
     }
   }

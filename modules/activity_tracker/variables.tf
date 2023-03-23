@@ -106,14 +106,12 @@ variable "cos_targets" {
       api_key                    = optional(string)
       service_to_service_enabled = optional(bool, false)
     })
-    target_name   = string
     target_region = optional(string)
   }))
   default     = {}
   description = <<EOT
     cos_target = {
       cos_endpoint: "(Object) Property values for COS Endpoint"
-      target_name: "(String) The name of the COS target."
       target_region: "(String) Region where is COS target is created, include this field if you want to create a target in a different region other than the one you are connected"
     }
   EOT
@@ -125,14 +123,7 @@ variable "cos_targets" {
 
   validation {
     condition = alltrue([
-      for cos_target in var.cos_targets : length(cos_target.target_name) >= 1 && length(cos_target.target_name) <= 1000 && can(regex("^[a-zA-Z0-9 -._:]+$", cos_target.target_name))
-    ])
-    error_message = "The target name must be 1000 characters or less, and cannot include any special characters other than (space) - . _ :."
-  }
-
-  validation {
-    condition = alltrue([
-      for cos_target in var.cos_targets : length(cos_target.target_region) >= 1 && length(cos_target.target_region) <= 1000 && can(regex("^[a-zA-Z0-9 -._:]+$", cos_target.target_region))
+      for cos_target in var.cos_targets : (cos_target.target_region == null ? true : length(cos_target.target_region) >= 1 && length(cos_target.target_region) <= 1000 && can(regex("^[a-zA-Z0-9 -._:]+$", cos_target.target_region)))
     ])
     error_message = "The target region must be 1000 characters or less, and cannot include any special characters other than (space) - . _ :."
   }
@@ -147,28 +138,19 @@ variable "eventstreams_targets" {
       topic      = string
       api_key    = string
     })
-    target_name   = string
     target_region = optional(string)
   }))
   default     = {}
   description = <<EOT
     eventstreams_target = {
       eventstreams_endpoint: "(Object) Property values for event streams Endpoint"
-      target_name: "(String) The name of the event streams target."
       target_region: "(String) Region where is event streams target is created, include this field if you want to create a target in a different region other than the one you are connected"
     }
   EOT
 
   validation {
     condition = alltrue([
-      for eventstreams_target in var.eventstreams_targets : length(eventstreams_target.target_name) >= 1 && length(eventstreams_target.target_name) <= 1000 && can(regex("^[a-zA-Z0-9 -._:]+$", eventstreams_target.target_name))
-    ])
-    error_message = "The target name must be 1000 characters or less, and cannot include any special characters other than (space) - . _ :."
-  }
-
-  validation {
-    condition = alltrue([
-      for eventstreams_target in var.eventstreams_targets : length(eventstreams_target.target_region) >= 1 && length(eventstreams_target.target_region) <= 1000 && can(regex("^[a-zA-Z0-9 -._:]+$", eventstreams_target.target_region))
+      for eventstreams_target in var.eventstreams_targets : (eventstreams_target.target_region == null ? true : length(eventstreams_target.target_region) >= 1 && length(eventstreams_target.target_region) <= 1000 && can(regex("^[a-zA-Z0-9 -._:]+$", eventstreams_target.target_region)))
     ])
     error_message = "The target region must be 1000 characters or less, and cannot include any special characters other than (space) - . _ :."
   }
@@ -182,28 +164,19 @@ variable "logdna_targets" {
       target_crn    = string
       ingestion_key = string
     })
-    target_name   = string
     target_region = optional(string)
   }))
   default     = {}
   description = <<EOT
     logdna_target = {
       logdna_endpoint: "(Object) Property values for LogDNA Endpoint"
-      target_name: "(String) The name of the logDNA target."
       target_region: "(String) Region where is LogDNA target is created, include this field if you want to create a target in a different region other than the one you are connected"
     }
   EOT
 
   validation {
     condition = alltrue([
-      for logdna_target in var.logdna_targets : length(logdna_target.target_name) >= 1 && length(logdna_target.target_name) <= 1000 && can(regex("^[a-zA-Z0-9 -._:]+$", logdna_target.target_name))
-    ])
-    error_message = "The target name must be 1000 characters or less, and cannot include any special characters other than (space) - . _ :."
-  }
-
-  validation {
-    condition = alltrue([
-      for logdna_target in var.logdna_targets : length(logdna_target.target_region) >= 1 && length(logdna_target.target_region) <= 1000 && can(regex("^[a-zA-Z0-9 -._:]+$", logdna_target.target_region))
+      for logdna_target in var.logdna_targets : (logdna_target.target_region == null ? true : length(logdna_target.target_region) >= 1 && length(logdna_target.target_region) <= 1000 && can(regex("^[a-zA-Z0-9 -._:]+$", logdna_target.target_region)))
     ])
     error_message = "The target region must be 1000 characters or less, and cannot include any special characters other than (space) - . _ :."
   }
@@ -222,6 +195,16 @@ variable "activity_tracker_routes" {
     condition     = length(var.activity_tracker_routes) <= 4
     error_message = "Number of routes should be less than or equal to 4"
   }
+
+  validation {
+    condition     = alltrue([for activity_tracker_route in var.activity_tracker_routes : length(activity_tracker_route.locations) > 0])
+    error_message = "Length of location can not be zero"
+  }
+
+  validation {
+    condition     = alltrue([for activity_tracker_route in var.activity_tracker_routes : length(activity_tracker_route.target_ids) > 0])
+    error_message = "Length of target_id can not be zero"
+  }
 }
 # Event Routing Setting
 variable "default_targets" {
@@ -233,19 +216,19 @@ variable "default_targets" {
 variable "metadata_region_primary" {
   type        = string
   description = "Primary region to store all your meta data."
-  default     = "us-south"
+  default     = null
 }
 
 variable "metadata_region_backup" {
   type        = string
   description = "Backup region to store all your meta data in a ."
-  default     = "us-east"
+  default     = null
 }
 
 variable "permitted_target_regions" {
   type        = list(string)
   description = "List of regions where target can be defined."
-  default     = ["us-south", "eu-de", "us-east", "eu-gb", "au-syd"]
+  default     = null
 }
 
 variable "private_api_endpoint_only" {

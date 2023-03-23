@@ -9,10 +9,10 @@ output "activity_tracker_name" {
 
 output "activity_tracker_targets" {
   value       = module.activity_tracker.activity_tracker_targets
-  description = "Map of created targets"
+  description = "The map of created targets"
 }
 
 output "activity_tracker_routes" {
   value       = module.activity_tracker.activity_tracker_routes
-  description = "Map of created routes"
+  description = "The map of created routes"
 }

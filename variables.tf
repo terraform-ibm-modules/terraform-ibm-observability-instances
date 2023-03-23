@@ -263,14 +263,12 @@ variable "cos_targets" {
       api_key                    = optional(string)
       service_to_service_enabled = optional(bool, false)
     })
-    target_name   = string
     target_region = optional(string)
   }))
   default     = {}
   description = <<EOT
     cos_target = {
       cos_endpoint: "(Object) Property values for COS Endpoint"
-      target_name: "(String) The name of the COS target."
       target_region: "(String) Region where is COS target is created, include this field if you want to create a target in a different region other than the one you are connected"
     }
   EOT
@@ -285,14 +283,12 @@ variable "eventstreams_targets" {
       topic      = string
       api_key    = string
     })
-    target_name   = string
     target_region = optional(string)
   }))
   default     = {}
   description = <<EOT
     eventstreams_target = {
       eventstreams_endpoint: "(Object) Property values for event streams Endpoint"
-      target_name: "(String) The name of the event streams target."
       target_region: "(String) Region where is event streams target is created, include this field if you want to create a target in a different region other than the one you are connected"
     }
   EOT
@@ -305,14 +301,12 @@ variable "logdna_targets" {
       target_crn    = string
       ingestion_key = string
     })
-    target_name   = string
     target_region = optional(string)
   }))
   default     = {}
   description = <<EOT
     logdna_target = {
       logdna_endpoint: "(Object) Property values for LogDNA Endpoint"
-      target_name: "(String) The name of the logDNA target."
       target_region: "(String) Region where is LogDNA target is created, include this field if you want to create a target in a different region other than the one you are connected"
     }
   EOT
@@ -338,19 +332,19 @@ variable "default_targets" {
 variable "metadata_region_primary" {
   type        = string
   description = "Primary region to store all your meta data."
-  default     = "us-south"
+  default     = null
 }
 
 variable "metadata_region_backup" {
   type        = string
   description = "Backup region to store all your meta data in a ."
-  default     = "us-east"
+  default     = null
 }
 
 variable "permitted_target_regions" {
   type        = list(string)
   description = "List of regions where target can be defined."
-  default     = ["us-south", "eu-de", "us-east", "eu-gb", "au-syd"]
+  default     = []
 }
 
 variable "private_api_endpoint_only" {
