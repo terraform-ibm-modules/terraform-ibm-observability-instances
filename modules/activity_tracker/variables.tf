@@ -96,9 +96,9 @@ variable "cos_bucket_endpoint" {
 # Activity Tracker Event Routing
 #########################################################################
 
-# COS Target
-variable "cos_target" {
-  type = object({
+# COS Targets
+variable "cos_targets" {
+  type = map(object({
     cos_endpoint = object({
       endpoint                   = string
       bucket_name                = string
@@ -106,186 +106,123 @@ variable "cos_target" {
       api_key                    = optional(string)
       service_to_service_enabled = optional(bool, false)
     })
-    target_name           = string
-    route_name            = string
-    target_region         = optional(string)
-    regions_targeting_cos = list(string)
-  })
-  default     = null
+    target_name   = string
+    target_region = optional(string)
+  }))
+  default     = {}
   description = <<EOT
     cos_target = {
       cos_endpoint: "(Object) Property values for COS Endpoint"
       target_name: "(String) The name of the COS target."
-      route_name: "(String) The name of the COS route."
       target_region: "(String) Region where is COS target is created, include this field if you want to create a target in a different region other than the one you are connected"
-      regions_targeting_logdna: (List) Route the events generated in these regions to COS target"
     }
   EOT
 
   validation {
-    condition     = var.cos_target == null ? true : var.cos_target.cos_endpoint.service_to_service_enabled == false && var.cos_target.cos_endpoint.api_key != null
-    error_message = "Api key is required if service_to_service authorization is not enabled"
+    condition     = alltrue([for cos_target in var.cos_targets : cos_target.cos_endpoint.service_to_service_enabled == false && cos_target.cos_endpoint.api_key != null])
+    error_message = "The api key is required if service_to_service authorization is not enabled"
   }
 
   validation {
-    condition = anytrue([
-      var.cos_target == null,
-      alltrue([
-        can(length(var.cos_target.target_name) >= 1),
-        can(length(var.cos_target.target_name) <= 1000),
-        can(regex("^[a-zA-Z0-9 -._:]+$", var.cos_target.target_name))
-      ])
+    condition = alltrue([
+      for cos_target in var.cos_targets : length(cos_target.target_name) >= 1 && length(cos_target.target_name) <= 1000 && can(regex("^[a-zA-Z0-9 -._:]+$", cos_target.target_name))
     ])
     error_message = "The target name must be 1000 characters or less, and cannot include any special characters other than (space) - . _ :."
   }
 
   validation {
-    condition = anytrue([
-      var.cos_target == null,
-      alltrue([
-        can(length(var.cos_target.route_name) >= 1),
-        can(length(var.cos_target.route_name) <= 1000),
-        can(regex("^[a-zA-Z0-9 -._:]+$", var.cos_target.route_name))
-      ])
+    condition = alltrue([
+      for cos_target in var.cos_targets : length(cos_target.target_region) >= 1 && length(cos_target.target_region) <= 1000 && can(regex("^[a-zA-Z0-9 -._:]+$", cos_target.target_region))
     ])
-    error_message = "The route name must be 1000 characters or less, and cannot include any special characters other than (space) - . _ :."
-  }
-
-  validation {
-    condition = var.cos_target == null ? true : anytrue([
-      var.cos_target.target_region == null,
-      alltrue([
-        can(length(var.cos_target.target_region) >= 3),
-        can(length(var.cos_target.target_region) <= 1000),
-        can(regex("^[a-zA-Z0-9 -._:]+$", var.cos_target.target_region))
-      ])
-    ])
-    error_message = "The target region must be between 3 and 1000 characters, and cannot include any special characters other than (space) - . _ :."
+    error_message = "The target region must be 1000 characters or less, and cannot include any special characters other than (space) - . _ :."
   }
 }
 
-# Event Streams Target
-variable "eventstreams_target" {
-  type = object({
+# Event Streams Targets
+variable "eventstreams_targets" {
+  type = map(object({
     eventstreams_endpoint = object({
       target_crn = string
       brokers    = list(string)
       topic      = string
       api_key    = string
     })
-    target_name                    = string
-    route_name                     = string
-    target_region                  = optional(string)
-    regions_targeting_eventstreams = list(string)
-  })
-  default     = null
+    target_name   = string
+    target_region = optional(string)
+  }))
+  default     = {}
   description = <<EOT
     eventstreams_target = {
       eventstreams_endpoint: "(Object) Property values for event streams Endpoint"
       target_name: "(String) The name of the event streams target."
-      route_name: "(String) The name of the event streams route."
       target_region: "(String) Region where is event streams target is created, include this field if you want to create a target in a different region other than the one you are connected"
-      regions_targeting_logdna: (List) Route the events generated in these regions to event streams target"
     }
   EOT
 
   validation {
-    condition = anytrue([
-      var.eventstreams_target == null,
-      alltrue([
-        can(length(var.eventstreams_target.target_name) >= 1),
-        can(length(var.eventstreams_target.target_name) <= 1000),
-        can(regex("^[a-zA-Z0-9 -._:]+$", var.eventstreams_target.target_name))
-      ])
+    condition = alltrue([
+      for eventstreams_target in var.eventstreams_targets : length(eventstreams_target.target_name) >= 1 && length(eventstreams_target.target_name) <= 1000 && can(regex("^[a-zA-Z0-9 -._:]+$", eventstreams_target.target_name))
     ])
     error_message = "The target name must be 1000 characters or less, and cannot include any special characters other than (space) - . _ :."
   }
 
   validation {
-    condition = anytrue([
-      var.eventstreams_target == null,
-      alltrue([
-        can(length(var.eventstreams_target.route_name) >= 1),
-        can(length(var.eventstreams_target.route_name) <= 1000),
-        can(regex("^[a-zA-Z0-9 -._:]+$", var.eventstreams_target.route_name))
-      ])
+    condition = alltrue([
+      for eventstreams_target in var.eventstreams_targets : length(eventstreams_target.target_region) >= 1 && length(eventstreams_target.target_region) <= 1000 && can(regex("^[a-zA-Z0-9 -._:]+$", eventstreams_target.target_region))
     ])
-    error_message = "The route name must be 1000 characters or less, and cannot include any special characters other than (space) - . _ :."
+    error_message = "The target region must be 1000 characters or less, and cannot include any special characters other than (space) - . _ :."
   }
 
-  validation {
-    condition = var.eventstreams_target == null ? true : anytrue([
-      var.eventstreams_target.target_region == null,
-      alltrue([
-        can(length(var.eventstreams_target.target_region) >= 3),
-        can(length(var.eventstreams_target.target_region) <= 1000),
-        can(regex("^[a-zA-Z0-9 -._:]+$", var.eventstreams_target.target_region))
-      ])
-    ])
-    error_message = "The target region must be between 3 and 1000 characters, and cannot include any special characters other than (space) - . _ :."
-  }
 }
 
-# logDNA Target
-variable "logdna_target" {
-  type = object({
+# logDNA Targets
+variable "logdna_targets" {
+  type = map(object({
     logdna_endpoint = object({
       target_crn    = string
       ingestion_key = string
     })
-    target_name              = string
-    route_name               = string
-    target_region            = optional(string)
-    regions_targeting_logdna = list(string)
-  })
-  default     = null
+    target_name   = string
+    target_region = optional(string)
+  }))
+  default     = {}
   description = <<EOT
     logdna_target = {
       logdna_endpoint: "(Object) Property values for LogDNA Endpoint"
       target_name: "(String) The name of the logDNA target."
-      route_name: "(String) The name of the LogDNA route."
       target_region: "(String) Region where is LogDNA target is created, include this field if you want to create a target in a different region other than the one you are connected"
-      regions_targeting_logdna: (List) Route the events generated in these regions to LogDNA target"
     }
   EOT
 
   validation {
-    condition = anytrue([
-      var.logdna_target == null,
-      alltrue([
-        can(length(var.logdna_target.target_name) >= 1),
-        can(length(var.logdna_target.target_name) <= 1000),
-        can(regex("^[a-zA-Z0-9 -._:]+$", var.logdna_target.target_name))
-      ])
+    condition = alltrue([
+      for logdna_target in var.logdna_targets : length(logdna_target.target_name) >= 1 && length(logdna_target.target_name) <= 1000 && can(regex("^[a-zA-Z0-9 -._:]+$", logdna_target.target_name))
     ])
     error_message = "The target name must be 1000 characters or less, and cannot include any special characters other than (space) - . _ :."
   }
 
   validation {
-    condition = anytrue([
-      var.logdna_target == null,
-      alltrue([
-        can(length(var.logdna_target.route_name) >= 1),
-        can(length(var.logdna_target.route_name) <= 1000),
-        can(regex("^[a-zA-Z0-9 -._:]+$", var.logdna_target.route_name))
-      ])
+    condition = alltrue([
+      for logdna_target in var.logdna_targets : length(logdna_target.target_region) >= 1 && length(logdna_target.target_region) <= 1000 && can(regex("^[a-zA-Z0-9 -._:]+$", logdna_target.target_region))
     ])
-    error_message = "The route name must be 1000 characters or less, and cannot include any special characters other than (space) - . _ :."
-  }
-
-  validation {
-    condition = var.logdna_target == null ? true : anytrue([
-      var.logdna_target.target_region == null,
-      alltrue([
-        can(length(var.logdna_target.target_region) >= 3),
-        can(length(var.logdna_target.target_region) <= 1000),
-        can(regex("^[a-zA-Z0-9 -._:]+$", var.logdna_target.target_region))
-      ])
-    ])
-    error_message = "The target region must be between 3 and 1000 characters, and cannot include any special characters other than (space) - . _ :."
+    error_message = "The target region must be 1000 characters or less, and cannot include any special characters other than (space) - . _ :."
   }
 }
 
+# Routes
+variable "activity_tracker_routes" {
+  type = map(object({
+    locations  = list(string)
+    target_ids = list(string)
+  }))
+  description = "Map of routes to be created, maximum four routes are allowed"
+  default     = {}
+
+  validation {
+    condition     = length(var.activity_tracker_routes) <= 4
+    error_message = "Number of routes should be less than or equal to 4"
+  }
+}
 # Event Routing Setting
 variable "default_targets" {
   type        = list(string)

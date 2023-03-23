@@ -46,7 +46,7 @@ variable "existing_activity_tracker_region" {
   default     = null
 }
 
-#Activity Tracker Event Routing
+# Activity Tracker Event Routing
 variable "cos_target_region" {
   type        = string
   description = "Region where cos target will be created"
@@ -67,7 +67,7 @@ variable "eventstreams_target_region" {
 
 ##############################################################################
 
-#Event Routing Setting
+# Event Routing Global Setting
 variable "metadata_region_primary" {
   type        = string
   description = "Primary region to store all your meta data."

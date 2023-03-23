@@ -26,20 +26,37 @@ module "resource_group" {
 }
 
 # COS target
-module "cos_bucket" {
+module "cos_bucket_1" {
   source             = "git::https://github.com/terraform-ibm-modules/terraform-ibm-cos?ref=v5.10.0"
   resource_group_id  = module.resource_group.resource_group_id
   region             = local.cos_target_region
-  cos_instance_name  = "${var.prefix}-cos-target-instance"
+  cos_instance_name  = "${var.prefix}-cos-target-instance-1"
   cos_tags           = var.resource_tags
-  bucket_name        = "${var.prefix}-cos-target-bucket"
+  bucket_name        = "${var.prefix}-cos-target-bucket-1"
   encryption_enabled = false
   retention_enabled  = false
 }
 
-resource "ibm_resource_key" "cos_resource_key" {
-  name                 = "${var.prefix}-cos-service-key"
-  resource_instance_id = module.cos_bucket.cos_instance_id
+resource "ibm_resource_key" "cos_resource_key_1" {
+  name                 = "${var.prefix}-cos-service-key-1"
+  resource_instance_id = module.cos_bucket_1.cos_instance_id
+  role                 = "Writer"
+}
+
+module "cos_bucket_2" {
+  source             = "git::https://github.com/terraform-ibm-modules/terraform-ibm-cos?ref=v5.10.0"
+  resource_group_id  = module.resource_group.resource_group_id
+  region             = local.cos_target_region
+  cos_instance_name  = "${var.prefix}-cos-target-instance-2"
+  cos_tags           = var.resource_tags
+  bucket_name        = "${var.prefix}-cos-target-bucket-2"
+  encryption_enabled = false
+  retention_enabled  = false
+}
+
+resource "ibm_resource_key" "cos_resource_key_2" {
+  name                 = "${var.prefix}-cos-service-key-2"
+  resource_instance_id = module.cos_bucket_2.cos_instance_id
   role                 = "Writer"
 }
 
@@ -71,16 +88,29 @@ resource "ibm_resource_key" "es_resource_key" {
 }
 
 # LogDNA target
-module "logdna" {
+module "logdna_1" {
   source = "../../modules/logdna"
   providers = {
     logdna.ld = logdna.ld
   }
-  instance_name     = "${var.prefix}-logdna-target-instance"
+  instance_name     = "${var.prefix}-logdna-target-instance-1"
   resource_group_id = module.resource_group.resource_group_id
   plan              = "7-day"
   region            = local.logdna_target_region
-  manager_key_name  = "${var.prefix}-logdna-manager-key"
+  manager_key_name  = "${var.prefix}-logdna-manager-key-1"
+  resource_key_role = "Manager"
+}
+
+module "logdna_2" {
+  source = "../../modules/logdna"
+  providers = {
+    logdna.ld = logdna.ld
+  }
+  instance_name     = "${var.prefix}-logdna-target-instance-2"
+  resource_group_id = module.resource_group.resource_group_id
+  plan              = "7-day"
+  region            = local.logdna_target_region
+  manager_key_name  = "${var.prefix}-logdna-manager-key-2"
   resource_key_role = "Manager"
 }
 
@@ -102,50 +132,90 @@ module "activity_tracker" {
   plan                       = "7-day"
   tags                       = var.resource_tags
 
+  # Targets
+  cos_targets = {
+    "${var.prefix}-cos-target-1" = {
+      cos_endpoint = {
+        api_key     = ibm_resource_key.cos_resource_key_1.credentials.apikey
+        bucket_name = module.cos_bucket_1.bucket_name[0]
+        endpoint    = module.cos_bucket_1.s3_endpoint_private[0]
+        target_crn  = module.cos_bucket_1.cos_instance_id
+      }
+      target_name   = "${var.prefix}-cos-target"
+      target_region = local.cos_target_region
+    }
+
+    "${var.prefix}-cos-target-2" = {
+      cos_endpoint = {
+        api_key     = ibm_resource_key.cos_resource_key_2.credentials.apikey
+        bucket_name = module.cos_bucket_2.bucket_name[0]
+        endpoint    = module.cos_bucket_2.s3_endpoint_private[0]
+        target_crn  = module.cos_bucket_2.cos_instance_id
+      }
+      target_name   = "${var.prefix}-cos-target"
+      target_region = local.cos_target_region
+    }
+  }
+
+  eventstreams_targets = {
+    "${var.prefix}-eventstreams-target-1" = {
+      eventstreams_endpoint = {
+        api_key    = ibm_resource_key.es_resource_key.credentials.apikey
+        target_crn = ibm_resource_instance.es_instance.id
+        brokers    = ibm_event_streams_topic.es_topic.kafka_brokers_sasl
+        topic      = ibm_event_streams_topic.es_topic.name
+      }
+      target_name   = "${var.prefix}-eventstreams-target"
+      target_region = local.eventstreams_target_region
+    }
+  }
+
+  logdna_targets = {
+    "${var.prefix}-logdna-target-1" = {
+      logdna_endpoint = {
+        target_crn    = module.logdna_1.crn
+        ingestion_key = module.logdna_1.ingestion_key
+      }
+      target_name   = "${var.prefix}-logdna-target"
+      target_region = local.logdna_target_region
+    }
+
+    "${var.prefix}-logdna-target-2" = {
+      logdna_endpoint = {
+        target_crn    = module.logdna_2.crn
+        ingestion_key = module.logdna_2.ingestion_key
+      }
+      target_name   = "${var.prefix}-logdna-target_2"
+      target_region = local.logdna_target_region
+    }
+  }
+
+  # Routes
+  activity_tracker_routes = {
+    "${var.prefix}-route-1" = {
+      locations = ["*", "global"]
+      target_ids = [
+        module.activity_tracker.activity_tracker_targets["${var.prefix}-cos-target-1"].id,
+        module.activity_tracker.activity_tracker_targets["${var.prefix}-logdna-target-1"].id,
+        module.activity_tracker.activity_tracker_targets["${var.prefix}-eventstreams-target-1"].id
+      ]
+    }
+
+    "${var.prefix}-route-2" = {
+      locations = ["*", "global"]
+      target_ids = [
+        module.activity_tracker.activity_tracker_targets["${var.prefix}-cos-target-2"].id,
+        module.activity_tracker.activity_tracker_targets["${var.prefix}-logdna-target-2"].id
+      ]
+    }
+  }
+
   # Global Settings
-  default_targets           = [module.activity_tracker.cos_target_id, module.activity_tracker.eventstreams_target_id]
+  default_targets           = [module.activity_tracker.activity_tracker_targets["${var.prefix}-eventstreams-target-1"].id]
   permitted_target_regions  = var.permitted_target_regions
   metadata_region_primary   = var.metadata_region_primary
   metadata_region_backup    = var.metadata_region_backup
   private_api_endpoint_only = var.private_api_endpoint_only
-
-  # Targets
-  cos_target = {
-    cos_endpoint = {
-      api_key     = ibm_resource_key.cos_resource_key.credentials.apikey
-      bucket_name = module.cos_bucket.bucket_name[0]
-      endpoint    = module.cos_bucket.s3_endpoint_private[0]
-      target_crn  = module.cos_bucket.cos_instance_id
-    }
-    route_name            = "${var.prefix}-cos-route"
-    target_name           = "${var.prefix}-cos-target"
-    target_region         = local.cos_target_region
-    regions_targeting_cos = ["*", "global"]
-  }
-
-  eventstreams_target = {
-    eventstreams_endpoint = {
-      api_key    = ibm_resource_key.es_resource_key.credentials.apikey
-      target_crn = ibm_resource_instance.es_instance.id
-      brokers    = ibm_event_streams_topic.es_topic.kafka_brokers_sasl
-      topic      = ibm_event_streams_topic.es_topic.name
-    }
-    route_name                     = "${var.prefix}-eventstreams-route"
-    target_name                    = "${var.prefix}-eventstreams-target"
-    target_region                  = local.eventstreams_target_region
-    regions_targeting_eventstreams = ["*", "global"]
-  }
-
-  logdna_target = {
-    logdna_endpoint = {
-      target_crn    = module.logdna.crn
-      ingestion_key = module.logdna.ingestion_key
-    }
-    route_name               = "${var.prefix}-logdna-route"
-    target_name              = "${var.prefix}-logdna-target"
-    target_region            = local.logdna_target_region
-    regions_targeting_logdna = ["*", "global"]
-  }
 }
 
 data "ibm_resource_key" "at_resource_key" {

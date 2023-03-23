@@ -15,6 +15,6 @@ provider "logdna" {
 
 provider "logdna" {
   alias      = "ld"
-  servicekey = module.logdna.resource_key != null ? module.logdna.resource_key : ""
+  servicekey = module.logdna_1.resource_key != null ? module.logdna_1.resource_key : ""
   url        = local.at_endpoint
 }

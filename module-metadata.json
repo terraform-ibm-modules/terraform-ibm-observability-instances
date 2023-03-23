@@ -74,6 +74,19 @@
         "line": 183
       }
     },
+    "activity_tracker_routes": {
+      "name": "activity_tracker_routes",
+      "type": "map(object({\n    locations  = list(string)\n    target_ids = list(string)\n  }))",
+      "description": "Map of routes to be created, maximum four routes are allowed",
+      "default": {},
+      "source": [
+        "module.activity_tracker"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 322
+      }
+    },
     "activity_tracker_service_endpoints": {
       "name": "activity_tracker_service_endpoints",
       "type": "string",
@@ -144,10 +157,11 @@
         "line": 234
       }
     },
-    "cos_target": {
-      "name": "cos_target",
-      "type": "object({\n    cos_endpoint = object({\n      endpoint                   = string\n      bucket_name                = string\n      target_crn                 = string\n      api_key                    = optional(string)\n      service_to_service_enabled = optional(bool, false)\n    })\n    target_name           = string\n    route_name            = string\n    target_region         = optional(string)\n    regions_targeting_cos = list(string)\n  })",
-      "description": "    cos_target = {\n      cos_endpoint: \"(Object) Property values for COS Endpoint\"\n      target_name: \"(String) The name of the COS target.\"\n      route_name: \"(String) The name of the COS route.\"\n      target_region: \"(String) Region where is COS target is created, include this field if you want to create a target in a different region other than the one you are connected\"\n      regions_targeting_logdna: (List) Route the events generated in these regions to COS target\"\n    }\n",
+    "cos_targets": {
+      "name": "cos_targets",
+      "type": "map(object({\n    cos_endpoint = object({\n      endpoint                   = string\n      bucket_name                = string\n      target_crn                 = string\n      api_key                    = optional(string)\n      service_to_service_enabled = optional(bool, false)\n    })\n    target_name   = string\n    target_region = optional(string)\n  }))",
+      "description": "    cos_target = {\n      cos_endpoint: \"(Object) Property values for COS Endpoint\"\n      target_name: \"(String) The name of the COS target.\"\n      target_region: \"(String) Region where is COS target is created, include this field if you want to create a target in a different region other than the one you are connected\"\n    }\n",
+      "default": {},
       "source": [
         "module.activity_tracker"
       ],
@@ -166,7 +180,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 334
+        "line": 332
       },
       "elem": {
         "type": "TypeString"
@@ -212,16 +226,17 @@
         "line": 164
       }
     },
-    "eventstreams_target": {
-      "name": "eventstreams_target",
-      "type": "object({\n    eventstreams_endpoint = object({\n      target_crn = string\n      brokers    = list(string)\n      topic      = string\n      api_key    = string\n    })\n    target_name                    = string\n    route_name                     = string\n    target_region                  = optional(string)\n    regions_targeting_eventstreams = list(string)\n  })",
-      "description": "    eventstreams_target = {\n      eventstreams_endpoint: \"(Object) Property values for event streams Endpoint\"\n      target_name: \"(String) The name of the event streams target.\"\n      route_name: \"(String) The name of the event streams route.\"\n      target_region: \"(String) Region where is event streams target is created, include this field if you want to create a target in a different region other than the one you are connected\"\n      regions_targeting_logdna: (List) Route the events generated in these regions to event streams target\"\n    }\n",
+    "eventstreams_targets": {
+      "name": "eventstreams_targets",
+      "type": "map(object({\n    eventstreams_endpoint = object({\n      target_crn = string\n      brokers    = list(string)\n      topic      = string\n      api_key    = string\n    })\n    target_name   = string\n    target_region = optional(string)\n  }))",
+      "description": "    eventstreams_target = {\n      eventstreams_endpoint: \"(Object) Property values for event streams Endpoint\"\n      target_name: \"(String) The name of the event streams target.\"\n      target_region: \"(String) Region where is event streams target is created, include this field if you want to create a target in a different region other than the one you are connected\"\n    }\n",
+      "default": {},
       "source": [
         "module.activity_tracker"
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 284
+        "line": 280
       }
     },
     "ibmcloud_api_key": {
@@ -395,16 +410,17 @@
         "type": "TypeString"
       }
     },
-    "logdna_target": {
-      "name": "logdna_target",
-      "type": "object({\n    logdna_endpoint = object({\n      target_crn    = string\n      ingestion_key = string\n    })\n    target_name              = string\n    route_name               = string\n    target_region            = optional(string)\n    regions_targeting_logdna = list(string)\n  })",
-      "description": "    logdna_target = {\n      logdna_endpoint: \"(Object) Property values for LogDNA Endpoint\"\n      target_name: \"(String) The name of the logDNA target.\"\n      route_name: \"(String) The name of the LogDNA route.\"\n      target_region: \"(String) Region where is LogDNA target is created, include this field if you want to create a target in a different region other than the one you are connected\"\n      regions_targeting_logdna: (List) Route the events generated in these regions to LogDNA target\"\n    }\n",
+    "logdna_targets": {
+      "name": "logdna_targets",
+      "type": "map(object({\n    logdna_endpoint = object({\n      target_crn    = string\n      ingestion_key = string\n    })\n    target_name   = string\n    target_region = optional(string)\n  }))",
+      "description": "    logdna_target = {\n      logdna_endpoint: \"(Object) Property values for LogDNA Endpoint\"\n      target_name: \"(String) The name of the logDNA target.\"\n      target_region: \"(String) Region where is LogDNA target is created, include this field if you want to create a target in a different region other than the one you are connected\"\n    }\n",
+      "default": {},
       "source": [
         "module.activity_tracker"
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 310
+        "line": 302
       }
     },
     "metadata_region_backup": {
@@ -417,7 +433,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 346
+        "line": 344
       },
       "max_length": 256,
       "matches": "^[a-zA-Z0-9 -_]*"
@@ -433,7 +449,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 340
+        "line": 338
       },
       "min_length": 3,
       "max_length": 256,
@@ -455,7 +471,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 352
+        "line": 350
       },
       "elem": {
         "type": "TypeString"
@@ -472,7 +488,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 358
+        "line": 356
       }
     },
     "region": {
@@ -676,58 +692,22 @@
         "line": 108
       }
     },
-    "cos_route_name": {
-      "name": "cos_route_name",
-      "description": "The name of the provisioned COS target route.",
-      "value": "module.activity_tracker.cos_route_name",
-      "pos": {
-        "filename": "outputs.tf",
-        "line": 153
-      }
-    },
-    "cos_target_id": {
-      "name": "cos_target_id",
-      "description": "The id of the provisioned COS target.",
-      "value": "module.activity_tracker.cos_target_id",
-      "pos": {
-        "filename": "outputs.tf",
-        "line": 123
-      }
-    },
-    "cos_target_name": {
-      "name": "cos_target_name",
-      "description": "The name of the provisioned COS target.",
-      "value": "module.activity_tracker.cos_target_name",
-      "pos": {
-        "filename": "outputs.tf",
-        "line": 138
-      }
-    },
-    "eventstreams_route_name": {
-      "name": "eventstreams_route_name",
-      "description": "The name of the provisioned event streams target route.",
-      "value": "module.activity_tracker.eventstreams_route_name",
-      "pos": {
-        "filename": "outputs.tf",
-        "line": 158
-      }
-    },
-    "eventstreams_target_id": {
-      "name": "eventstreams_target_id",
-      "description": "The id of the provisioned event streams target.",
-      "value": "module.activity_tracker.eventstreams_target_id",
+    "activity_tracker_routes": {
+      "name": "activity_tracker_routes",
+      "description": "Map of created routes",
+      "value": "module.activity_tracker.activity_tracker_routes",
       "pos": {
         "filename": "outputs.tf",
         "line": 128
       }
     },
-    "eventstreams_target_name": {
-      "name": "eventstreams_target_name",
-      "description": "The name of the provisioned event streams target.",
-      "value": "module.activity_tracker.eventstreams_target_name",
+    "activity_tracker_targets": {
+      "name": "activity_tracker_targets",
+      "description": "Map of created targets",
+      "value": "module.activity_tracker.activity_tracker_targets",
       "pos": {
         "filename": "outputs.tf",
-        "line": 143
+        "line": 123
       }
     },
     "logdna_crn": {
@@ -793,33 +773,6 @@
       "pos": {
         "filename": "outputs.tf",
         "line": 34
-      }
-    },
-    "logdna_route_name": {
-      "name": "logdna_route_name",
-      "description": "The name of the provisioned LogDNA target route.",
-      "value": "module.activity_tracker.logdna_route_name",
-      "pos": {
-        "filename": "outputs.tf",
-        "line": 163
-      }
-    },
-    "logdna_target_id": {
-      "name": "logdna_target_id",
-      "description": "The id of the provisioned LogDNA target.",
-      "value": "module.activity_tracker.logdna_target_id",
-      "pos": {
-        "filename": "outputs.tf",
-        "line": 133
-      }
-    },
-    "logdna_target_name": {
-      "name": "logdna_target_name",
-      "description": "The name of the provisioned LogDNA target.",
-      "value": "module.activity_tracker.logdna_target_name",
-      "pos": {
-        "filename": "outputs.tf",
-        "line": 148
       }
     },
     "region": {
@@ -924,16 +877,17 @@
       "source": "./modules/activity_tracker",
       "attributes": {
         "activity_tracker_provision": "activity_tracker_provision",
+        "activity_tracker_routes": "activity_tracker_routes",
         "cos_bucket_endpoint": "at_cos_bucket_endpoint",
         "cos_bucket_name": "at_cos_bucket_name",
         "cos_instance_id": "at_cos_instance_id",
-        "cos_target": "cos_target",
+        "cos_targets": "cos_targets",
         "default_targets": "default_targets",
         "enable_archive": "enable_archive",
-        "eventstreams_target": "eventstreams_target",
+        "eventstreams_targets": "eventstreams_targets",
         "ibmcloud_api_key": "ibmcloud_api_key",
         "instance_name": "activity_tracker_instance_name",
-        "logdna_target": "logdna_target",
+        "logdna_targets": "logdna_targets",
         "manager_key_name": "activity_tracker_manager_key_name",
         "manager_key_tags": "activity_tracker_manager_key_tags",
         "metadata_region_backup": "metadata_region_backup",
@@ -947,52 +901,19 @@
         "tags": "activity_tracker_tags"
       },
       "managed_resources": {
-        "ibm_atracker_route.atracker_cos_route": {
+        "ibm_atracker_route.atracker_routes": {
           "mode": "managed",
           "type": "ibm_atracker_route",
-          "name": "atracker_cos_route",
+          "name": "atracker_routes",
           "attributes": {
-            "count": "cos_target",
-            "name": "cos_target"
+            "for_each": "activity_tracker_routes"
           },
           "provider": {
             "name": "ibm"
           },
           "pos": {
             "filename": "modules/activity_tracker/main.tf",
-            "line": 61
-          }
-        },
-        "ibm_atracker_route.atracker_eventstreams_route": {
-          "mode": "managed",
-          "type": "ibm_atracker_route",
-          "name": "atracker_eventstreams_route",
-          "attributes": {
-            "count": "eventstreams_target",
-            "name": "eventstreams_target"
-          },
-          "provider": {
-            "name": "ibm"
-          },
-          "pos": {
-            "filename": "modules/activity_tracker/main.tf",
-            "line": 88
-          }
-        },
-        "ibm_atracker_route.atracker_logdna_route": {
-          "mode": "managed",
-          "type": "ibm_atracker_route",
-          "name": "atracker_logdna_route",
-          "attributes": {
-            "count": "logdna_target",
-            "name": "logdna_target"
-          },
-          "provider": {
-            "name": "ibm"
-          },
-          "pos": {
-            "filename": "modules/activity_tracker/main.tf",
-            "line": 113
+            "line": 87
           }
         },
         "ibm_atracker_settings.atracker_settings": {
@@ -1011,17 +932,15 @@
           },
           "pos": {
             "filename": "modules/activity_tracker/main.tf",
-            "line": 129
+            "line": 103
           }
         },
-        "ibm_atracker_target.atracker_cos_target": {
+        "ibm_atracker_target.atracker_cos_targets": {
           "mode": "managed",
           "type": "ibm_atracker_target",
-          "name": "atracker_cos_target",
+          "name": "atracker_cos_targets",
           "attributes": {
-            "count": "cos_target",
-            "name": "cos_target",
-            "region": "cos_target"
+            "for_each": "cos_targets"
           },
           "provider": {
             "name": "ibm"
@@ -1031,38 +950,34 @@
             "line": 47
           }
         },
-        "ibm_atracker_target.atracker_eventstreams_target": {
+        "ibm_atracker_target.atracker_eventstreams_targets": {
           "mode": "managed",
           "type": "ibm_atracker_target",
-          "name": "atracker_eventstreams_target",
+          "name": "atracker_eventstreams_targets",
           "attributes": {
-            "count": "eventstreams_target",
-            "name": "eventstreams_target",
-            "region": "eventstreams_target"
+            "for_each": "eventstreams_targets"
           },
           "provider": {
             "name": "ibm"
           },
           "pos": {
             "filename": "modules/activity_tracker/main.tf",
-            "line": 74
+            "line": 61
           }
         },
-        "ibm_atracker_target.atracker_logdna_target": {
+        "ibm_atracker_target.atracker_logdna_targets": {
           "mode": "managed",
           "type": "ibm_atracker_target",
-          "name": "atracker_logdna_target",
+          "name": "atracker_logdna_targets",
           "attributes": {
-            "count": "logdna_target",
-            "name": "logdna_target",
-            "region": "logdna_target"
+            "for_each": "logdna_targets"
           },
           "provider": {
             "name": "ibm"
           },
           "pos": {
             "filename": "modules/activity_tracker/main.tf",
-            "line": 101
+            "line": 75
           }
         },
         "ibm_resource_instance.activity_tracker": {
@@ -1121,25 +1036,19 @@
       },
       "data_resources": {},
       "outputs": {
-        "cos_route_name": {
-          "name": "cos_route_name",
-          "description": "The name of the provisioned COS target route.",
+        "activity_tracker_routes": {
+          "name": "activity_tracker_routes",
+          "description": "Map of created routes",
+          "value": "local.activity_tracker_routes",
           "pos": {
             "filename": "modules/activity_tracker/outputs.tf",
-            "line": 67
+            "line": 42
           }
         },
-        "cos_target_id": {
-          "name": "cos_target_id",
-          "description": "The id of the provisioned COS target.",
-          "pos": {
-            "filename": "modules/activity_tracker/outputs.tf",
-            "line": 51
-          }
-        },
-        "cos_target_name": {
-          "name": "cos_target_name",
-          "description": "The name of the provisioned COS target.",
+        "activity_tracker_targets": {
+          "name": "activity_tracker_targets",
+          "description": "Map of created targets",
+          "value": "local.activity_tracker_targets",
           "pos": {
             "filename": "modules/activity_tracker/outputs.tf",
             "line": 36
@@ -1153,60 +1062,12 @@
             "line": 1
           }
         },
-        "eventstreams_route_name": {
-          "name": "eventstreams_route_name",
-          "description": "The name of the provisioned event streams target route.",
-          "pos": {
-            "filename": "modules/activity_tracker/outputs.tf",
-            "line": 77
-          }
-        },
-        "eventstreams_target_id": {
-          "name": "eventstreams_target_id",
-          "description": "The id of the provisioned event streams target.",
-          "pos": {
-            "filename": "modules/activity_tracker/outputs.tf",
-            "line": 56
-          }
-        },
-        "eventstreams_target_name": {
-          "name": "eventstreams_target_name",
-          "description": "The name of the provisioned event streams target.",
-          "pos": {
-            "filename": "modules/activity_tracker/outputs.tf",
-            "line": 41
-          }
-        },
         "guid": {
           "name": "guid",
           "description": "The guid of the provisioned Activity Tracker instance.",
           "pos": {
             "filename": "modules/activity_tracker/outputs.tf",
             "line": 6
-          }
-        },
-        "logdna_route_name": {
-          "name": "logdna_route_name",
-          "description": "The name of the provisioned LogDNA target route.",
-          "pos": {
-            "filename": "modules/activity_tracker/outputs.tf",
-            "line": 72
-          }
-        },
-        "logdna_target_id": {
-          "name": "logdna_target_id",
-          "description": "The id of the provisioned LogDNA target.",
-          "pos": {
-            "filename": "modules/activity_tracker/outputs.tf",
-            "line": 61
-          }
-        },
-        "logdna_target_name": {
-          "name": "logdna_target_name",
-          "description": "The name of the provisioned LogDNA target.",
-          "pos": {
-            "filename": "modules/activity_tracker/outputs.tf",
-            "line": 46
           }
         },
         "manager_key_name": {
@@ -1389,7 +1250,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 38
+        "line": 39
       }
     },
     "sysdig": {
@@ -1501,7 +1362,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 62
+        "line": 63
       }
     }
   }

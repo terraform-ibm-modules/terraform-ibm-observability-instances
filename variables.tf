@@ -253,9 +253,9 @@ variable "at_cos_bucket_endpoint" {
 # Activity Tracker Event Routing
 #########################################################################
 
-# COS Target
-variable "cos_target" {
-  type = object({
+# COS Targets
+variable "cos_targets" {
+  type = map(object({
     cos_endpoint = object({
       endpoint                   = string
       bucket_name                = string
@@ -263,71 +263,69 @@ variable "cos_target" {
       api_key                    = optional(string)
       service_to_service_enabled = optional(bool, false)
     })
-    target_name           = string
-    route_name            = string
-    target_region         = optional(string)
-    regions_targeting_cos = list(string)
-  })
-  default     = null
+    target_name   = string
+    target_region = optional(string)
+  }))
+  default     = {}
   description = <<EOT
     cos_target = {
       cos_endpoint: "(Object) Property values for COS Endpoint"
       target_name: "(String) The name of the COS target."
-      route_name: "(String) The name of the COS route."
       target_region: "(String) Region where is COS target is created, include this field if you want to create a target in a different region other than the one you are connected"
-      regions_targeting_logdna: (List) Route the events generated in these regions to COS target"
     }
   EOT
 }
 
-# Event Streams Target
-variable "eventstreams_target" {
-  type = object({
+# Event Streams Targets
+variable "eventstreams_targets" {
+  type = map(object({
     eventstreams_endpoint = object({
       target_crn = string
       brokers    = list(string)
       topic      = string
       api_key    = string
     })
-    target_name                    = string
-    route_name                     = string
-    target_region                  = optional(string)
-    regions_targeting_eventstreams = list(string)
-  })
-  default     = null
+    target_name   = string
+    target_region = optional(string)
+  }))
+  default     = {}
   description = <<EOT
     eventstreams_target = {
       eventstreams_endpoint: "(Object) Property values for event streams Endpoint"
       target_name: "(String) The name of the event streams target."
-      route_name: "(String) The name of the event streams route."
       target_region: "(String) Region where is event streams target is created, include this field if you want to create a target in a different region other than the one you are connected"
-      regions_targeting_logdna: (List) Route the events generated in these regions to event streams target"
     }
   EOT
 }
 
-# logDNA Target
-variable "logdna_target" {
-  type = object({
+# logDNA Targets
+variable "logdna_targets" {
+  type = map(object({
     logdna_endpoint = object({
       target_crn    = string
       ingestion_key = string
     })
-    target_name              = string
-    route_name               = string
-    target_region            = optional(string)
-    regions_targeting_logdna = list(string)
-  })
-  default     = null
+    target_name   = string
+    target_region = optional(string)
+  }))
+  default     = {}
   description = <<EOT
     logdna_target = {
       logdna_endpoint: "(Object) Property values for LogDNA Endpoint"
       target_name: "(String) The name of the logDNA target."
-      route_name: "(String) The name of the LogDNA route."
       target_region: "(String) Region where is LogDNA target is created, include this field if you want to create a target in a different region other than the one you are connected"
-      regions_targeting_logdna: (List) Route the events generated in these regions to LogDNA target"
     }
   EOT
+}
+
+# Routes
+variable "activity_tracker_routes" {
+  type = map(object({
+    locations  = list(string)
+    target_ids = list(string)
+  }))
+  description = "Map of routes to be created, maximum four routes are allowed"
+  default     = {}
 }
 
 # Event Routing Setting

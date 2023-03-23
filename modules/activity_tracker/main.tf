@@ -43,79 +43,53 @@ resource "logdna_archive" "archive_config" {
 # Activity Tracker Event Routing
 #########################################################################
 
-# COS target
-resource "ibm_atracker_target" "atracker_cos_target" {
-  count = length(var.cos_target == null ? [] : [1])
+# COS targets
+resource "ibm_atracker_target" "atracker_cos_targets" {
+  for_each = var.cos_targets
   cos_endpoint {
-    endpoint   = var.cos_target.cos_endpoint.endpoint
-    bucket     = var.cos_target.cos_endpoint.bucket_name
-    target_crn = var.cos_target.cos_endpoint.target_crn
-    api_key    = var.cos_target.cos_endpoint.api_key
+    endpoint   = each.value.cos_endpoint.endpoint
+    bucket     = each.value.cos_endpoint.bucket_name
+    target_crn = each.value.cos_endpoint.target_crn
+    api_key    = each.value.cos_endpoint.api_key
   }
-  name        = var.cos_target.target_name
+  name        = each.key
   target_type = "cloud_object_storage"
-  region      = var.cos_target.target_region
+  region      = each.value.target_region
 }
 
-# COS Route
-resource "ibm_atracker_route" "atracker_cos_route" {
-  count = length(var.cos_target == null ? [] : [1])
-  name  = var.cos_target.route_name
-  rules {
-    locations  = var.cos_target.regions_targeting_cos
-    target_ids = [ibm_atracker_target.atracker_cos_target[0].id]
-  }
-  lifecycle {
-    create_before_destroy = true
-  }
-}
-
-# Event Streams target
-resource "ibm_atracker_target" "atracker_eventstreams_target" {
-  count = length(var.eventstreams_target == null ? [] : [1])
+# Event Streams targets
+resource "ibm_atracker_target" "atracker_eventstreams_targets" {
+  for_each = var.eventstreams_targets
   eventstreams_endpoint {
-    target_crn = var.eventstreams_target.eventstreams_endpoint.target_crn
-    brokers    = var.eventstreams_target.eventstreams_endpoint.brokers
-    topic      = var.eventstreams_target.eventstreams_endpoint.topic
-    api_key    = var.eventstreams_target.eventstreams_endpoint.api_key
+    target_crn = each.value.eventstreams_endpoint.target_crn
+    brokers    = each.value.eventstreams_endpoint.brokers
+    topic      = each.value.eventstreams_endpoint.topic
+    api_key    = each.value.eventstreams_endpoint.api_key
   }
-  name        = var.eventstreams_target.target_name
+  name        = each.key
   target_type = "event_streams"
-  region      = var.eventstreams_target.target_region
+  region      = each.value.target_region
 }
 
-# Event Streams Route
-resource "ibm_atracker_route" "atracker_eventstreams_route" {
-  count = length(var.eventstreams_target == null ? [] : [1])
-  name  = var.eventstreams_target.route_name
-  rules {
-    locations  = var.eventstreams_target.regions_targeting_eventstreams
-    target_ids = [ibm_atracker_target.atracker_eventstreams_target[0].id]
-  }
-  lifecycle {
-    create_before_destroy = true
-  }
-}
-
-# LogDNA target
-resource "ibm_atracker_target" "atracker_logdna_target" {
-  count = length(var.logdna_target == null ? [] : [1])
+# LogDNA targets
+resource "ibm_atracker_target" "atracker_logdna_targets" {
+  for_each = var.logdna_targets
   logdna_endpoint {
-    target_crn    = var.logdna_target.logdna_endpoint.target_crn
-    ingestion_key = var.logdna_target.logdna_endpoint.ingestion_key
+    target_crn    = each.value.logdna_endpoint.target_crn
+    ingestion_key = each.value.logdna_endpoint.ingestion_key
   }
-  name        = var.logdna_target.target_name
+  name        = each.key
   target_type = "logdna"
-  region      = var.logdna_target.target_region
+  region      = each.value.target_region
 }
 
-# LogDNA Route
-resource "ibm_atracker_route" "atracker_logdna_route" {
-  count = length(var.logdna_target == null ? [] : [1])
-  name  = var.logdna_target.route_name
+# Routes
+resource "ibm_atracker_route" "atracker_routes" {
+  for_each = var.activity_tracker_routes
+  name     = each.key
   rules {
-    locations  = var.logdna_target.regions_targeting_logdna
-    target_ids = [ibm_atracker_target.atracker_logdna_target[0].id]
+    locations  = each.value.locations
+    target_ids = each.value.target_ids
   }
   lifecycle {
     create_before_destroy = true
@@ -137,4 +111,42 @@ resource "ibm_atracker_settings" "atracker_settings" {
   lifecycle {
     create_before_destroy = true
   }
+}
+
+locals {
+  # Used for outputs only
+  cos_targets = {
+    for cos_target in ibm_atracker_target.atracker_cos_targets :
+    cos_target["name"] => {
+      id  = cos_target["id"]
+      crn = cos_target["crn"]
+    }
+  }
+
+  logdna_targets = {
+    for logdna_target in ibm_atracker_target.atracker_logdna_targets :
+    logdna_target["name"] => {
+      id  = logdna_target["id"]
+      crn = logdna_target["crn"]
+    }
+  }
+
+  eventstreams_targets = {
+    for eventstreams_target in ibm_atracker_target.atracker_eventstreams_targets :
+    eventstreams_target["name"] => {
+      id  = eventstreams_target["id"]
+      crn = eventstreams_target["crn"]
+    }
+  }
+
+  activity_tracker_routes = {
+    for atracker_route in ibm_atracker_route.atracker_routes :
+    atracker_route["name"] => {
+      id  = atracker_route["id"]
+      crn = atracker_route["crn"]
+    }
+  }
+
+  activity_tracker_targets = merge(local.cos_targets, local.logdna_targets, local.eventstreams_targets)
+
 }

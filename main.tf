@@ -24,9 +24,10 @@ module "activity_tracker" {
   cos_instance_id            = var.at_cos_instance_id
   cos_bucket_name            = var.at_cos_bucket_name
   cos_bucket_endpoint        = var.at_cos_bucket_endpoint
-  cos_target                 = var.cos_target
-  eventstreams_target        = var.eventstreams_target
-  logdna_target              = var.logdna_target
+  activity_tracker_routes    = var.activity_tracker_routes
+  cos_targets                = var.cos_targets
+  eventstreams_targets       = var.eventstreams_targets
+  logdna_targets             = var.logdna_targets
   default_targets            = var.default_targets
   metadata_region_primary    = var.metadata_region_primary
   metadata_region_backup     = var.metadata_region_backup
