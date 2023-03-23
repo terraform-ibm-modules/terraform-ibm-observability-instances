@@ -1,4 +1,3 @@
-# Provision Sysdig and LogDNA + Activity Tracker with archiving enabled using encrypted COS bucket
+# Provision Activity Tracker along with event routing to COS bucket, Event streams and LogDNA
 
-Example that deploys LogDNA, SysDig, and Activity Tracker instances, along with a Key Protect instance, root key, COS
-instance, and COS bucket which used to archive the LogDNA and Activity Tracker logs into an encrypted bucket.
+Example that deploys  an Activity Tracker instance along with event routing to COS bucket, Event streams and LogDNA.

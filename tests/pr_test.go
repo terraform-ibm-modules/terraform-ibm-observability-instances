@@ -10,6 +10,8 @@ import (
 )
 
 const completeExampleTerraformDir = "examples/observability_archive"
+const atEventRoutingTerraformDir = "examples/observability_at_event_routing"
+
 const resourceGroup = "geretain-test-observability-instances"
 
 // Temporarly ignore until we bump to v4 of key protect all inclusive
@@ -47,6 +49,15 @@ func TestRunCompleteExample(t *testing.T) {
 	t.Parallel()
 
 	options := setupOptions(t, "obs-complete", completeExampleTerraformDir)
+	output, err := options.RunTestConsistency()
+	assert.Nil(t, err, "This should not have errored")
+	assert.NotNil(t, output, "Expected some output")
+}
+
+func TestRunEventRoutingExample(t *testing.T) {
+	t.Parallel()
+
+	options := setupOptions(t, "obs-at-event-routing", atEventRoutingTerraformDir)
 	output, err := options.RunTestConsistency()
 	assert.Nil(t, err, "This should not have errored")
 	assert.NotNil(t, output, "Expected some output")

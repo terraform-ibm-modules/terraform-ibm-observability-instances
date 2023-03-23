@@ -57,23 +57,22 @@ resource "ibm_resource_key" "es_resource_key" {
 }
 
 # LogDNA target
-resource "ibm_resource_instance" "logdna" {
-  name              = "${var.prefix}-logdna-target-instance"
-  resource_group_id = module.resource_group.resource_group_id
-  service           = "logdna"
-  plan              = "7-day"
-  location          = local.logdna_target_region
-
-  parameters = {
-    "default_receiver" = true
+module "logdna" {
+  source = "../../modules/logdna"
+  providers = {
+    logdna.ld = logdna.ld
   }
+  instance_name     = "${var.prefix}-logdna-target-instance"
+  resource_group_id = module.resource_group.resource_group_id
+  plan              = "7-day"
+  region            = local.logdna_target_region
+  manager_key_name  = "${var.prefix}-logdna-manager-key"
+  resource_key_role = "Manager"
 }
 
-resource "ibm_resource_key" "log_dna_resource_key" {
-  name                 = "${var.prefix}-logdna-manager-key"
-  resource_instance_id = ibm_resource_instance.logdna.id
-  role                 = "Manager"
-}
+########################################################################
+# Activity Tracker With Event Routing
+#########################################################################
 
 module "activity_tracker" {
   source = "../../modules/activity_tracker"
@@ -88,11 +87,10 @@ module "activity_tracker" {
 
   cos_target = {
     cos_endpoint = {
-      api_key                    = ibm_resource_key.cos_resource_key.credentials.apikey
-      bucket_name                = module.cos_bucket.bucket_name[0]
-      endpoint                   = module.cos_bucket.s3_endpoint_private[0]
-      target_crn                 = module.cos_bucket.cos_instance_id
-      service_to_service_enabled = var.cos_service_to_service_enabled
+      api_key     = ibm_resource_key.cos_resource_key.credentials.apikey
+      bucket_name = module.cos_bucket.bucket_name[0]
+      endpoint    = module.cos_bucket.s3_endpoint_private[0]
+      target_crn  = module.cos_bucket.cos_instance_id
     }
     route_name            = "${var.prefix}-cos-route"
     target_name           = "${var.prefix}-cos-target"
@@ -115,8 +113,8 @@ module "activity_tracker" {
 
   logdna_target = {
     logdna_endpoint = {
-      target_crn    = ibm_resource_instance.logdna.id
-      ingestion_key = ibm_resource_key.log_dna_resource_key.credentials.ingestion_key
+      target_crn    = module.logdna.crn
+      ingestion_key = module.logdna.ingestion_key
     }
     route_name               = "${var.prefix}-logdna-route"
     target_name              = "${var.prefix}-logdna-target"
@@ -125,13 +123,15 @@ module "activity_tracker" {
   }
 }
 
-# Event Routing Setting
-resource "ibm_atracker_settings" "atracker_settings" {
+########################################################################
+# Event Routing Global Settings
+#########################################################################
 
+resource "ibm_atracker_settings" "atracker_settings" {
   default_targets           = [module.activity_tracker.cos_target_id, module.activity_tracker.eventstreams_target_id]
   metadata_region_primary   = var.metadata_region_primary
   metadata_region_backup    = var.metadata_region_backup
-  permitted_target_regions  = var.permitted_target_regions # allow tracking from following regions only
+  permitted_target_regions  = var.permitted_target_regions
   private_api_endpoint_only = var.private_api_endpoint_only
 
   # Optional but recommended lifecycle flag to ensure target delete order is correct

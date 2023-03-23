@@ -24,6 +24,9 @@ module "activity_tracker" {
   cos_instance_id            = var.at_cos_instance_id
   cos_bucket_name            = var.at_cos_bucket_name
   cos_bucket_endpoint        = var.at_cos_bucket_endpoint
+  cos_target                 = var.cos_target
+  eventstreams_target        = var.eventstreams_target
+  logdna_target              = var.logdna_target
 }
 
 # LogDNA

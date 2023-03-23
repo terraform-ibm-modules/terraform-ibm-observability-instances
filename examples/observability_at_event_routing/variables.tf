@@ -47,35 +47,29 @@ variable "eventstreams_target_region" {
   default     = null
 }
 
-variable "cos_service_to_service_enabled" {
-  type        = bool
-  description = "ATracker service is enabled to support service to service authentication. If service to service is enabled then set this flag is true and do not supply apikey."
-  default     = false
-}
-
 ##############################################################################
 
 #Event Routing Setting
 variable "metadata_region_primary" {
   type        = string
-  description = "(Required, String) To store all your meta data in a single region."
-  default     = "us-south" #review later
+  description = "Primary region to store all your meta data."
+  default     = "us-south"
 }
 
 variable "metadata_region_backup" {
   type        = string
-  description = "(Optional, String) To store all your meta data in a backup region."
-  default     = "us-east" #review later
+  description = "Backup region to store all your meta data in a ."
+  default     = "us-east"
 }
 
 variable "permitted_target_regions" {
   type        = list(string)
-  description = "(Optional, List) If present then only these regions may be used to define a target."
+  description = "List of regions where target can be defined."
   default     = ["us-south", "eu-de", "us-east", "eu-gb", "au-syd"]
 }
 
 variable "private_api_endpoint_only" {
   type        = bool
-  description = "(Required, Boolean) If you set this true then you cannot access api through public network."
+  description = "Set this true to restrict access only to private api endpoint."
   default     = false
 }

@@ -115,7 +115,25 @@ output "activity_tracker_manager_key_name" {
   value       = module.activity_tracker.manager_key_name
   description = "The Activity Tracker manager key name"
 }
-##############################################################################
+
+########################################################################
+# Activity Tracker Event Routing
+#########################################################################
+
+output "cos_target_id" {
+  value       = module.activity_tracker.cos_target_id
+  description = "The id of the provisioned COS target route."
+}
+
+output "eventstreams_target_id" {
+  value       = module.activity_tracker.eventstreams_target_id
+  description = "The id of the provisioned event streams target route."
+}
+
+output "logdna_target_id" {
+  value       = module.activity_tracker.logdna_target_id
+  description = "The id of the provisioned LogDNA target route."
+}
 
 output "cos_target_name" {
   value       = module.activity_tracker.cos_target_name
@@ -145,19 +163,4 @@ output "eventstreams_route_name" {
 output "logdna_route_name" {
   value       = module.activity_tracker.logdna_route_name
   description = "The name of the provisioned LogDNA target route."
-}
-
-output "cos_target_id" {
-  value       = module.activity_tracker.cos_target_id
-  description = "The id of the provisioned COS target route."
-}
-
-output "eventstreams_target_id" {
-  value       = module.activity_tracker.eventstreams_target_id
-  description = "The id of the provisioned event streams target route."
-}
-
-output "logdna_target_id" {
-  value       = module.activity_tracker.logdna_target_id
-  description = "The id of the provisioned LogDNA target route."
 }

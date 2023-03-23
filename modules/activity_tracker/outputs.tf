@@ -28,7 +28,9 @@ output "manager_key_name" {
   description = "The Activity Tracker manager key name"
 }
 
-##############################################################################
+########################################################################
+# Activity Tracker Event Routing
+#########################################################################
 
 # Event Routing Target
 output "cos_target_name" {
