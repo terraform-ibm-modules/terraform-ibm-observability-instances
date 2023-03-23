@@ -1,7 +1,7 @@
 locals {
-  cos_target_region          = var.cos_target_region != null ? var.cos_target_region : var.region
-  logdna_target_region       = var.logdna_target_region != null ? var.logdna_target_region : var.region
-  eventstreams_target_region = var.eventstreams_target_region != null ? var.eventstreams_target_region : var.region
+  cos_target_region          = var.cos_target_region != null ? var.cos_target_region : local.activity_tracker_region
+  logdna_target_region       = var.logdna_target_region != null ? var.logdna_target_region : local.activity_tracker_region
+  eventstreams_target_region = var.eventstreams_target_region != null ? var.eventstreams_target_region : local.activity_tracker_region
 
   validate_at_region_name_cnd = var.existing_activity_tracker_crn != null && (var.existing_activity_tracker_region == null || var.existing_activity_tracker_key_name == null)
   validate_at_region_name_msg = "existing_activity_tracker_region and existing_activity_tracker_key_name must also be set when value given for existing_activity_tracker_crn."
@@ -27,7 +27,7 @@ module "resource_group" {
 
 # COS target
 module "cos_bucket" {
-  source             = "git::https://github.com/terraform-ibm-modules/terraform-ibm-cos?ref=v5.0.0"
+  source             = "git::https://github.com/terraform-ibm-modules/terraform-ibm-cos?ref=v5.10.0"
   resource_group_id  = module.resource_group.resource_group_id
   region             = local.cos_target_region
   cos_instance_name  = "${var.prefix}-cos-target-instance"
