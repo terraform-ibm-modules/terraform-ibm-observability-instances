@@ -28,6 +28,24 @@ variable "resource_tags" {
   default     = []
 }
 
+variable "existing_activity_tracker_crn" {
+  type        = string
+  description = "Optional crn of existing activity tracker, if not provided new activity tracker instance will be provisioned"
+  default     = null
+}
+
+variable "existing_activity_tracker_key_name" {
+  type        = string
+  description = "Optional key name of existing activity tracker, required if existing_activity_tracker_crn is provided"
+  default     = null
+}
+
+variable "existing_activity_tracker_region" {
+  type        = string
+  description = "Optional region of existing activity tracker, required if existing_activity_tracker_crn is provided"
+  default     = null
+}
+
 #Activity Tracker Event Routing
 variable "cos_target_region" {
   type        = string

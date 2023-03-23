@@ -2,6 +2,20 @@ locals {
   cos_target_region          = var.cos_target_region != null ? var.cos_target_region : var.region
   logdna_target_region       = var.logdna_target_region != null ? var.logdna_target_region : var.region
   eventstreams_target_region = var.eventstreams_target_region != null ? var.eventstreams_target_region : var.region
+
+  validate_at_region_name_cnd = var.existing_activity_tracker_crn != null && (var.existing_activity_tracker_region == null || var.existing_activity_tracker_key_name == null)
+  validate_at_region_name_msg = "existing_activity_tracker_region and existing_activity_tracker_key_name must also be set when value given for existing_activity_tracker_crn."
+  # tflint-ignore: terraform_unused_declarations
+  validate_at_region_chk = regex(
+    "^${local.validate_at_region_name_msg}$",
+    (!local.validate_at_region_name_cnd
+      ? local.validate_at_region_name_msg
+  : ""))
+
+  activity_tracker_crn          = var.existing_activity_tracker_crn != null ? var.existing_activity_tracker_crn : module.activity_tracker.crn
+  activity_tracker_key_name     = var.existing_activity_tracker_crn != null ? var.existing_activity_tracker_key_name : module.activity_tracker.manager_key_name
+  activity_tracker_region       = var.existing_activity_tracker_crn != null ? var.existing_activity_tracker_region : var.region
+  activity_tracker_resource_key = var.existing_activity_tracker_crn != null ? data.ibm_resource_key.at_resource_key.credentials["service_key"] : module.activity_tracker.resource_key
 }
 
 module "resource_group" {
@@ -79,11 +93,12 @@ module "activity_tracker" {
   providers = {
     logdna.at = logdna.at
   }
-  resource_group_id = module.resource_group.resource_group_id
-  region            = var.region
-  instance_name     = "${var.prefix}-activity-tracker-instance"
-  plan              = "7-day"
-  tags              = var.resource_tags
+  activity_tracker_provision = var.existing_activity_tracker_crn == null ? true : false
+  resource_group_id          = module.resource_group.resource_group_id
+  region                     = var.region
+  instance_name              = "${var.prefix}-activity-tracker-instance"
+  plan                       = "7-day"
+  tags                       = var.resource_tags
 
   cos_target = {
     cos_endpoint = {
@@ -121,6 +136,11 @@ module "activity_tracker" {
     target_region            = local.logdna_target_region
     regions_targeting_logdna = ["*", "global"]
   }
+}
+
+data "ibm_resource_key" "at_resource_key" {
+  name                 = var.existing_activity_tracker_crn != null ? local.activity_tracker_key_name : module.activity_tracker.manager_key_name
+  resource_instance_id = local.activity_tracker_crn
 }
 
 ########################################################################
