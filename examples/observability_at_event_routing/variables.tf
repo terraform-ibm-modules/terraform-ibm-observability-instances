@@ -7,7 +7,7 @@ variable "ibmcloud_api_key" {
 variable "prefix" {
   type        = string
   description = "Prefix for name of all resource created by this example"
-  default     = "test-observability-at-instance"
+  default     = "test-observability-at-event-routing"
 }
 
 variable "region" {
@@ -31,19 +31,19 @@ variable "resource_tags" {
 #Activity Tracker Event Routing
 variable "cos_target_region" {
   type        = string
-  description = "The region cos target is to be created on"
+  description = "Region where cos target will be created"
   default     = null
 }
 
 variable "logdna_target_region" {
   type        = string
-  description = "The region logDNA target is to be created on"
+  description = "Region where logdna target will be created"
   default     = null
 }
 
 variable "eventstreams_target_region" {
   type        = string
-  description = "The region event streams target is to be created on"
+  description = "Region where event streams target will be created"
   default     = null
 }
 
