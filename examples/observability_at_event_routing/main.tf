@@ -95,7 +95,7 @@ module "activity_tracker" {
   }
   activity_tracker_provision = var.existing_activity_tracker_crn == null ? true : false
   resource_group_id          = module.resource_group.resource_group_id
-  region                     = var.region
+  region                     = local.activity_tracker_region
   instance_name              = "${var.prefix}-activity-tracker-instance"
   plan                       = "7-day"
   tags                       = var.resource_tags
