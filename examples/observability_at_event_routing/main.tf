@@ -1,8 +1,4 @@
 locals {
-  cos_target_region          = var.cos_target_region != null ? var.cos_target_region : local.activity_tracker_region
-  logdna_target_region       = var.logdna_target_region != null ? var.logdna_target_region : local.activity_tracker_region
-  eventstreams_target_region = var.eventstreams_target_region != null ? var.eventstreams_target_region : local.activity_tracker_region
-
   validate_at_region_name_cnd = var.existing_activity_tracker_crn != null && (var.existing_activity_tracker_region == null || var.existing_activity_tracker_key_name == null)
   validate_at_region_name_msg = "existing_activity_tracker_region and existing_activity_tracker_key_name must also be set when value given for existing_activity_tracker_crn."
   # tflint-ignore: terraform_unused_declarations
@@ -16,6 +12,10 @@ locals {
   activity_tracker_key_name     = var.existing_activity_tracker_crn != null ? var.existing_activity_tracker_key_name : module.activity_tracker.manager_key_name
   activity_tracker_region       = var.existing_activity_tracker_crn != null ? var.existing_activity_tracker_region : var.region
   activity_tracker_resource_key = var.existing_activity_tracker_crn != null ? data.ibm_resource_key.at_resource_key.credentials["service_key"] : module.activity_tracker.resource_key
+
+  cos_target_region          = var.cos_target_region != null ? var.cos_target_region : local.activity_tracker_region
+  logdna_target_region       = var.logdna_target_region != null ? var.logdna_target_region : local.activity_tracker_region
+  eventstreams_target_region = var.eventstreams_target_region != null ? var.eventstreams_target_region : local.activity_tracker_region
 }
 
 module "resource_group" {
@@ -93,6 +93,8 @@ module "activity_tracker" {
   providers = {
     logdna.at = logdna.at
   }
+
+  # Activity Tracker
   activity_tracker_provision = var.existing_activity_tracker_crn == null ? true : false
   resource_group_id          = module.resource_group.resource_group_id
   region                     = local.activity_tracker_region
@@ -100,6 +102,14 @@ module "activity_tracker" {
   plan                       = "7-day"
   tags                       = var.resource_tags
 
+  # Global Settings
+  default_targets           = [module.activity_tracker.cos_target_id, module.activity_tracker.eventstreams_target_id]
+  permitted_target_regions  = var.permitted_target_regions
+  metadata_region_primary   = var.metadata_region_primary
+  metadata_region_backup    = var.metadata_region_backup
+  private_api_endpoint_only = var.private_api_endpoint_only
+
+  # Targets
   cos_target = {
     cos_endpoint = {
       api_key     = ibm_resource_key.cos_resource_key.credentials.apikey
@@ -141,21 +151,4 @@ module "activity_tracker" {
 data "ibm_resource_key" "at_resource_key" {
   name                 = var.existing_activity_tracker_crn != null ? local.activity_tracker_key_name : module.activity_tracker.manager_key_name
   resource_instance_id = local.activity_tracker_crn
-}
-
-########################################################################
-# Event Routing Global Settings
-#########################################################################
-
-resource "ibm_atracker_settings" "atracker_settings" {
-  default_targets           = [module.activity_tracker.cos_target_id, module.activity_tracker.eventstreams_target_id]
-  metadata_region_primary   = var.metadata_region_primary
-  metadata_region_backup    = var.metadata_region_backup
-  permitted_target_regions  = var.permitted_target_regions
-  private_api_endpoint_only = var.private_api_endpoint_only
-
-  # Optional but recommended lifecycle flag to ensure target delete order is correct
-  lifecycle {
-    create_before_destroy = true
-  }
 }

@@ -253,7 +253,7 @@ variable "at_cos_bucket_endpoint" {
 # Activity Tracker Event Routing
 #########################################################################
 
-#COS Target
+# COS Target
 variable "cos_target" {
   type = object({
     cos_endpoint = object({
@@ -280,7 +280,7 @@ variable "cos_target" {
   EOT
 }
 
-#Event Streams Target
+# Event Streams Target
 variable "eventstreams_target" {
   type = object({
     eventstreams_endpoint = object({
@@ -306,7 +306,7 @@ variable "eventstreams_target" {
   EOT
 }
 
-#logDNA Target
+# logDNA Target
 variable "logdna_target" {
   type = object({
     logdna_endpoint = object({
@@ -328,4 +328,35 @@ variable "logdna_target" {
       regions_targeting_logdna: (List) Route the events generated in these regions to LogDNA target"
     }
   EOT
+}
+
+# Event Routing Setting
+variable "default_targets" {
+  type        = list(string)
+  description = "The target ID List. In the event that no routing rule causes the event to be sent to a target, these targets will receive the event"
+  default     = []
+}
+
+variable "metadata_region_primary" {
+  type        = string
+  description = "Primary region to store all your meta data."
+  default     = "us-south"
+}
+
+variable "metadata_region_backup" {
+  type        = string
+  description = "Backup region to store all your meta data in a ."
+  default     = "us-east"
+}
+
+variable "permitted_target_regions" {
+  type        = list(string)
+  description = "List of regions where target can be defined."
+  default     = ["us-south", "eu-de", "us-east", "eu-gb", "au-syd"]
+}
+
+variable "private_api_endpoint_only" {
+  type        = bool
+  description = "Set this true to restrict access only to private api endpoint."
+  default     = false
 }

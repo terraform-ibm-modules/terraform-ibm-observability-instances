@@ -43,19 +43,6 @@ resource "logdna_archive" "archive_config" {
 # Activity Tracker Event Routing
 #########################################################################
 
-# COS Route
-resource "ibm_atracker_route" "atracker_cos_route" {
-  count = length(var.cos_target == null ? [] : [1])
-  name  = var.cos_target.route_name
-  rules {
-    locations  = var.cos_target.regions_targeting_cos
-    target_ids = [ibm_atracker_target.atracker_cos_target[0].id]
-  }
-  lifecycle {
-    create_before_destroy = true
-  }
-}
-
 # COS target
 resource "ibm_atracker_target" "atracker_cos_target" {
   count = length(var.cos_target == null ? [] : [1])
@@ -70,13 +57,13 @@ resource "ibm_atracker_target" "atracker_cos_target" {
   region      = var.cos_target.target_region
 }
 
-# Event Streams Route
-resource "ibm_atracker_route" "atracker_eventstreams_route" {
-  count = length(var.eventstreams_target == null ? [] : [1])
-  name  = var.eventstreams_target.route_name
+# COS Route
+resource "ibm_atracker_route" "atracker_cos_route" {
+  count = length(var.cos_target == null ? [] : [1])
+  name  = var.cos_target.route_name
   rules {
-    locations  = var.eventstreams_target.regions_targeting_eventstreams
-    target_ids = [ibm_atracker_target.atracker_eventstreams_target[0].id]
+    locations  = var.cos_target.regions_targeting_cos
+    target_ids = [ibm_atracker_target.atracker_cos_target[0].id]
   }
   lifecycle {
     create_before_destroy = true
@@ -97,13 +84,13 @@ resource "ibm_atracker_target" "atracker_eventstreams_target" {
   region      = var.eventstreams_target.target_region
 }
 
-# LogDNA Route
-resource "ibm_atracker_route" "atracker_logdna_route" {
-  count = length(var.logdna_target == null ? [] : [1])
-  name  = var.logdna_target.route_name
+# Event Streams Route
+resource "ibm_atracker_route" "atracker_eventstreams_route" {
+  count = length(var.eventstreams_target == null ? [] : [1])
+  name  = var.eventstreams_target.route_name
   rules {
-    locations  = var.logdna_target.regions_targeting_logdna
-    target_ids = [ibm_atracker_target.atracker_logdna_target[0].id]
+    locations  = var.eventstreams_target.regions_targeting_eventstreams
+    target_ids = [ibm_atracker_target.atracker_eventstreams_target[0].id, ibm_atracker_target.atracker_cos_target[0].id]
   }
   lifecycle {
     create_before_destroy = true
@@ -120,4 +107,34 @@ resource "ibm_atracker_target" "atracker_logdna_target" {
   name        = var.logdna_target.target_name
   target_type = "logdna"
   region      = var.logdna_target.target_region
+}
+
+# LogDNA Route
+resource "ibm_atracker_route" "atracker_logdna_route" {
+  count = length(var.logdna_target == null ? [] : [1])
+  name  = var.logdna_target.route_name
+  rules {
+    locations  = var.logdna_target.regions_targeting_logdna
+    target_ids = [ibm_atracker_target.atracker_logdna_target[0].id]
+  }
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
+########################################################################
+# Event Routing Global Settings
+#########################################################################
+
+resource "ibm_atracker_settings" "atracker_settings" {
+  default_targets           = var.default_targets
+  metadata_region_primary   = var.metadata_region_primary
+  metadata_region_backup    = var.metadata_region_backup
+  permitted_target_regions  = var.permitted_target_regions
+  private_api_endpoint_only = var.private_api_endpoint_only
+
+  # Optional but recommended lifecycle flag to ensure target delete order is correct
+  lifecycle {
+    create_before_destroy = true
+  }
 }

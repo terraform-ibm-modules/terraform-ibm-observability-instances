@@ -156,6 +156,22 @@
         "line": 257
       }
     },
+    "default_targets": {
+      "name": "default_targets",
+      "type": "list(string)",
+      "description": "The target ID List. In the event that no routing rule causes the event to be sent to a target, these targets will receive the event",
+      "default": [],
+      "source": [
+        "module.activity_tracker.ibm_atracker_settings.atracker_settings.default_targets"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 334
+      },
+      "elem": {
+        "type": "TypeString"
+      }
+    },
     "enable_archive": {
       "name": "enable_archive",
       "type": "bool",
@@ -389,6 +405,74 @@
       "pos": {
         "filename": "variables.tf",
         "line": 310
+      }
+    },
+    "metadata_region_backup": {
+      "name": "metadata_region_backup",
+      "type": "string",
+      "description": "Backup region to store all your meta data in a .",
+      "default": "us-east",
+      "source": [
+        "module.activity_tracker.ibm_atracker_settings.atracker_settings.metadata_region_backup"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 346
+      },
+      "max_length": 256,
+      "matches": "^[a-zA-Z0-9 -_]*"
+    },
+    "metadata_region_primary": {
+      "name": "metadata_region_primary",
+      "type": "string",
+      "description": "Primary region to store all your meta data.",
+      "default": "us-south",
+      "required": true,
+      "source": [
+        "module.activity_tracker.ibm_atracker_settings.atracker_settings.metadata_region_primary"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 340
+      },
+      "min_length": 3,
+      "max_length": 256,
+      "matches": "^[a-zA-Z0-9 -_]"
+    },
+    "permitted_target_regions": {
+      "name": "permitted_target_regions",
+      "type": "list(string)",
+      "description": "List of regions where target can be defined.",
+      "default": [
+        "us-south",
+        "eu-de",
+        "us-east",
+        "eu-gb",
+        "au-syd"
+      ],
+      "source": [
+        "module.activity_tracker.ibm_atracker_settings.atracker_settings.permitted_target_regions"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 352
+      },
+      "elem": {
+        "type": "TypeString"
+      }
+    },
+    "private_api_endpoint_only": {
+      "name": "private_api_endpoint_only",
+      "type": "bool",
+      "description": "Set this true to restrict access only to private api endpoint.",
+      "default": false,
+      "required": true,
+      "source": [
+        "module.activity_tracker.ibm_atracker_settings.atracker_settings.private_api_endpoint_only"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 358
       }
     },
     "region": {
@@ -844,6 +928,7 @@
         "cos_bucket_name": "at_cos_bucket_name",
         "cos_instance_id": "at_cos_instance_id",
         "cos_target": "cos_target",
+        "default_targets": "default_targets",
         "enable_archive": "enable_archive",
         "eventstreams_target": "eventstreams_target",
         "ibmcloud_api_key": "ibmcloud_api_key",
@@ -851,7 +936,11 @@
         "logdna_target": "logdna_target",
         "manager_key_name": "activity_tracker_manager_key_name",
         "manager_key_tags": "activity_tracker_manager_key_tags",
+        "metadata_region_backup": "metadata_region_backup",
+        "metadata_region_primary": "metadata_region_primary",
+        "permitted_target_regions": "permitted_target_regions",
         "plan": "activity_tracker_plan",
+        "private_api_endpoint_only": "private_api_endpoint_only",
         "region": "region",
         "resource_group_id": "resource_group_id",
         "service_endpoints": "activity_tracker_service_endpoints",
@@ -871,7 +960,7 @@
           },
           "pos": {
             "filename": "modules/activity_tracker/main.tf",
-            "line": 47
+            "line": 61
           }
         },
         "ibm_atracker_route.atracker_eventstreams_route": {
@@ -887,7 +976,7 @@
           },
           "pos": {
             "filename": "modules/activity_tracker/main.tf",
-            "line": 74
+            "line": 88
           }
         },
         "ibm_atracker_route.atracker_logdna_route": {
@@ -903,7 +992,26 @@
           },
           "pos": {
             "filename": "modules/activity_tracker/main.tf",
-            "line": 101
+            "line": 113
+          }
+        },
+        "ibm_atracker_settings.atracker_settings": {
+          "mode": "managed",
+          "type": "ibm_atracker_settings",
+          "name": "atracker_settings",
+          "attributes": {
+            "default_targets": "default_targets",
+            "metadata_region_backup": "metadata_region_backup",
+            "metadata_region_primary": "metadata_region_primary",
+            "permitted_target_regions": "permitted_target_regions",
+            "private_api_endpoint_only": "private_api_endpoint_only"
+          },
+          "provider": {
+            "name": "ibm"
+          },
+          "pos": {
+            "filename": "modules/activity_tracker/main.tf",
+            "line": 129
           }
         },
         "ibm_atracker_target.atracker_cos_target": {
@@ -920,7 +1028,7 @@
           },
           "pos": {
             "filename": "modules/activity_tracker/main.tf",
-            "line": 60
+            "line": 47
           }
         },
         "ibm_atracker_target.atracker_eventstreams_target": {
@@ -937,7 +1045,7 @@
           },
           "pos": {
             "filename": "modules/activity_tracker/main.tf",
-            "line": 87
+            "line": 74
           }
         },
         "ibm_atracker_target.atracker_logdna_target": {
@@ -954,7 +1062,7 @@
           },
           "pos": {
             "filename": "modules/activity_tracker/main.tf",
-            "line": 114
+            "line": 101
           }
         },
         "ibm_resource_instance.activity_tracker": {
@@ -1281,7 +1389,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 33
+        "line": 38
       }
     },
     "sysdig": {
@@ -1393,7 +1501,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 57
+        "line": 62
       }
     }
   }

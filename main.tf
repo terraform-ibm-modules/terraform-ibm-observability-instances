@@ -27,6 +27,11 @@ module "activity_tracker" {
   cos_target                 = var.cos_target
   eventstreams_target        = var.eventstreams_target
   logdna_target              = var.logdna_target
+  default_targets            = var.default_targets
+  metadata_region_primary    = var.metadata_region_primary
+  metadata_region_backup     = var.metadata_region_backup
+  permitted_target_regions   = var.permitted_target_regions
+  private_api_endpoint_only  = var.private_api_endpoint_only
 }
 
 # LogDNA
