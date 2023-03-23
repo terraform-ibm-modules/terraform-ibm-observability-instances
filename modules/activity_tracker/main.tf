@@ -90,7 +90,7 @@ resource "ibm_atracker_route" "atracker_eventstreams_route" {
   name  = var.eventstreams_target.route_name
   rules {
     locations  = var.eventstreams_target.regions_targeting_eventstreams
-    target_ids = [ibm_atracker_target.atracker_eventstreams_target[0].id, ibm_atracker_target.atracker_cos_target[0].id]
+    target_ids = [ibm_atracker_target.atracker_eventstreams_target[0].id]
   }
   lifecycle {
     create_before_destroy = true
