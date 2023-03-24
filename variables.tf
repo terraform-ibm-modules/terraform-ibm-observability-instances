@@ -287,7 +287,7 @@ variable "logdna_targets" {
     instance_id   = string
     ingestion_key = string
     target_region = optional(string)
-    target_name   = optional(string)
+    target_name   = string
   }))
   default     = []
   description = "List of logdna target to be created"
