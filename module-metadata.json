@@ -84,7 +84,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 317
+        "line": 294
       }
     },
     "activity_tracker_service_endpoints": {
@@ -160,7 +160,7 @@
     "cos_targets": {
       "name": "cos_targets",
       "type": "map(object({\n    endpoint                   = string\n    bucket_name                = string\n    instance_id                = string\n    api_key                    = optional(string)\n    service_to_service_enabled = optional(bool, false)\n    target_region              = optional(string)\n  }))",
-      "description": "    cos_target = {\n      endpoint: \"Endpoint of cos instance to be used as a target\"\n      bucket_name: \"Bucket name of cos instance to be used as a target\"\n      instance_id: \"Instance id of cos instance to be used as a taraget\"\n      api_key: \" IAM API key that has writer access to the COS instance\"\n      service_to_service_enabled: \"Set it true to enable support service to service authentication, if set as true do not provide api_key\"\n      target_region: \"Region where cos to be used as a target is created, include this field if you want to create a target in a different region other than the one you are connected\"\n    }\n",
+      "description": "Map of cos targets to be created",
       "default": {},
       "source": [
         "module.activity_tracker"
@@ -213,14 +213,14 @@
     "eventstreams_targets": {
       "name": "eventstreams_targets",
       "type": "map(object({\n    instance_id   = string\n    brokers       = list(string)\n    topic         = string\n    api_key       = string\n    target_region = optional(string)\n  }))",
-      "description": "    eventstreams_target = {\n      instance_id: \"Instance id of event streams instance to be used as a taraget\"\n      brokers: \"List of brokers defined under the Event streams instance and used in the event streams endpoint\"\n      topic: \" Topic name defined under the Event streams instance\"\n      api_key: \"IAM API key that has write access to the Event streams instance\"\n      target_region: \"Region where event streams target is created, include this field if you want to create a target in a different region other than the one you are connected\"\n    }\n",
+      "description": "Map of event streams targets to be created",
       "default": {},
       "source": [
         "module.activity_tracker"
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 279
+        "line": 270
       }
     },
     "global_event_routing_settings": {
@@ -232,7 +232,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 327
+        "line": 304
       }
     },
     "ibmcloud_api_key": {
@@ -409,14 +409,14 @@
     "logdna_targets": {
       "name": "logdna_targets",
       "type": "map(object({\n    instance_id   = string\n    ingestion_key = string\n    target_region = optional(string)\n  }))",
-      "description": "    logdna_target = {\n      instance_id: \"Instance id of logdna instance to be used as a taraget\"\n      ingestion_key: \"Ingestion key with manager access to logdna instance\"\n      target_region: \"Region where logdna target is created, include this field if you want to create a target in a different region other than the one you are connected\"\n    }\n",
+      "description": "Map of routes to be created, maximum four routes are allowed",
       "default": {},
       "source": [
         "module.activity_tracker"
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 300
+        "line": 283
       }
     },
     "region": {

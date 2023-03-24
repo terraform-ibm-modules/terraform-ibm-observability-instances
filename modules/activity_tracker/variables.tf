@@ -107,16 +107,7 @@ variable "cos_targets" {
     target_region              = optional(string)
   }))
   default     = {}
-  description = <<EOT
-    cos_target = {
-      endpoint: "Endpoint of cos instance to be used as a target"
-      bucket_name: "Bucket name of cos instance to be used as a target"
-      instance_id: "Instance id of cos instance to be used as a taraget"
-      api_key: " IAM API key that has writer access to the COS instance"
-      service_to_service_enabled: "Set it true to enable support service to service authentication, if set as true do not provide api_key"
-      target_region: "Region where cos to be used as a target is created, include this field if you want to create a target in a different region other than the one you are connected"
-    }
-  EOT
+  description = "Map of cos targets to be created"
 
   validation {
     condition     = alltrue([for cos_target in var.cos_targets : cos_target.service_to_service_enabled == false && cos_target.api_key != null])
@@ -134,15 +125,7 @@ variable "eventstreams_targets" {
     target_region = optional(string)
   }))
   default     = {}
-  description = <<EOT
-    eventstreams_target = {
-      instance_id: "Instance id of event streams instance to be used as a taraget"
-      brokers: "List of brokers defined under the Event streams instance and used in the event streams endpoint"
-      topic: " Topic name defined under the Event streams instance"
-      api_key: "IAM API key that has write access to the Event streams instance"
-      target_region: "Region where event streams target is created, include this field if you want to create a target in a different region other than the one you are connected"
-    }
-  EOT
+  description = "Map of event streams targets to be created"
 }
 
 # logDNA Targets
@@ -153,13 +136,7 @@ variable "logdna_targets" {
     target_region = optional(string)
   }))
   default     = {}
-  description = <<EOT
-    logdna_target = {
-      instance_id: "Instance id of logdna instance to be used as a taraget"
-      ingestion_key: "Ingestion key with manager access to logdna instance"
-      target_region: "Region where logdna target is created, include this field if you want to create a target in a different region other than the one you are connected"
-    }
-  EOT
+  description = "Map of logdna targets to be created"
 }
 
 # Routes
