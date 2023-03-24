@@ -15,7 +15,7 @@ This module supports provisioning the following observability instances:
 * **IBM Cloud Monitoring with SysDig**
   * Monitor the health of services and applications in IBM Cloud.
 
-:information_source: The module also creates a manager key for each instance, and supports passing COS bucket details to enable archiving for LogDNA and Activity Tracker.
+:information_source: The module also creates a manager key for each instance, and supports passing COS bucket details to enable archiving for LogDNA and Activity Tracker, it also supports activity tracker event routing to COS, LogDNA and Event Streams..
 
 ## Usage
 
@@ -149,6 +149,7 @@ You need the following permissions to run this module.
 ## Examples
 
 - [ Provision Sysdig and LogDNA + Activity Tracker with archiving enabled using encrypted COS bucket](examples/observability_archive)
+- [ Provision Activity Tracker with event routing to COS bucket, Event streams and LogDNA](examples/observability_at_event_routing)
 - [ Provision basic observability instances (LogDNA, Sysdig, Activity Tracker)](examples/observability_basic)
 <!-- END EXAMPLES HOOK -->
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
@@ -181,14 +182,18 @@ No resources.
 | <a name="input_activity_tracker_manager_key_tags"></a> [activity\_tracker\_manager\_key\_tags](#input\_activity\_tracker\_manager\_key\_tags) | Tags associated with the Activity Tracker manager key. | `list(string)` | `[]` | no |
 | <a name="input_activity_tracker_plan"></a> [activity\_tracker\_plan](#input\_activity\_tracker\_plan) | The Activity Tracker plan to provision. Available: lite, 7-day, 14-day, 30-day, hipaa-30-day | `string` | `"lite"` | no |
 | <a name="input_activity_tracker_provision"></a> [activity\_tracker\_provision](#input\_activity\_tracker\_provision) | Provision an Activity Tracker instance? | `bool` | `true` | no |
+| <a name="input_activity_tracker_routes"></a> [activity\_tracker\_routes](#input\_activity\_tracker\_routes) | List of routes to be created, maximum four routes are allowed | <pre>list(object({<br>    locations  = list(string)<br>    target_ids = list(string)<br>    route_name = string<br>  }))</pre> | `[]` | no |
 | <a name="input_activity_tracker_service_endpoints"></a> [activity\_tracker\_service\_endpoints](#input\_activity\_tracker\_service\_endpoints) | The type of the service endpoint that will be set for the activity tracker instance. | `string` | `"public-and-private"` | no |
 | <a name="input_activity_tracker_tags"></a> [activity\_tracker\_tags](#input\_activity\_tracker\_tags) | Tags associated with the Activity Tracker instance (Optional, array of strings). | `list(string)` | `[]` | no |
 | <a name="input_at_cos_bucket_endpoint"></a> [at\_cos\_bucket\_endpoint](#input\_at\_cos\_bucket\_endpoint) | An endpoint for the COS bucket for the Activity Tracker archive. Pass either the public or private endpoint (Only required when var.enable\_archive and var.activity\_tracker\_provision are true) | `string` | `null` | no |
 | <a name="input_at_cos_bucket_name"></a> [at\_cos\_bucket\_name](#input\_at\_cos\_bucket\_name) | The name of an existing COS bucket to be used for the Activity Tracker archive (Only required when var.enable\_archive and var.activity\_tracker\_provision are true). | `string` | `null` | no |
 | <a name="input_at_cos_instance_id"></a> [at\_cos\_instance\_id](#input\_at\_cos\_instance\_id) | The ID of the cloud object storage instance containing the Activity Tracker archive bucket (Only required when var.enable\_archive and var.activity\_tracker\_provision are true). | `string` | `null` | no |
+| <a name="input_cos_targets"></a> [cos\_targets](#input\_cos\_targets) | List of cos target to be created | <pre>list(object({<br>    endpoint                   = string<br>    bucket_name                = string<br>    instance_id                = string<br>    api_key                    = optional(string)<br>    service_to_service_enabled = optional(bool, false)<br>    target_region              = optional(string)<br>    target_name                = string<br>  }))</pre> | `[]` | no |
 | <a name="input_enable_archive"></a> [enable\_archive](#input\_enable\_archive) | Enable archive on logDNA and Activity Tracker instances | `bool` | `false` | no |
 | <a name="input_enable_platform_logs"></a> [enable\_platform\_logs](#input\_enable\_platform\_logs) | Receive platform logs in the provisioned IBM Cloud Logging instance. | `bool` | `true` | no |
 | <a name="input_enable_platform_metrics"></a> [enable\_platform\_metrics](#input\_enable\_platform\_metrics) | Receive platform metrics in the provisioned IBM Cloud Monitoring instance. | `bool` | `true` | no |
+| <a name="input_eventstreams_targets"></a> [eventstreams\_targets](#input\_eventstreams\_targets) | List of event streams target to be created | <pre>list(object({<br>    instance_id   = string<br>    brokers       = list(string)<br>    topic         = string<br>    api_key       = string<br>    target_region = optional(string)<br>    target_name   = string<br>  }))</pre> | `[]` | no |
+| <a name="input_global_event_routing_settings"></a> [global\_event\_routing\_settings](#input\_global\_event\_routing\_settings) | Global settings for event routing | <pre>object({<br>    default_targets           = optional(list(string), [])<br>    metadata_region_primary   = string<br>    metadata_region_backup    = optional(string)<br>    permitted_target_regions  = list(string)<br>    private_api_endpoint_only = optional(bool, false)<br>  })</pre> | `null` | no |
 | <a name="input_ibmcloud_api_key"></a> [ibmcloud\_api\_key](#input\_ibmcloud\_api\_key) | Only required to archive. The IBM Cloud API Key. | `string` | `null` | no |
 | <a name="input_logdna_cos_bucket_endpoint"></a> [logdna\_cos\_bucket\_endpoint](#input\_logdna\_cos\_bucket\_endpoint) | An endpoint for the COS bucket for the LogDNA archive. Pass either the public or private endpoint. (Only required when var.enable\_archive and var.logdna\_provision are true). | `string` | `null` | no |
 | <a name="input_logdna_cos_bucket_name"></a> [logdna\_cos\_bucket\_name](#input\_logdna\_cos\_bucket\_name) | The name of an existing COS bucket to be used for the LogDNA archive. (Only required when var.enable\_archive and var.logdna\_provision are true). | `string` | `null` | no |
@@ -201,6 +206,7 @@ No resources.
 | <a name="input_logdna_resource_key_role"></a> [logdna\_resource\_key\_role](#input\_logdna\_resource\_key\_role) | Role assigned to provide the IBM Cloud Logging key. | `string` | `"Manager"` | no |
 | <a name="input_logdna_service_endpoints"></a> [logdna\_service\_endpoints](#input\_logdna\_service\_endpoints) | The type of the service endpoint that will be set for the LogDNA instance. | `string` | `"public-and-private"` | no |
 | <a name="input_logdna_tags"></a> [logdna\_tags](#input\_logdna\_tags) | Tags associated with the IBM Cloud Logging instance (Optional, array of strings). | `list(string)` | `[]` | no |
+| <a name="input_logdna_targets"></a> [logdna\_targets](#input\_logdna\_targets) | List of logdna target to be created | <pre>list(object({<br>    instance_id   = string<br>    ingestion_key = string<br>    target_region = optional(string)<br>    target_name   = string<br>  }))</pre> | `[]` | no |
 | <a name="input_region"></a> [region](#input\_region) | The IBM Cloud region where instances will be created. | `string` | `"us-south"` | no |
 | <a name="input_resource_group_id"></a> [resource\_group\_id](#input\_resource\_group\_id) | The id of the IBM Cloud resource group where the instance(s) will be created. | `string` | `null` | no |
 | <a name="input_sysdig_instance_name"></a> [sysdig\_instance\_name](#input\_sysdig\_instance\_name) | The name of the IBM Cloud Monitoring instance to create. Defaults to 'sysdig-<region>' | `string` | `null` | no |
@@ -221,6 +227,8 @@ No resources.
 | <a name="output_activity_tracker_name"></a> [activity\_tracker\_name](#output\_activity\_tracker\_name) | The name of the provisioned Activity Tracker instance. |
 | <a name="output_activity_tracker_resource_group_id"></a> [activity\_tracker\_resource\_group\_id](#output\_activity\_tracker\_resource\_group\_id) | The resource group where Activity Tracker instance resides |
 | <a name="output_activity_tracker_resource_key"></a> [activity\_tracker\_resource\_key](#output\_activity\_tracker\_resource\_key) | The resource/service key for agents to use |
+| <a name="output_activity_tracker_routes"></a> [activity\_tracker\_routes](#output\_activity\_tracker\_routes) | The map of created routes |
+| <a name="output_activity_tracker_targets"></a> [activity\_tracker\_targets](#output\_activity\_tracker\_targets) | The map of created targets |
 | <a name="output_logdna_crn"></a> [logdna\_crn](#output\_logdna\_crn) | The id of the provisioned LogDNA instance. |
 | <a name="output_logdna_guid"></a> [logdna\_guid](#output\_logdna\_guid) | The guid of the provisioned LogDNA instance. |
 | <a name="output_logdna_ingestion_key"></a> [logdna\_ingestion\_key](#output\_logdna\_ingestion\_key) | LogDNA ingest key for agents to use |

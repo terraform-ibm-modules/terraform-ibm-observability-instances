@@ -115,4 +115,17 @@ output "activity_tracker_manager_key_name" {
   value       = module.activity_tracker.manager_key_name
   description = "The Activity Tracker manager key name"
 }
-##############################################################################
+
+########################################################################
+# Activity Tracker Event Routing
+#########################################################################
+
+output "activity_tracker_targets" {
+  value       = module.activity_tracker.activity_tracker_targets
+  description = "The map of created targets"
+}
+
+output "activity_tracker_routes" {
+  value       = module.activity_tracker.activity_tracker_routes
+  description = "The map of created routes"
+}
