@@ -99,87 +99,67 @@ variable "cos_bucket_endpoint" {
 # COS Targets
 variable "cos_targets" {
   type = map(object({
-    cos_endpoint = object({
-      endpoint                   = string
-      bucket_name                = string
-      target_crn                 = string
-      api_key                    = optional(string)
-      service_to_service_enabled = optional(bool, false)
-    })
-    target_region = optional(string)
+    endpoint                   = string
+    bucket_name                = string
+    instance_id                = string
+    api_key                    = optional(string)
+    service_to_service_enabled = optional(bool, false)
+    target_region              = optional(string)
   }))
   default     = {}
   description = <<EOT
     cos_target = {
-      cos_endpoint: "(Object) Property values for COS Endpoint"
-      target_region: "(String) Region where is COS target is created, include this field if you want to create a target in a different region other than the one you are connected"
+      endpoint: "Endpoint of cos instance to be used as a target"
+      bucket_name: "Bucket name of cos instance to be used as a target"
+      instance_id: "Instance id of cos instance to be used as a taraget"
+      api_key: " IAM API key that has writer access to the COS instance"
+      service_to_service_enabled: "Set it true to enable support service to service authentication, if set as true do not provide api_key"
+      target_region: "Region where cos to be used as a target is created, include this field if you want to create a target in a different region other than the one you are connected"
     }
   EOT
 
   validation {
-    condition     = alltrue([for cos_target in var.cos_targets : cos_target.cos_endpoint.service_to_service_enabled == false && cos_target.cos_endpoint.api_key != null])
+    condition     = alltrue([for cos_target in var.cos_targets : cos_target.service_to_service_enabled == false && cos_target.api_key != null])
     error_message = "The api key is required if service_to_service authorization is not enabled"
-  }
-
-  validation {
-    condition = alltrue([
-      for cos_target in var.cos_targets : (cos_target.target_region == null ? true : length(cos_target.target_region) >= 1 && length(cos_target.target_region) <= 1000 && can(regex("^[a-zA-Z0-9 -._:]+$", cos_target.target_region)))
-    ])
-    error_message = "The target region must be 1000 characters or less, and cannot include any special characters other than (space) - . _ :."
   }
 }
 
 # Event Streams Targets
 variable "eventstreams_targets" {
   type = map(object({
-    eventstreams_endpoint = object({
-      target_crn = string
-      brokers    = list(string)
-      topic      = string
-      api_key    = string
-    })
+    instance_id   = string
+    brokers       = list(string)
+    topic         = string
+    api_key       = string
     target_region = optional(string)
   }))
   default     = {}
   description = <<EOT
     eventstreams_target = {
-      eventstreams_endpoint: "(Object) Property values for event streams Endpoint"
-      target_region: "(String) Region where is event streams target is created, include this field if you want to create a target in a different region other than the one you are connected"
+      instance_id: "Instance id of event streams instance to be used as a taraget"
+      brokers: "List of brokers defined under the Event streams instance and used in the event streams endpoint"
+      topic: " Topic name defined under the Event streams instance"
+      api_key: "IAM API key that has write access to the Event streams instance"
+      target_region: "Region where event streams target is created, include this field if you want to create a target in a different region other than the one you are connected"
     }
   EOT
-
-  validation {
-    condition = alltrue([
-      for eventstreams_target in var.eventstreams_targets : (eventstreams_target.target_region == null ? true : length(eventstreams_target.target_region) >= 1 && length(eventstreams_target.target_region) <= 1000 && can(regex("^[a-zA-Z0-9 -._:]+$", eventstreams_target.target_region)))
-    ])
-    error_message = "The target region must be 1000 characters or less, and cannot include any special characters other than (space) - . _ :."
-  }
-
 }
 
 # logDNA Targets
 variable "logdna_targets" {
   type = map(object({
-    logdna_endpoint = object({
-      target_crn    = string
-      ingestion_key = string
-    })
+    instance_id   = string
+    ingestion_key = string
     target_region = optional(string)
   }))
   default     = {}
   description = <<EOT
     logdna_target = {
-      logdna_endpoint: "(Object) Property values for LogDNA Endpoint"
-      target_region: "(String) Region where is LogDNA target is created, include this field if you want to create a target in a different region other than the one you are connected"
+      instance_id: "Instance id of logdna instance to be used as a taraget"
+      ingestion_key: "Ingestion key with manager access to logdna instance"
+      target_region: "Region where logdna target is created, include this field if you want to create a target in a different region other than the one you are connected"
     }
   EOT
-
-  validation {
-    condition = alltrue([
-      for logdna_target in var.logdna_targets : (logdna_target.target_region == null ? true : length(logdna_target.target_region) >= 1 && length(logdna_target.target_region) <= 1000 && can(regex("^[a-zA-Z0-9 -._:]+$", logdna_target.target_region)))
-    ])
-    error_message = "The target region must be 1000 characters or less, and cannot include any special characters other than (space) - . _ :."
-  }
 }
 
 # Routes
@@ -207,32 +187,14 @@ variable "activity_tracker_routes" {
   }
 }
 # Event Routing Setting
-variable "default_targets" {
-  type        = list(string)
-  description = "The target ID List. In the event that no routing rule causes the event to be sent to a target, these targets will receive the event"
-  default     = []
-}
-
-variable "metadata_region_primary" {
-  type        = string
-  description = "Primary region to store all your meta data."
+variable "global_event_routing_settings" {
+  type = object({
+    default_targets           = optional(list(string), [])
+    metadata_region_primary   = string
+    metadata_region_backup    = optional(string)
+    permitted_target_regions  = list(string)
+    private_api_endpoint_only = optional(bool, false)
+  })
+  description = "Global settings for event routing"
   default     = null
-}
-
-variable "metadata_region_backup" {
-  type        = string
-  description = "Backup region to store all your meta data in a ."
-  default     = null
-}
-
-variable "permitted_target_regions" {
-  type        = list(string)
-  description = "List of regions where target can be defined."
-  default     = null
-}
-
-variable "private_api_endpoint_only" {
-  type        = bool
-  description = "Set this true to restrict access only to private api endpoint."
-  default     = false
 }

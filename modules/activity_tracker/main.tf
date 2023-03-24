@@ -47,10 +47,10 @@ resource "logdna_archive" "archive_config" {
 resource "ibm_atracker_target" "atracker_cos_targets" {
   for_each = var.cos_targets
   cos_endpoint {
-    endpoint   = each.value.cos_endpoint.endpoint
-    bucket     = each.value.cos_endpoint.bucket_name
-    target_crn = each.value.cos_endpoint.target_crn
-    api_key    = each.value.cos_endpoint.api_key
+    endpoint   = each.value.endpoint
+    bucket     = each.value.bucket_name
+    target_crn = each.value.instance_id
+    api_key    = each.value.api_key
   }
   name        = each.key
   target_type = "cloud_object_storage"
@@ -61,10 +61,10 @@ resource "ibm_atracker_target" "atracker_cos_targets" {
 resource "ibm_atracker_target" "atracker_eventstreams_targets" {
   for_each = var.eventstreams_targets
   eventstreams_endpoint {
-    target_crn = each.value.eventstreams_endpoint.target_crn
-    brokers    = each.value.eventstreams_endpoint.brokers
-    topic      = each.value.eventstreams_endpoint.topic
-    api_key    = each.value.eventstreams_endpoint.api_key
+    target_crn = each.value.instance_id
+    brokers    = each.value.brokers
+    topic      = each.value.topic
+    api_key    = each.value.api_key
   }
   name        = each.key
   target_type = "event_streams"
@@ -75,8 +75,8 @@ resource "ibm_atracker_target" "atracker_eventstreams_targets" {
 resource "ibm_atracker_target" "atracker_logdna_targets" {
   for_each = var.logdna_targets
   logdna_endpoint {
-    target_crn    = each.value.logdna_endpoint.target_crn
-    ingestion_key = each.value.logdna_endpoint.ingestion_key
+    target_crn    = each.value.instance_id
+    ingestion_key = each.value.ingestion_key
   }
   name        = each.key
   target_type = "logdna"
@@ -101,14 +101,13 @@ resource "ibm_atracker_route" "atracker_routes" {
 #########################################################################
 
 resource "ibm_atracker_settings" "atracker_settings" {
-  count                     = length(var.activity_tracker_routes) > 0 ? 1 : 0 # if there is any routes defined, set global settings
-  default_targets           = var.default_targets
-  metadata_region_primary   = var.metadata_region_primary == null ? var.region : var.metadata_region_primary
-  metadata_region_backup    = var.metadata_region_backup
-  permitted_target_regions  = var.permitted_target_regions
-  private_api_endpoint_only = var.private_api_endpoint_only
+  count                     = length(var.global_event_routing_settings == null ? [] : [1])
+  default_targets           = var.global_event_routing_settings.default_targets
+  metadata_region_primary   = var.global_event_routing_settings.metadata_region_primary
+  metadata_region_backup    = var.global_event_routing_settings.metadata_region_backup
+  permitted_target_regions  = var.global_event_routing_settings.permitted_target_regions
+  private_api_endpoint_only = var.global_event_routing_settings.private_api_endpoint_only
 
-  # Optional but recommended lifecycle flag to ensure target delete order is correct
   lifecycle {
     create_before_destroy = true
   }

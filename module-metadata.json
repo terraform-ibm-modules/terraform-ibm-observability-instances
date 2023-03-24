@@ -84,7 +84,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 316
+        "line": 317
       }
     },
     "activity_tracker_service_endpoints": {
@@ -159,31 +159,15 @@
     },
     "cos_targets": {
       "name": "cos_targets",
-      "type": "map(object({\n    cos_endpoint = object({\n      endpoint                   = string\n      bucket_name                = string\n      target_crn                 = string\n      api_key                    = optional(string)\n      service_to_service_enabled = optional(bool, false)\n    })\n    target_region = optional(string)\n  }))",
-      "description": "    cos_target = {\n      cos_endpoint: \"(Object) Property values for COS Endpoint\"\n      target_region: \"(String) Region where is COS target is created, include this field if you want to create a target in a different region other than the one you are connected\"\n    }\n",
+      "type": "map(object({\n    endpoint                   = string\n    bucket_name                = string\n    instance_id                = string\n    api_key                    = optional(string)\n    service_to_service_enabled = optional(bool, false)\n    target_region              = optional(string)\n  }))",
+      "description": "    cos_target = {\n      endpoint: \"Endpoint of cos instance to be used as a target\"\n      bucket_name: \"Bucket name of cos instance to be used as a target\"\n      instance_id: \"Instance id of cos instance to be used as a taraget\"\n      api_key: \" IAM API key that has writer access to the COS instance\"\n      service_to_service_enabled: \"Set it true to enable support service to service authentication, if set as true do not provide api_key\"\n      target_region: \"Region where cos to be used as a target is created, include this field if you want to create a target in a different region other than the one you are connected\"\n    }\n",
       "default": {},
       "source": [
         "module.activity_tracker"
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 257
-      }
-    },
-    "default_targets": {
-      "name": "default_targets",
-      "type": "list(string)",
-      "description": "The target ID List. In the event that no routing rule causes the event to be sent to a target, these targets will receive the event",
-      "default": [],
-      "source": [
-        "module.activity_tracker.ibm_atracker_settings.atracker_settings.default_targets"
-      ],
-      "pos": {
-        "filename": "variables.tf",
-        "line": 326
-      },
-      "elem": {
-        "type": "TypeString"
+        "line": 256
       }
     },
     "enable_archive": {
@@ -228,15 +212,27 @@
     },
     "eventstreams_targets": {
       "name": "eventstreams_targets",
-      "type": "map(object({\n    eventstreams_endpoint = object({\n      target_crn = string\n      brokers    = list(string)\n      topic      = string\n      api_key    = string\n    })\n    target_region = optional(string)\n  }))",
-      "description": "    eventstreams_target = {\n      eventstreams_endpoint: \"(Object) Property values for event streams Endpoint\"\n      target_region: \"(String) Region where is event streams target is created, include this field if you want to create a target in a different region other than the one you are connected\"\n    }\n",
+      "type": "map(object({\n    instance_id   = string\n    brokers       = list(string)\n    topic         = string\n    api_key       = string\n    target_region = optional(string)\n  }))",
+      "description": "    eventstreams_target = {\n      instance_id: \"Instance id of event streams instance to be used as a taraget\"\n      brokers: \"List of brokers defined under the Event streams instance and used in the event streams endpoint\"\n      topic: \" Topic name defined under the Event streams instance\"\n      api_key: \"IAM API key that has write access to the Event streams instance\"\n      target_region: \"Region where event streams target is created, include this field if you want to create a target in a different region other than the one you are connected\"\n    }\n",
       "default": {},
       "source": [
         "module.activity_tracker"
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 278
+        "line": 279
+      }
+    },
+    "global_event_routing_settings": {
+      "name": "global_event_routing_settings",
+      "type": "object({\n    default_targets           = optional(list(string), [])\n    metadata_region_primary   = string\n    metadata_region_backup    = optional(string)\n    permitted_target_regions  = list(string)\n    private_api_endpoint_only = optional(bool, false)\n  })",
+      "description": "Global settings for event routing",
+      "source": [
+        "module.activity_tracker"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 327
       }
     },
     "ibmcloud_api_key": {
@@ -412,75 +408,15 @@
     },
     "logdna_targets": {
       "name": "logdna_targets",
-      "type": "map(object({\n    logdna_endpoint = object({\n      target_crn    = string\n      ingestion_key = string\n    })\n    target_region = optional(string)\n  }))",
-      "description": "    logdna_target = {\n      logdna_endpoint: \"(Object) Property values for LogDNA Endpoint\"\n      target_region: \"(String) Region where is LogDNA target is created, include this field if you want to create a target in a different region other than the one you are connected\"\n    }\n",
+      "type": "map(object({\n    instance_id   = string\n    ingestion_key = string\n    target_region = optional(string)\n  }))",
+      "description": "    logdna_target = {\n      instance_id: \"Instance id of logdna instance to be used as a taraget\"\n      ingestion_key: \"Ingestion key with manager access to logdna instance\"\n      target_region: \"Region where logdna target is created, include this field if you want to create a target in a different region other than the one you are connected\"\n    }\n",
       "default": {},
       "source": [
         "module.activity_tracker"
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 298
-      }
-    },
-    "metadata_region_backup": {
-      "name": "metadata_region_backup",
-      "type": "string",
-      "description": "Backup region to store all your meta data in a .",
-      "source": [
-        "module.activity_tracker.ibm_atracker_settings.atracker_settings.metadata_region_backup"
-      ],
-      "pos": {
-        "filename": "variables.tf",
-        "line": 338
-      },
-      "max_length": 256,
-      "matches": "^[a-zA-Z0-9 -_]*"
-    },
-    "metadata_region_primary": {
-      "name": "metadata_region_primary",
-      "type": "string",
-      "description": "Primary region to store all your meta data.",
-      "required": true,
-      "source": [
-        "module.activity_tracker.ibm_atracker_settings.atracker_settings.metadata_region_primary"
-      ],
-      "pos": {
-        "filename": "variables.tf",
-        "line": 332
-      },
-      "min_length": 3,
-      "max_length": 256,
-      "matches": "^[a-zA-Z0-9 -_]"
-    },
-    "permitted_target_regions": {
-      "name": "permitted_target_regions",
-      "type": "list(string)",
-      "description": "List of regions where target can be defined.",
-      "default": [],
-      "source": [
-        "module.activity_tracker.ibm_atracker_settings.atracker_settings.permitted_target_regions"
-      ],
-      "pos": {
-        "filename": "variables.tf",
-        "line": 344
-      },
-      "elem": {
-        "type": "TypeString"
-      }
-    },
-    "private_api_endpoint_only": {
-      "name": "private_api_endpoint_only",
-      "type": "bool",
-      "description": "Set this true to restrict access only to private api endpoint.",
-      "default": false,
-      "required": true,
-      "source": [
-        "module.activity_tracker.ibm_atracker_settings.atracker_settings.private_api_endpoint_only"
-      ],
-      "pos": {
-        "filename": "variables.tf",
-        "line": 350
+        "line": 300
       }
     },
     "region": {
@@ -874,19 +810,15 @@
         "cos_bucket_name": "at_cos_bucket_name",
         "cos_instance_id": "at_cos_instance_id",
         "cos_targets": "cos_targets",
-        "default_targets": "default_targets",
         "enable_archive": "enable_archive",
         "eventstreams_targets": "eventstreams_targets",
+        "global_event_routing_settings": "global_event_routing_settings",
         "ibmcloud_api_key": "ibmcloud_api_key",
         "instance_name": "activity_tracker_instance_name",
         "logdna_targets": "logdna_targets",
         "manager_key_name": "activity_tracker_manager_key_name",
         "manager_key_tags": "activity_tracker_manager_key_tags",
-        "metadata_region_backup": "metadata_region_backup",
-        "metadata_region_primary": "metadata_region_primary",
-        "permitted_target_regions": "permitted_target_regions",
         "plan": "activity_tracker_plan",
-        "private_api_endpoint_only": "private_api_endpoint_only",
         "region": "region",
         "resource_group_id": "resource_group_id",
         "service_endpoints": "activity_tracker_service_endpoints",
@@ -913,12 +845,12 @@
           "type": "ibm_atracker_settings",
           "name": "atracker_settings",
           "attributes": {
-            "count": "activity_tracker_routes",
-            "default_targets": "default_targets",
-            "metadata_region_backup": "metadata_region_backup",
-            "metadata_region_primary": "metadata_region_primary",
-            "permitted_target_regions": "permitted_target_regions",
-            "private_api_endpoint_only": "private_api_endpoint_only"
+            "count": "global_event_routing_settings",
+            "default_targets": "global_event_routing_settings",
+            "metadata_region_backup": "global_event_routing_settings",
+            "metadata_region_primary": "global_event_routing_settings",
+            "permitted_target_regions": "global_event_routing_settings",
+            "private_api_endpoint_only": "global_event_routing_settings"
           },
           "provider": {
             "name": "ibm"
@@ -1243,7 +1175,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 39
+        "line": 35
       }
     },
     "sysdig": {
@@ -1355,7 +1287,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 63
+        "line": 59
       }
     }
   }

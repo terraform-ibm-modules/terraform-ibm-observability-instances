@@ -135,52 +135,42 @@ module "activity_tracker" {
   # Targets
   cos_targets = {
     "${var.prefix}-cos-target-1" = {
-      cos_endpoint = {
-        api_key     = ibm_resource_key.cos_resource_key_1.credentials.apikey
-        bucket_name = module.cos_bucket_1.bucket_name[0]
-        endpoint    = module.cos_bucket_1.s3_endpoint_private[0]
-        target_crn  = module.cos_bucket_1.cos_instance_id
-      }
+      api_key       = ibm_resource_key.cos_resource_key_1.credentials.apikey
+      bucket_name   = module.cos_bucket_1.bucket_name[0]
+      endpoint      = module.cos_bucket_1.s3_endpoint_private[0]
+      instance_id   = module.cos_bucket_1.cos_instance_id
       target_region = local.cos_target_region
     }
 
     "${var.prefix}-cos-target-2" = {
-      cos_endpoint = {
-        api_key     = ibm_resource_key.cos_resource_key_2.credentials.apikey
-        bucket_name = module.cos_bucket_2.bucket_name[0]
-        endpoint    = module.cos_bucket_2.s3_endpoint_private[0]
-        target_crn  = module.cos_bucket_2.cos_instance_id
-      }
+      api_key       = ibm_resource_key.cos_resource_key_2.credentials.apikey
+      bucket_name   = module.cos_bucket_2.bucket_name[0]
+      endpoint      = module.cos_bucket_2.s3_endpoint_private[0]
+      instance_id   = module.cos_bucket_2.cos_instance_id
       target_region = local.cos_target_region
     }
   }
 
   eventstreams_targets = {
     "${var.prefix}-eventstreams-target-1" = {
-      eventstreams_endpoint = {
-        api_key    = ibm_resource_key.es_resource_key.credentials.apikey
-        target_crn = ibm_resource_instance.es_instance.id
-        brokers    = ibm_event_streams_topic.es_topic.kafka_brokers_sasl
-        topic      = ibm_event_streams_topic.es_topic.name
-      }
+      api_key       = ibm_resource_key.es_resource_key.credentials.apikey
+      instance_id   = ibm_resource_instance.es_instance.id
+      brokers       = ibm_event_streams_topic.es_topic.kafka_brokers_sasl
+      topic         = ibm_event_streams_topic.es_topic.name
       target_region = local.eventstreams_target_region
     }
   }
 
   logdna_targets = {
     "${var.prefix}-logdna-target-1" = {
-      logdna_endpoint = {
-        target_crn    = module.logdna_1.crn
-        ingestion_key = module.logdna_1.ingestion_key
-      }
+      instance_id   = module.logdna_1.crn
+      ingestion_key = module.logdna_1.ingestion_key
       target_region = local.logdna_target_region
     }
 
     "${var.prefix}-logdna-target-2" = {
-      logdna_endpoint = {
-        target_crn    = module.logdna_2.crn
-        ingestion_key = module.logdna_2.ingestion_key
-      }
+      instance_id   = module.logdna_2.crn
+      ingestion_key = module.logdna_2.ingestion_key
       target_region = local.logdna_target_region
     }
   }
@@ -206,11 +196,14 @@ module "activity_tracker" {
   }
 
   # Global Settings
-  default_targets           = [module.activity_tracker.activity_tracker_targets["${var.prefix}-eventstreams-target-1"].id]
-  permitted_target_regions  = var.permitted_target_regions
-  metadata_region_primary   = var.metadata_region_primary
-  metadata_region_backup    = var.metadata_region_backup
-  private_api_endpoint_only = var.private_api_endpoint_only
+  global_event_routing_settings = {
+    default_targets           = [module.activity_tracker.activity_tracker_targets["${var.prefix}-eventstreams-target-1"].id]
+    permitted_target_regions  = var.permitted_target_regions
+    metadata_region_primary   = var.metadata_region_primary
+    metadata_region_backup    = var.metadata_region_backup
+    private_api_endpoint_only = var.private_api_endpoint_only
+  }
+
 }
 
 data "ibm_resource_key" "at_resource_key" {
