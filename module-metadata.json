@@ -76,15 +76,15 @@
     },
     "activity_tracker_routes": {
       "name": "activity_tracker_routes",
-      "type": "map(object({\n    locations  = list(string)\n    target_ids = list(string)\n  }))",
-      "description": "Map of routes to be created, maximum four routes are allowed",
-      "default": {},
+      "type": "list(object({\n    locations  = list(string)\n    target_ids = list(string)\n    route_name = string\n  }))",
+      "description": "List of routes to be created, maximum four routes are allowed",
+      "default": [],
       "source": [
         "module.activity_tracker"
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 294
+        "line": 297
       }
     },
     "activity_tracker_service_endpoints": {
@@ -159,9 +159,9 @@
     },
     "cos_targets": {
       "name": "cos_targets",
-      "type": "map(object({\n    endpoint                   = string\n    bucket_name                = string\n    instance_id                = string\n    api_key                    = optional(string)\n    service_to_service_enabled = optional(bool, false)\n    target_region              = optional(string)\n  }))",
-      "description": "Map of cos target to be created",
-      "default": {},
+      "type": "list(object({\n    endpoint                   = string\n    bucket_name                = string\n    instance_id                = string\n    api_key                    = optional(string)\n    service_to_service_enabled = optional(bool, false)\n    target_region              = optional(string)\n    target_name                = string\n  }))",
+      "description": "List of cos target to be created",
+      "default": [],
       "source": [
         "module.activity_tracker"
       ],
@@ -212,15 +212,15 @@
     },
     "eventstreams_targets": {
       "name": "eventstreams_targets",
-      "type": "map(object({\n    instance_id   = string\n    brokers       = list(string)\n    topic         = string\n    api_key       = string\n    target_region = optional(string)\n  }))",
-      "description": "Map of event streams target to be created",
-      "default": {},
+      "type": "list(object({\n    instance_id   = string\n    brokers       = list(string)\n    topic         = string\n    api_key       = string\n    target_region = optional(string)\n    target_name   = string\n  }))",
+      "description": "List of event streams target to be created",
+      "default": [],
       "source": [
         "module.activity_tracker"
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 270
+        "line": 271
       }
     },
     "global_event_routing_settings": {
@@ -232,7 +232,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 304
+        "line": 308
       }
     },
     "ibmcloud_api_key": {
@@ -408,15 +408,15 @@
     },
     "logdna_targets": {
       "name": "logdna_targets",
-      "type": "map(object({\n    instance_id   = string\n    ingestion_key = string\n    target_region = optional(string)\n  }))",
-      "description": "Map of routes to be created, maximum four routes are allowed",
-      "default": {},
+      "type": "list(object({\n    instance_id   = string\n    ingestion_key = string\n    target_region = optional(string)\n    target_name   = optional(string)\n  }))",
+      "description": "List of logdna target to be created",
+      "default": [],
       "source": [
         "module.activity_tracker"
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 283
+        "line": 285
       }
     },
     "region": {

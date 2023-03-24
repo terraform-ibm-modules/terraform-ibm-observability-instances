@@ -98,16 +98,17 @@ variable "cos_bucket_endpoint" {
 
 # COS Targets
 variable "cos_targets" {
-  type = map(object({
+  type = list(object({
     endpoint                   = string
     bucket_name                = string
     instance_id                = string
     api_key                    = optional(string)
     service_to_service_enabled = optional(bool, false)
     target_region              = optional(string)
+    target_name                = string
   }))
-  default     = {}
-  description = "Map of cos target to be created"
+  default     = []
+  description = "List of cos target to be created"
 
   validation {
     condition     = alltrue([for cos_target in var.cos_targets : cos_target.service_to_service_enabled == false && cos_target.api_key != null])
@@ -117,36 +118,39 @@ variable "cos_targets" {
 
 # Event Streams Targets
 variable "eventstreams_targets" {
-  type = map(object({
+  type = list(object({
     instance_id   = string
     brokers       = list(string)
     topic         = string
     api_key       = string
     target_region = optional(string)
+    target_name   = string
   }))
-  default     = {}
-  description = "Map of event streams target to be created"
+  default     = []
+  description = "List of event streams target to be created"
 }
 
 # logDNA Targets
 variable "logdna_targets" {
-  type = map(object({
+  type = list(object({
     instance_id   = string
     ingestion_key = string
     target_region = optional(string)
+    target_name   = string
   }))
-  default     = {}
-  description = "Map of logdna target to be created"
+  default     = []
+  description = "List of logdna target to be created"
 }
 
 # Routes
 variable "activity_tracker_routes" {
-  type = map(object({
+  type = list(object({
     locations  = list(string)
     target_ids = list(string)
+    route_name = string
   }))
-  description = "Map of routes to be created, maximum four routes are allowed"
-  default     = {}
+  description = "List of routes to be created, maximum four routes are allowed"
+  default     = []
 
   validation {
     condition     = length(var.activity_tracker_routes) <= 4

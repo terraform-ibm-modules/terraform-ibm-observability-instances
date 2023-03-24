@@ -91,7 +91,7 @@ resource "ibm_resource_key" "es_resource_key" {
 module "logdna_1" {
   source = "../../modules/logdna"
   providers = {
-    logdna.ld = logdna.ld
+    logdna.ld = logdna.ld_1
   }
   instance_name     = "${var.prefix}-logdna-target-instance-1"
   resource_group_id = module.resource_group.resource_group_id
@@ -104,7 +104,7 @@ module "logdna_1" {
 module "logdna_2" {
   source = "../../modules/logdna"
   providers = {
-    logdna.ld = logdna.ld
+    logdna.ld = logdna.ld_2
   }
   instance_name     = "${var.prefix}-logdna-target-instance-2"
   resource_group_id = module.resource_group.resource_group_id
@@ -133,67 +133,68 @@ module "activity_tracker" {
   tags                       = var.resource_tags
 
   # Targets
-  cos_targets = {
-    "${var.prefix}-cos-target-1" = {
+  cos_targets = [
+    {
       api_key       = ibm_resource_key.cos_resource_key_1.credentials.apikey
       bucket_name   = module.cos_bucket_1.bucket_name[0]
       endpoint      = module.cos_bucket_1.s3_endpoint_private[0]
       instance_id   = module.cos_bucket_1.cos_instance_id
       target_region = local.cos_target_region
-    }
-
-    "${var.prefix}-cos-target-2" = {
+      target_name   = "${var.prefix}-cos-target-1"
+      }, {
       api_key       = ibm_resource_key.cos_resource_key_2.credentials.apikey
       bucket_name   = module.cos_bucket_2.bucket_name[0]
       endpoint      = module.cos_bucket_2.s3_endpoint_private[0]
       instance_id   = module.cos_bucket_2.cos_instance_id
       target_region = local.cos_target_region
+      target_name   = "${var.prefix}-cos-target-2"
     }
-  }
+  ]
 
-  eventstreams_targets = {
-    "${var.prefix}-eventstreams-target-1" = {
+  eventstreams_targets = [
+    {
       api_key       = ibm_resource_key.es_resource_key.credentials.apikey
       instance_id   = ibm_resource_instance.es_instance.id
       brokers       = ibm_event_streams_topic.es_topic.kafka_brokers_sasl
       topic         = ibm_event_streams_topic.es_topic.name
       target_region = local.eventstreams_target_region
+      target_name   = "${var.prefix}-eventstreams-target-1"
     }
-  }
+  ]
 
-  logdna_targets = {
-    "${var.prefix}-logdna-target-1" = {
+  logdna_targets = [
+    {
       instance_id   = module.logdna_1.crn
       ingestion_key = module.logdna_1.ingestion_key
       target_region = local.logdna_target_region
-    }
-
-    "${var.prefix}-logdna-target-2" = {
+      target_name   = "${var.prefix}-logdna-target-1"
+      }, {
       instance_id   = module.logdna_2.crn
       ingestion_key = module.logdna_2.ingestion_key
       target_region = local.logdna_target_region
+      target_name   = "${var.prefix}-logdna-target-2"
     }
-  }
+  ]
 
   # Routes
-  activity_tracker_routes = {
-    "${var.prefix}-route-1" = {
-      locations = ["*", "global"]
+  activity_tracker_routes = [
+    {
+      route_name = "${var.prefix}-route-1"
+      locations  = ["*", "global"]
       target_ids = [
         module.activity_tracker.activity_tracker_targets["${var.prefix}-cos-target-1"].id,
         module.activity_tracker.activity_tracker_targets["${var.prefix}-logdna-target-1"].id,
         module.activity_tracker.activity_tracker_targets["${var.prefix}-eventstreams-target-1"].id
       ]
-    }
-
-    "${var.prefix}-route-2" = {
-      locations = ["*", "global"]
+      }, {
+      route_name = "${var.prefix}-route-2"
+      locations  = ["*", "global"]
       target_ids = [
         module.activity_tracker.activity_tracker_targets["${var.prefix}-cos-target-2"].id,
         module.activity_tracker.activity_tracker_targets["${var.prefix}-logdna-target-2"].id
       ]
     }
-  }
+  ]
 
   # Global Settings
   global_event_routing_settings = {
