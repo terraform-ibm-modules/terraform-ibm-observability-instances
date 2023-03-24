@@ -160,7 +160,7 @@
     "cos_targets": {
       "name": "cos_targets",
       "type": "map(object({\n    endpoint                   = string\n    bucket_name                = string\n    instance_id                = string\n    api_key                    = optional(string)\n    service_to_service_enabled = optional(bool, false)\n    target_region              = optional(string)\n  }))",
-      "description": "cos_target = {\n  endpoint: \"Endpoint of cos instance to be used as a target\"\n  bucket_name: \"Bucket name of cos instance to be used as a target\"\n  instance_id: \"Instance id of cos instance to be used as a taraget\"\n  api_key: \" IAM API key that has writer access to the COS instance\"\n  service_to_service_enabled: \"Set it true to enable support service to service authentication, if set as true do not provide api_key\"\n  target_region: \"Region where cos to be used as a target is created, include this field if you want to create a target in a different region other than the one you are connected\"\n}\n",
+      "description": "    cos_target = {\n      endpoint: \"Endpoint of cos instance to be used as a target\"\n      bucket_name: \"Bucket name of cos instance to be used as a target\"\n      instance_id: \"Instance id of cos instance to be used as a taraget\"\n      api_key: \" IAM API key that has writer access to the COS instance\"\n      service_to_service_enabled: \"Set it true to enable support service to service authentication, if set as true do not provide api_key\"\n      target_region: \"Region where cos to be used as a target is created, include this field if you want to create a target in a different region other than the one you are connected\"\n    }\n",
       "default": {},
       "source": [
         "module.activity_tracker"
@@ -213,7 +213,7 @@
     "eventstreams_targets": {
       "name": "eventstreams_targets",
       "type": "map(object({\n    instance_id   = string\n    brokers       = list(string)\n    topic         = string\n    api_key       = string\n    target_region = optional(string)\n  }))",
-      "description": "    eventstreams_target = {\u003cbr\u003e\n      instance_id: \"Instance id of event streams instance to be used as a taraget\"\u003cbr\u003e\n      brokers: \"List of brokers defined under the Event streams instance and used in the event streams endpoint\"\n      topic: \" Topic name defined under the Event streams instance\"\n      api_key: \"IAM API key that has write access to the Event streams instance\"\n      target_region: \"Region where event streams target is created, include this field if you want to create a target in a different region other than the one you are connected\"\n    }\n",
+      "description": "    \u003cpre\u003eeventstreams_target = {\u003cbr\u003e\n      instance_id:    \"Instance id of event streams instance to be used as a taraget\"\u003cbr\u003e\n      brokers:        \"List of brokers defined under the Event streams instance and used in the event streams endpoint\"\u003cbr\u003e\n      topic:          \"Topic name defined under the Event streams instance\"\u003cbr\u003e\n      api_key:        \"IAM API key that has write access to the Event streams instance\"\u003cbr\u003e\n      target_region:  \"Region where event streams target is created, include this field if you want to create a target in a different region other than the one you are connected\"\u003cbr\u003e\n    }\u003c/pre\u003e\n",
       "default": {},
       "source": [
         "module.activity_tracker"

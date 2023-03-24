@@ -263,7 +263,7 @@ variable "cos_targets" {
     target_region              = optional(string)
   }))
   default     = {}
-  description = <<-EOT
+  description = <<EOT
     cos_target = {
       endpoint: "Endpoint of cos instance to be used as a target"
       bucket_name: "Bucket name of cos instance to be used as a target"
@@ -286,13 +286,13 @@ variable "eventstreams_targets" {
   }))
   default     = {}
   description = <<EOT
-    eventstreams_target = {<br>
-      instance_id: "Instance id of event streams instance to be used as a taraget"<br>
-      brokers: "List of brokers defined under the Event streams instance and used in the event streams endpoint"
-      topic: " Topic name defined under the Event streams instance"
-      api_key: "IAM API key that has write access to the Event streams instance"
-      target_region: "Region where event streams target is created, include this field if you want to create a target in a different region other than the one you are connected"
-    }
+    <pre>eventstreams_target = {<br>
+      instance_id:    "Instance id of event streams instance to be used as a taraget"<br>
+      brokers:        "List of brokers defined under the Event streams instance and used in the event streams endpoint"<br>
+      topic:          "Topic name defined under the Event streams instance"<br>
+      api_key:        "IAM API key that has write access to the Event streams instance"<br>
+      target_region:  "Region where event streams target is created, include this field if you want to create a target in a different region other than the one you are connected"<br>
+    }</pre>
   EOT
 }
 
