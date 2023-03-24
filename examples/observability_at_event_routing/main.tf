@@ -141,7 +141,8 @@ module "activity_tracker" {
       instance_id   = module.cos_bucket_1.cos_instance_id
       target_region = local.cos_target_region
       target_name   = "${var.prefix}-cos-target-1"
-      }, {
+    },
+    {
       api_key       = ibm_resource_key.cos_resource_key_2.credentials.apikey
       bucket_name   = module.cos_bucket_2.bucket_name[0]
       endpoint      = module.cos_bucket_2.s3_endpoint_private[0]
@@ -168,7 +169,8 @@ module "activity_tracker" {
       ingestion_key = module.logdna_1.ingestion_key
       target_region = local.logdna_target_region
       target_name   = "${var.prefix}-logdna-target-1"
-      }, {
+    },
+    {
       instance_id   = module.logdna_2.crn
       ingestion_key = module.logdna_2.ingestion_key
       target_region = local.logdna_target_region
@@ -186,7 +188,8 @@ module "activity_tracker" {
         module.activity_tracker.activity_tracker_targets["${var.prefix}-logdna-target-1"].id,
         module.activity_tracker.activity_tracker_targets["${var.prefix}-eventstreams-target-1"].id
       ]
-      }, {
+    },
+    {
       route_name = "${var.prefix}-route-2"
       locations  = ["*", "global"]
       target_ids = [
