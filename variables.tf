@@ -263,7 +263,7 @@ variable "cos_targets" {
     target_region              = optional(string)
   }))
   default     = {}
-  description = "Map of cos targets to be created"
+  description = "Map of cos target to be created"
 }
 
 # Event Streams Targets
@@ -276,7 +276,7 @@ variable "eventstreams_targets" {
     target_region = optional(string)
   }))
   default     = {}
-  description = "Map of event streams targets to be created"
+  description = "Map of event streams target to be created"
 }
 
 # logDNA Targets

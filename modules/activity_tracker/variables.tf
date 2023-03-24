@@ -107,7 +107,7 @@ variable "cos_targets" {
     target_region              = optional(string)
   }))
   default     = {}
-  description = "Map of cos targets to be created"
+  description = "Map of cos target to be created"
 
   validation {
     condition     = alltrue([for cos_target in var.cos_targets : cos_target.service_to_service_enabled == false && cos_target.api_key != null])
@@ -125,7 +125,7 @@ variable "eventstreams_targets" {
     target_region = optional(string)
   }))
   default     = {}
-  description = "Map of event streams targets to be created"
+  description = "Map of event streams target to be created"
 }
 
 # logDNA Targets
@@ -136,7 +136,7 @@ variable "logdna_targets" {
     target_region = optional(string)
   }))
   default     = {}
-  description = "Map of logdna targets to be created"
+  description = "Map of logdna target to be created"
 }
 
 # Routes
@@ -155,12 +155,12 @@ variable "activity_tracker_routes" {
 
   validation {
     condition     = alltrue([for activity_tracker_route in var.activity_tracker_routes : length(activity_tracker_route.locations) > 0])
-    error_message = "Length of location can not be zero"
+    error_message = "Length of locations can not be zero"
   }
 
   validation {
     condition     = alltrue([for activity_tracker_route in var.activity_tracker_routes : length(activity_tracker_route.target_ids) > 0])
-    error_message = "Length of target_id can not be zero"
+    error_message = "Length of target_ids can not be zero"
   }
 }
 # Event Routing Setting

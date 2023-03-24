@@ -160,7 +160,7 @@
     "cos_targets": {
       "name": "cos_targets",
       "type": "map(object({\n    endpoint                   = string\n    bucket_name                = string\n    instance_id                = string\n    api_key                    = optional(string)\n    service_to_service_enabled = optional(bool, false)\n    target_region              = optional(string)\n  }))",
-      "description": "Map of cos targets to be created",
+      "description": "Map of cos target to be created",
       "default": {},
       "source": [
         "module.activity_tracker"
@@ -213,7 +213,7 @@
     "eventstreams_targets": {
       "name": "eventstreams_targets",
       "type": "map(object({\n    instance_id   = string\n    brokers       = list(string)\n    topic         = string\n    api_key       = string\n    target_region = optional(string)\n  }))",
-      "description": "Map of event streams targets to be created",
+      "description": "Map of event streams target to be created",
       "default": {},
       "source": [
         "module.activity_tracker"
