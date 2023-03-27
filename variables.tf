@@ -248,3 +248,71 @@ variable "at_cos_bucket_endpoint" {
   description = "An endpoint for the COS bucket for the Activity Tracker archive. Pass either the public or private endpoint (Only required when var.enable_archive and var.activity_tracker_provision are true)"
   default     = null
 }
+
+########################################################################
+# Activity Tracker Event Routing
+#########################################################################
+# COS Targets
+variable "cos_targets" {
+  type = list(object({
+    endpoint                   = string
+    bucket_name                = string
+    instance_id                = string
+    api_key                    = optional(string)
+    service_to_service_enabled = optional(bool, false)
+    target_region              = optional(string)
+    target_name                = string
+  }))
+  default     = []
+  description = "List of cos target to be created"
+}
+
+# Event Streams Targets
+variable "eventstreams_targets" {
+  type = list(object({
+    instance_id   = string
+    brokers       = list(string)
+    topic         = string
+    api_key       = string
+    target_region = optional(string)
+    target_name   = string
+  }))
+  default     = []
+  description = "List of event streams target to be created"
+}
+
+# logDNA Targets
+variable "logdna_targets" {
+  type = list(object({
+    instance_id   = string
+    ingestion_key = string
+    target_region = optional(string)
+    target_name   = string
+  }))
+  default     = []
+  description = "List of logdna target to be created"
+}
+
+# Routes
+variable "activity_tracker_routes" {
+  type = list(object({
+    locations  = list(string)
+    target_ids = list(string)
+    route_name = string
+  }))
+  default     = []
+  description = "List of routes to be created, maximum four routes are allowed"
+}
+
+# Event Routing Setting
+variable "global_event_routing_settings" {
+  type = object({
+    default_targets           = optional(list(string), [])
+    metadata_region_primary   = string
+    metadata_region_backup    = optional(string)
+    permitted_target_regions  = list(string)
+    private_api_endpoint_only = optional(bool, false)
+  })
+  description = "Global settings for event routing"
+  default     = null
+}
