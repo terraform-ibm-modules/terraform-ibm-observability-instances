@@ -10,40 +10,40 @@ output "region" {
 
 ##############################################################################
 
-# LogDNA
-output "logdna_crn" {
+# Log Analysis
+output "log_analysis_crn" {
   value       = module.logdna.crn
   description = "The id of the provisioned LogDNA instance."
 }
 
-output "logdna_guid" {
+output "log_analysis_guid" {
   value       = module.logdna.guid
   description = "The guid of the provisioned LogDNA instance."
 }
 
-output "logdna_name" {
+output "log_analysis_name" {
   value       = module.logdna.name
   description = "The name of the provisioned LogDNA instance."
 }
 
-output "logdna_resource_group_id" {
+output "log_analysis_resource_group_id" {
   value       = module.logdna.resource_group_id
   description = "The resource group where LogDNA instance resides"
 }
 
-output "logdna_resource_key" {
+output "log_analysis_resource_key" {
   value       = module.logdna.resource_key
   description = "LogDNA service key for agents to use"
   sensitive   = true
 }
 
-output "logdna_ingestion_key" {
+output "log_analysis_ingestion_key" {
   value       = module.logdna.ingestion_key
   description = "LogDNA ingest key for agents to use"
   sensitive   = true
 }
 
-output "logdna_manager_key_name" {
+output "log_analysis_manager_key_name" {
   value       = module.logdna.manager_key_name
   description = "The LogDNA manager key name"
 }

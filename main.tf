@@ -31,7 +31,7 @@ module "activity_tracker" {
   global_event_routing_settings = var.global_event_routing_settings
 }
 
-# LogDNA
+# Log Analysis
 module "logdna" {
   source = "./modules/logdna"
   providers = {
@@ -41,18 +41,18 @@ module "logdna" {
   resource_group_id    = var.resource_group_id
   enable_archive       = var.enable_archive
   ibmcloud_api_key     = var.ibmcloud_api_key
-  logdna_provision     = var.logdna_provision
-  instance_name        = var.logdna_instance_name
-  plan                 = var.logdna_plan
-  manager_key_name     = var.logdna_manager_key_name
-  manager_key_tags     = var.logdna_manager_key_tags
-  resource_key_role    = var.logdna_resource_key_role
-  tags                 = var.logdna_tags
+  logdna_provision     = var.log_analysis_provision
+  instance_name        = var.log_analysis_instance_name
+  plan                 = var.log_analysis_plan
+  manager_key_name     = var.log_analysis_manager_key_name
+  manager_key_tags     = var.log_analysis_manager_key_tags
+  resource_key_role    = var.log_analysis_resource_key_role
+  tags                 = var.log_analysis_tags
   enable_platform_logs = var.enable_platform_logs
-  service_endpoints    = var.logdna_service_endpoints
-  cos_instance_id      = var.logdna_cos_instance_id
-  cos_bucket_name      = var.logdna_cos_bucket_name
-  cos_bucket_endpoint  = var.logdna_cos_bucket_endpoint
+  service_endpoints    = var.log_analysis_service_endpoints
+  cos_instance_id      = var.log_analysis_cos_instance_id
+  cos_bucket_name      = var.log_analysis_cos_bucket_name
+  cos_bucket_endpoint  = var.log_analysis_cos_bucket_endpoint
 }
 
 # Sysdig

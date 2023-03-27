@@ -195,17 +195,17 @@ No resources.
 | <a name="input_eventstreams_targets"></a> [eventstreams\_targets](#input\_eventstreams\_targets) | List of event streams target to be created | <pre>list(object({<br>    instance_id   = string<br>    brokers       = list(string)<br>    topic         = string<br>    api_key       = string<br>    target_region = optional(string)<br>    target_name   = string<br>  }))</pre> | `[]` | no |
 | <a name="input_global_event_routing_settings"></a> [global\_event\_routing\_settings](#input\_global\_event\_routing\_settings) | Global settings for event routing | <pre>object({<br>    default_targets           = optional(list(string), [])<br>    metadata_region_primary   = string<br>    metadata_region_backup    = optional(string)<br>    permitted_target_regions  = list(string)<br>    private_api_endpoint_only = optional(bool, false)<br>  })</pre> | `null` | no |
 | <a name="input_ibmcloud_api_key"></a> [ibmcloud\_api\_key](#input\_ibmcloud\_api\_key) | Only required to archive. The IBM Cloud API Key. | `string` | `null` | no |
-| <a name="input_logdna_cos_bucket_endpoint"></a> [logdna\_cos\_bucket\_endpoint](#input\_logdna\_cos\_bucket\_endpoint) | An endpoint for the COS bucket for the LogDNA archive. Pass either the public or private endpoint. (Only required when var.enable\_archive and var.logdna\_provision are true). | `string` | `null` | no |
-| <a name="input_logdna_cos_bucket_name"></a> [logdna\_cos\_bucket\_name](#input\_logdna\_cos\_bucket\_name) | The name of an existing COS bucket to be used for the LogDNA archive. (Only required when var.enable\_archive and var.logdna\_provision are true). | `string` | `null` | no |
-| <a name="input_logdna_cos_instance_id"></a> [logdna\_cos\_instance\_id](#input\_logdna\_cos\_instance\_id) | The ID of the cloud object storage instance containing the LogDNA archive bucket. (Only required when var.enable\_archive and var.logdna\_provision are true). | `string` | `null` | no |
-| <a name="input_logdna_instance_name"></a> [logdna\_instance\_name](#input\_logdna\_instance\_name) | The name of the IBM Cloud Logging instance to create. Defaults to 'logdna-<region>' | `string` | `null` | no |
-| <a name="input_logdna_manager_key_name"></a> [logdna\_manager\_key\_name](#input\_logdna\_manager\_key\_name) | The name to give the IBM Cloud Logging manager key. | `string` | `"LogDnaManagerKey"` | no |
-| <a name="input_logdna_manager_key_tags"></a> [logdna\_manager\_key\_tags](#input\_logdna\_manager\_key\_tags) | Tags associated with the IBM Cloud Logging manager key. | `list(string)` | `[]` | no |
-| <a name="input_logdna_plan"></a> [logdna\_plan](#input\_logdna\_plan) | The IBM Cloud Logging plan to provision. Available: lite, 7-day, 14-day, 30-day, hipaa-30-day | `string` | `"lite"` | no |
-| <a name="input_logdna_provision"></a> [logdna\_provision](#input\_logdna\_provision) | Provision an IBM Cloud Logging instance? | `bool` | `true` | no |
-| <a name="input_logdna_resource_key_role"></a> [logdna\_resource\_key\_role](#input\_logdna\_resource\_key\_role) | Role assigned to provide the IBM Cloud Logging key. | `string` | `"Manager"` | no |
-| <a name="input_logdna_service_endpoints"></a> [logdna\_service\_endpoints](#input\_logdna\_service\_endpoints) | The type of the service endpoint that will be set for the LogDNA instance. | `string` | `"public-and-private"` | no |
-| <a name="input_logdna_tags"></a> [logdna\_tags](#input\_logdna\_tags) | Tags associated with the IBM Cloud Logging instance (Optional, array of strings). | `list(string)` | `[]` | no |
+| <a name="input_log_analysis_cos_bucket_endpoint"></a> [log\_analysis\_cos\_bucket\_endpoint](#input\_log\_analysis\_cos\_bucket\_endpoint) | An endpoint for the COS bucket for the Log Analysis archive. Pass either the public or private endpoint. (Only required when var.enable\_archive and var.log\_analysis\_provision are true). | `string` | `null` | no |
+| <a name="input_log_analysis_cos_bucket_name"></a> [log\_analysis\_cos\_bucket\_name](#input\_log\_analysis\_cos\_bucket\_name) | The name of an existing COS bucket to be used for the Log Analysis archive. (Only required when var.enable\_archive and var.log\_analysis\_provision are true). | `string` | `null` | no |
+| <a name="input_log_analysis_cos_instance_id"></a> [log\_analysis\_cos\_instance\_id](#input\_log\_analysis\_cos\_instance\_id) | The ID of the cloud object storage instance containing the Log Analysis archive bucket. (Only required when var.enable\_archive and var.log\_analysis\_provision are true). | `string` | `null` | no |
+| <a name="input_log_analysis_instance_name"></a> [log\_analysis\_instance\_name](#input\_log\_analysis\_instance\_name) | The name of the IBM Cloud Logging instance to create. Defaults to 'logdna-<region>' | `string` | `null` | no |
+| <a name="input_log_analysis_manager_key_name"></a> [log\_analysis\_manager\_key\_name](#input\_log\_analysis\_manager\_key\_name) | The name to give the IBM Cloud Logging manager key. | `string` | `"LogAnalysisManagerKey"` | no |
+| <a name="input_log_analysis_manager_key_tags"></a> [log\_analysis\_manager\_key\_tags](#input\_log\_analysis\_manager\_key\_tags) | Tags associated with the IBM Cloud Logging manager key. | `list(string)` | `[]` | no |
+| <a name="input_log_analysis_plan"></a> [log\_analysis\_plan](#input\_log\_analysis\_plan) | The IBM Cloud Logging plan to provision. Available: lite, 7-day, 14-day, 30-day, hipaa-30-day | `string` | `"lite"` | no |
+| <a name="input_log_analysis_provision"></a> [log\_analysis\_provision](#input\_log\_analysis\_provision) | Provision an IBM Cloud Logging instance? | `bool` | `true` | no |
+| <a name="input_log_analysis_resource_key_role"></a> [log\_analysis\_resource\_key\_role](#input\_log\_analysis\_resource\_key\_role) | Role assigned to provide the IBM Cloud Logging key. | `string` | `"Manager"` | no |
+| <a name="input_log_analysis_service_endpoints"></a> [log\_analysis\_service\_endpoints](#input\_log\_analysis\_service\_endpoints) | The type of the service endpoint that will be set for the Log Analysis instance. | `string` | `"public-and-private"` | no |
+| <a name="input_log_analysis_tags"></a> [log\_analysis\_tags](#input\_log\_analysis\_tags) | Tags associated with the IBM Cloud Logging instance (Optional, array of strings). | `list(string)` | `[]` | no |
 | <a name="input_logdna_targets"></a> [logdna\_targets](#input\_logdna\_targets) | List of logdna target to be created | <pre>list(object({<br>    instance_id   = string<br>    ingestion_key = string<br>    target_region = optional(string)<br>    target_name   = string<br>  }))</pre> | `[]` | no |
 | <a name="input_region"></a> [region](#input\_region) | The IBM Cloud region where instances will be created. | `string` | `"us-south"` | no |
 | <a name="input_resource_group_id"></a> [resource\_group\_id](#input\_resource\_group\_id) | The id of the IBM Cloud resource group where the instance(s) will be created. | `string` | `null` | no |
@@ -229,13 +229,13 @@ No resources.
 | <a name="output_activity_tracker_resource_key"></a> [activity\_tracker\_resource\_key](#output\_activity\_tracker\_resource\_key) | The resource/service key for agents to use |
 | <a name="output_activity_tracker_routes"></a> [activity\_tracker\_routes](#output\_activity\_tracker\_routes) | The map of created routes |
 | <a name="output_activity_tracker_targets"></a> [activity\_tracker\_targets](#output\_activity\_tracker\_targets) | The map of created targets |
-| <a name="output_logdna_crn"></a> [logdna\_crn](#output\_logdna\_crn) | The id of the provisioned LogDNA instance. |
-| <a name="output_logdna_guid"></a> [logdna\_guid](#output\_logdna\_guid) | The guid of the provisioned LogDNA instance. |
-| <a name="output_logdna_ingestion_key"></a> [logdna\_ingestion\_key](#output\_logdna\_ingestion\_key) | LogDNA ingest key for agents to use |
-| <a name="output_logdna_manager_key_name"></a> [logdna\_manager\_key\_name](#output\_logdna\_manager\_key\_name) | The LogDNA manager key name |
-| <a name="output_logdna_name"></a> [logdna\_name](#output\_logdna\_name) | The name of the provisioned LogDNA instance. |
-| <a name="output_logdna_resource_group_id"></a> [logdna\_resource\_group\_id](#output\_logdna\_resource\_group\_id) | The resource group where LogDNA instance resides |
-| <a name="output_logdna_resource_key"></a> [logdna\_resource\_key](#output\_logdna\_resource\_key) | LogDNA service key for agents to use |
+| <a name="output_log_analysis_crn"></a> [log\_analysis\_crn](#output\_log\_analysis\_crn) | The id of the provisioned LogDNA instance. |
+| <a name="output_log_analysis_guid"></a> [log\_analysis\_guid](#output\_log\_analysis\_guid) | The guid of the provisioned LogDNA instance. |
+| <a name="output_log_analysis_ingestion_key"></a> [log\_analysis\_ingestion\_key](#output\_log\_analysis\_ingestion\_key) | LogDNA ingest key for agents to use |
+| <a name="output_log_analysis_manager_key_name"></a> [log\_analysis\_manager\_key\_name](#output\_log\_analysis\_manager\_key\_name) | The LogDNA manager key name |
+| <a name="output_log_analysis_name"></a> [log\_analysis\_name](#output\_log\_analysis\_name) | The name of the provisioned LogDNA instance. |
+| <a name="output_log_analysis_resource_group_id"></a> [log\_analysis\_resource\_group\_id](#output\_log\_analysis\_resource\_group\_id) | The resource group where LogDNA instance resides |
+| <a name="output_log_analysis_resource_key"></a> [log\_analysis\_resource\_key](#output\_log\_analysis\_resource\_key) | LogDNA service key for agents to use |
 | <a name="output_region"></a> [region](#output\_region) | Region that instance(s) are provisioned to. |
 | <a name="output_sysdig_access_key"></a> [sysdig\_access\_key](#output\_sysdig\_access\_key) | Sysdig access key for agents to use |
 | <a name="output_sysdig_crn"></a> [sysdig\_crn](#output\_sysdig\_crn) | The id of the provisioned Sysdig instance. |

@@ -249,10 +249,10 @@
         "line": 24
       }
     },
-    "logdna_cos_bucket_endpoint": {
-      "name": "logdna_cos_bucket_endpoint",
+    "log_analysis_cos_bucket_endpoint": {
+      "name": "log_analysis_cos_bucket_endpoint",
       "type": "string",
-      "description": "An endpoint for the COS bucket for the LogDNA archive. Pass either the public or private endpoint. (Only required when var.enable_archive and var.logdna_provision are true).",
+      "description": "An endpoint for the COS bucket for the Log Analysis archive. Pass either the public or private endpoint. (Only required when var.enable_archive and var.log_analysis_provision are true).",
       "source": [
         "module.logdna"
       ],
@@ -261,10 +261,10 @@
         "line": 114
       }
     },
-    "logdna_cos_bucket_name": {
-      "name": "logdna_cos_bucket_name",
+    "log_analysis_cos_bucket_name": {
+      "name": "log_analysis_cos_bucket_name",
       "type": "string",
-      "description": "The name of an existing COS bucket to be used for the LogDNA archive. (Only required when var.enable_archive and var.logdna_provision are true).",
+      "description": "The name of an existing COS bucket to be used for the Log Analysis archive. (Only required when var.enable_archive and var.log_analysis_provision are true).",
       "source": [
         "module.logdna"
       ],
@@ -273,10 +273,10 @@
         "line": 108
       }
     },
-    "logdna_cos_instance_id": {
-      "name": "logdna_cos_instance_id",
+    "log_analysis_cos_instance_id": {
+      "name": "log_analysis_cos_instance_id",
       "type": "string",
-      "description": "The ID of the cloud object storage instance containing the LogDNA archive bucket. (Only required when var.enable_archive and var.logdna_provision are true).",
+      "description": "The ID of the cloud object storage instance containing the Log Analysis archive bucket. (Only required when var.enable_archive and var.log_analysis_provision are true).",
       "source": [
         "module.logdna"
       ],
@@ -285,8 +285,8 @@
         "line": 102
       }
     },
-    "logdna_instance_name": {
-      "name": "logdna_instance_name",
+    "log_analysis_instance_name": {
+      "name": "log_analysis_instance_name",
       "type": "string",
       "description": "The name of the IBM Cloud Logging instance to create. Defaults to 'logdna-\u003cregion\u003e'",
       "source": [
@@ -297,11 +297,11 @@
         "line": 40
       }
     },
-    "logdna_manager_key_name": {
-      "name": "logdna_manager_key_name",
+    "log_analysis_manager_key_name": {
+      "name": "log_analysis_manager_key_name",
       "type": "string",
       "description": "The name to give the IBM Cloud Logging manager key.",
-      "default": "LogDnaManagerKey",
+      "default": "LogAnalysisManagerKey",
       "required": true,
       "source": [
         "module.logdna.ibm_resource_key.resource_key.name"
@@ -312,8 +312,8 @@
       },
       "immutable": true
     },
-    "logdna_manager_key_tags": {
-      "name": "logdna_manager_key_tags",
+    "log_analysis_manager_key_tags": {
+      "name": "log_analysis_manager_key_tags",
       "type": "list(string)",
       "description": "Tags associated with the IBM Cloud Logging manager key.",
       "default": [],
@@ -329,8 +329,8 @@
         "type": "TypeString"
       }
     },
-    "logdna_plan": {
-      "name": "logdna_plan",
+    "log_analysis_plan": {
+      "name": "log_analysis_plan",
       "type": "string",
       "description": "The IBM Cloud Logging plan to provision. Available: lite, 7-day, 14-day, 30-day, hipaa-30-day",
       "default": "lite",
@@ -343,8 +343,8 @@
         "line": 46
       }
     },
-    "logdna_provision": {
-      "name": "logdna_provision",
+    "log_analysis_provision": {
+      "name": "log_analysis_provision",
       "type": "bool",
       "description": "Provision an IBM Cloud Logging instance?",
       "default": true,
@@ -358,8 +358,8 @@
         "line": 34
       }
     },
-    "logdna_resource_key_role": {
-      "name": "logdna_resource_key_role",
+    "log_analysis_resource_key_role": {
+      "name": "log_analysis_resource_key_role",
       "type": "string",
       "description": "Role assigned to provide the IBM Cloud Logging key.",
       "default": "Manager",
@@ -372,10 +372,10 @@
       },
       "immutable": true
     },
-    "logdna_service_endpoints": {
-      "name": "logdna_service_endpoints",
+    "log_analysis_service_endpoints": {
+      "name": "log_analysis_service_endpoints",
       "type": "string",
-      "description": "The type of the service endpoint that will be set for the LogDNA instance.",
+      "description": "The type of the service endpoint that will be set for the Log Analysis instance.",
       "default": "public-and-private",
       "source": [
         "module.logdna.ibm_resource_instance.logdna.service_endpoints"
@@ -386,8 +386,8 @@
       },
       "computed": true
     },
-    "logdna_tags": {
-      "name": "logdna_tags",
+    "log_analysis_tags": {
+      "name": "log_analysis_tags",
       "type": "list(string)",
       "description": "Tags associated with the IBM Cloud Logging instance (Optional, array of strings).",
       "default": [],
@@ -638,7 +638,7 @@
         "line": 123
       }
     },
-    "logdna_crn": {
+    "log_analysis_crn": {
       "name": "crn",
       "description": "The id of the provisioned LogDNA instance.",
       "value": "module.logdna.crn",
@@ -647,7 +647,7 @@
         "line": 14
       }
     },
-    "logdna_guid": {
+    "log_analysis_guid": {
       "name": "guid",
       "description": "The guid of the provisioned LogDNA instance.",
       "value": "module.logdna.guid",
@@ -656,7 +656,7 @@
         "line": 19
       }
     },
-    "logdna_ingestion_key": {
+    "log_analysis_ingestion_key": {
       "name": "ingestion_key",
       "description": "LogDNA ingest key for agents to use",
       "value": "module.logdna.ingestion_key",
@@ -666,7 +666,7 @@
         "line": 40
       }
     },
-    "logdna_manager_key_name": {
+    "log_analysis_manager_key_name": {
       "name": "manager_key_name",
       "description": "The LogDNA manager key name",
       "value": "module.logdna.manager_key_name",
@@ -675,7 +675,7 @@
         "line": 46
       }
     },
-    "logdna_name": {
+    "log_analysis_name": {
       "name": "name",
       "description": "The name of the provisioned LogDNA instance.",
       "value": "module.logdna.name",
@@ -684,7 +684,7 @@
         "line": 24
       }
     },
-    "logdna_resource_group_id": {
+    "log_analysis_resource_group_id": {
       "name": "resource_group_id",
       "description": "The resource group where LogDNA instance resides",
       "value": "module.logdna.resource_group_id",
@@ -693,7 +693,7 @@
         "line": 29
       }
     },
-    "logdna_resource_key": {
+    "log_analysis_resource_key": {
       "name": "resource_key",
       "description": "LogDNA service key for agents to use",
       "value": "module.logdna.resource_key",
@@ -1038,22 +1038,22 @@
       "name": "logdna",
       "source": "./modules/logdna",
       "attributes": {
-        "cos_bucket_endpoint": "logdna_cos_bucket_endpoint",
-        "cos_bucket_name": "logdna_cos_bucket_name",
-        "cos_instance_id": "logdna_cos_instance_id",
+        "cos_bucket_endpoint": "log_analysis_cos_bucket_endpoint",
+        "cos_bucket_name": "log_analysis_cos_bucket_name",
+        "cos_instance_id": "log_analysis_cos_instance_id",
         "enable_archive": "enable_archive",
         "enable_platform_logs": "enable_platform_logs",
         "ibmcloud_api_key": "ibmcloud_api_key",
-        "instance_name": "logdna_instance_name",
-        "logdna_provision": "logdna_provision",
-        "manager_key_name": "logdna_manager_key_name",
-        "manager_key_tags": "logdna_manager_key_tags",
-        "plan": "logdna_plan",
+        "instance_name": "log_analysis_instance_name",
+        "logdna_provision": "log_analysis_provision",
+        "manager_key_name": "log_analysis_manager_key_name",
+        "manager_key_tags": "log_analysis_manager_key_tags",
+        "plan": "log_analysis_plan",
         "region": "region",
         "resource_group_id": "resource_group_id",
-        "resource_key_role": "logdna_resource_key_role",
-        "service_endpoints": "logdna_service_endpoints",
-        "tags": "logdna_tags"
+        "resource_key_role": "log_analysis_resource_key_role",
+        "service_endpoints": "log_analysis_service_endpoints",
+        "tags": "log_analysis_tags"
       },
       "managed_resources": {
         "ibm_resource_instance.logdna": {
