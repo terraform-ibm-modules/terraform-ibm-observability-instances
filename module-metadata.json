@@ -74,6 +74,19 @@
         "line": 183
       }
     },
+    "activity_tracker_routes": {
+      "name": "activity_tracker_routes",
+      "type": "list(object({\n    locations  = list(string)\n    target_ids = list(string)\n    route_name = string\n  }))",
+      "description": "List of routes to be created, maximum four routes are allowed",
+      "default": [],
+      "source": [
+        "module.activity_tracker"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 297
+      }
+    },
     "activity_tracker_service_endpoints": {
       "name": "activity_tracker_service_endpoints",
       "type": "string",
@@ -144,6 +157,19 @@
         "line": 234
       }
     },
+    "cos_targets": {
+      "name": "cos_targets",
+      "type": "list(object({\n    endpoint                   = string\n    bucket_name                = string\n    instance_id                = string\n    api_key                    = optional(string)\n    service_to_service_enabled = optional(bool, false)\n    target_region              = optional(string)\n    target_name                = string\n  }))",
+      "description": "List of cos target to be created",
+      "default": [],
+      "source": [
+        "module.activity_tracker"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 256
+      }
+    },
     "enable_archive": {
       "name": "enable_archive",
       "type": "bool",
@@ -182,6 +208,31 @@
       "pos": {
         "filename": "variables.tf",
         "line": 164
+      }
+    },
+    "eventstreams_targets": {
+      "name": "eventstreams_targets",
+      "type": "list(object({\n    instance_id   = string\n    brokers       = list(string)\n    topic         = string\n    api_key       = string\n    target_region = optional(string)\n    target_name   = string\n  }))",
+      "description": "List of event streams target to be created",
+      "default": [],
+      "source": [
+        "module.activity_tracker"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 271
+      }
+    },
+    "global_event_routing_settings": {
+      "name": "global_event_routing_settings",
+      "type": "object({\n    default_targets           = optional(list(string), [])\n    metadata_region_primary   = string\n    metadata_region_backup    = optional(string)\n    permitted_target_regions  = list(string)\n    private_api_endpoint_only = optional(bool, false)\n  })",
+      "description": "Global settings for event routing",
+      "source": [
+        "module.activity_tracker"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 308
       }
     },
     "ibmcloud_api_key": {
@@ -353,6 +404,19 @@
       "computed": true,
       "elem": {
         "type": "TypeString"
+      }
+    },
+    "logdna_targets": {
+      "name": "logdna_targets",
+      "type": "list(object({\n    instance_id   = string\n    ingestion_key = string\n    target_region = optional(string)\n    target_name   = string\n  }))",
+      "description": "List of logdna target to be created",
+      "default": [],
+      "source": [
+        "module.activity_tracker"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 285
       }
     },
     "region": {
@@ -556,6 +620,24 @@
         "line": 108
       }
     },
+    "activity_tracker_routes": {
+      "name": "activity_tracker_routes",
+      "description": "The map of created routes",
+      "value": "module.activity_tracker.activity_tracker_routes",
+      "pos": {
+        "filename": "outputs.tf",
+        "line": 128
+      }
+    },
+    "activity_tracker_targets": {
+      "name": "activity_tracker_targets",
+      "description": "The map of created targets",
+      "value": "module.activity_tracker.activity_tracker_targets",
+      "pos": {
+        "filename": "outputs.tf",
+        "line": 123
+      }
+    },
     "logdna_crn": {
       "name": "crn",
       "description": "The id of the provisioned LogDNA instance.",
@@ -723,12 +805,17 @@
       "source": "./modules/activity_tracker",
       "attributes": {
         "activity_tracker_provision": "activity_tracker_provision",
+        "activity_tracker_routes": "activity_tracker_routes",
         "cos_bucket_endpoint": "at_cos_bucket_endpoint",
         "cos_bucket_name": "at_cos_bucket_name",
         "cos_instance_id": "at_cos_instance_id",
+        "cos_targets": "cos_targets",
         "enable_archive": "enable_archive",
+        "eventstreams_targets": "eventstreams_targets",
+        "global_event_routing_settings": "global_event_routing_settings",
         "ibmcloud_api_key": "ibmcloud_api_key",
         "instance_name": "activity_tracker_instance_name",
+        "logdna_targets": "logdna_targets",
         "manager_key_name": "activity_tracker_manager_key_name",
         "manager_key_tags": "activity_tracker_manager_key_tags",
         "plan": "activity_tracker_plan",
@@ -738,6 +825,86 @@
         "tags": "activity_tracker_tags"
       },
       "managed_resources": {
+        "ibm_atracker_route.atracker_routes": {
+          "mode": "managed",
+          "type": "ibm_atracker_route",
+          "name": "atracker_routes",
+          "attributes": {
+            "for_each": "activity_tracker_routes"
+          },
+          "provider": {
+            "name": "ibm"
+          },
+          "pos": {
+            "filename": "modules/activity_tracker/main.tf",
+            "line": 87
+          }
+        },
+        "ibm_atracker_settings.atracker_settings": {
+          "mode": "managed",
+          "type": "ibm_atracker_settings",
+          "name": "atracker_settings",
+          "attributes": {
+            "count": "global_event_routing_settings",
+            "default_targets": "global_event_routing_settings",
+            "metadata_region_backup": "global_event_routing_settings",
+            "metadata_region_primary": "global_event_routing_settings",
+            "permitted_target_regions": "global_event_routing_settings",
+            "private_api_endpoint_only": "global_event_routing_settings"
+          },
+          "provider": {
+            "name": "ibm"
+          },
+          "pos": {
+            "filename": "modules/activity_tracker/main.tf",
+            "line": 103
+          }
+        },
+        "ibm_atracker_target.atracker_cos_targets": {
+          "mode": "managed",
+          "type": "ibm_atracker_target",
+          "name": "atracker_cos_targets",
+          "attributes": {
+            "for_each": "cos_targets"
+          },
+          "provider": {
+            "name": "ibm"
+          },
+          "pos": {
+            "filename": "modules/activity_tracker/main.tf",
+            "line": 47
+          }
+        },
+        "ibm_atracker_target.atracker_eventstreams_targets": {
+          "mode": "managed",
+          "type": "ibm_atracker_target",
+          "name": "atracker_eventstreams_targets",
+          "attributes": {
+            "for_each": "eventstreams_targets"
+          },
+          "provider": {
+            "name": "ibm"
+          },
+          "pos": {
+            "filename": "modules/activity_tracker/main.tf",
+            "line": 61
+          }
+        },
+        "ibm_atracker_target.atracker_logdna_targets": {
+          "mode": "managed",
+          "type": "ibm_atracker_target",
+          "name": "atracker_logdna_targets",
+          "attributes": {
+            "for_each": "logdna_targets"
+          },
+          "provider": {
+            "name": "ibm"
+          },
+          "pos": {
+            "filename": "modules/activity_tracker/main.tf",
+            "line": 75
+          }
+        },
         "ibm_resource_instance.activity_tracker": {
           "mode": "managed",
           "type": "ibm_resource_instance",
@@ -794,6 +961,24 @@
       },
       "data_resources": {},
       "outputs": {
+        "activity_tracker_routes": {
+          "name": "activity_tracker_routes",
+          "description": "The map of created routes",
+          "value": "local.activity_tracker_routes",
+          "pos": {
+            "filename": "modules/activity_tracker/outputs.tf",
+            "line": 42
+          }
+        },
+        "activity_tracker_targets": {
+          "name": "activity_tracker_targets",
+          "description": "The map of created targets",
+          "value": "local.activity_tracker_targets",
+          "pos": {
+            "filename": "modules/activity_tracker/outputs.tf",
+            "line": 36
+          }
+        },
         "crn": {
           "name": "crn",
           "description": "The id of the provisioned Activity Tracker instance.",
@@ -990,7 +1175,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 30
+        "line": 35
       }
     },
     "sysdig": {
@@ -1102,7 +1287,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 54
+        "line": 59
       }
     }
   }

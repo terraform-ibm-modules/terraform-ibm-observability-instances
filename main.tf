@@ -10,20 +10,25 @@ module "activity_tracker" {
   providers = {
     logdna.at = logdna.at
   }
-  region                     = var.region
-  resource_group_id          = var.resource_group_id
-  enable_archive             = var.enable_archive
-  ibmcloud_api_key           = var.ibmcloud_api_key
-  activity_tracker_provision = var.activity_tracker_provision
-  instance_name              = var.activity_tracker_instance_name
-  plan                       = var.activity_tracker_plan
-  manager_key_name           = var.activity_tracker_manager_key_name
-  manager_key_tags           = var.activity_tracker_manager_key_tags
-  tags                       = var.activity_tracker_tags
-  service_endpoints          = var.activity_tracker_service_endpoints
-  cos_instance_id            = var.at_cos_instance_id
-  cos_bucket_name            = var.at_cos_bucket_name
-  cos_bucket_endpoint        = var.at_cos_bucket_endpoint
+  region                        = var.region
+  resource_group_id             = var.resource_group_id
+  enable_archive                = var.enable_archive
+  ibmcloud_api_key              = var.ibmcloud_api_key
+  activity_tracker_provision    = var.activity_tracker_provision
+  instance_name                 = var.activity_tracker_instance_name
+  plan                          = var.activity_tracker_plan
+  manager_key_name              = var.activity_tracker_manager_key_name
+  manager_key_tags              = var.activity_tracker_manager_key_tags
+  tags                          = var.activity_tracker_tags
+  service_endpoints             = var.activity_tracker_service_endpoints
+  cos_instance_id               = var.at_cos_instance_id
+  cos_bucket_name               = var.at_cos_bucket_name
+  cos_bucket_endpoint           = var.at_cos_bucket_endpoint
+  activity_tracker_routes       = var.activity_tracker_routes
+  cos_targets                   = var.cos_targets
+  eventstreams_targets          = var.eventstreams_targets
+  logdna_targets                = var.logdna_targets
+  global_event_routing_settings = var.global_event_routing_settings
 }
 
 # LogDNA
