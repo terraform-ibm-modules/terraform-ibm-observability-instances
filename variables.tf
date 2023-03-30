@@ -17,7 +17,7 @@ variable "resource_group_id" {
 
 variable "enable_archive" {
   type        = bool
-  description = "Enable archive on logDNA and Activity Tracker instances"
+  description = "Enable archive on log analysis and activity tracker instances"
   default     = false
 }
 
@@ -39,7 +39,7 @@ variable "log_analysis_provision" {
 
 variable "log_analysis_instance_name" {
   type        = string
-  description = "The name of the IBM Cloud Logging instance to create. Defaults to 'logdna-<region>'"
+  description = "The name of the IBM Cloud Logging instance to create. Defaults to 'log-analysis-<region>'"
   default     = null
 }
 
@@ -121,7 +121,7 @@ variable "log_analysis_cos_bucket_endpoint" {
 
 # IBM Cloud Monitoring
 variable "cloud_monitoring_provision" {
-  description = "Provision a Sysdig instance?"
+  description = "Provision a IBM cloud monitoring instance?"
   type        = bool
   default     = true
 }
@@ -168,7 +168,7 @@ variable "enable_platform_metrics" {
 }
 
 variable "cloud_monitoring_service_endpoints" {
-  description = "The type of the service endpoint that will be set for the Sisdig instance."
+  description = "The type of the service endpoint that will be set for the IBM cloud monitoring instance."
   type        = string
   default     = "public-and-private"
   validation {
@@ -281,7 +281,7 @@ variable "eventstreams_targets" {
   description = "List of event streams target to be created"
 }
 
-# logDNA Targets
+# Log Analysis Targets
 variable "logdna_targets" {
   type = list(object({
     instance_id   = string
@@ -290,7 +290,7 @@ variable "logdna_targets" {
     target_name   = string
   }))
   default     = []
-  description = "List of logdna target to be created"
+  description = "List of log analysis target to be created"
 }
 
 # Routes

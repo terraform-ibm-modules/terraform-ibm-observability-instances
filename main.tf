@@ -32,7 +32,7 @@ module "activity_tracker" {
 }
 
 # Log Analysis
-module "logdna" {
+module "log_analysis" {
   source = "./modules/logdna"
   providers = {
     logdna.ld = logdna.ld
@@ -56,7 +56,7 @@ module "logdna" {
 }
 
 # IBM Cloud Monitoring
-module "sysdig" {
+module "cloud_monitoring" {
   source                  = "./modules/sysdig"
   region                  = var.region
   resource_group_id       = var.resource_group_id
