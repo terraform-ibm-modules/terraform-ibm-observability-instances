@@ -157,6 +157,112 @@
         "line": 234
       }
     },
+    "cloud_monitoring_instance_name": {
+      "name": "cloud_monitoring_instance_name",
+      "type": "string",
+      "description": "The name of the IBM Cloud Monitoring instance to create. Defaults to 'cloud_monitoring-\u003cregion\u003e'",
+      "source": [
+        "module.sysdig"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 129
+      }
+    },
+    "cloud_monitoring_manager_key_name": {
+      "name": "cloud_monitoring_manager_key_name",
+      "type": "string",
+      "description": "The name to give the IBM Cloud Monitoring manager key.",
+      "default": "SysdigManagerKey",
+      "required": true,
+      "source": [
+        "module.sysdig.ibm_resource_key.resource_key.name"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 146
+      },
+      "immutable": true
+    },
+    "cloud_monitoring_manager_key_tags": {
+      "name": "cloud_monitoring_manager_key_tags",
+      "type": "list(string)",
+      "description": "Tags associated with the IBM Cloud Monitoring manager key.",
+      "default": [],
+      "source": [
+        "module.sysdig.ibm_resource_key.resource_key.tags"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 152
+      },
+      "cloud_data_type": "tags",
+      "elem": {
+        "type": "TypeString"
+      }
+    },
+    "cloud_monitoring_plan": {
+      "name": "cloud_monitoring_plan",
+      "type": "string",
+      "description": "The IBM Cloud Monitoring plan to provision. Available: lite, graduated-tier, graduated-tier-sysdig-secure-plus-monitor",
+      "default": "lite",
+      "required": true,
+      "source": [
+        "module.sysdig.ibm_resource_instance.sysdig.plan"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 135
+      }
+    },
+    "cloud_monitoring_provision": {
+      "name": "cloud_monitoring_provision",
+      "type": "bool",
+      "description": "Provision a Sysdig instance?",
+      "default": true,
+      "source": [
+        "module.sysdig.ibm_resource_instance.sysdig.count",
+        "module.sysdig.ibm_resource_key.resource_key.count"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 123
+      }
+    },
+    "cloud_monitoring_service_endpoints": {
+      "name": "cloud_monitoring_service_endpoints",
+      "type": "string",
+      "description": "The type of the service endpoint that will be set for the Sisdig instance.",
+      "default": "public-and-private",
+      "source": [
+        "module.sysdig.ibm_resource_instance.sysdig.service_endpoints"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 170
+      },
+      "computed": true
+    },
+    "cloud_monitoring_tags": {
+      "name": "cloud_monitoring_tags",
+      "type": "list(string)",
+      "description": "Tags associated with the IBM Cloud Monitoring instance (Optional, array of strings).",
+      "default": [],
+      "source": [
+        "module.sysdig.ibm_resource_instance.sysdig.tags"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 158
+      },
+      "min_length": 1,
+      "max_length": 128,
+      "matches": "^[A-Za-z0-9:_ .-]+$",
+      "computed": true,
+      "elem": {
+        "type": "TypeString"
+      }
+    },
     "cos_targets": {
       "name": "cos_targets",
       "type": "list(object({\n    endpoint                   = string\n    bucket_name                = string\n    instance_id                = string\n    api_key                    = optional(string)\n    service_to_service_enabled = optional(bool, false)\n    target_region              = optional(string)\n    target_name                = string\n  }))",
@@ -456,112 +562,6 @@
       "cloud_data_range": [
         "resolved_to:id"
       ]
-    },
-    "sysdig_instance_name": {
-      "name": "sysdig_instance_name",
-      "type": "string",
-      "description": "The name of the IBM Cloud Monitoring instance to create. Defaults to 'sysdig-\u003cregion\u003e'",
-      "source": [
-        "module.sysdig"
-      ],
-      "pos": {
-        "filename": "variables.tf",
-        "line": 129
-      }
-    },
-    "sysdig_manager_key_name": {
-      "name": "sysdig_manager_key_name",
-      "type": "string",
-      "description": "The name to give the IBM Cloud Monitoring manager key.",
-      "default": "SysdigManagerKey",
-      "required": true,
-      "source": [
-        "module.sysdig.ibm_resource_key.resource_key.name"
-      ],
-      "pos": {
-        "filename": "variables.tf",
-        "line": 146
-      },
-      "immutable": true
-    },
-    "sysdig_manager_key_tags": {
-      "name": "sysdig_manager_key_tags",
-      "type": "list(string)",
-      "description": "Tags associated with the IBM Cloud Monitoring manager key.",
-      "default": [],
-      "source": [
-        "module.sysdig.ibm_resource_key.resource_key.tags"
-      ],
-      "pos": {
-        "filename": "variables.tf",
-        "line": 152
-      },
-      "cloud_data_type": "tags",
-      "elem": {
-        "type": "TypeString"
-      }
-    },
-    "sysdig_plan": {
-      "name": "sysdig_plan",
-      "type": "string",
-      "description": "The IBM Cloud Monitoring plan to provision. Available: lite, graduated-tier, graduated-tier-sysdig-secure-plus-monitor",
-      "default": "lite",
-      "required": true,
-      "source": [
-        "module.sysdig.ibm_resource_instance.sysdig.plan"
-      ],
-      "pos": {
-        "filename": "variables.tf",
-        "line": 135
-      }
-    },
-    "sysdig_provision": {
-      "name": "sysdig_provision",
-      "type": "bool",
-      "description": "Provision a Sysdig instance?",
-      "default": true,
-      "source": [
-        "module.sysdig.ibm_resource_instance.sysdig.count",
-        "module.sysdig.ibm_resource_key.resource_key.count"
-      ],
-      "pos": {
-        "filename": "variables.tf",
-        "line": 123
-      }
-    },
-    "sysdig_service_endpoints": {
-      "name": "sysdig_service_endpoints",
-      "type": "string",
-      "description": "The type of the service endpoint that will be set for the Sisdig instance.",
-      "default": "public-and-private",
-      "source": [
-        "module.sysdig.ibm_resource_instance.sysdig.service_endpoints"
-      ],
-      "pos": {
-        "filename": "variables.tf",
-        "line": 170
-      },
-      "computed": true
-    },
-    "sysdig_tags": {
-      "name": "sysdig_tags",
-      "type": "list(string)",
-      "description": "Tags associated with the IBM Cloud Monitoring instance (Optional, array of strings).",
-      "default": [],
-      "source": [
-        "module.sysdig.ibm_resource_instance.sysdig.tags"
-      ],
-      "pos": {
-        "filename": "variables.tf",
-        "line": 158
-      },
-      "min_length": 1,
-      "max_length": 128,
-      "matches": "^[A-Za-z0-9:_ .-]+$",
-      "computed": true,
-      "elem": {
-        "type": "TypeString"
-      }
     }
   },
   "outputs": {
@@ -636,6 +636,61 @@
       "pos": {
         "filename": "outputs.tf",
         "line": 123
+      }
+    },
+    "cloud_monitoring_access_key": {
+      "name": "access_key",
+      "description": "Sysdig access key for agents to use",
+      "value": "module.sysdig.access_key",
+      "sensitive": true,
+      "pos": {
+        "filename": "outputs.tf",
+        "line": 74
+      }
+    },
+    "cloud_monitoring_crn": {
+      "name": "crn",
+      "description": "The id of the provisioned Sysdig instance.",
+      "value": "module.sysdig.crn",
+      "pos": {
+        "filename": "outputs.tf",
+        "line": 54
+      }
+    },
+    "cloud_monitoring_guid": {
+      "name": "guid",
+      "description": "The guid of the provisioned Sysdig instance.",
+      "value": "module.sysdig.guid",
+      "pos": {
+        "filename": "outputs.tf",
+        "line": 59
+      }
+    },
+    "cloud_monitoring_manager_key_name": {
+      "name": "manager_key_name",
+      "description": "The Sysdig manager key name",
+      "value": "module.sysdig.manager_key_name",
+      "pos": {
+        "filename": "outputs.tf",
+        "line": 80
+      }
+    },
+    "cloud_monitoring_name": {
+      "name": "name",
+      "description": "The name of the provisioned Sysdig instance.",
+      "value": "module.sysdig.name",
+      "pos": {
+        "filename": "outputs.tf",
+        "line": 64
+      }
+    },
+    "cloud_monitoring_resource_group_id": {
+      "name": "resource_group_id",
+      "description": "The resource group where Sysdig monitor instance resides",
+      "value": "module.sysdig.resource_group_id",
+      "pos": {
+        "filename": "outputs.tf",
+        "line": 69
       }
     },
     "log_analysis_crn": {
@@ -713,61 +768,6 @@
       },
       "type": "string",
       "cloud_data_type": "region"
-    },
-    "sysdig_access_key": {
-      "name": "access_key",
-      "description": "Sysdig access key for agents to use",
-      "value": "module.sysdig.access_key",
-      "sensitive": true,
-      "pos": {
-        "filename": "outputs.tf",
-        "line": 74
-      }
-    },
-    "sysdig_crn": {
-      "name": "crn",
-      "description": "The id of the provisioned Sysdig instance.",
-      "value": "module.sysdig.crn",
-      "pos": {
-        "filename": "outputs.tf",
-        "line": 54
-      }
-    },
-    "sysdig_guid": {
-      "name": "guid",
-      "description": "The guid of the provisioned Sysdig instance.",
-      "value": "module.sysdig.guid",
-      "pos": {
-        "filename": "outputs.tf",
-        "line": 59
-      }
-    },
-    "sysdig_manager_key_name": {
-      "name": "manager_key_name",
-      "description": "The Sysdig manager key name",
-      "value": "module.sysdig.manager_key_name",
-      "pos": {
-        "filename": "outputs.tf",
-        "line": 80
-      }
-    },
-    "sysdig_name": {
-      "name": "name",
-      "description": "The name of the provisioned Sysdig instance.",
-      "value": "module.sysdig.name",
-      "pos": {
-        "filename": "outputs.tf",
-        "line": 64
-      }
-    },
-    "sysdig_resource_group_id": {
-      "name": "resource_group_id",
-      "description": "The resource group where Sysdig monitor instance resides",
-      "value": "module.sysdig.resource_group_id",
-      "pos": {
-        "filename": "outputs.tf",
-        "line": 69
-      }
     }
   },
   "required_core": [
@@ -1183,15 +1183,15 @@
       "source": "./modules/sysdig",
       "attributes": {
         "enable_platform_metrics": "enable_platform_metrics",
-        "instance_name": "sysdig_instance_name",
-        "manager_key_name": "sysdig_manager_key_name",
-        "manager_key_tags": "sysdig_manager_key_tags",
-        "plan": "sysdig_plan",
+        "instance_name": "cloud_monitoring_instance_name",
+        "manager_key_name": "cloud_monitoring_manager_key_name",
+        "manager_key_tags": "cloud_monitoring_manager_key_tags",
+        "plan": "cloud_monitoring_plan",
         "region": "region",
         "resource_group_id": "resource_group_id",
-        "service_endpoints": "sysdig_service_endpoints",
-        "sysdig_provision": "sysdig_provision",
-        "tags": "sysdig_tags"
+        "service_endpoints": "cloud_monitoring_service_endpoints",
+        "sysdig_provision": "cloud_monitoring_provision",
+        "tags": "cloud_monitoring_tags"
       },
       "managed_resources": {
         "ibm_resource_instance.sysdig": {

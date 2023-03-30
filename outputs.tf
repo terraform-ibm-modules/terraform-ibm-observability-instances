@@ -51,33 +51,33 @@ output "log_analysis_manager_key_name" {
 ##############################################################################
 
 # Sysdig
-output "sysdig_crn" {
+output "cloud_monitoring_crn" {
   value       = module.sysdig.crn
   description = "The id of the provisioned Sysdig instance."
 }
 
-output "sysdig_guid" {
+output "cloud_monitoring_guid" {
   value       = module.sysdig.guid
   description = "The guid of the provisioned Sysdig instance."
 }
 
-output "sysdig_name" {
+output "cloud_monitoring_name" {
   value       = module.sysdig.name
   description = "The name of the provisioned Sysdig instance."
 }
 
-output "sysdig_resource_group_id" {
+output "cloud_monitoring_resource_group_id" {
   value       = module.sysdig.resource_group_id
   description = "The resource group where Sysdig monitor instance resides"
 }
 
-output "sysdig_access_key" {
+output "cloud_monitoring_access_key" {
   value       = module.sysdig.access_key
   description = "Sysdig access key for agents to use"
   sensitive   = true
 }
 
-output "sysdig_manager_key_name" {
+output "cloud_monitoring_manager_key_name" {
   value       = module.sysdig.manager_key_name
   description = "The Sysdig manager key name"
 }

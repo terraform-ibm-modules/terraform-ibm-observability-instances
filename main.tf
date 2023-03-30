@@ -55,17 +55,17 @@ module "logdna" {
   cos_bucket_endpoint  = var.log_analysis_cos_bucket_endpoint
 }
 
-# Sysdig
+# IBM Cloud Monitoring
 module "sysdig" {
   source                  = "./modules/sysdig"
   region                  = var.region
   resource_group_id       = var.resource_group_id
-  sysdig_provision        = var.sysdig_provision
-  instance_name           = var.sysdig_instance_name
-  plan                    = var.sysdig_plan
-  manager_key_name        = var.sysdig_manager_key_name
-  manager_key_tags        = var.sysdig_manager_key_tags
-  tags                    = var.sysdig_tags
+  sysdig_provision        = var.cloud_monitoring_provision
+  instance_name           = var.cloud_monitoring_instance_name
+  plan                    = var.cloud_monitoring_plan
+  manager_key_name        = var.cloud_monitoring_manager_key_name
+  manager_key_tags        = var.cloud_monitoring_manager_key_tags
+  tags                    = var.cloud_monitoring_tags
   enable_platform_metrics = var.enable_platform_metrics
-  service_endpoints       = var.sysdig_service_endpoints
+  service_endpoints       = var.cloud_monitoring_service_endpoints
 }

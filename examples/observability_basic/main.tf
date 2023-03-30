@@ -14,17 +14,17 @@ module "test_observability_instance_creation" {
   region                            = var.region
   log_analysis_instance_name        = var.prefix
   resource_group_id                 = module.resource_group.resource_group_id
-  sysdig_instance_name              = var.prefix
+  cloud_monitoring_instance_name    = var.prefix
   activity_tracker_instance_name    = var.prefix
   log_analysis_plan                 = "7-day"
-  sysdig_plan                       = "graduated-tier"
+  cloud_monitoring_plan             = "graduated-tier"
   activity_tracker_plan             = "7-day"
   enable_platform_logs              = false
   enable_platform_metrics           = false
   log_analysis_tags                 = var.resource_tags
-  sysdig_tags                       = var.resource_tags
+  cloud_monitoring_tags             = var.resource_tags
   activity_tracker_tags             = var.resource_tags
   log_analysis_manager_key_tags     = var.resource_tags
-  sysdig_manager_key_tags           = var.resource_tags
+  cloud_monitoring_manager_key_tags = var.resource_tags
   activity_tracker_manager_key_tags = var.resource_tags
 }
