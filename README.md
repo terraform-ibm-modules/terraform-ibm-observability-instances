@@ -167,7 +167,7 @@ You need the following permissions to run this module.
 |------|--------|---------|
 | <a name="module_activity_tracker"></a> [activity\_tracker](#module\_activity\_tracker) | ./modules/activity_tracker | n/a |
 | <a name="module_cloud_monitoring"></a> [cloud\_monitoring](#module\_cloud\_monitoring) | ./modules/sysdig | n/a |
-| <a name="module_log_analysis"></a> [log\_analysis](#module\_log\_analysis) | ./modules/logdna | n/a |
+| <a name="module_log_analysis"></a> [log\_analysis](#module\_log\_analysis) | ./modules/log_analysis | n/a |
 
 ## Resources
 

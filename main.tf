@@ -33,26 +33,26 @@ module "activity_tracker" {
 
 # Log Analysis
 module "log_analysis" {
-  source = "./modules/logdna"
+  source = "./modules/log_analysis"
   providers = {
     logdna.ld = logdna.ld
   }
-  region               = var.region
-  resource_group_id    = var.resource_group_id
-  enable_archive       = var.enable_archive
-  ibmcloud_api_key     = var.ibmcloud_api_key
-  logdna_provision     = var.log_analysis_provision
-  instance_name        = var.log_analysis_instance_name
-  plan                 = var.log_analysis_plan
-  manager_key_name     = var.log_analysis_manager_key_name
-  manager_key_tags     = var.log_analysis_manager_key_tags
-  resource_key_role    = var.log_analysis_resource_key_role
-  tags                 = var.log_analysis_tags
-  enable_platform_logs = var.enable_platform_logs
-  service_endpoints    = var.log_analysis_service_endpoints
-  cos_instance_id      = var.log_analysis_cos_instance_id
-  cos_bucket_name      = var.log_analysis_cos_bucket_name
-  cos_bucket_endpoint  = var.log_analysis_cos_bucket_endpoint
+  region                 = var.region
+  resource_group_id      = var.resource_group_id
+  enable_archive         = var.enable_archive
+  ibmcloud_api_key       = var.ibmcloud_api_key
+  log_analysis_provision = var.log_analysis_provision
+  instance_name          = var.log_analysis_instance_name
+  plan                   = var.log_analysis_plan
+  manager_key_name       = var.log_analysis_manager_key_name
+  manager_key_tags       = var.log_analysis_manager_key_tags
+  resource_key_role      = var.log_analysis_resource_key_role
+  tags                   = var.log_analysis_tags
+  enable_platform_logs   = var.enable_platform_logs
+  service_endpoints      = var.log_analysis_service_endpoints
+  cos_instance_id        = var.log_analysis_cos_instance_id
+  cos_bucket_name        = var.log_analysis_cos_bucket_name
+  cos_bucket_endpoint    = var.log_analysis_cos_bucket_endpoint
 }
 
 # IBM Cloud Monitoring
