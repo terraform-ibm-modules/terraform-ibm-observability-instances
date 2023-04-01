@@ -4,6 +4,13 @@ variable "ibmcloud_api_key" {
   sensitive   = true
 }
 
+variable "archive_api_key" {
+  type        = string
+  description = "Limited IBM Cloud API Token for Log Analysis archiving to COS"
+  sensitive   = true
+  default     = null
+}
+
 variable "prefix" {
   type        = string
   description = "Prefix for name of all resource created by this example"

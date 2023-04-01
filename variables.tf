@@ -23,7 +23,7 @@ variable "enable_archive" {
 
 variable "ibmcloud_api_key" {
   type        = string
-  description = "Only required to archive. The IBM Cloud API Key."
+  description = "Restricted IBM Cloud API Key used only for writing Log Analysis archives to Cloud Object Storage"
   default     = null
   sensitive   = true
 }
