@@ -27,7 +27,8 @@ module "key_protect" {
 ##############################################################################
 
 locals {
-  bucket_name = "${var.prefix}-observability-archive-bucket"
+  bucket_name     = "${var.prefix}-observability-archive-bucket"
+  archive_api_key = var.archive_api_key == null ? var.ibmcloud_api_key : var.archive_api_key
 }
 
 module "cos" {
@@ -69,7 +70,7 @@ module "observability_instance_creation" {
   cloud_monitoring_manager_key_tags = var.resource_tags
   activity_tracker_manager_key_tags = var.resource_tags
   enable_archive                    = true
-  ibmcloud_api_key                  = var.ibmcloud_api_key
+  ibmcloud_api_key                  = local.archive_api_key
   log_analysis_cos_instance_id      = module.cos.cos_instance_id
   log_analysis_cos_bucket_name      = local.bucket_name
   log_analysis_cos_bucket_endpoint  = module.cos.s3_endpoint_public[0]

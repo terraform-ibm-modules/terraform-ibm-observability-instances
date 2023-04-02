@@ -14,7 +14,7 @@ To provision LogDNA instance
 ```hcl
 # required ibm provider config
 provider "ibm" {
-  ibmcloud_api_key = var.ibmcloud_api_key
+  ibmcloud_api_key = var.ibmcloud_api_key #pragma: allowlist secret
 }
 
 # required logdna provider config
