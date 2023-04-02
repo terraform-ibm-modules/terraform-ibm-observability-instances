@@ -16,10 +16,10 @@ module "test_observability_instance_creation" {
     logdna.ld = logdna.ld
   }
   region                            = var.region
-  log_analysis_instance_name        = var.prefix
+  log_analysis_instance_name        = "${var.prefix}-log-analysis"
   resource_group_id                 = module.resource_group.resource_group_id
-  cloud_monitoring_instance_name    = var.prefix
-  activity_tracker_instance_name    = var.prefix
+  cloud_monitoring_instance_name    = "${var.prefix}-cloud-monitoring"
+  activity_tracker_instance_name    = "${var.prefix}-activity-tracker"
   log_analysis_plan                 = "7-day"
   cloud_monitoring_plan             = "graduated-tier"
   activity_tracker_plan             = "7-day"

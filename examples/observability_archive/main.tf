@@ -55,9 +55,9 @@ module "observability_instance_creation" {
   }
   resource_group_id                 = module.resource_group.resource_group_id
   region                            = var.region
-  log_analysis_instance_name        = var.prefix
-  cloud_monitoring_instance_name    = var.prefix
-  activity_tracker_instance_name    = var.prefix
+  log_analysis_instance_name        = "${var.prefix}-log-analysis"
+  cloud_monitoring_instance_name    = "${var.prefix}-cloud-monitoring"
+  activity_tracker_instance_name    = "${var.prefix}-activity-tracker"
   enable_platform_metrics           = false
   enable_platform_logs              = false
   log_analysis_plan                 = "7-day"
