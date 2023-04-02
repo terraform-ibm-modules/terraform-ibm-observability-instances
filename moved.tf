@@ -21,12 +21,12 @@ moved {
 
 moved {
   from = ibm_resource_instance.sysdig
-  to   = module.sysdig.ibm_resource_instance.sysdig
+  to   = module.cloud_monitoring.ibm_resource_instance.cloud_monitoring
 }
 
 moved {
   from = ibm_resource_key.sysdig_resource_key
-  to   = module.sysdig.ibm_resource_key.resource_key
+  to   = module.cloud_monitoring.ibm_resource_key.resource_key
 }
 
 moved {

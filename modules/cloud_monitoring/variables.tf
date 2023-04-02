@@ -10,15 +10,15 @@ variable "resource_group_id" {
   default     = null
 }
 
-variable "sysdig_provision" {
-  description = "Provision a Sysdig instance?"
+variable "cloud_monitoring_provision" {
+  description = "Provision a IBM cloud monitoring instance?"
   type        = bool
   default     = true
 }
 
 variable "instance_name" {
   type        = string
-  description = "The name of the IBM Cloud Monitoring instance to create. Defaults to 'sysdig-<region>'"
+  description = "The name of the IBM Cloud Monitoring instance to create. Defaults to 'cloud-monitoring-<region>'"
   default     = null
 }
 

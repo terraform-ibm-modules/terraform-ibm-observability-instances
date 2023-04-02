@@ -208,7 +208,7 @@
       "default": "lite",
       "required": true,
       "source": [
-        "module.cloud_monitoring.ibm_resource_instance.sysdig.plan"
+        "module.cloud_monitoring.ibm_resource_instance.cloud_monitoring.plan"
       ],
       "pos": {
         "filename": "variables.tf",
@@ -221,7 +221,7 @@
       "description": "Provision a IBM cloud monitoring instance?",
       "default": true,
       "source": [
-        "module.cloud_monitoring.ibm_resource_instance.sysdig.count",
+        "module.cloud_monitoring.ibm_resource_instance.cloud_monitoring.count",
         "module.cloud_monitoring.ibm_resource_key.resource_key.count"
       ],
       "pos": {
@@ -235,7 +235,7 @@
       "description": "The type of the service endpoint that will be set for the IBM cloud monitoring instance.",
       "default": "public-and-private",
       "source": [
-        "module.cloud_monitoring.ibm_resource_instance.sysdig.service_endpoints"
+        "module.cloud_monitoring.ibm_resource_instance.cloud_monitoring.service_endpoints"
       ],
       "pos": {
         "filename": "variables.tf",
@@ -249,7 +249,7 @@
       "description": "Tags associated with the IBM Cloud Monitoring instance (Optional, array of strings).",
       "default": [],
       "source": [
-        "module.cloud_monitoring.ibm_resource_instance.sysdig.tags"
+        "module.cloud_monitoring.ibm_resource_instance.cloud_monitoring.tags"
       ],
       "pos": {
         "filename": "variables.tf",
@@ -309,7 +309,7 @@
       "description": "Receive platform metrics in the provisioned IBM Cloud Monitoring instance.",
       "default": true,
       "source": [
-        "module.cloud_monitoring.ibm_resource_instance.sysdig.parameters"
+        "module.cloud_monitoring.ibm_resource_instance.cloud_monitoring.parameters"
       ],
       "pos": {
         "filename": "variables.tf",
@@ -533,7 +533,7 @@
       "required": true,
       "source": [
         "module.activity_tracker.ibm_resource_instance.activity_tracker.location",
-        "module.cloud_monitoring.ibm_resource_instance.sysdig.location",
+        "module.cloud_monitoring.ibm_resource_instance.cloud_monitoring.location",
         "module.log_analysis.ibm_resource_instance.log_analysis.location"
       ],
       "pos": {
@@ -549,7 +549,7 @@
       "description": "The id of the IBM Cloud resource group where the instance(s) will be created.",
       "source": [
         "module.activity_tracker.ibm_resource_instance.activity_tracker.resource_group_id",
-        "module.cloud_monitoring.ibm_resource_instance.sysdig.resource_group_id",
+        "module.cloud_monitoring.ibm_resource_instance.cloud_monitoring.resource_group_id",
         "module.log_analysis.ibm_resource_instance.log_analysis.resource_group_id"
       ],
       "pos": {
@@ -650,7 +650,7 @@
     },
     "cloud_monitoring_crn": {
       "name": "crn",
-      "description": "The id of the provisioned Sysdig instance.",
+      "description": "The id of the provisioned cloud monitoring instance.",
       "value": "module.cloud_monitoring.crn",
       "pos": {
         "filename": "outputs.tf",
@@ -659,7 +659,7 @@
     },
     "cloud_monitoring_guid": {
       "name": "guid",
-      "description": "The guid of the provisioned Sysdig instance.",
+      "description": "The guid of the provisioned cloud monitoring instance.",
       "value": "module.cloud_monitoring.guid",
       "pos": {
         "filename": "outputs.tf",
@@ -677,7 +677,7 @@
     },
     "cloud_monitoring_name": {
       "name": "name",
-      "description": "The name of the provisioned Sysdig instance.",
+      "description": "The name of the provisioned cloud monitoring instance.",
       "value": "module.cloud_monitoring.name",
       "pos": {
         "filename": "outputs.tf",
@@ -686,7 +686,7 @@
     },
     "cloud_monitoring_resource_group_id": {
       "name": "resource_group_id",
-      "description": "The resource group where Sysdig monitor instance resides",
+      "description": "The resource group where cloud monitoring monitor instance resides",
       "value": "module.cloud_monitoring.resource_group_id",
       "pos": {
         "filename": "outputs.tf",
@@ -1036,8 +1036,9 @@
     },
     "cloud_monitoring": {
       "name": "cloud_monitoring",
-      "source": "./modules/sysdig",
+      "source": "./modules/cloud_monitoring",
       "attributes": {
+        "cloud_monitoring_provision": "cloud_monitoring_provision",
         "enable_platform_metrics": "enable_platform_metrics",
         "instance_name": "cloud_monitoring_instance_name",
         "manager_key_name": "cloud_monitoring_manager_key_name",
@@ -1046,16 +1047,15 @@
         "region": "region",
         "resource_group_id": "resource_group_id",
         "service_endpoints": "cloud_monitoring_service_endpoints",
-        "sysdig_provision": "cloud_monitoring_provision",
         "tags": "cloud_monitoring_tags"
       },
       "managed_resources": {
-        "ibm_resource_instance.sysdig": {
+        "ibm_resource_instance.cloud_monitoring": {
           "mode": "managed",
           "type": "ibm_resource_instance",
-          "name": "sysdig",
+          "name": "cloud_monitoring",
           "attributes": {
-            "count": "sysdig_provision",
+            "count": "cloud_monitoring_provision",
             "location": "region",
             "parameters": "enable_platform_metrics",
             "plan": "plan",
@@ -1067,7 +1067,7 @@
             "name": "ibm"
           },
           "pos": {
-            "filename": "modules/sysdig/main.tf",
+            "filename": "modules/cloud_monitoring/main.tf",
             "line": 5
           }
         },
@@ -1076,7 +1076,7 @@
           "type": "ibm_resource_key",
           "name": "resource_key",
           "attributes": {
-            "count": "sysdig_provision",
+            "count": "cloud_monitoring_provision",
             "name": "manager_key_name",
             "tags": "manager_key_tags"
           },
@@ -1084,7 +1084,7 @@
             "name": "ibm"
           },
           "pos": {
-            "filename": "modules/sysdig/main.tf",
+            "filename": "modules/cloud_monitoring/main.tf",
             "line": 20
           }
         }
@@ -1096,23 +1096,23 @@
           "description": "Sysdig access key for agents to use",
           "sensitive": true,
           "pos": {
-            "filename": "modules/sysdig/outputs.tf",
+            "filename": "modules/cloud_monitoring/outputs.tf",
             "line": 21
           }
         },
         "crn": {
           "name": "crn",
-          "description": "The id of the provisioned Sysdig instance.",
+          "description": "The id of the provisioned cloud monitoring instance.",
           "pos": {
-            "filename": "modules/sysdig/outputs.tf",
+            "filename": "modules/cloud_monitoring/outputs.tf",
             "line": 1
           }
         },
         "guid": {
           "name": "guid",
-          "description": "The guid of the provisioned Sysdig instance.",
+          "description": "The guid of the provisioned cloud monitoring instance.",
           "pos": {
-            "filename": "modules/sysdig/outputs.tf",
+            "filename": "modules/cloud_monitoring/outputs.tf",
             "line": 6
           }
         },
@@ -1120,23 +1120,23 @@
           "name": "manager_key_name",
           "description": "The Sysdig manager key name",
           "pos": {
-            "filename": "modules/sysdig/outputs.tf",
+            "filename": "modules/cloud_monitoring/outputs.tf",
             "line": 27
           }
         },
         "name": {
           "name": "name",
-          "description": "The name of the provisioned Sysdig instance.",
+          "description": "The name of the provisioned cloud monitoring instance.",
           "pos": {
-            "filename": "modules/sysdig/outputs.tf",
+            "filename": "modules/cloud_monitoring/outputs.tf",
             "line": 11
           }
         },
         "resource_group_id": {
           "name": "resource_group_id",
-          "description": "The resource group where Sysdig monitor instance resides",
+          "description": "The resource group where cloud monitoring monitor instance resides",
           "pos": {
-            "filename": "modules/sysdig/outputs.tf",
+            "filename": "modules/cloud_monitoring/outputs.tf",
             "line": 16
           }
         }
