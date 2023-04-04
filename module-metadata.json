@@ -512,8 +512,8 @@
         "type": "TypeString"
       }
     },
-    "logdna_targets": {
-      "name": "logdna_targets",
+    "log_analysis_targets": {
+      "name": "log_analysis_targets",
       "type": "list(object({\n    instance_id   = string\n    ingestion_key = string\n    target_region = optional(string)\n    target_name   = string\n  }))",
       "description": "List of log analysis target to be created",
       "default": [],
@@ -815,7 +815,7 @@
         "global_event_routing_settings": "global_event_routing_settings",
         "ibmcloud_api_key": "ibmcloud_api_key",
         "instance_name": "activity_tracker_instance_name",
-        "logdna_targets": "logdna_targets",
+        "log_analysis_targets": "log_analysis_targets",
         "manager_key_name": "activity_tracker_manager_key_name",
         "manager_key_tags": "activity_tracker_manager_key_tags",
         "plan": "activity_tracker_plan",
@@ -890,12 +890,12 @@
             "line": 61
           }
         },
-        "ibm_atracker_target.atracker_logdna_targets": {
+        "ibm_atracker_target.atracker_log_analysis_targets": {
           "mode": "managed",
           "type": "ibm_atracker_target",
-          "name": "atracker_logdna_targets",
+          "name": "atracker_log_analysis_targets",
           "attributes": {
-            "for_each": "logdna_targets"
+            "for_each": "log_analysis_targets"
           },
           "provider": {
             "name": "ibm"

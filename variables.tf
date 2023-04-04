@@ -282,7 +282,7 @@ variable "eventstreams_targets" {
 }
 
 # Log Analysis Targets
-variable "logdna_targets" {
+variable "log_analysis_targets" {
   type = list(object({
     instance_id   = string
     ingestion_key = string

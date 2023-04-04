@@ -50,7 +50,7 @@ output "log_analysis_manager_key_name" {
 
 ##############################################################################
 
-# Sysdig
+# IBM Cloud Monitoring
 output "cloud_monitoring_crn" {
   value       = module.cloud_monitoring.crn
   description = "The id of the provisioned IBM cloud monitoring instance."

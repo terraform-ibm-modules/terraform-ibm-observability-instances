@@ -27,7 +27,7 @@ module "activity_tracker" {
   activity_tracker_routes       = var.activity_tracker_routes
   cos_targets                   = var.cos_targets
   eventstreams_targets          = var.eventstreams_targets
-  logdna_targets                = var.logdna_targets
+  log_analysis_targets          = var.log_analysis_targets
   global_event_routing_settings = var.global_event_routing_settings
 }
 
