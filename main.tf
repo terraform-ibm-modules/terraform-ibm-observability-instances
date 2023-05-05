@@ -20,6 +20,7 @@ module "activity_tracker" {
   manager_key_name              = var.activity_tracker_manager_key_name
   manager_key_tags              = var.activity_tracker_manager_key_tags
   tags                          = var.activity_tracker_tags
+  access_tags                   = var.access_tags
   service_endpoints             = var.activity_tracker_service_endpoints
   cos_instance_id               = var.at_cos_instance_id
   cos_bucket_name               = var.at_cos_bucket_name
@@ -48,6 +49,7 @@ module "logdna" {
   manager_key_tags     = var.logdna_manager_key_tags
   resource_key_role    = var.logdna_resource_key_role
   tags                 = var.logdna_tags
+  access_tags          = var.access_tags
   enable_platform_logs = var.enable_platform_logs
   service_endpoints    = var.logdna_service_endpoints
   cos_instance_id      = var.logdna_cos_instance_id
@@ -66,6 +68,7 @@ module "sysdig" {
   manager_key_name        = var.sysdig_manager_key_name
   manager_key_tags        = var.sysdig_manager_key_tags
   tags                    = var.sysdig_tags
+  access_tags             = var.access_tags
   enable_platform_metrics = var.enable_platform_metrics
   service_endpoints       = var.sysdig_service_endpoints
 }

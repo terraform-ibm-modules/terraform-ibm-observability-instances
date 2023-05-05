@@ -20,9 +20,10 @@ const resourceGroup = "geretain-test-observability-instances"
 const yamlLocation = "../common-dev-assets/common-go-assets/common-permanent-resources.yaml"
 
 type Config struct {
-	ExistingActivityTrackerCRN    string `yaml:"activityTrackerFrankfurtCrn"`
-	ExistingActivityTrackerKey    string `yaml:"activityTrackerFrankfurtResourceKeyName"`
-	ExistingActivityTrackerRegion string `yaml:"activityTrackerFrankfurtRegion"`
+	ExistingActivityTrackerCRN    string   `yaml:"activityTrackerFrankfurtCrn"`
+	ExistingActivityTrackerKey    string   `yaml:"activityTrackerFrankfurtResourceKeyName"`
+	ExistingActivityTrackerRegion string   `yaml:"activityTrackerFrankfurtRegion"`
+	ExistingAccessTags            []string `yaml:"accessTags"`
 }
 
 // Temporarly ignore until we bump to v4 of key protect all inclusive
@@ -34,6 +35,7 @@ var sharedInfoSvc *cloudinfo.CloudInfoService
 var existingActivityTrackerCRN string
 var existingActivityTrackerKey string
 var existingActivityTrackerRegion string
+var existingAccessTags []string
 
 // TestMain will be run before any parallel tests, used to set up a shared InfoService object to track region usage
 // for multiple tests
@@ -56,6 +58,7 @@ func TestMain(m *testing.M) {
 	existingActivityTrackerCRN = config.ExistingActivityTrackerCRN
 	existingActivityTrackerKey = config.ExistingActivityTrackerKey
 	existingActivityTrackerRegion = config.ExistingActivityTrackerRegion
+	existingAccessTags = config.ExistingAccessTags
 
 	os.Exit(m.Run())
 }
@@ -99,6 +102,7 @@ func TestRunEventRoutingExample(t *testing.T) {
 			"existing_activity_tracker_crn":      existingActivityTrackerCRN,
 			"existing_activity_tracker_key_name": existingActivityTrackerKey,
 			"existing_activity_tracker_region":   existingActivityTrackerRegion,
+			"access_tags":                        existingAccessTags,
 		},
 	})
 	output, err := options.RunTestConsistency()

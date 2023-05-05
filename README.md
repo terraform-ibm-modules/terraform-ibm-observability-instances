@@ -145,6 +145,12 @@ You need the following permissions to run this module.
         - `Editor` platform access
         - `Manager` service access
 
+Optionally, you need the following permissions to attach Access Management tags to resources in this module.
+
+- IAM Services
+    - **Tagging** service
+        - `Administrator` platform access
+
 <!-- BEGIN EXAMPLES HOOK -->
 ## Examples
 
@@ -177,6 +183,7 @@ No resources.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_access_tags"></a> [access\_tags](#input\_access\_tags) | A list of access tags to apply to the resources created by the module, see https://cloud.ibm.com/docs/account?topic=account-access-tags-tutorial for more details | `list(string)` | `[]` | no |
 | <a name="input_activity_tracker_instance_name"></a> [activity\_tracker\_instance\_name](#input\_activity\_tracker\_instance\_name) | The name of the Activity Tracker instance to create. Defaults to 'activity-tracker-<region>' | `string` | `null` | no |
 | <a name="input_activity_tracker_manager_key_name"></a> [activity\_tracker\_manager\_key\_name](#input\_activity\_tracker\_manager\_key\_name) | The name to give the Activity Tracker manager key. | `string` | `"AtManagerKey"` | no |
 | <a name="input_activity_tracker_manager_key_tags"></a> [activity\_tracker\_manager\_key\_tags](#input\_activity\_tracker\_manager\_key\_tags) | Tags associated with the Activity Tracker manager key. | `list(string)` | `[]` | no |
