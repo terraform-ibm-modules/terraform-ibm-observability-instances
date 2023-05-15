@@ -22,6 +22,12 @@ variable "resource_tags" {
   default     = []
 }
 
+variable "access_tags" {
+  type        = list(string)
+  description = "Optional list of access management tags to add to resources that are created"
+  default     = []
+}
+
 variable "resource_group" {
   type        = string
   description = "An existing resource group name to use for this example, if unset a new resource group will be created"

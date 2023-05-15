@@ -27,4 +27,5 @@ module "test_observability_instance_creation" {
   logdna_manager_key_tags           = var.resource_tags
   sysdig_manager_key_tags           = var.resource_tags
   activity_tracker_manager_key_tags = var.resource_tags
+  access_tags                       = var.access_tags
 }
