@@ -69,7 +69,9 @@ module "observability_instance_creation" {
   logdna_manager_key_tags           = var.resource_tags
   sysdig_manager_key_tags           = var.resource_tags
   activity_tracker_manager_key_tags = var.resource_tags
-  access_tags                       = var.access_tags
+  logdna_access_tags                = var.access_tags
+  sysdig_access_tags                = var.access_tags
+  activity_tracker_access_tags      = var.access_tags
   enable_archive                    = true
   ibmcloud_api_key                  = local.archive_api_key
   logdna_cos_instance_id            = module.cos.cos_instance_id

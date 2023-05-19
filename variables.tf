@@ -21,19 +21,6 @@ variable "enable_archive" {
   default     = false
 }
 
-variable "access_tags" {
-  type        = list(string)
-  description = "A list of access tags to apply to the resources created by the module. For more information, see https://cloud.ibm.com/docs/account?topic=account-access-tags-tutorial."
-  default     = []
-
-  validation {
-    condition = alltrue([
-      for tag in var.access_tags : can(regex("[\\w\\-_\\.]+:[\\w\\-_\\.]+", tag)) && length(tag) <= 128
-    ])
-    error_message = "Tags must match the regular expression \"[\\w\\-_\\.]+:[\\w\\-_\\.]+\". For more information, see https://cloud.ibm.com/docs/account?topic=account-tag&interface=ui#limits."
-  }
-}
-
 variable "ibmcloud_api_key" {
   type        = string
   description = "Restricted IBM Cloud API Key used only for writing Log Analysis archives to Cloud Object Storage"
@@ -94,6 +81,19 @@ variable "logdna_tags" {
   type        = list(string)
   description = "Tags associated with the IBM Cloud Logging instance (Optional, array of strings)."
   default     = []
+}
+
+variable "logdna_access_tags" {
+  type        = list(string)
+  description = "A list of access tags to apply to the resources created by the module. For more information, see https://cloud.ibm.com/docs/account?topic=account-access-tags-tutorial."
+  default     = []
+
+  validation {
+    condition = alltrue([
+      for tag in var.logdna_access_tags : can(regex("[\\w\\-_\\.]+:[\\w\\-_\\.]+", tag)) && length(tag) <= 128
+    ])
+    error_message = "Tags must match the regular expression \"[\\w\\-_\\.]+:[\\w\\-_\\.]+\". For more information, see https://cloud.ibm.com/docs/account?topic=account-tag&interface=ui#limits."
+  }
 }
 
 variable "enable_platform_logs" {
@@ -174,6 +174,19 @@ variable "sysdig_tags" {
   default     = []
 }
 
+variable "sysdig_access_tags" {
+  type        = list(string)
+  description = "A list of access tags to apply to the resources created by the module. For more information, see https://cloud.ibm.com/docs/account?topic=account-access-tags-tutorial."
+  default     = []
+
+  validation {
+    condition = alltrue([
+      for tag in var.sysdig_access_tags : can(regex("[\\w\\-_\\.]+:[\\w\\-_\\.]+", tag)) && length(tag) <= 128
+    ])
+    error_message = "Tags must match the regular expression \"[\\w\\-_\\.]+:[\\w\\-_\\.]+\". For more information, see https://cloud.ibm.com/docs/account?topic=account-tag&interface=ui#limits."
+  }
+}
+
 variable "enable_platform_metrics" {
   type        = bool
   description = "Receive platform metrics in the provisioned IBM Cloud Monitoring instance."
@@ -232,6 +245,19 @@ variable "activity_tracker_tags" {
   type        = list(string)
   description = "Tags associated with the Activity Tracker instance (Optional, array of strings)."
   default     = []
+}
+
+variable "activity_tracker_access_tags" {
+  type        = list(string)
+  description = "A list of access tags to apply to the resources created by the module. For more information, see https://cloud.ibm.com/docs/account?topic=account-access-tags-tutorial."
+  default     = []
+
+  validation {
+    condition = alltrue([
+      for tag in var.activity_tracker_access_tags : can(regex("[\\w\\-_\\.]+:[\\w\\-_\\.]+", tag)) && length(tag) <= 128
+    ])
+    error_message = "Tags must match the regular expression \"[\\w\\-_\\.]+:[\\w\\-_\\.]+\". For more information, see https://cloud.ibm.com/docs/account?topic=account-tag&interface=ui#limits."
+  }
 }
 
 variable "activity_tracker_service_endpoints" {
