@@ -14,7 +14,7 @@ module "resource_group" {
 ##############################################################################
 
 module "key_protect" {
-  source                    = "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-all-inclusive.git?ref=v4.0.0"
+  source                    = "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-all-inclusive.git?ref=v4.1.0"
   resource_group_id         = module.resource_group.resource_group_id
   region                    = var.region
   resource_tags             = var.resource_tags
@@ -33,7 +33,7 @@ locals {
 
 module "cos" {
   source                             = "terraform-ibm-modules/cos/ibm"
-  version                            = "5.9.1"
+  version                            = "5.11.0"
   resource_group_id                  = module.resource_group.resource_group_id
   region                             = var.region
   cos_instance_name                  = "${var.prefix}-cos"
