@@ -136,16 +136,16 @@ module "activity_tracker" {
   cos_targets = [
     {
       api_key       = ibm_resource_key.cos_resource_key_1.credentials.apikey
-      bucket_name   = module.cos_bucket_1.bucket_name[0]
-      endpoint      = module.cos_bucket_1.s3_endpoint_private[0]
+      bucket_name   = module.cos_bucket_1.bucket_name
+      endpoint      = module.cos_bucket_1.s3_endpoint_private
       instance_id   = module.cos_bucket_1.cos_instance_id
       target_region = local.cos_target_region
       target_name   = "${var.prefix}-cos-target-1"
     },
     {
       api_key       = ibm_resource_key.cos_resource_key_2.credentials.apikey
-      bucket_name   = module.cos_bucket_2.bucket_name[0]
-      endpoint      = module.cos_bucket_2.s3_endpoint_private[0]
+      bucket_name   = module.cos_bucket_2.bucket_name
+      endpoint      = module.cos_bucket_2.s3_endpoint_private
       instance_id   = module.cos_bucket_2.cos_instance_id
       target_region = local.cos_target_region
       target_name   = "${var.prefix}-cos-target-2"
