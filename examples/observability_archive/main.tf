@@ -32,19 +32,19 @@ locals {
 }
 
 module "cos" {
-  source                             = "terraform-ibm-modules/cos/ibm"
-  version                            = "6.6.0"
-  resource_group_id                  = module.resource_group.resource_group_id
-  region                             = var.region
-  cos_instance_name                  = "${var.prefix}-cos"
-  cos_tags                           = var.resource_tags
-  bucket_name                        = local.bucket_name
-  existing_key_protect_instance_guid = module.key_protect.key_protect_guid
-  create_hmac_key                    = false
-  retention_enabled                  = false
-  activity_tracker_crn               = module.observability_instance_creation.activity_tracker_crn
-  sysdig_crn                         = module.observability_instance_creation.sysdig_crn
-  key_protect_key_crn                = module.key_protect.keys["observability.observability-key"].crn
+  source                     = "terraform-ibm-modules/cos/ibm"
+  version                    = "6.6.0"
+  resource_group_id          = module.resource_group.resource_group_id
+  region                     = var.region
+  cos_instance_name          = "${var.prefix}-cos"
+  cos_tags                   = var.resource_tags
+  bucket_name                = local.bucket_name
+  existing_kms_instance_guid = module.key_protect.key_protect_guid
+  create_hmac_key            = false
+  retention_enabled          = false
+  activity_tracker_crn       = module.observability_instance_creation.activity_tracker_crn
+  sysdig_crn                 = module.observability_instance_creation.sysdig_crn
+  kms_key_crn                = module.key_protect.keys["observability.observability-key"].crn
 }
 
 module "observability_instance_creation" {
