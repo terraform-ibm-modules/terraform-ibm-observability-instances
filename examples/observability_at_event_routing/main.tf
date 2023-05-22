@@ -99,6 +99,7 @@ module "logdna_1" {
   region            = local.logdna_target_region
   manager_key_name  = "${var.prefix}-logdna-manager-key-1"
   resource_key_role = "Manager"
+  access_tags       = var.access_tags
 }
 
 module "logdna_2" {
@@ -112,6 +113,7 @@ module "logdna_2" {
   region            = local.logdna_target_region
   manager_key_name  = "${var.prefix}-logdna-manager-key-2"
   resource_key_role = "Manager"
+  access_tags       = var.access_tags
 }
 
 ########################################################################
@@ -131,6 +133,7 @@ module "activity_tracker" {
   instance_name              = "${var.prefix}-activity-tracker-instance"
   plan                       = "7-day"
   tags                       = var.resource_tags
+  access_tags                = var.access_tags
 
   # Targets
   cos_targets = [
