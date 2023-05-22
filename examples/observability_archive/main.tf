@@ -73,8 +73,8 @@ module "observability_instance_creation" {
   ibmcloud_api_key                  = local.archive_api_key
   logdna_cos_instance_id            = module.cos.cos_instance_id
   logdna_cos_bucket_name            = local.bucket_name
-  logdna_cos_bucket_endpoint        = module.cos.s3_endpoint_public[0]
+  logdna_cos_bucket_endpoint        = module.cos.s3_endpoint_public
   at_cos_bucket_name                = local.bucket_name
   at_cos_instance_id                = module.cos.cos_instance_id
-  at_cos_bucket_endpoint            = module.cos.s3_endpoint_private[0]
+  at_cos_bucket_endpoint            = module.cos.s3_endpoint_private
 }
