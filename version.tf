@@ -5,7 +5,7 @@ terraform {
     # tflint-ignore: terraform_unused_required_providers
     ibm = {
       source  = "ibm-cloud/ibm"
-      version = ">= 1.49.0"
+      version = ">= 1.51.0"
     }
     logdna = {
       source                = "logdna/logdna"

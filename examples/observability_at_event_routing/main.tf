@@ -27,7 +27,7 @@ module "resource_group" {
 
 # COS target
 module "cos_bucket_1" {
-  source             = "git::https://github.com/terraform-ibm-modules/terraform-ibm-cos?ref=v5.11.0"
+  source             = "git::https://github.com/terraform-ibm-modules/terraform-ibm-cos?ref=v6.6.0"
   resource_group_id  = module.resource_group.resource_group_id
   region             = local.cos_target_region
   cos_instance_name  = "${var.prefix}-cos-target-instance-1"
@@ -44,7 +44,7 @@ resource "ibm_resource_key" "cos_resource_key_1" {
 }
 
 module "cos_bucket_2" {
-  source             = "git::https://github.com/terraform-ibm-modules/terraform-ibm-cos?ref=v5.11.0"
+  source             = "git::https://github.com/terraform-ibm-modules/terraform-ibm-cos?ref=v6.6.0"
   resource_group_id  = module.resource_group.resource_group_id
   region             = local.cos_target_region
   cos_instance_name  = "${var.prefix}-cos-target-instance-2"
