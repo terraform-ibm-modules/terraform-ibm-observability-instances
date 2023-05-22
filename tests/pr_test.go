@@ -78,7 +78,7 @@ func TestRunEventRoutingExample(t *testing.T) {
 		CloudInfoService:              sharedInfoSvc,
 		ExcludeActivityTrackerRegions: true,
 		TerraformVars: map[string]interface{}{
-			"existing_activity_tracker_crn":      permanentResources["activityTrackerFrankfurtCRN"],
+			"existing_activity_tracker_crn":      permanentResources["activityTrackerFrankfurtCrn"],
 			"existing_activity_tracker_key_name": permanentResources["activityTrackerFrankfurtResourceKeyName"],
 			"existing_activity_tracker_region":   permanentResources["activityTrackerFrankfurtRegion"],
 			"access_tags":                        permanentResources["accessTags"],
