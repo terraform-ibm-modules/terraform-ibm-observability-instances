@@ -83,14 +83,14 @@ variable "log_analysis_tags" {
   default     = []
 }
 
-variable "logdna_access_tags" {
+variable "log_analysis_access_tags" {
   type        = list(string)
   description = "A list of access tags to apply to the LogDNA instance created by the module. For more information, see https://cloud.ibm.com/docs/account?topic=account-access-tags-tutorial."
   default     = []
 
   validation {
     condition = alltrue([
-      for tag in var.logdna_access_tags : can(regex("[\\w\\-_\\.]+:[\\w\\-_\\.]+", tag)) && length(tag) <= 128
+      for tag in var.log_analysis_access_tags : can(regex("[\\w\\-_\\.]+:[\\w\\-_\\.]+", tag)) && length(tag) <= 128
     ])
     error_message = "Tags must match the regular expression \"[\\w\\-_\\.]+:[\\w\\-_\\.]+\". For more information, see https://cloud.ibm.com/docs/account?topic=account-tag&interface=ui#limits."
   }
@@ -174,14 +174,14 @@ variable "cloud_monitoring_tags" {
   default     = []
 }
 
-variable "sysdig_access_tags" {
+variable "cloud_monitoring_access_tags" {
   type        = list(string)
   description = "A list of access tags to apply to the Sysdig instance created by the module. For more information, see https://cloud.ibm.com/docs/account?topic=account-access-tags-tutorial."
   default     = []
 
   validation {
     condition = alltrue([
-      for tag in var.sysdig_access_tags : can(regex("[\\w\\-_\\.]+:[\\w\\-_\\.]+", tag)) && length(tag) <= 128
+      for tag in var.cloud_monitoring_access_tags : can(regex("[\\w\\-_\\.]+:[\\w\\-_\\.]+", tag)) && length(tag) <= 128
     ])
     error_message = "Tags must match the regular expression \"[\\w\\-_\\.]+:[\\w\\-_\\.]+\". For more information, see https://cloud.ibm.com/docs/account?topic=account-tag&interface=ui#limits."
   }

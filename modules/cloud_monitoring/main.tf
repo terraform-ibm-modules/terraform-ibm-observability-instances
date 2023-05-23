@@ -17,9 +17,9 @@ resource "ibm_resource_instance" "cloud_monitoring" {
   }
 }
 
-resource "ibm_resource_tag" "sysdig_tag" {
-  count       = length(var.access_tags) == 0 ? 0 : var.sysdig_provision ? 1 : 0
-  resource_id = ibm_resource_instance.sysdig[0].crn
+resource "ibm_resource_tag" "cloud_monitoring_tag" {
+  count       = length(var.access_tags) == 0 ? 0 : var.cloud_monitoring_provision ? 1 : 0
+  resource_id = ibm_resource_instance.cloud_monitoring[0].crn
   tags        = var.access_tags
   tag_type    = "access"
 }

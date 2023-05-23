@@ -49,7 +49,7 @@ module "log_analysis" {
   manager_key_tags       = var.log_analysis_manager_key_tags
   resource_key_role      = var.log_analysis_resource_key_role
   tags                   = var.log_analysis_tags
-  access_tags          = var.logdna_access_tags
+  access_tags            = var.log_analysis_access_tags
   enable_platform_logs   = var.enable_platform_logs
   service_endpoints      = var.log_analysis_service_endpoints
   cos_instance_id        = var.log_analysis_cos_instance_id
@@ -68,7 +68,7 @@ module "cloud_monitoring" {
   manager_key_name           = var.cloud_monitoring_manager_key_name
   manager_key_tags           = var.cloud_monitoring_manager_key_tags
   tags                       = var.cloud_monitoring_tags
-  access_tags             = var.sysdig_access_tags
+  access_tags                = var.cloud_monitoring_access_tags
   enable_platform_metrics    = var.enable_platform_metrics
   service_endpoints          = var.cloud_monitoring_service_endpoints
 }

@@ -24,9 +24,9 @@ resource "ibm_resource_instance" "log_analysis" {
   }
 }
 
-resource "ibm_resource_tag" "logdna_tag" {
-  count       = length(var.access_tags) == 0 ? 0 : var.logdna_provision ? 1 : 0
-  resource_id = ibm_resource_instance.logdna[0].crn
+resource "ibm_resource_tag" "log_analysis_tag" {
+  count       = length(var.access_tags) == 0 ? 0 : var.log_analysis_provision ? 1 : 0
+  resource_id = ibm_resource_instance.log_analysis[0].crn
   tags        = var.access_tags
   tag_type    = "access"
 }

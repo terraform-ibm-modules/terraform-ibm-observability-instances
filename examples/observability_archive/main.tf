@@ -69,8 +69,8 @@ module "observability_instance_creation" {
   log_analysis_manager_key_tags     = var.resource_tags
   cloud_monitoring_manager_key_tags = var.resource_tags
   activity_tracker_manager_key_tags = var.resource_tags
-  logdna_access_tags                = var.access_tags
-  sysdig_access_tags                = var.access_tags
+  log_analysis_access_tags          = var.access_tags
+  cloud_monitoring_access_tags      = var.access_tags
   activity_tracker_access_tags      = var.access_tags
   enable_archive                    = true
   ibmcloud_api_key                  = local.archive_api_key
