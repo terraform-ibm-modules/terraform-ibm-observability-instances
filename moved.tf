@@ -11,12 +11,22 @@ moved {
 
 moved {
   from = ibm_resource_instance.logdna
-  to   = module.log_analysis.ibm_resource_instance.log_analysis
+  to   = module.logdna.ibm_resource_instance.logdna
+}
+
+moved {
+  from = module.logdna.ibm_resource_instance.logdna
+  to = module.log_analysis.ibm_resource_instance.log_analysis
 }
 
 moved {
   from = ibm_resource_key.log_dna_resource_key
-  to   = module.log_analysis.ibm_resource_key.resource_key
+  to   = module.logdna.ibm_resource_key.resource_key
+}
+
+moved {
+  from = module.logdna.ibm_resource_key.resource_key
+  to = module.log_analysis.ibm_resource_key.resource_key
 }
 
 moved {
