@@ -51,6 +51,12 @@ variable "tags" {
   default     = []
 }
 
+variable "access_tags" {
+  type        = list(string)
+  description = "Access Management Tags associated with the IBM Cloud Monitoring instance (Optional, array of strings)."
+  default     = []
+}
+
 variable "enable_platform_metrics" {
   type        = bool
   description = "Receive platform metrics in the provisioned IBM Cloud Monitoring instance."

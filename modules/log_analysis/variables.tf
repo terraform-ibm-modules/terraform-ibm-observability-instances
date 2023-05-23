@@ -64,6 +64,12 @@ variable "tags" {
   default     = []
 }
 
+variable "access_tags" {
+  type        = list(string)
+  description = "Access Management Tags associated with the IBM Cloud Logging instance (Optional, array of strings)."
+  default     = []
+}
+
 variable "enable_platform_logs" {
   type        = bool
   description = "Receive platform logs in the provisioned IBM Cloud Logging instance."

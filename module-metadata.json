@@ -1,6 +1,27 @@
 {
   "path": ".",
   "variables": {
+    "activity_tracker_access_tags": {
+      "name": "activity_tracker_access_tags",
+      "type": "list(string)",
+      "description": "A list of access tags to apply to the Activity Tracker instance created by the module. For more information, see https://cloud.ibm.com/docs/account?topic=account-access-tags-tutorial.",
+      "default": [],
+      "source": [
+        "module.activity_tracker.ibm_resource_tag.activity_tracker_tag.count",
+        "module.activity_tracker.ibm_resource_tag.activity_tracker_tag.tags"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 250
+      },
+      "min_length": 1,
+      "max_length": 128,
+      "matches": "^[A-Za-z0-9:_ .-]+$",
+      "computed": true,
+      "elem": {
+        "type": "TypeString"
+      }
+    },
     "activity_tracker_instance_name": {
       "name": "activity_tracker_instance_name",
       "type": "string",
@@ -10,7 +31,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 189
+        "line": 215
       }
     },
     "activity_tracker_manager_key_name": {
@@ -24,7 +45,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 206
+        "line": 232
       },
       "immutable": true
     },
@@ -38,7 +59,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 212
+        "line": 238
       },
       "cloud_data_type": "tags",
       "elem": {
@@ -56,7 +77,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 195
+        "line": 221
       }
     },
     "activity_tracker_provision": {
@@ -71,7 +92,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 183
+        "line": 209
       }
     },
     "activity_tracker_routes": {
@@ -84,7 +105,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 297
+        "line": 336
       }
     },
     "activity_tracker_service_endpoints": {
@@ -97,7 +118,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 224
+        "line": 263
       },
       "computed": true
     },
@@ -111,7 +132,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 218
+        "line": 244
       },
       "min_length": 1,
       "max_length": 128,
@@ -130,7 +151,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 246
+        "line": 285
       }
     },
     "at_cos_bucket_name": {
@@ -142,7 +163,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 240
+        "line": 279
       }
     },
     "at_cos_instance_id": {
@@ -273,7 +294,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 256
+        "line": 295
       }
     },
     "enable_archive": {
@@ -300,7 +321,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 86
+        "line": 99
       }
     },
     "enable_platform_metrics": {
@@ -313,7 +334,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 164
+        "line": 190
       }
     },
     "eventstreams_targets": {
@@ -326,7 +347,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 271
+        "line": 310
       }
     },
     "global_event_routing_settings": {
@@ -338,7 +359,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 308
+        "line": 347
       }
     },
     "ibmcloud_api_key": {
@@ -355,6 +376,27 @@
         "line": 24
       }
     },
+    "logdna_access_tags": {
+      "name": "logdna_access_tags",
+      "type": "list(string)",
+      "description": "A list of access tags to apply to the LogDNA instance created by the module. For more information, see https://cloud.ibm.com/docs/account?topic=account-access-tags-tutorial.",
+      "default": [],
+      "source": [
+        "module.logdna.ibm_resource_tag.logdna_tag.count",
+        "module.logdna.ibm_resource_tag.logdna_tag.tags"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 86
+      },
+      "min_length": 1,
+      "max_length": 128,
+      "matches": "^[A-Za-z0-9:_ .-]+$",
+      "computed": true,
+      "elem": {
+        "type": "TypeString"
+      }
+    },
     "log_analysis_cos_bucket_endpoint": {
       "name": "log_analysis_cos_bucket_endpoint",
       "type": "string",
@@ -364,7 +406,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 114
+        "line": 127
       }
     },
     "log_analysis_cos_bucket_name": {
@@ -376,7 +418,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 108
+        "line": 121
       }
     },
     "log_analysis_cos_instance_id": {
@@ -388,7 +430,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 102
+        "line": 115
       }
     },
     "log_analysis_instance_name": {
@@ -488,7 +530,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 92
+        "line": 105
       },
       "computed": true
     },
@@ -522,7 +564,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 285
+        "line": 324
       }
     },
     "region": {
@@ -562,8 +604,134 @@
       "cloud_data_range": [
         "resolved_to:id"
       ]
-    }
-  },
+    },
+    "sysdig_access_tags": {
+      "name": "sysdig_access_tags",
+      "type": "list(string)",
+      "description": "A list of access tags to apply to the Sysdig instance created by the module. For more information, see https://cloud.ibm.com/docs/account?topic=account-access-tags-tutorial.",
+      "default": [],
+      "source": [
+        "module.sysdig.ibm_resource_tag.sysdig_tag.count",
+        "module.sysdig.ibm_resource_tag.sysdig_tag.tags"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 177
+      },
+      "min_length": 1,
+      "max_length": 128,
+      "matches": "^[A-Za-z0-9:_ .-]+$",
+      "computed": true,
+      "elem": {
+        "type": "TypeString"
+      }
+    },
+    "sysdig_instance_name": {
+      "name": "sysdig_instance_name",
+      "type": "string",
+      "description": "The name of the IBM Cloud Monitoring instance to create. Defaults to 'sysdig-\u003cregion\u003e'",
+      "source": [
+        "module.sysdig"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 142
+      }
+    },
+    "sysdig_manager_key_name": {
+      "name": "sysdig_manager_key_name",
+      "type": "string",
+      "description": "The name to give the IBM Cloud Monitoring manager key.",
+      "default": "SysdigManagerKey",
+      "required": true,
+      "source": [
+        "module.sysdig.ibm_resource_key.resource_key.name"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 159
+      },
+      "immutable": true
+    },
+    "sysdig_manager_key_tags": {
+      "name": "sysdig_manager_key_tags",
+      "type": "list(string)",
+      "description": "Tags associated with the IBM Cloud Monitoring manager key.",
+      "default": [],
+      "source": [
+        "module.sysdig.ibm_resource_key.resource_key.tags"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 165
+      },
+      "cloud_data_type": "tags",
+      "elem": {
+        "type": "TypeString"
+      }
+    },
+    "sysdig_plan": {
+      "name": "sysdig_plan",
+      "type": "string",
+      "description": "The IBM Cloud Monitoring plan to provision. Available: lite, graduated-tier, graduated-tier-sysdig-secure-plus-monitor",
+      "default": "lite",
+      "required": true,
+      "source": [
+        "module.sysdig.ibm_resource_instance.sysdig.plan"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 148
+      }
+    },
+    "sysdig_provision": {
+      "name": "sysdig_provision",
+      "type": "bool",
+      "description": "Provision a Sysdig instance?",
+      "default": true,
+      "source": [
+        "module.sysdig.ibm_resource_instance.sysdig.count",
+        "module.sysdig.ibm_resource_key.resource_key.count"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 136
+      }
+    },
+    "sysdig_service_endpoints": {
+      "name": "sysdig_service_endpoints",
+      "type": "string",
+      "description": "The type of the service endpoint that will be set for the Sisdig instance.",
+      "default": "public-and-private",
+      "source": [
+        "module.sysdig.ibm_resource_instance.sysdig.service_endpoints"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 196
+      },
+      "computed": true
+    },
+    "sysdig_tags": {
+      "name": "sysdig_tags",
+      "type": "list(string)",
+      "description": "Tags associated with the IBM Cloud Monitoring instance (Optional, array of strings).",
+      "default": [],
+      "source": [
+        "module.sysdig.ibm_resource_instance.sysdig.tags"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 171
+      },
+      "min_length": 1,
+      "max_length": 128,
+      "matches": "^[A-Za-z0-9:_ .-]+$",
+      "computed": true,
+      "elem": {
+        "type": "TypeString"
+      }
+    },
   "outputs": {
     "activity_tracker_crn": {
       "name": "crn",
@@ -777,7 +945,7 @@
     "ibm": {
       "source": "ibm-cloud/ibm",
       "version_constraints": [
-        "\u003e= 1.49.0"
+        "\u003e= 1.51.0"
       ]
     },
     "logdna": {
@@ -804,6 +972,7 @@
       "name": "activity_tracker",
       "source": "./modules/activity_tracker",
       "attributes": {
+        "access_tags": "activity_tracker_access_tags",
         "activity_tracker_provision": "activity_tracker_provision",
         "activity_tracker_routes": "activity_tracker_routes",
         "cos_bucket_endpoint": "at_cos_bucket_endpoint",
@@ -837,7 +1006,7 @@
           },
           "pos": {
             "filename": "modules/activity_tracker/main.tf",
-            "line": 87
+            "line": 94
           }
         },
         "ibm_atracker_settings.atracker_settings": {
@@ -857,7 +1026,7 @@
           },
           "pos": {
             "filename": "modules/activity_tracker/main.tf",
-            "line": 103
+            "line": 110
           }
         },
         "ibm_atracker_target.atracker_cos_targets": {
@@ -872,7 +1041,7 @@
           },
           "pos": {
             "filename": "modules/activity_tracker/main.tf",
-            "line": 47
+            "line": 54
           }
         },
         "ibm_atracker_target.atracker_eventstreams_targets": {
@@ -887,7 +1056,7 @@
           },
           "pos": {
             "filename": "modules/activity_tracker/main.tf",
-            "line": 61
+            "line": 68
           }
         },
         "ibm_atracker_target.atracker_log_analysis_targets": {
@@ -902,7 +1071,7 @@
           },
           "pos": {
             "filename": "modules/activity_tracker/main.tf",
-            "line": 75
+            "line": 82
           }
         },
         "ibm_resource_instance.activity_tracker": {
@@ -939,6 +1108,22 @@
           },
           "pos": {
             "filename": "modules/activity_tracker/main.tf",
+            "line": 29
+          }
+        },
+        "ibm_resource_tag.activity_tracker_tag": {
+          "mode": "managed",
+          "type": "ibm_resource_tag",
+          "name": "activity_tracker_tag",
+          "attributes": {
+            "count": "access_tags",
+            "tags": "access_tags"
+          },
+          "provider": {
+            "name": "ibm"
+          },
+          "pos": {
+            "filename": "modules/activity_tracker/main.tf",
             "line": 22
           }
         },
@@ -955,7 +1140,7 @@
           },
           "pos": {
             "filename": "modules/activity_tracker/main.tf",
-            "line": 30
+            "line": 37
           }
         }
       },
@@ -1038,6 +1223,7 @@
       "name": "cloud_monitoring",
       "source": "./modules/cloud_monitoring",
       "attributes": {
+        "access_tags": "logdna_access_tags",
         "cloud_monitoring_provision": "cloud_monitoring_provision",
         "enable_platform_metrics": "enable_platform_metrics",
         "instance_name": "cloud_monitoring_instance_name",
@@ -1084,9 +1270,42 @@
             "name": "ibm"
           },
           "pos": {
+            "filename": "modules/logdna/main.tf",
+            "line": 34
+          }
+        },
+        "ibm_resource_tag.logdna_tag": {
+          "mode": "managed",
+          "type": "ibm_resource_tag",
+          "name": "logdna_tag",
+          "attributes": {
+            "count": "access_tags",
+            "tags": "access_tags"
+          },
+          "provider": {
+            "name": "ibm"
+          },
+          "pos": {
             "filename": "modules/cloud_monitoring/main.tf",
             "line": 20
           }
+        },
+        "logdna_archive.archive_config": {
+          "mode": "managed",
+          "type": "logdna_archive",
+          "name": "archive_config",
+          "attributes": {
+            "count": "logdna_provision"
+          },
+          "provider": {
+            "name": "logdna",
+            "alias": "ld"
+          },
+          "pos": {
+            "filename": "modules/logdna/main.tf",
+            "line": 42
+          }
+        }
         }
       },
       "data_resources": {},
@@ -1143,13 +1362,14 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 59
+        "line": 36
       }
     },
     "log_analysis": {
       "name": "log_analysis",
       "source": "./modules/log_analysis",
       "attributes": {
+        "access_tags": "sysdig_access_tags",
         "cos_bucket_endpoint": "log_analysis_cos_bucket_endpoint",
         "cos_bucket_name": "log_analysis_cos_bucket_name",
         "cos_instance_id": "log_analysis_cos_instance_id",
@@ -1198,6 +1418,22 @@
             "name": "manager_key_name",
             "role": "resource_key_role",
             "tags": "manager_key_tags"
+          },
+          "provider": {
+            "name": "ibm"
+          },
+          "pos": {
+            "filename": "modules/sysdig/main.tf",
+            "line": 27
+          }
+        },
+        "ibm_resource_tag.sysdig_tag": {
+          "mode": "managed",
+          "type": "ibm_resource_tag",
+          "name": "sysdig_tag",
+          "attributes": {
+            "count": "access_tags",
+            "tags": "access_tags"
           },
           "provider": {
             "name": "ibm"
@@ -1287,7 +1523,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 35
+        "line": 61
       }
     }
   }

@@ -19,6 +19,13 @@ resource "ibm_resource_instance" "activity_tracker" {
   service_endpoints = var.service_endpoints
 }
 
+resource "ibm_resource_tag" "activity_tracker_tag" {
+  count       = length(var.access_tags) == 0 ? 0 : var.activity_tracker_provision ? 1 : 0
+  resource_id = ibm_resource_instance.activity_tracker[0].crn
+  tags        = var.access_tags
+  tag_type    = "access"
+}
+
 resource "ibm_resource_key" "resource_key" {
   count                = var.activity_tracker_provision ? 1 : 0
   name                 = var.manager_key_name

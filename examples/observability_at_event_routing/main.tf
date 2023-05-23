@@ -27,14 +27,14 @@ module "resource_group" {
 
 # COS target
 module "cos_bucket_1" {
-  source             = "git::https://github.com/terraform-ibm-modules/terraform-ibm-cos?ref=v5.10.0"
-  resource_group_id  = module.resource_group.resource_group_id
-  region             = local.cos_target_region
-  cos_instance_name  = "${var.prefix}-cos-target-instance-1"
-  cos_tags           = var.resource_tags
-  bucket_name        = "${var.prefix}-cos-target-bucket-1"
-  encryption_enabled = false
-  retention_enabled  = false
+  source                 = "git::https://github.com/terraform-ibm-modules/terraform-ibm-cos?ref=v6.6.0"
+  resource_group_id      = module.resource_group.resource_group_id
+  region                 = local.cos_target_region
+  cos_instance_name      = "${var.prefix}-cos-target-instance-1"
+  cos_tags               = var.resource_tags
+  bucket_name            = "${var.prefix}-cos-target-bucket-1"
+  kms_encryption_enabled = false
+  retention_enabled      = false
 }
 
 resource "ibm_resource_key" "cos_resource_key_1" {
@@ -44,14 +44,14 @@ resource "ibm_resource_key" "cos_resource_key_1" {
 }
 
 module "cos_bucket_2" {
-  source             = "git::https://github.com/terraform-ibm-modules/terraform-ibm-cos?ref=v5.10.0"
-  resource_group_id  = module.resource_group.resource_group_id
-  region             = local.cos_target_region
-  cos_instance_name  = "${var.prefix}-cos-target-instance-2"
-  cos_tags           = var.resource_tags
-  bucket_name        = "${var.prefix}-cos-target-bucket-2"
-  encryption_enabled = false
-  retention_enabled  = false
+  source                 = "git::https://github.com/terraform-ibm-modules/terraform-ibm-cos?ref=v6.6.0"
+  resource_group_id      = module.resource_group.resource_group_id
+  region                 = local.cos_target_region
+  cos_instance_name      = "${var.prefix}-cos-target-instance-2"
+  cos_tags               = var.resource_tags
+  bucket_name            = "${var.prefix}-cos-target-bucket-2"
+  kms_encryption_enabled = false
+  retention_enabled      = false
 }
 
 resource "ibm_resource_key" "cos_resource_key_2" {
@@ -99,6 +99,7 @@ module "log_analysis_1" {
   region            = local.log_analysis_target_region
   manager_key_name  = "${var.prefix}-log_analysis-manager-key-1"
   resource_key_role = "Manager"
+  access_tags       = var.access_tags
 }
 
 module "log_analysis_2" {
@@ -112,6 +113,7 @@ module "log_analysis_2" {
   region            = local.log_analysis_target_region
   manager_key_name  = "${var.prefix}-log_analysis-manager-key-2"
   resource_key_role = "Manager"
+  access_tags       = var.access_tags
 }
 
 ########################################################################
@@ -131,21 +133,22 @@ module "activity_tracker" {
   instance_name              = "${var.prefix}-activity-tracker-instance"
   plan                       = "7-day"
   tags                       = var.resource_tags
+  access_tags                = var.access_tags
 
   # Targets
   cos_targets = [
     {
       api_key       = ibm_resource_key.cos_resource_key_1.credentials.apikey
-      bucket_name   = module.cos_bucket_1.bucket_name[0]
-      endpoint      = module.cos_bucket_1.s3_endpoint_private[0]
+      bucket_name   = module.cos_bucket_1.bucket_name
+      endpoint      = module.cos_bucket_1.s3_endpoint_private
       instance_id   = module.cos_bucket_1.cos_instance_id
       target_region = local.cos_target_region
       target_name   = "${var.prefix}-cos-target-1"
     },
     {
       api_key       = ibm_resource_key.cos_resource_key_2.credentials.apikey
-      bucket_name   = module.cos_bucket_2.bucket_name[0]
-      endpoint      = module.cos_bucket_2.s3_endpoint_private[0]
+      bucket_name   = module.cos_bucket_2.bucket_name
+      endpoint      = module.cos_bucket_2.s3_endpoint_private
       instance_id   = module.cos_bucket_2.cos_instance_id
       target_region = local.cos_target_region
       target_name   = "${var.prefix}-cos-target-2"
