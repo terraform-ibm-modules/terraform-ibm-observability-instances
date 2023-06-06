@@ -64,6 +64,12 @@ variable "tags" {
   default     = []
 }
 
+variable "access_tags" {
+  type        = list(string)
+  description = "Access Management Tags associated with the Activity Tracker instance (Optional, array of strings)."
+  default     = []
+}
+
 variable "service_endpoints" {
   description = "The type of the service endpoint that will be set for the activity tracker instance."
   type        = string

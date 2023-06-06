@@ -24,6 +24,13 @@ resource "ibm_resource_instance" "logdna" {
   }
 }
 
+resource "ibm_resource_tag" "logdna_tag" {
+  count       = length(var.access_tags) == 0 ? 0 : var.logdna_provision ? 1 : 0
+  resource_id = ibm_resource_instance.logdna[0].crn
+  tags        = var.access_tags
+  tag_type    = "access"
+}
+
 resource "ibm_resource_key" "resource_key" {
   count                = var.logdna_provision ? 1 : 0
   name                 = var.manager_key_name

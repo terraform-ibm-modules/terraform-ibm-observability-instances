@@ -28,6 +28,12 @@ variable "resource_tags" {
   default     = []
 }
 
+variable "access_tags" {
+  type        = list(string)
+  description = "Optional list of access management tags to add to resources that are created"
+  default     = []
+}
+
 variable "existing_activity_tracker_crn" {
   type        = string
   description = "Optional crn of existing activity tracker, if not provided new activity tracker instance will be provisioned"

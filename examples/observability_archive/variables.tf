@@ -34,3 +34,9 @@ variable "resource_tags" {
   description = "Optional list of tags to be added to created resources"
   default     = []
 }
+
+variable "access_tags" {
+  type        = list(string)
+  description = "Optional list of access management tags to add to resources that are created"
+  default     = []
+}

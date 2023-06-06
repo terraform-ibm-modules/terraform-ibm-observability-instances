@@ -17,6 +17,13 @@ resource "ibm_resource_instance" "sysdig" {
   }
 }
 
+resource "ibm_resource_tag" "sysdig_tag" {
+  count       = length(var.access_tags) == 0 ? 0 : var.sysdig_provision ? 1 : 0
+  resource_id = ibm_resource_instance.sysdig[0].crn
+  tags        = var.access_tags
+  tag_type    = "access"
+}
+
 resource "ibm_resource_key" "resource_key" {
   count                = var.sysdig_provision ? 1 : 0
   name                 = var.manager_key_name
