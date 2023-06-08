@@ -57,7 +57,7 @@ variable "log_analysis_plan" {
 variable "log_analysis_manager_key_name" {
   type        = string
   description = "The name to give the IBM Cloud Logging manager key."
-  default     = "LogAnalysisManagerKey"
+  default     = "LogDnaManagerKey"
 }
 
 variable "log_analysis_resource_key_role" {
@@ -85,7 +85,7 @@ variable "log_analysis_tags" {
 
 variable "log_analysis_access_tags" {
   type        = list(string)
-  description = "A list of access tags to apply to the LogDNA instance created by the module. For more information, see https://cloud.ibm.com/docs/account?topic=account-access-tags-tutorial."
+  description = "A list of access tags to apply to the Log Analysis instance created by the module. For more information, see https://cloud.ibm.com/docs/account?topic=account-access-tags-tutorial."
   default     = []
 
   validation {

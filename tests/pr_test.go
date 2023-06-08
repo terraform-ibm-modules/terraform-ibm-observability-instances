@@ -92,7 +92,7 @@ func TestRunEventRoutingExample(t *testing.T) {
 func TestRunUpgradeExample(t *testing.T) {
 	t.Parallel()
 
-	t.Skip("Skipping upgrade test until initial code is in primary branch")
+	// t.Skip("Skipping upgrade test until initial code is in primary branch")
 	options := setupOptions(t, "obs-upg", completeExampleTerraformDir)
 	output, err := options.RunTestUpgrade()
 	if !options.UpgradeTestSkipped {

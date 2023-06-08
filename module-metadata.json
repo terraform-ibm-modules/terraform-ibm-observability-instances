@@ -400,7 +400,7 @@
     "log_analysis_access_tags": {
       "name": "log_analysis_access_tags",
       "type": "list(string)",
-      "description": "A list of access tags to apply to the LogDNA instance created by the module. For more information, see https://cloud.ibm.com/docs/account?topic=account-access-tags-tutorial.",
+      "description": "A list of access tags to apply to the Log Analysis instance created by the module. For more information, see https://cloud.ibm.com/docs/account?topic=account-access-tags-tutorial.",
       "default": [],
       "source": [
         "module.log_analysis.ibm_resource_tag.log_analysis_tag.count",
@@ -470,7 +470,7 @@
       "name": "log_analysis_manager_key_name",
       "type": "string",
       "description": "The name to give the IBM Cloud Logging manager key.",
-      "default": "LogAnalysisManagerKey",
+      "default": "LogDnaManagerKey",
       "required": true,
       "source": [
         "module.log_analysis.ibm_resource_key.resource_key.name"
