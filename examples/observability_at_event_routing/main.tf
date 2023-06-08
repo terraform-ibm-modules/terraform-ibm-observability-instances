@@ -93,11 +93,11 @@ module "log_analysis_1" {
   providers = {
     logdna.ld = logdna.ld_1
   }
-  instance_name     = "${var.prefix}-log_analysis-target-instance-1"
+  instance_name     = "${var.prefix}-logdna-target-instance-1"
   resource_group_id = module.resource_group.resource_group_id
   plan              = "7-day"
   region            = local.log_analysis_target_region
-  manager_key_name  = "${var.prefix}-log_analysis-manager-key-1"
+  manager_key_name  = "${var.prefix}-logdna-manager-key-1"
   resource_key_role = "Manager"
   access_tags       = var.access_tags
 }
@@ -107,11 +107,11 @@ module "log_analysis_2" {
   providers = {
     logdna.ld = logdna.ld_2
   }
-  instance_name     = "${var.prefix}-log_analysis-target-instance-2"
+  instance_name     = "${var.prefix}-logdna-target-instance-2"
   resource_group_id = module.resource_group.resource_group_id
   plan              = "7-day"
   region            = local.log_analysis_target_region
-  manager_key_name  = "${var.prefix}-log_analysis-manager-key-2"
+  manager_key_name  = "${var.prefix}-logdna-manager-key-2"
   resource_key_role = "Manager"
   access_tags       = var.access_tags
 }
@@ -171,13 +171,13 @@ module "activity_tracker" {
       instance_id   = module.log_analysis_1.crn
       ingestion_key = module.log_analysis_1.ingestion_key
       target_region = local.log_analysis_target_region
-      target_name   = "${var.prefix}-log-analysis-target-1"
+      target_name   = "${var.prefix}-logdna-target-1"
     },
     {
       instance_id   = module.log_analysis_2.crn
       ingestion_key = module.log_analysis_2.ingestion_key
       target_region = local.log_analysis_target_region
-      target_name   = "${var.prefix}-log-analysis-target-2"
+      target_name   = "${var.prefix}-logdna-target-2"
     }
   ]
 
@@ -188,7 +188,7 @@ module "activity_tracker" {
       locations  = ["*", "global"]
       target_ids = [
         module.activity_tracker.activity_tracker_targets["${var.prefix}-cos-target-1"].id,
-        module.activity_tracker.activity_tracker_targets["${var.prefix}-log-analysis-target-1"].id,
+        module.activity_tracker.activity_tracker_targets["${var.prefix}-logdna-target-1"].id,
         module.activity_tracker.activity_tracker_targets["${var.prefix}-eventstreams-target-1"].id
       ]
     },
@@ -197,7 +197,7 @@ module "activity_tracker" {
       locations  = ["*", "global"]
       target_ids = [
         module.activity_tracker.activity_tracker_targets["${var.prefix}-cos-target-2"].id,
-        module.activity_tracker.activity_tracker_targets["${var.prefix}-log-analysis-target-2"].id
+        module.activity_tracker.activity_tracker_targets["${var.prefix}-logdna-target-2"].id
       ]
     }
   ]
