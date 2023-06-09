@@ -60,10 +60,10 @@ No modules.
 
 | Name | Description |
 |------|-------------|
-| <a name="output_access_key"></a> [access\_key](#output\_access\_key) | Sysdig access key for agents to use |
+| <a name="output_access_key"></a> [access\_key](#output\_access\_key) | The cloud monitoring access key for agents to use |
 | <a name="output_crn"></a> [crn](#output\_crn) | The id of the provisioned cloud monitoring instance. |
 | <a name="output_guid"></a> [guid](#output\_guid) | The guid of the provisioned cloud monitoring instance. |
-| <a name="output_manager_key_name"></a> [manager\_key\_name](#output\_manager\_key\_name) | The Sysdig manager key name |
+| <a name="output_manager_key_name"></a> [manager\_key\_name](#output\_manager\_key\_name) | The cloud monitoring manager key name |
 | <a name="output_name"></a> [name](#output\_name) | The name of the provisioned cloud monitoring instance. |
 | <a name="output_resource_group_id"></a> [resource\_group\_id](#output\_resource\_group\_id) | The resource group where cloud monitoring monitor instance resides |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->

@@ -5,7 +5,7 @@ This sub-module supports provisioning the following observability instance:
 - **IBM Cloud Activity Tracker**
   - Records events, compliant with CADF standard, triggered by user-initiated activities that change the state of a service in the cloud.
 
-:information_source: This sub-module also creates a manager key, and supports passing COS bucket details to enable archiving for Activity Tracker, it also supports event routing to COS, LogDNA and Event Streams.
+:information_source: This sub-module also creates a manager key, and supports passing COS bucket details to enable archiving for Activity Tracker, it also supports event routing to COS, Log Analysis and Event Streams.
 
 ## Usage
 

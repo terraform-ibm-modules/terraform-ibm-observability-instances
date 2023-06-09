@@ -1,7 +1,7 @@
 ##############################################################################
 # observability-instances-module
 #
-# Deploy the observability instances - LogDNA, Sysdig and Activity Tracker
+# Deploy the observability instances - Log Analysis, Cloud Monitoring and Activity Tracker
 ##############################################################################
 
 # Activity tracker

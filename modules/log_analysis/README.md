@@ -24,7 +24,7 @@ locals {
 
 provider "logdna" {
   alias      = "ld"
-  servicekey = module.logdna.resource_key
+  servicekey = module.log_analysis.resource_key
   url        = local.at_endpoint
 }
 
@@ -66,9 +66,9 @@ No modules.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_access_tags"></a> [access\_tags](#input\_access\_tags) | Access Management Tags associated with the IBM Cloud Logging instance (Optional, array of strings). | `list(string)` | `[]` | no |
-| <a name="input_cos_bucket_endpoint"></a> [cos\_bucket\_endpoint](#input\_cos\_bucket\_endpoint) | An endpoint for the COS bucket for the LogDNA archive. Pass either the public or private endpoint. (Only required when var.enable\_archive and var.logdna\_provision are true). | `string` | `null` | no |
-| <a name="input_cos_bucket_name"></a> [cos\_bucket\_name](#input\_cos\_bucket\_name) | The name of an existing COS bucket to be used for the LogDNA archive. (Only required when var.enable\_archive and var.logdna\_provision are true). | `string` | `null` | no |
-| <a name="input_cos_instance_id"></a> [cos\_instance\_id](#input\_cos\_instance\_id) | The ID of the cloud object storage instance containing the LogDNA archive bucket. (Only required when var.enable\_archive and var.logdna\_provision are true). | `string` | `null` | no |
+| <a name="input_cos_bucket_endpoint"></a> [cos\_bucket\_endpoint](#input\_cos\_bucket\_endpoint) | An endpoint for the COS bucket for the Log Analysis archive. Pass either the public or private endpoint. (Only required when var.enable\_archive and var.log\_analysis\_provision are true). | `string` | `null` | no |
+| <a name="input_cos_bucket_name"></a> [cos\_bucket\_name](#input\_cos\_bucket\_name) | The name of an existing COS bucket to be used for the Log Analysis archive. (Only required when var.enable\_archive and var.log\_analysis\_provision are true). | `string` | `null` | no |
+| <a name="input_cos_instance_id"></a> [cos\_instance\_id](#input\_cos\_instance\_id) | The ID of the cloud object storage instance containing the Log Analysis archive bucket. (Only required when var.enable\_archive and var.log\_analysis\_provision are true). | `string` | `null` | no |
 | <a name="input_enable_archive"></a> [enable\_archive](#input\_enable\_archive) | Enable archive on Log Analysis and Activity Tracker instances | `bool` | `false` | no |
 | <a name="input_enable_platform_logs"></a> [enable\_platform\_logs](#input\_enable\_platform\_logs) | Receive platform logs in the provisioned IBM Cloud Logging instance. | `bool` | `true` | no |
 | <a name="input_ibmcloud_api_key"></a> [ibmcloud\_api\_key](#input\_ibmcloud\_api\_key) | Only required to archive. The IBM Cloud API Key. | `string` | `null` | no |
@@ -80,7 +80,7 @@ No modules.
 | <a name="input_region"></a> [region](#input\_region) | The IBM Cloud region where instances will be created. | `string` | `"us-south"` | no |
 | <a name="input_resource_group_id"></a> [resource\_group\_id](#input\_resource\_group\_id) | The id of the IBM Cloud resource group where the instance(s) will be created. | `string` | `null` | no |
 | <a name="input_resource_key_role"></a> [resource\_key\_role](#input\_resource\_key\_role) | Role assigned to provide the IBM Cloud Logging key. | `string` | `"Manager"` | no |
-| <a name="input_service_endpoints"></a> [service\_endpoints](#input\_service\_endpoints) | The type of the service endpoint that will be set for the LogDNA instance. | `string` | `"public-and-private"` | no |
+| <a name="input_service_endpoints"></a> [service\_endpoints](#input\_service\_endpoints) | The type of the service endpoint that will be set for the Log Analysis instance. | `string` | `"public-and-private"` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | Tags associated with the IBM Cloud Logging instance (Optional, array of strings). | `list(string)` | `[]` | no |
 
 ## Outputs

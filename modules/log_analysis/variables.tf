@@ -77,7 +77,7 @@ variable "enable_platform_logs" {
 }
 
 variable "service_endpoints" {
-  description = "The type of the service endpoint that will be set for the LogDNA instance."
+  description = "The type of the service endpoint that will be set for the Log Analysis instance."
   type        = string
   default     = "public-and-private"
   validation {
@@ -99,18 +99,18 @@ variable "resource_key_role" {
 
 variable "cos_instance_id" {
   type        = string
-  description = "The ID of the cloud object storage instance containing the LogDNA archive bucket. (Only required when var.enable_archive and var.logdna_provision are true)."
+  description = "The ID of the cloud object storage instance containing the Log Analysis archive bucket. (Only required when var.enable_archive and var.log_analysis_provision are true)."
   default     = null
 }
 
 variable "cos_bucket_name" {
   type        = string
-  description = "The name of an existing COS bucket to be used for the LogDNA archive. (Only required when var.enable_archive and var.logdna_provision are true)."
+  description = "The name of an existing COS bucket to be used for the Log Analysis archive. (Only required when var.enable_archive and var.log_analysis_provision are true)."
   default     = null
 }
 
 variable "cos_bucket_endpoint" {
   type        = string
-  description = "An endpoint for the COS bucket for the LogDNA archive. Pass either the public or private endpoint. (Only required when var.enable_archive and var.logdna_provision are true)."
+  description = "An endpoint for the COS bucket for the Log Analysis archive. Pass either the public or private endpoint. (Only required when var.enable_archive and var.log_analysis_provision are true)."
   default     = null
 }

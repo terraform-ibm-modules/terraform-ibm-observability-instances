@@ -39,7 +39,7 @@ provider "logdna" {
 
 provider "logdna" {
   alias      = "ld"
-  servicekey = module.observability_instances.logdna_resource_key != null ? module.observability_instances.logdna_resource_key : ""
+  servicekey = module.observability_instances.log_analysis_resource_key != null ? module.observability_instances.log_analysis_resource_key : ""
   url        = local.at_endpoint
 }
 
@@ -70,7 +70,7 @@ locals {
 
 provider "logdna" {
   alias      = "ld"
-  servicekey = module.logdna.logdna_resource_key
+  servicekey = module.log_analysis.resource_key
   url        = local.at_endpoint
 }
 
@@ -154,8 +154,8 @@ To attach access management tags to resources in this module, you need the follo
 ## Examples
 
 - [ Provision Sysdig and LogDNA + Activity Tracker with archiving enabled using encrypted COS bucket](examples/observability_archive)
-- [ Provision Activity Tracker with event routing to COS bucket, Event streams and LogDNA](examples/observability_at_event_routing)
-- [ Provision basic observability instances (LogDNA, Sysdig, Activity Tracker)](examples/observability_basic)
+- [ Provision Activity Tracker with event routing to COS bucket, Event streams and LogAnalysis](examples/observability_at_event_routing)
+- [ Provision basic observability instances (Log Analysis, Cloud Monitoring, Activity Tracker)](examples/observability_basic)
 <!-- END EXAMPLES HOOK -->
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
@@ -194,7 +194,7 @@ No resources.
 | <a name="input_at_cos_bucket_endpoint"></a> [at\_cos\_bucket\_endpoint](#input\_at\_cos\_bucket\_endpoint) | An endpoint for the COS bucket for the Activity Tracker archive. Pass either the public or private endpoint (Only required when var.enable\_archive and var.activity\_tracker\_provision are true) | `string` | `null` | no |
 | <a name="input_at_cos_bucket_name"></a> [at\_cos\_bucket\_name](#input\_at\_cos\_bucket\_name) | The name of an existing COS bucket to be used for the Activity Tracker archive (Only required when var.enable\_archive and var.activity\_tracker\_provision are true). | `string` | `null` | no |
 | <a name="input_at_cos_instance_id"></a> [at\_cos\_instance\_id](#input\_at\_cos\_instance\_id) | The ID of the cloud object storage instance containing the Activity Tracker archive bucket (Only required when var.enable\_archive and var.activity\_tracker\_provision are true). | `string` | `null` | no |
-| <a name="input_cloud_monitoring_access_tags"></a> [cloud\_monitoring\_access\_tags](#input\_cloud\_monitoring\_access\_tags) | A list of access tags to apply to the Sysdig instance created by the module. For more information, see https://cloud.ibm.com/docs/account?topic=account-access-tags-tutorial. | `list(string)` | `[]` | no |
+| <a name="input_cloud_monitoring_access_tags"></a> [cloud\_monitoring\_access\_tags](#input\_cloud\_monitoring\_access\_tags) | A list of access tags to apply to the Cloud Monitoring instance created by the module. For more information, see https://cloud.ibm.com/docs/account?topic=account-access-tags-tutorial. | `list(string)` | `[]` | no |
 | <a name="input_cloud_monitoring_instance_name"></a> [cloud\_monitoring\_instance\_name](#input\_cloud\_monitoring\_instance\_name) | The name of the IBM Cloud Monitoring instance to create. Defaults to 'cloud\_monitoring-<region>' | `string` | `null` | no |
 | <a name="input_cloud_monitoring_manager_key_name"></a> [cloud\_monitoring\_manager\_key\_name](#input\_cloud\_monitoring\_manager\_key\_name) | The name to give the IBM Cloud Monitoring manager key. | `string` | `"SysdigManagerKey"` | no |
 | <a name="input_cloud_monitoring_manager_key_tags"></a> [cloud\_monitoring\_manager\_key\_tags](#input\_cloud\_monitoring\_manager\_key\_tags) | Tags associated with the IBM Cloud Monitoring manager key. | `list(string)` | `[]` | no |

@@ -20,11 +20,11 @@ output "resource_group_id" {
 
 output "access_key" {
   value       = length(ibm_resource_key.resource_key) > 0 ? ibm_resource_key.resource_key[0].credentials["Sysdig Access Key"] : null
-  description = "Sysdig access key for agents to use"
+  description = "The cloud monitoring access key for agents to use"
   sensitive   = true
 }
 
 output "manager_key_name" {
   value       = length(ibm_resource_key.resource_key) > 0 ? ibm_resource_key.resource_key[0].name : null
-  description = "The Sysdig manager key name"
+  description = "The cloud monitoring manager key name"
 }
