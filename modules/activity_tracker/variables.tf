@@ -115,6 +115,7 @@ variable "cos_targets" {
   }))
   default     = []
   description = "List of cos target to be created"
+  sensitive   = true
 
   validation {
     condition     = alltrue([for cos_target in var.cos_targets : cos_target.service_to_service_enabled == false && cos_target.api_key != null])
