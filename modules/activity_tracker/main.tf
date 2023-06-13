@@ -52,7 +52,7 @@ resource "logdna_archive" "archive_config" {
 
 # COS targets
 resource "ibm_atracker_target" "atracker_cos_targets" {
-  for_each = { for target in var.cos_targets : target.target_name => target }
+  for_each = nonsensitive({ for target in var.cos_targets : target.target_name => target })
   cos_endpoint {
     endpoint   = each.value.endpoint
     bucket     = each.value.bucket_name
