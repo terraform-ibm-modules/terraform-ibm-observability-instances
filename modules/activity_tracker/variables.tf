@@ -135,6 +135,7 @@ variable "eventstreams_targets" {
   }))
   default     = []
   description = "List of event streams target to be created"
+  sensitive   = true
 }
 
 # logDNA Targets
@@ -147,6 +148,7 @@ variable "logdna_targets" {
   }))
   default     = []
   description = "List of logdna target to be created"
+  sensitive   = true
 }
 
 # Routes

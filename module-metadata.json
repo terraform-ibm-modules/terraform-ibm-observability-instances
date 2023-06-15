@@ -105,7 +105,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 336
+        "line": 339
       }
     },
     "activity_tracker_service_endpoints": {
@@ -183,6 +183,7 @@
       "type": "list(object({\n    endpoint                   = string\n    bucket_name                = string\n    instance_id                = string\n    api_key                    = optional(string)\n    service_to_service_enabled = optional(bool, false)\n    target_region              = optional(string)\n    target_name                = string\n  }))",
       "description": "List of cos target to be created",
       "default": [],
+      "sensitive": true,
       "source": [
         "module.activity_tracker"
       ],
@@ -236,12 +237,13 @@
       "type": "list(object({\n    instance_id   = string\n    brokers       = list(string)\n    topic         = string\n    api_key       = string\n    target_region = optional(string)\n    target_name   = string\n  }))",
       "description": "List of event streams target to be created",
       "default": [],
+      "sensitive": true,
       "source": [
         "module.activity_tracker"
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 310
+        "line": 311
       }
     },
     "global_event_routing_settings": {
@@ -253,7 +255,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 347
+        "line": 350
       }
     },
     "ibmcloud_api_key": {
@@ -453,12 +455,13 @@
       "type": "list(object({\n    instance_id   = string\n    ingestion_key = string\n    target_region = optional(string)\n    target_name   = string\n  }))",
       "description": "List of logdna target to be created",
       "default": [],
+      "sensitive": true,
       "source": [
         "module.activity_tracker"
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 324
+        "line": 326
       }
     },
     "region": {
