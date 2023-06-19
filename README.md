@@ -9,16 +9,16 @@ This module supports provisioning the following observability instances:
 
 * **IBM Cloud Activity Tracker**
   * Records events, compliant with CADF standard, triggered by user-initiated activities that change the state of a service in the cloud.
-* **IBM Cloud Logging with LogDNA**
+* **IBM Cloud Logging with Log Analysis**
   * Manage operating system logs, application logs, and platform logs in IBM Cloud.
-* **IBM Cloud Monitoring with SysDig**
+* **IBM Cloud Monitoring with Cloud Monitoring**
   * Monitor the health of services and applications in IBM Cloud.
 
-:information_source: The module also creates a manager key for each instance, and supports passing COS bucket details to enable archiving for LogDNA and Activity Tracker, it also supports activity tracker event routing to COS, LogDNA and Event Streams..
+:information_source: The module also creates a manager key for each instance, and supports passing COS bucket details to enable archiving for Log Analysis and Activity Tracker, it also supports activity tracker event routing to COS, LogDNA and Event Streams..
 
 ## Usage
 
-To provision Activity Tracker, LogDNA and Sysdig
+To provision Activity Tracker, Log Analysis and IBM Cloud Monitoring
 
 ```hcl
 # required ibm provider config
@@ -55,7 +55,7 @@ module "observability_instances" {
 }
 ```
 
-To provision LogDNA only
+To provision Log Analysis only
 
 ```hcl
 # required ibm provider config
@@ -63,7 +63,7 @@ provider "ibm" {
   ibmcloud_api_key = var.ibmcloud_api_key
 }
 
-# required logdna provider config
+# required log analysis provider config
 locals {
   at_endpoint = "https://api.${var.region}.logging.cloud.ibm.com"
 }
@@ -74,9 +74,9 @@ provider "logdna" {
   url        = local.at_endpoint
 }
 
-module "logdna" {
+module "log_analysis" {
   # Replace "main" with a GIT release version to lock into a specific release
-  source = "git::https://github.com/terraform-ibm-modules/terraform-ibm-observability-instances//modules/logdna?ref=main"
+  source = "git::https://github.com/terraform-ibm-modules/terraform-ibm-observability-instances//modules/log_analysis?ref=main"
   providers = {
     logdna.ld = logdna.ld
   }
@@ -115,12 +115,12 @@ module "activity_tracker" {
 }
 ```
 
-To provision Sysdig only
+To provision IBM Cloud Monitoring only
 
 ```hcl
-module "sysdig" {
+module "cloud_monitoring" {
   # Replace "main" with a GIT release version to lock into a specific release
-  source = "git::https://github.com/terraform-ibm-modules/terraform-ibm-observability-instances//modules/sysdig?ref=main"
+  source = "git::https://github.com/terraform-ibm-modules/terraform-ibm-observability-instances//modules/cloud_monitoring?ref=main"
   resource_group_id = module.resource_group.resource_group_id
   region = var.region
 }
@@ -153,8 +153,8 @@ To attach access management tags to resources in this module, you need the follo
 <!-- BEGIN EXAMPLES HOOK -->
 ## Examples
 
-- [ Provision Sysdig and LogDNA + Activity Tracker with archiving enabled using encrypted COS bucket](examples/observability_archive)
-- [ Provision Activity Tracker with event routing to COS bucket, Event streams and LogAnalysis](examples/observability_at_event_routing)
+- [ Provision IBM Cloud Monitoring and Log Analysis + Activity Tracker with archiving enabled using encrypted COS bucket](examples/observability_archive)
+- [ Provision Activity Tracker with event routing to COS bucket, Event streams and Log Analysis](examples/observability_at_event_routing)
 - [ Provision basic observability instances (Log Analysis, Cloud Monitoring, Activity Tracker)](examples/observability_basic)
 <!-- END EXAMPLES HOOK -->
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
