@@ -14,7 +14,7 @@ This module supports provisioning the following observability instances:
 * **IBM Cloud Monitoring with Cloud Monitoring**
   * Monitor the health of services and applications in IBM Cloud.
 
-:information_source: The module also creates a manager key for each instance, and supports passing COS bucket details to enable archiving for Log Analysis and Activity Tracker, it also supports activity tracker event routing to COS, LogDNA and Event Streams..
+:information_source: The module also creates a manager key for each instance, and supports passing COS bucket details to enable archiving for Log Analysis and Activity Tracker, it also supports activity tracker event routing to COS, Log Analysis and Event Streams..
 
 ## Usage
 
