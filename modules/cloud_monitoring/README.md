@@ -1,18 +1,18 @@
-# Sysdig instance sub-module
+# IBM Cloud Monitoring instance sub-module
 
 This sub-module supports provisioning the following observability instances:
 
-- **IBM Cloud Monitoring with SysDig**
+- **IBM Cloud Monitoring with Cloud Monitoring**
   - Monitor the health of services and applications in IBM Cloud.
 
 :information_source: This sub-module also creates a manager key.
 
 ## Usage
 
-To provision Sysdig instance
+To provision Cloud Monitoring instance
 
 ```hcl
-module "sysdig" {
+module "cloud_monitoring" {
   source  = "terraform-ibm-modules/observability/ibm"
   version = "latest" # Replace "latest" with a release version to lock into a specific release
   resource_group_id = module.resource_group.resource_group_id

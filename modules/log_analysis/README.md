@@ -1,15 +1,15 @@
-# LogDNA instance sub-module
+# Log Analysis instance sub-module
 
 This sub-module supports provisioning the following observability instances:
 
-- **IBM Cloud Logging with LogDNA**
+- **IBM Cloud Logging with Log Analysis**
   - Manage operating system logs, application logs, and platform logs in IBM Cloud.
 
-:information_source: This sub-module also creates a manager key, and supports passing COS bucket details to enable archiving for LogDNA.
+:information_source: This sub-module also creates a manager key, and supports passing COS bucket details to enable archiving for Log Analysis.
 
 ## Usage
 
-To provision LogDNA instance
+To provision Log Analysis instance
 
 ```hcl
 # required ibm provider config
@@ -17,7 +17,7 @@ provider "ibm" {
   ibmcloud_api_key = var.ibmcloud_api_key #pragma: allowlist secret
 }
 
-# required logdna provider config
+# required log analysis provider config
 locals {
   at_endpoint = "https://api.${var.region}.logging.cloud.ibm.com"
 }
@@ -28,7 +28,7 @@ provider "logdna" {
   url        = local.at_endpoint
 }
 
-module "logdna" {
+module "log_analysis" {
   source  = "terraform-ibm-modules/observability-instances/ibm"
   version = "latest" # Replace "latest" with a release version to lock into a specific release
   providers = {
