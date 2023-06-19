@@ -29,8 +29,8 @@ provider "logdna" {
 }
 
 module "activity_tracker" {
-  # Replace "main" with a GIT release version to lock into a specific release
-  source = "git::https://github.com/terraform-ibm-modules/terraform-ibm-observability-instances//modules/activity_tracker?ref=main"
+  source  = "terraform-ibm-modules/observability/ibm"
+  version = "latest" # Replace "latest" with a release version to lock into a specific release
   providers = {
     logdna.at = logdna.at
   }
