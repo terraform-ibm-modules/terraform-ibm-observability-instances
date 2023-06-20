@@ -304,6 +304,7 @@ variable "cos_targets" {
   }))
   default     = []
   description = "List of cos target to be created"
+  sensitive   = true
 }
 
 # Event Streams Targets
@@ -318,6 +319,7 @@ variable "eventstreams_targets" {
   }))
   default     = []
   description = "List of event streams target to be created"
+  sensitive   = true
 }
 
 # Log Analysis Targets
@@ -330,6 +332,7 @@ variable "log_analysis_targets" {
   }))
   default     = []
   description = "List of log analysis target to be created"
+  sensitive   = true
 }
 
 # Routes
