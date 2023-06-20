@@ -79,8 +79,8 @@ resource "ibm_atracker_target" "atracker_eventstreams_targets" {
 }
 
 # Log Analysis targets
-resource "ibm_atracker_target" "atracker_logdna_targets" {
-  for_each = nonsensitive({ for target in var.logdna_targets : target.target_name => target })
+resource "ibm_atracker_target" "atracker_log_analysis_targets" {
+  for_each = nonsensitive({ for target in var.log_analysis_targets : target.target_name => target })
   logdna_endpoint {
     target_crn    = each.value.instance_id
     ingestion_key = each.value.ingestion_key
