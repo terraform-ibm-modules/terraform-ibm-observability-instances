@@ -78,9 +78,9 @@ resource "ibm_atracker_target" "atracker_eventstreams_targets" {
   region      = each.value.target_region
 }
 
-# LogDNA targets
-resource "ibm_atracker_target" "atracker_logdna_targets" {
-  for_each = nonsensitive({ for target in var.logdna_targets : target.target_name => target })
+# Log Analysis targets
+resource "ibm_atracker_target" "atracker_log_analysis_targets" {
+  for_each = nonsensitive({ for target in var.log_analysis_targets : target.target_name => target })
   logdna_endpoint {
     target_crn    = each.value.instance_id
     ingestion_key = each.value.ingestion_key
@@ -130,11 +130,11 @@ locals {
     }
   }
 
-  logdna_targets = {
-    for logdna_target in ibm_atracker_target.atracker_logdna_targets :
-    logdna_target["name"] => {
-      id  = logdna_target["id"]
-      crn = logdna_target["crn"]
+  log_analysis_targets = {
+    for log_analysis_target in ibm_atracker_target.atracker_log_analysis_targets :
+    log_analysis_target["name"] => {
+      id  = log_analysis_target["id"]
+      crn = log_analysis_target["crn"]
     }
   }
 
@@ -154,6 +154,6 @@ locals {
     }
   }
 
-  activity_tracker_targets = merge(local.cos_targets, local.logdna_targets, local.eventstreams_targets)
+  activity_tracker_targets = merge(local.cos_targets, local.log_analysis_targets, local.eventstreams_targets)
 
 }

@@ -2,14 +2,14 @@
 # Outputs
 ##############################################################################
 
-output "logdna_name" {
-  value       = module.test_observability_instance_creation.logdna_name
-  description = "The name of the provisioned LogDNA instance."
+output "log_analysis_name" {
+  value       = module.test_observability_instance_creation.log_analysis_name
+  description = "The name of the provisioned Log Analysis instance."
 }
 
-output "sysdig_name" {
-  value       = module.test_observability_instance_creation.sysdig_name
-  description = "The name of the provisioned Sysdig instance."
+output "cloud_monitoring_name" {
+  value       = module.test_observability_instance_creation.cloud_monitoring_name
+  description = "The name of the provisioned IBM cloud monitoring instance."
 }
 
 output "activity_tracker_name" {

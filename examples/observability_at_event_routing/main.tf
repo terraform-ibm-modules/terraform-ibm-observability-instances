@@ -14,7 +14,7 @@ locals {
   activity_tracker_resource_key = var.existing_activity_tracker_crn != null ? data.ibm_resource_key.at_resource_key.credentials["service_key"] : module.activity_tracker.resource_key
 
   cos_target_region          = var.cos_target_region != null ? var.cos_target_region : local.activity_tracker_region
-  logdna_target_region       = var.logdna_target_region != null ? var.logdna_target_region : local.activity_tracker_region
+  log_analysis_target_region = var.log_analysis_target_region != null ? var.log_analysis_target_region : local.activity_tracker_region
   eventstreams_target_region = var.eventstreams_target_region != null ? var.eventstreams_target_region : local.activity_tracker_region
 }
 
@@ -90,30 +90,30 @@ resource "ibm_resource_key" "es_resource_key" {
   role                 = "Writer"
 }
 
-# LogDNA target
-module "logdna_1" {
-  source = "../../modules/logdna"
+# Log Analysis target
+module "log_analysis_1" {
+  source = "../../modules/log_analysis"
   providers = {
     logdna.ld = logdna.ld_1
   }
   instance_name     = "${var.prefix}-logdna-target-instance-1"
   resource_group_id = module.resource_group.resource_group_id
   plan              = "7-day"
-  region            = local.logdna_target_region
+  region            = local.log_analysis_target_region
   manager_key_name  = "${var.prefix}-logdna-manager-key-1"
   resource_key_role = "Manager"
   access_tags       = var.access_tags
 }
 
-module "logdna_2" {
-  source = "../../modules/logdna"
+module "log_analysis_2" {
+  source = "../../modules/log_analysis"
   providers = {
     logdna.ld = logdna.ld_2
   }
   instance_name     = "${var.prefix}-logdna-target-instance-2"
   resource_group_id = module.resource_group.resource_group_id
   plan              = "7-day"
-  region            = local.logdna_target_region
+  region            = local.log_analysis_target_region
   manager_key_name  = "${var.prefix}-logdna-manager-key-2"
   resource_key_role = "Manager"
   access_tags       = var.access_tags
@@ -169,17 +169,17 @@ module "activity_tracker" {
     }
   ]
 
-  logdna_targets = [
+  log_analysis_targets = [
     {
-      instance_id   = module.logdna_1.crn
-      ingestion_key = module.logdna_1.ingestion_key
-      target_region = local.logdna_target_region
+      instance_id   = module.log_analysis_1.crn
+      ingestion_key = module.log_analysis_1.ingestion_key
+      target_region = local.log_analysis_target_region
       target_name   = "${var.prefix}-logdna-target-1"
     },
     {
-      instance_id   = module.logdna_2.crn
-      ingestion_key = module.logdna_2.ingestion_key
-      target_region = local.logdna_target_region
+      instance_id   = module.log_analysis_2.crn
+      ingestion_key = module.log_analysis_2.ingestion_key
+      target_region = local.log_analysis_target_region
       target_name   = "${var.prefix}-logdna-target-2"
     }
   ]

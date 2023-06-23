@@ -9,16 +9,16 @@ This module supports provisioning the following observability instances:
 
 * **IBM Cloud Activity Tracker**
   * Records events, compliant with CADF standard, triggered by user-initiated activities that change the state of a service in the cloud.
-* **IBM Cloud Logging with LogDNA**
+* **IBM Cloud Logging with Log Analysis**
   * Manage operating system logs, application logs, and platform logs in IBM Cloud.
-* **IBM Cloud Monitoring with SysDig**
+* **IBM Cloud Monitoring with Cloud Monitoring**
   * Monitor the health of services and applications in IBM Cloud.
 
-:information_source: The module also creates a manager key for each instance, and supports passing COS bucket details to enable archiving for LogDNA and Activity Tracker, it also supports activity tracker event routing to COS, LogDNA and Event Streams..
+:information_source: The module also creates a manager key for each instance, and supports passing COS bucket details to enable archiving for Log Analysis and Activity Tracker, it also supports activity tracker event routing to COS, Log Analysis and Event Streams..
 
 ## Usage
 
-To provision Activity Tracker, LogDNA and Sysdig
+To provision Activity Tracker, Log Analysis and IBM Cloud Monitoring
 
 ```hcl
 # required ibm provider config
@@ -39,7 +39,7 @@ provider "logdna" {
 
 provider "logdna" {
   alias      = "ld"
-  servicekey = module.observability_instances.logdna_resource_key != null ? module.observability_instances.logdna_resource_key : ""
+  servicekey = module.observability_instances.log_analysis_resource_key != null ? module.observability_instances.log_analysis_resource_key : ""
   url        = local.at_endpoint
 }
 
@@ -55,7 +55,7 @@ module "observability_instances" {
 }
 ```
 
-To provision LogDNA only
+To provision Log Analysis only
 
 ```hcl
 # required ibm provider config
@@ -63,20 +63,20 @@ provider "ibm" {
   ibmcloud_api_key = var.ibmcloud_api_key
 }
 
-# required logdna provider config
+# required log analysis provider config
 locals {
   at_endpoint = "https://api.${var.region}.logging.cloud.ibm.com"
 }
 
 provider "logdna" {
   alias      = "ld"
-  servicekey = module.logdna.logdna_resource_key
+  servicekey = module.log_analysis.resource_key
   url        = local.at_endpoint
 }
 
-module "logdna" {
-  source  = "terraform-ibm-modules/observability-instances/ibm"
-  version = "latest" # Replace "latest" with a release version to lock into a specific release
+module "log_analysis" {
+  # Replace "main" with a GIT release version to lock into a specific release
+  source = "git::https://github.com/terraform-ibm-modules/terraform-ibm-observability-instances//modules/log_analysis?ref=main"
   providers = {
     logdna.ld = logdna.ld
   }
@@ -115,12 +115,12 @@ module "activity_tracker" {
 }
 ```
 
-To provision Sysdig only
+To provision IBM Cloud Monitoring only
 
 ```hcl
-module "sysdig" {
-  source  = "terraform-ibm-modules/observability/ibm"
-  version = "latest" # Replace "latest" with a release version to lock into a specific release
+module "cloud_monitoring" {
+  # Replace "main" with a GIT release version to lock into a specific release
+  source = "git::https://github.com/terraform-ibm-modules/terraform-ibm-observability-instances//modules/cloud_monitoring?ref=main"
   resource_group_id = module.resource_group.resource_group_id
   region = var.region
 }
@@ -153,9 +153,9 @@ To attach access management tags to resources in this module, you need the follo
 <!-- BEGIN EXAMPLES HOOK -->
 ## Examples
 
-- [ Provision Sysdig and LogDNA + Activity Tracker with archiving enabled using encrypted COS bucket](examples/observability_archive)
-- [ Provision Activity Tracker with event routing to COS bucket, Event streams and LogDNA](examples/observability_at_event_routing)
-- [ Provision basic observability instances (LogDNA, Sysdig, Activity Tracker)](examples/observability_basic)
+- [ Provision IBM Cloud Monitoring and Log Analysis + Activity Tracker with archiving enabled using encrypted COS bucket](examples/observability_archive)
+- [ Provision Activity Tracker with event routing to COS bucket, Event streams and Log Analysis](examples/observability_at_event_routing)
+- [ Provision basic observability instances (Log Analysis, Cloud Monitoring, Activity Tracker)](examples/observability_basic)
 <!-- END EXAMPLES HOOK -->
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
@@ -171,8 +171,8 @@ To attach access management tags to resources in this module, you need the follo
 | Name | Source | Version |
 |------|--------|---------|
 | <a name="module_activity_tracker"></a> [activity\_tracker](#module\_activity\_tracker) | ./modules/activity_tracker | n/a |
-| <a name="module_logdna"></a> [logdna](#module\_logdna) | ./modules/logdna | n/a |
-| <a name="module_sysdig"></a> [sysdig](#module\_sysdig) | ./modules/sysdig | n/a |
+| <a name="module_cloud_monitoring"></a> [cloud\_monitoring](#module\_cloud\_monitoring) | ./modules/cloud_monitoring | n/a |
+| <a name="module_log_analysis"></a> [log\_analysis](#module\_log\_analysis) | ./modules/log_analysis | n/a |
 
 ## Resources
 
@@ -194,36 +194,36 @@ No resources.
 | <a name="input_at_cos_bucket_endpoint"></a> [at\_cos\_bucket\_endpoint](#input\_at\_cos\_bucket\_endpoint) | An endpoint for the COS bucket for the Activity Tracker archive. Pass either the public or private endpoint (Only required when var.enable\_archive and var.activity\_tracker\_provision are true) | `string` | `null` | no |
 | <a name="input_at_cos_bucket_name"></a> [at\_cos\_bucket\_name](#input\_at\_cos\_bucket\_name) | The name of an existing COS bucket to be used for the Activity Tracker archive (Only required when var.enable\_archive and var.activity\_tracker\_provision are true). | `string` | `null` | no |
 | <a name="input_at_cos_instance_id"></a> [at\_cos\_instance\_id](#input\_at\_cos\_instance\_id) | The ID of the cloud object storage instance containing the Activity Tracker archive bucket (Only required when var.enable\_archive and var.activity\_tracker\_provision are true). | `string` | `null` | no |
+| <a name="input_cloud_monitoring_access_tags"></a> [cloud\_monitoring\_access\_tags](#input\_cloud\_monitoring\_access\_tags) | A list of access tags to apply to the Cloud Monitoring instance created by the module. For more information, see https://cloud.ibm.com/docs/account?topic=account-access-tags-tutorial. | `list(string)` | `[]` | no |
+| <a name="input_cloud_monitoring_instance_name"></a> [cloud\_monitoring\_instance\_name](#input\_cloud\_monitoring\_instance\_name) | The name of the IBM Cloud Monitoring instance to create. Defaults to 'cloud\_monitoring-<region>' | `string` | `null` | no |
+| <a name="input_cloud_monitoring_manager_key_name"></a> [cloud\_monitoring\_manager\_key\_name](#input\_cloud\_monitoring\_manager\_key\_name) | The name to give the IBM Cloud Monitoring manager key. | `string` | `"SysdigManagerKey"` | no |
+| <a name="input_cloud_monitoring_manager_key_tags"></a> [cloud\_monitoring\_manager\_key\_tags](#input\_cloud\_monitoring\_manager\_key\_tags) | Tags associated with the IBM Cloud Monitoring manager key. | `list(string)` | `[]` | no |
+| <a name="input_cloud_monitoring_plan"></a> [cloud\_monitoring\_plan](#input\_cloud\_monitoring\_plan) | The IBM Cloud Monitoring plan to provision. Available: lite, graduated-tier, graduated-tier-sysdig-secure-plus-monitor | `string` | `"lite"` | no |
+| <a name="input_cloud_monitoring_provision"></a> [cloud\_monitoring\_provision](#input\_cloud\_monitoring\_provision) | Provision a IBM cloud monitoring instance? | `bool` | `true` | no |
+| <a name="input_cloud_monitoring_service_endpoints"></a> [cloud\_monitoring\_service\_endpoints](#input\_cloud\_monitoring\_service\_endpoints) | The type of the service endpoint that will be set for the IBM cloud monitoring instance. | `string` | `"public-and-private"` | no |
+| <a name="input_cloud_monitoring_tags"></a> [cloud\_monitoring\_tags](#input\_cloud\_monitoring\_tags) | Tags associated with the IBM Cloud Monitoring instance (Optional, array of strings). | `list(string)` | `[]` | no |
 | <a name="input_cos_targets"></a> [cos\_targets](#input\_cos\_targets) | List of cos target to be created | <pre>list(object({<br>    endpoint                   = string<br>    bucket_name                = string<br>    instance_id                = string<br>    api_key                    = optional(string)<br>    service_to_service_enabled = optional(bool, false)<br>    target_region              = optional(string)<br>    target_name                = string<br>  }))</pre> | `[]` | no |
-| <a name="input_enable_archive"></a> [enable\_archive](#input\_enable\_archive) | Enable archive on logDNA and Activity Tracker instances | `bool` | `false` | no |
+| <a name="input_enable_archive"></a> [enable\_archive](#input\_enable\_archive) | Enable archive on log analysis and activity tracker instances | `bool` | `false` | no |
 | <a name="input_enable_platform_logs"></a> [enable\_platform\_logs](#input\_enable\_platform\_logs) | Receive platform logs in the provisioned IBM Cloud Logging instance. | `bool` | `true` | no |
 | <a name="input_enable_platform_metrics"></a> [enable\_platform\_metrics](#input\_enable\_platform\_metrics) | Receive platform metrics in the provisioned IBM Cloud Monitoring instance. | `bool` | `true` | no |
 | <a name="input_eventstreams_targets"></a> [eventstreams\_targets](#input\_eventstreams\_targets) | List of event streams target to be created | <pre>list(object({<br>    instance_id   = string<br>    brokers       = list(string)<br>    topic         = string<br>    api_key       = string<br>    target_region = optional(string)<br>    target_name   = string<br>  }))</pre> | `[]` | no |
 | <a name="input_global_event_routing_settings"></a> [global\_event\_routing\_settings](#input\_global\_event\_routing\_settings) | Global settings for event routing | <pre>object({<br>    default_targets           = optional(list(string), [])<br>    metadata_region_primary   = string<br>    metadata_region_backup    = optional(string)<br>    permitted_target_regions  = list(string)<br>    private_api_endpoint_only = optional(bool, false)<br>  })</pre> | `null` | no |
 | <a name="input_ibmcloud_api_key"></a> [ibmcloud\_api\_key](#input\_ibmcloud\_api\_key) | Restricted IBM Cloud API Key used only for writing Log Analysis archives to Cloud Object Storage | `string` | `null` | no |
-| <a name="input_logdna_access_tags"></a> [logdna\_access\_tags](#input\_logdna\_access\_tags) | A list of access tags to apply to the LogDNA instance created by the module. For more information, see https://cloud.ibm.com/docs/account?topic=account-access-tags-tutorial. | `list(string)` | `[]` | no |
-| <a name="input_logdna_cos_bucket_endpoint"></a> [logdna\_cos\_bucket\_endpoint](#input\_logdna\_cos\_bucket\_endpoint) | An endpoint for the COS bucket for the LogDNA archive. Pass either the public or private endpoint. (Only required when var.enable\_archive and var.logdna\_provision are true). | `string` | `null` | no |
-| <a name="input_logdna_cos_bucket_name"></a> [logdna\_cos\_bucket\_name](#input\_logdna\_cos\_bucket\_name) | The name of an existing COS bucket to be used for the LogDNA archive. (Only required when var.enable\_archive and var.logdna\_provision are true). | `string` | `null` | no |
-| <a name="input_logdna_cos_instance_id"></a> [logdna\_cos\_instance\_id](#input\_logdna\_cos\_instance\_id) | The ID of the cloud object storage instance containing the LogDNA archive bucket. (Only required when var.enable\_archive and var.logdna\_provision are true). | `string` | `null` | no |
-| <a name="input_logdna_instance_name"></a> [logdna\_instance\_name](#input\_logdna\_instance\_name) | The name of the IBM Cloud Logging instance to create. Defaults to 'logdna-<region>' | `string` | `null` | no |
-| <a name="input_logdna_manager_key_name"></a> [logdna\_manager\_key\_name](#input\_logdna\_manager\_key\_name) | The name to give the IBM Cloud Logging manager key. | `string` | `"LogDnaManagerKey"` | no |
-| <a name="input_logdna_manager_key_tags"></a> [logdna\_manager\_key\_tags](#input\_logdna\_manager\_key\_tags) | Tags associated with the IBM Cloud Logging manager key. | `list(string)` | `[]` | no |
-| <a name="input_logdna_plan"></a> [logdna\_plan](#input\_logdna\_plan) | The IBM Cloud Logging plan to provision. Available: lite, 7-day, 14-day, 30-day, hipaa-30-day | `string` | `"lite"` | no |
-| <a name="input_logdna_provision"></a> [logdna\_provision](#input\_logdna\_provision) | Provision an IBM Cloud Logging instance? | `bool` | `true` | no |
-| <a name="input_logdna_resource_key_role"></a> [logdna\_resource\_key\_role](#input\_logdna\_resource\_key\_role) | Role assigned to provide the IBM Cloud Logging key. | `string` | `"Manager"` | no |
-| <a name="input_logdna_service_endpoints"></a> [logdna\_service\_endpoints](#input\_logdna\_service\_endpoints) | The type of the service endpoint that will be set for the LogDNA instance. | `string` | `"public-and-private"` | no |
-| <a name="input_logdna_tags"></a> [logdna\_tags](#input\_logdna\_tags) | Tags associated with the IBM Cloud Logging instance (Optional, array of strings). | `list(string)` | `[]` | no |
-| <a name="input_logdna_targets"></a> [logdna\_targets](#input\_logdna\_targets) | List of logdna target to be created | <pre>list(object({<br>    instance_id   = string<br>    ingestion_key = string<br>    target_region = optional(string)<br>    target_name   = string<br>  }))</pre> | `[]` | no |
+| <a name="input_log_analysis_access_tags"></a> [log\_analysis\_access\_tags](#input\_log\_analysis\_access\_tags) | A list of access tags to apply to the Log Analysis instance created by the module. For more information, see https://cloud.ibm.com/docs/account?topic=account-access-tags-tutorial. | `list(string)` | `[]` | no |
+| <a name="input_log_analysis_cos_bucket_endpoint"></a> [log\_analysis\_cos\_bucket\_endpoint](#input\_log\_analysis\_cos\_bucket\_endpoint) | An endpoint for the COS bucket for the Log Analysis archive. Pass either the public or private endpoint. (Only required when var.enable\_archive and var.log\_analysis\_provision are true). | `string` | `null` | no |
+| <a name="input_log_analysis_cos_bucket_name"></a> [log\_analysis\_cos\_bucket\_name](#input\_log\_analysis\_cos\_bucket\_name) | The name of an existing COS bucket to be used for the Log Analysis archive. (Only required when var.enable\_archive and var.log\_analysis\_provision are true). | `string` | `null` | no |
+| <a name="input_log_analysis_cos_instance_id"></a> [log\_analysis\_cos\_instance\_id](#input\_log\_analysis\_cos\_instance\_id) | The ID of the cloud object storage instance containing the Log Analysis archive bucket. (Only required when var.enable\_archive and var.log\_analysis\_provision are true). | `string` | `null` | no |
+| <a name="input_log_analysis_instance_name"></a> [log\_analysis\_instance\_name](#input\_log\_analysis\_instance\_name) | The name of the IBM Cloud Logging instance to create. Defaults to 'log-analysis-<region>' | `string` | `null` | no |
+| <a name="input_log_analysis_manager_key_name"></a> [log\_analysis\_manager\_key\_name](#input\_log\_analysis\_manager\_key\_name) | The name to give the IBM Cloud Logging manager key. | `string` | `"LogDnaManagerKey"` | no |
+| <a name="input_log_analysis_manager_key_tags"></a> [log\_analysis\_manager\_key\_tags](#input\_log\_analysis\_manager\_key\_tags) | Tags associated with the IBM Cloud Logging manager key. | `list(string)` | `[]` | no |
+| <a name="input_log_analysis_plan"></a> [log\_analysis\_plan](#input\_log\_analysis\_plan) | The IBM Cloud Logging plan to provision. Available: lite, 7-day, 14-day, 30-day, hipaa-30-day | `string` | `"lite"` | no |
+| <a name="input_log_analysis_provision"></a> [log\_analysis\_provision](#input\_log\_analysis\_provision) | Provision an IBM Cloud Logging instance? | `bool` | `true` | no |
+| <a name="input_log_analysis_resource_key_role"></a> [log\_analysis\_resource\_key\_role](#input\_log\_analysis\_resource\_key\_role) | Role assigned to provide the IBM Cloud Logging key. | `string` | `"Manager"` | no |
+| <a name="input_log_analysis_service_endpoints"></a> [log\_analysis\_service\_endpoints](#input\_log\_analysis\_service\_endpoints) | The type of the service endpoint that will be set for the Log Analysis instance. | `string` | `"public-and-private"` | no |
+| <a name="input_log_analysis_tags"></a> [log\_analysis\_tags](#input\_log\_analysis\_tags) | Tags associated with the IBM Cloud Logging instance (Optional, array of strings). | `list(string)` | `[]` | no |
+| <a name="input_log_analysis_targets"></a> [log\_analysis\_targets](#input\_log\_analysis\_targets) | List of log analysis target to be created | <pre>list(object({<br>    instance_id   = string<br>    ingestion_key = string<br>    target_region = optional(string)<br>    target_name   = string<br>  }))</pre> | `[]` | no |
 | <a name="input_region"></a> [region](#input\_region) | The IBM Cloud region where instances will be created. | `string` | `"us-south"` | no |
 | <a name="input_resource_group_id"></a> [resource\_group\_id](#input\_resource\_group\_id) | The id of the IBM Cloud resource group where the instance(s) will be created. | `string` | `null` | no |
-| <a name="input_sysdig_access_tags"></a> [sysdig\_access\_tags](#input\_sysdig\_access\_tags) | A list of access tags to apply to the Sysdig instance created by the module. For more information, see https://cloud.ibm.com/docs/account?topic=account-access-tags-tutorial. | `list(string)` | `[]` | no |
-| <a name="input_sysdig_instance_name"></a> [sysdig\_instance\_name](#input\_sysdig\_instance\_name) | The name of the IBM Cloud Monitoring instance to create. Defaults to 'sysdig-<region>' | `string` | `null` | no |
-| <a name="input_sysdig_manager_key_name"></a> [sysdig\_manager\_key\_name](#input\_sysdig\_manager\_key\_name) | The name to give the IBM Cloud Monitoring manager key. | `string` | `"SysdigManagerKey"` | no |
-| <a name="input_sysdig_manager_key_tags"></a> [sysdig\_manager\_key\_tags](#input\_sysdig\_manager\_key\_tags) | Tags associated with the IBM Cloud Monitoring manager key. | `list(string)` | `[]` | no |
-| <a name="input_sysdig_plan"></a> [sysdig\_plan](#input\_sysdig\_plan) | The IBM Cloud Monitoring plan to provision. Available: lite, graduated-tier, graduated-tier-sysdig-secure-plus-monitor | `string` | `"lite"` | no |
-| <a name="input_sysdig_provision"></a> [sysdig\_provision](#input\_sysdig\_provision) | Provision a Sysdig instance? | `bool` | `true` | no |
-| <a name="input_sysdig_service_endpoints"></a> [sysdig\_service\_endpoints](#input\_sysdig\_service\_endpoints) | The type of the service endpoint that will be set for the Sisdig instance. | `string` | `"public-and-private"` | no |
-| <a name="input_sysdig_tags"></a> [sysdig\_tags](#input\_sysdig\_tags) | Tags associated with the IBM Cloud Monitoring instance (Optional, array of strings). | `list(string)` | `[]` | no |
 
 ## Outputs
 
@@ -237,20 +237,20 @@ No resources.
 | <a name="output_activity_tracker_resource_key"></a> [activity\_tracker\_resource\_key](#output\_activity\_tracker\_resource\_key) | The resource/service key for agents to use |
 | <a name="output_activity_tracker_routes"></a> [activity\_tracker\_routes](#output\_activity\_tracker\_routes) | The map of created routes |
 | <a name="output_activity_tracker_targets"></a> [activity\_tracker\_targets](#output\_activity\_tracker\_targets) | The map of created targets |
-| <a name="output_logdna_crn"></a> [logdna\_crn](#output\_logdna\_crn) | The id of the provisioned LogDNA instance. |
-| <a name="output_logdna_guid"></a> [logdna\_guid](#output\_logdna\_guid) | The guid of the provisioned LogDNA instance. |
-| <a name="output_logdna_ingestion_key"></a> [logdna\_ingestion\_key](#output\_logdna\_ingestion\_key) | LogDNA ingest key for agents to use |
-| <a name="output_logdna_manager_key_name"></a> [logdna\_manager\_key\_name](#output\_logdna\_manager\_key\_name) | The LogDNA manager key name |
-| <a name="output_logdna_name"></a> [logdna\_name](#output\_logdna\_name) | The name of the provisioned LogDNA instance. |
-| <a name="output_logdna_resource_group_id"></a> [logdna\_resource\_group\_id](#output\_logdna\_resource\_group\_id) | The resource group where LogDNA instance resides |
-| <a name="output_logdna_resource_key"></a> [logdna\_resource\_key](#output\_logdna\_resource\_key) | LogDNA service key for agents to use |
+| <a name="output_cloud_monitoring_access_key"></a> [cloud\_monitoring\_access\_key](#output\_cloud\_monitoring\_access\_key) | IBM cloud monitoring access key for agents to use |
+| <a name="output_cloud_monitoring_crn"></a> [cloud\_monitoring\_crn](#output\_cloud\_monitoring\_crn) | The id of the provisioned IBM cloud monitoring instance. |
+| <a name="output_cloud_monitoring_guid"></a> [cloud\_monitoring\_guid](#output\_cloud\_monitoring\_guid) | The guid of the provisioned IBM cloud monitoring instance. |
+| <a name="output_cloud_monitoring_manager_key_name"></a> [cloud\_monitoring\_manager\_key\_name](#output\_cloud\_monitoring\_manager\_key\_name) | The IBM cloud monitoring manager key name |
+| <a name="output_cloud_monitoring_name"></a> [cloud\_monitoring\_name](#output\_cloud\_monitoring\_name) | The name of the provisioned IBM cloud monitoring instance. |
+| <a name="output_cloud_monitoring_resource_group_id"></a> [cloud\_monitoring\_resource\_group\_id](#output\_cloud\_monitoring\_resource\_group\_id) | The resource group where IBM cloud monitoring monitor instance resides |
+| <a name="output_log_analysis_crn"></a> [log\_analysis\_crn](#output\_log\_analysis\_crn) | The id of the provisioned Log Analysis instance. |
+| <a name="output_log_analysis_guid"></a> [log\_analysis\_guid](#output\_log\_analysis\_guid) | The guid of the provisioned Log Analysis instance. |
+| <a name="output_log_analysis_ingestion_key"></a> [log\_analysis\_ingestion\_key](#output\_log\_analysis\_ingestion\_key) | Log Analysis ingest key for agents to use |
+| <a name="output_log_analysis_manager_key_name"></a> [log\_analysis\_manager\_key\_name](#output\_log\_analysis\_manager\_key\_name) | The Log Analysis manager key name |
+| <a name="output_log_analysis_name"></a> [log\_analysis\_name](#output\_log\_analysis\_name) | The name of the provisioned Log Analysis instance. |
+| <a name="output_log_analysis_resource_group_id"></a> [log\_analysis\_resource\_group\_id](#output\_log\_analysis\_resource\_group\_id) | The resource group where Log Analysis instance resides |
+| <a name="output_log_analysis_resource_key"></a> [log\_analysis\_resource\_key](#output\_log\_analysis\_resource\_key) | Log Analysis service key for agents to use |
 | <a name="output_region"></a> [region](#output\_region) | Region that instance(s) are provisioned to. |
-| <a name="output_sysdig_access_key"></a> [sysdig\_access\_key](#output\_sysdig\_access\_key) | Sysdig access key for agents to use |
-| <a name="output_sysdig_crn"></a> [sysdig\_crn](#output\_sysdig\_crn) | The id of the provisioned Sysdig instance. |
-| <a name="output_sysdig_guid"></a> [sysdig\_guid](#output\_sysdig\_guid) | The guid of the provisioned Sysdig instance. |
-| <a name="output_sysdig_manager_key_name"></a> [sysdig\_manager\_key\_name](#output\_sysdig\_manager\_key\_name) | The Sysdig manager key name |
-| <a name="output_sysdig_name"></a> [sysdig\_name](#output\_sysdig\_name) | The name of the provisioned Sysdig instance. |
-| <a name="output_sysdig_resource_group_id"></a> [sysdig\_resource\_group\_id](#output\_sysdig\_resource\_group\_id) | The resource group where Sysdig monitor instance resides |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 <!-- BEGIN CONTRIBUTING HOOK -->
 

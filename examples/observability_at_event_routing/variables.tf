@@ -59,9 +59,9 @@ variable "cos_target_region" {
   default     = null
 }
 
-variable "logdna_target_region" {
+variable "log_analysis_target_region" {
   type        = string
-  description = "Region where logdna target will be created"
+  description = "Region where log analysis target will be created"
   default     = null
 }
 

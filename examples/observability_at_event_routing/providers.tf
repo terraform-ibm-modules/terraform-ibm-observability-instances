@@ -15,12 +15,12 @@ provider "logdna" {
 
 provider "logdna" {
   alias      = "ld_1"
-  servicekey = module.logdna_1.resource_key != null ? module.logdna_1.resource_key : ""
+  servicekey = module.log_analysis_1.resource_key != null ? module.log_analysis_1.resource_key : ""
   url        = local.at_endpoint
 }
 
 provider "logdna" {
   alias      = "ld_2"
-  servicekey = module.logdna_2.resource_key != null ? module.logdna_2.resource_key : ""
+  servicekey = module.log_analysis_2.resource_key != null ? module.log_analysis_2.resource_key : ""
   url        = local.at_endpoint
 }

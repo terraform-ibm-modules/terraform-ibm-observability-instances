@@ -17,7 +17,7 @@ variable "resource_group_id" {
 
 variable "enable_archive" {
   type        = bool
-  description = "Enable archive on logDNA and Activity Tracker instances"
+  description = "Enable archive on log analysis and activity tracker instances"
   default     = false
 }
 
@@ -30,67 +30,67 @@ variable "ibmcloud_api_key" {
 
 ##############################################################################
 
-# LogDNA
-variable "logdna_provision" {
+# Log Analysis
+variable "log_analysis_provision" {
   description = "Provision an IBM Cloud Logging instance?"
   type        = bool
   default     = true
 }
 
-variable "logdna_instance_name" {
+variable "log_analysis_instance_name" {
   type        = string
-  description = "The name of the IBM Cloud Logging instance to create. Defaults to 'logdna-<region>'"
+  description = "The name of the IBM Cloud Logging instance to create. Defaults to 'log-analysis-<region>'"
   default     = null
 }
 
-variable "logdna_plan" {
+variable "log_analysis_plan" {
   type        = string
   description = "The IBM Cloud Logging plan to provision. Available: lite, 7-day, 14-day, 30-day, hipaa-30-day"
   default     = "lite"
 
   validation {
-    condition     = can(regex("^lite$|^7-day$|^14-day$|^30-day$|^hipaa-30-day$", var.logdna_plan))
-    error_message = "The logdna_plan value must be one of the following: lite, 7-day, 14-day, 30-day, hipaa-30-day."
+    condition     = can(regex("^lite$|^7-day$|^14-day$|^30-day$|^hipaa-30-day$", var.log_analysis_plan))
+    error_message = "The log_analysis_plan value must be one of the following: lite, 7-day, 14-day, 30-day, hipaa-30-day."
   }
 }
 
-variable "logdna_manager_key_name" {
+variable "log_analysis_manager_key_name" {
   type        = string
   description = "The name to give the IBM Cloud Logging manager key."
   default     = "LogDnaManagerKey"
 }
 
-variable "logdna_resource_key_role" {
+variable "log_analysis_resource_key_role" {
   type        = string
   description = "Role assigned to provide the IBM Cloud Logging key."
   default     = "Manager"
 
   validation {
-    condition     = contains(["Manager", "Reader", "Standard Member"], var.logdna_resource_key_role)
+    condition     = contains(["Manager", "Reader", "Standard Member"], var.log_analysis_resource_key_role)
     error_message = "Allowed roles can be Manager, Reader or Standard Member."
   }
 }
 
-variable "logdna_manager_key_tags" {
+variable "log_analysis_manager_key_tags" {
   type        = list(string)
   description = "Tags associated with the IBM Cloud Logging manager key."
   default     = []
 }
 
-variable "logdna_tags" {
+variable "log_analysis_tags" {
   type        = list(string)
   description = "Tags associated with the IBM Cloud Logging instance (Optional, array of strings)."
   default     = []
 }
 
-variable "logdna_access_tags" {
+variable "log_analysis_access_tags" {
   type        = list(string)
-  description = "A list of access tags to apply to the LogDNA instance created by the module. For more information, see https://cloud.ibm.com/docs/account?topic=account-access-tags-tutorial."
+  description = "A list of access tags to apply to the Log Analysis instance created by the module. For more information, see https://cloud.ibm.com/docs/account?topic=account-access-tags-tutorial."
   default     = []
 
   validation {
     condition = alltrue([
-      for tag in var.logdna_access_tags : can(regex("[\\w\\-_\\.]+:[\\w\\-_\\.]+", tag)) && length(tag) <= 128
+      for tag in var.log_analysis_access_tags : can(regex("[\\w\\-_\\.]+:[\\w\\-_\\.]+", tag)) && length(tag) <= 128
     ])
     error_message = "Tags must match the regular expression \"[\\w\\-_\\.]+:[\\w\\-_\\.]+\". For more information, see https://cloud.ibm.com/docs/account?topic=account-tag&interface=ui#limits."
   }
@@ -102,86 +102,86 @@ variable "enable_platform_logs" {
   default     = true
 }
 
-variable "logdna_service_endpoints" {
-  description = "The type of the service endpoint that will be set for the LogDNA instance."
+variable "log_analysis_service_endpoints" {
+  description = "The type of the service endpoint that will be set for the Log Analysis instance."
   type        = string
   default     = "public-and-private"
   validation {
-    condition     = contains(["public", "private", "public-and-private"], var.logdna_service_endpoints)
+    condition     = contains(["public", "private", "public-and-private"], var.log_analysis_service_endpoints)
     error_message = "The specified service_endpoints is not a valid selection"
   }
 }
 
-variable "logdna_cos_instance_id" {
+variable "log_analysis_cos_instance_id" {
   type        = string
-  description = "The ID of the cloud object storage instance containing the LogDNA archive bucket. (Only required when var.enable_archive and var.logdna_provision are true)."
+  description = "The ID of the cloud object storage instance containing the Log Analysis archive bucket. (Only required when var.enable_archive and var.log_analysis_provision are true)."
   default     = null
 }
 
-variable "logdna_cos_bucket_name" {
+variable "log_analysis_cos_bucket_name" {
   type        = string
-  description = "The name of an existing COS bucket to be used for the LogDNA archive. (Only required when var.enable_archive and var.logdna_provision are true)."
+  description = "The name of an existing COS bucket to be used for the Log Analysis archive. (Only required when var.enable_archive and var.log_analysis_provision are true)."
   default     = null
 }
 
-variable "logdna_cos_bucket_endpoint" {
+variable "log_analysis_cos_bucket_endpoint" {
   type        = string
-  description = "An endpoint for the COS bucket for the LogDNA archive. Pass either the public or private endpoint. (Only required when var.enable_archive and var.logdna_provision are true)."
+  description = "An endpoint for the COS bucket for the Log Analysis archive. Pass either the public or private endpoint. (Only required when var.enable_archive and var.log_analysis_provision are true)."
   default     = null
 }
 
 ##############################################################################
 
-# Sysdig
-variable "sysdig_provision" {
-  description = "Provision a Sysdig instance?"
+# IBM Cloud Monitoring
+variable "cloud_monitoring_provision" {
+  description = "Provision a IBM cloud monitoring instance?"
   type        = bool
   default     = true
 }
 
-variable "sysdig_instance_name" {
+variable "cloud_monitoring_instance_name" {
   type        = string
-  description = "The name of the IBM Cloud Monitoring instance to create. Defaults to 'sysdig-<region>'"
+  description = "The name of the IBM Cloud Monitoring instance to create. Defaults to 'cloud_monitoring-<region>'"
   default     = null
 }
 
-variable "sysdig_plan" {
+variable "cloud_monitoring_plan" {
   type        = string
   description = "The IBM Cloud Monitoring plan to provision. Available: lite, graduated-tier, graduated-tier-sysdig-secure-plus-monitor"
   default     = "lite"
 
   validation {
-    condition     = can(regex("^lite$|^graduated-tier$|^graduated-tier-sysdig-secure-plus-monitor$", var.sysdig_plan))
-    error_message = "The sysdig_plan value must be one of the following: lite, graduated-tier, graduated-tier-sysdig-secure-plus-monitor."
+    condition     = can(regex("^lite$|^graduated-tier$|^graduated-tier-sysdig-secure-plus-monitor$", var.cloud_monitoring_plan))
+    error_message = "The cloud_monitoring_plan value must be one of the following: lite, graduated-tier, graduated-tier-sysdig-secure-plus-monitor."
   }
 }
 
-variable "sysdig_manager_key_name" {
+variable "cloud_monitoring_manager_key_name" {
   type        = string
   description = "The name to give the IBM Cloud Monitoring manager key."
   default     = "SysdigManagerKey"
 }
 
-variable "sysdig_manager_key_tags" {
+variable "cloud_monitoring_manager_key_tags" {
   type        = list(string)
   description = "Tags associated with the IBM Cloud Monitoring manager key."
   default     = []
 }
 
-variable "sysdig_tags" {
+variable "cloud_monitoring_tags" {
   type        = list(string)
   description = "Tags associated with the IBM Cloud Monitoring instance (Optional, array of strings)."
   default     = []
 }
 
-variable "sysdig_access_tags" {
+variable "cloud_monitoring_access_tags" {
   type        = list(string)
-  description = "A list of access tags to apply to the Sysdig instance created by the module. For more information, see https://cloud.ibm.com/docs/account?topic=account-access-tags-tutorial."
+  description = "A list of access tags to apply to the Cloud Monitoring instance created by the module. For more information, see https://cloud.ibm.com/docs/account?topic=account-access-tags-tutorial."
   default     = []
 
   validation {
     condition = alltrue([
-      for tag in var.sysdig_access_tags : can(regex("[\\w\\-_\\.]+:[\\w\\-_\\.]+", tag)) && length(tag) <= 128
+      for tag in var.cloud_monitoring_access_tags : can(regex("[\\w\\-_\\.]+:[\\w\\-_\\.]+", tag)) && length(tag) <= 128
     ])
     error_message = "Tags must match the regular expression \"[\\w\\-_\\.]+:[\\w\\-_\\.]+\". For more information, see https://cloud.ibm.com/docs/account?topic=account-tag&interface=ui#limits."
   }
@@ -193,12 +193,12 @@ variable "enable_platform_metrics" {
   default     = true
 }
 
-variable "sysdig_service_endpoints" {
-  description = "The type of the service endpoint that will be set for the Sisdig instance."
+variable "cloud_monitoring_service_endpoints" {
+  description = "The type of the service endpoint that will be set for the IBM cloud monitoring instance."
   type        = string
   default     = "public-and-private"
   validation {
-    condition     = contains(["public", "private", "public-and-private"], var.sysdig_service_endpoints)
+    condition     = contains(["public", "private", "public-and-private"], var.cloud_monitoring_service_endpoints)
     error_message = "The specified service_endpoints is not a valid selection"
   }
 }
@@ -322,8 +322,8 @@ variable "eventstreams_targets" {
   sensitive   = true
 }
 
-# logDNA Targets
-variable "logdna_targets" {
+# Log Analysis Targets
+variable "log_analysis_targets" {
   type = list(object({
     instance_id   = string
     ingestion_key = string
@@ -331,7 +331,7 @@ variable "logdna_targets" {
     target_name   = string
   }))
   default     = []
-  description = "List of logdna target to be created"
+  description = "List of log analysis target to be created"
   sensitive   = true
 }
 

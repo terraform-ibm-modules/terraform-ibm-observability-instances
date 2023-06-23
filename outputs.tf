@@ -10,76 +10,76 @@ output "region" {
 
 ##############################################################################
 
-# LogDNA
-output "logdna_crn" {
-  value       = module.logdna.crn
-  description = "The id of the provisioned LogDNA instance."
+# Log Analysis
+output "log_analysis_crn" {
+  value       = module.log_analysis.crn
+  description = "The id of the provisioned Log Analysis instance."
 }
 
-output "logdna_guid" {
-  value       = module.logdna.guid
-  description = "The guid of the provisioned LogDNA instance."
+output "log_analysis_guid" {
+  value       = module.log_analysis.guid
+  description = "The guid of the provisioned Log Analysis instance."
 }
 
-output "logdna_name" {
-  value       = module.logdna.name
-  description = "The name of the provisioned LogDNA instance."
+output "log_analysis_name" {
+  value       = module.log_analysis.name
+  description = "The name of the provisioned Log Analysis instance."
 }
 
-output "logdna_resource_group_id" {
-  value       = module.logdna.resource_group_id
-  description = "The resource group where LogDNA instance resides"
+output "log_analysis_resource_group_id" {
+  value       = module.log_analysis.resource_group_id
+  description = "The resource group where Log Analysis instance resides"
 }
 
-output "logdna_resource_key" {
-  value       = module.logdna.resource_key
-  description = "LogDNA service key for agents to use"
+output "log_analysis_resource_key" {
+  value       = module.log_analysis.resource_key
+  description = "Log Analysis service key for agents to use"
   sensitive   = true
 }
 
-output "logdna_ingestion_key" {
-  value       = module.logdna.ingestion_key
-  description = "LogDNA ingest key for agents to use"
+output "log_analysis_ingestion_key" {
+  value       = module.log_analysis.ingestion_key
+  description = "Log Analysis ingest key for agents to use"
   sensitive   = true
 }
 
-output "logdna_manager_key_name" {
-  value       = module.logdna.manager_key_name
-  description = "The LogDNA manager key name"
+output "log_analysis_manager_key_name" {
+  value       = module.log_analysis.manager_key_name
+  description = "The Log Analysis manager key name"
 }
 
 ##############################################################################
 
-# Sysdig
-output "sysdig_crn" {
-  value       = module.sysdig.crn
-  description = "The id of the provisioned Sysdig instance."
+# IBM Cloud Monitoring
+output "cloud_monitoring_crn" {
+  value       = module.cloud_monitoring.crn
+  description = "The id of the provisioned IBM cloud monitoring instance."
 }
 
-output "sysdig_guid" {
-  value       = module.sysdig.guid
-  description = "The guid of the provisioned Sysdig instance."
+output "cloud_monitoring_guid" {
+  value       = module.cloud_monitoring.guid
+  description = "The guid of the provisioned IBM cloud monitoring instance."
 }
 
-output "sysdig_name" {
-  value       = module.sysdig.name
-  description = "The name of the provisioned Sysdig instance."
+output "cloud_monitoring_name" {
+  value       = module.cloud_monitoring.name
+  description = "The name of the provisioned IBM cloud monitoring instance."
 }
 
-output "sysdig_resource_group_id" {
-  value       = module.sysdig.resource_group_id
-  description = "The resource group where Sysdig monitor instance resides"
+output "cloud_monitoring_resource_group_id" {
+  value       = module.cloud_monitoring.resource_group_id
+  description = "The resource group where IBM cloud monitoring monitor instance resides"
 }
 
-output "sysdig_access_key" {
-  value       = module.sysdig.access_key
-  description = "Sysdig access key for agents to use"
+output "cloud_monitoring_access_key" {
+  value       = module.cloud_monitoring.access_key
+  description = "IBM cloud monitoring access key for agents to use"
   sensitive   = true
 }
 
-output "sysdig_manager_key_name" {
-  value       = module.sysdig.manager_key_name
-  description = "The Sysdig manager key name"
+output "cloud_monitoring_manager_key_name" {
+  value       = module.cloud_monitoring.manager_key_name
+  description = "The IBM cloud monitoring manager key name"
 }
 
 ##############################################################################

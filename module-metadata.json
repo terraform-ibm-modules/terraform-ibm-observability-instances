@@ -178,6 +178,133 @@
         "line": 273
       }
     },
+    "cloud_monitoring_access_tags": {
+      "name": "cloud_monitoring_access_tags",
+      "type": "list(string)",
+      "description": "A list of access tags to apply to the Cloud Monitoring instance created by the module. For more information, see https://cloud.ibm.com/docs/account?topic=account-access-tags-tutorial.",
+      "default": [],
+      "source": [
+        "module.cloud_monitoring.ibm_resource_tag.cloud_monitoring_tag.count",
+        "module.cloud_monitoring.ibm_resource_tag.cloud_monitoring_tag.tags"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 177
+      },
+      "min_length": 1,
+      "max_length": 128,
+      "matches": "^[A-Za-z0-9:_ .-]+$",
+      "computed": true,
+      "elem": {
+        "type": "TypeString"
+      }
+    },
+    "cloud_monitoring_instance_name": {
+      "name": "cloud_monitoring_instance_name",
+      "type": "string",
+      "description": "The name of the IBM Cloud Monitoring instance to create. Defaults to 'cloud_monitoring-\u003cregion\u003e'",
+      "source": [
+        "module.cloud_monitoring"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 142
+      }
+    },
+    "cloud_monitoring_manager_key_name": {
+      "name": "cloud_monitoring_manager_key_name",
+      "type": "string",
+      "description": "The name to give the IBM Cloud Monitoring manager key.",
+      "default": "SysdigManagerKey",
+      "required": true,
+      "source": [
+        "module.cloud_monitoring.ibm_resource_key.resource_key.name"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 159
+      },
+      "immutable": true
+    },
+    "cloud_monitoring_manager_key_tags": {
+      "name": "cloud_monitoring_manager_key_tags",
+      "type": "list(string)",
+      "description": "Tags associated with the IBM Cloud Monitoring manager key.",
+      "default": [],
+      "source": [
+        "module.cloud_monitoring.ibm_resource_key.resource_key.tags"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 165
+      },
+      "cloud_data_type": "tags",
+      "elem": {
+        "type": "TypeString"
+      }
+    },
+    "cloud_monitoring_plan": {
+      "name": "cloud_monitoring_plan",
+      "type": "string",
+      "description": "The IBM Cloud Monitoring plan to provision. Available: lite, graduated-tier, graduated-tier-sysdig-secure-plus-monitor",
+      "default": "lite",
+      "required": true,
+      "source": [
+        "module.cloud_monitoring.ibm_resource_instance.cloud_monitoring.plan"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 148
+      }
+    },
+    "cloud_monitoring_provision": {
+      "name": "cloud_monitoring_provision",
+      "type": "bool",
+      "description": "Provision a IBM cloud monitoring instance?",
+      "default": true,
+      "source": [
+        "module.cloud_monitoring.ibm_resource_instance.cloud_monitoring.count",
+        "module.cloud_monitoring.ibm_resource_key.resource_key.count"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 136
+      }
+    },
+    "cloud_monitoring_service_endpoints": {
+      "name": "cloud_monitoring_service_endpoints",
+      "type": "string",
+      "description": "The type of the service endpoint that will be set for the IBM cloud monitoring instance.",
+      "default": "public-and-private",
+      "source": [
+        "module.cloud_monitoring.ibm_resource_instance.cloud_monitoring.service_endpoints"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 196
+      },
+      "computed": true
+    },
+    "cloud_monitoring_tags": {
+      "name": "cloud_monitoring_tags",
+      "type": "list(string)",
+      "description": "Tags associated with the IBM Cloud Monitoring instance (Optional, array of strings).",
+      "default": [],
+      "source": [
+        "module.cloud_monitoring.ibm_resource_instance.cloud_monitoring.tags"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 171
+      },
+      "min_length": 1,
+      "max_length": 128,
+      "matches": "^[A-Za-z0-9:_ .-]+$",
+      "computed": true,
+      "elem": {
+        "type": "TypeString"
+      }
+    },
     "cos_targets": {
       "name": "cos_targets",
       "type": "list(object({\n    endpoint                   = string\n    bucket_name                = string\n    instance_id                = string\n    api_key                    = optional(string)\n    service_to_service_enabled = optional(bool, false)\n    target_region              = optional(string)\n    target_name                = string\n  }))",
@@ -195,11 +322,11 @@
     "enable_archive": {
       "name": "enable_archive",
       "type": "bool",
-      "description": "Enable archive on logDNA and Activity Tracker instances",
+      "description": "Enable archive on log analysis and activity tracker instances",
       "default": false,
       "source": [
         "module.activity_tracker",
-        "module.logdna"
+        "module.log_analysis"
       ],
       "pos": {
         "filename": "variables.tf",
@@ -212,7 +339,7 @@
       "description": "Receive platform logs in the provisioned IBM Cloud Logging instance.",
       "default": true,
       "source": [
-        "module.logdna.ibm_resource_instance.logdna.parameters"
+        "module.log_analysis.ibm_resource_instance.log_analysis.parameters"
       ],
       "pos": {
         "filename": "variables.tf",
@@ -225,7 +352,7 @@
       "description": "Receive platform metrics in the provisioned IBM Cloud Monitoring instance.",
       "default": true,
       "source": [
-        "module.sysdig.ibm_resource_instance.sysdig.parameters"
+        "module.cloud_monitoring.ibm_resource_instance.cloud_monitoring.parameters"
       ],
       "pos": {
         "filename": "variables.tf",
@@ -265,21 +392,21 @@
       "sensitive": true,
       "source": [
         "module.activity_tracker",
-        "module.logdna"
+        "module.log_analysis"
       ],
       "pos": {
         "filename": "variables.tf",
         "line": 24
       }
     },
-    "logdna_access_tags": {
-      "name": "logdna_access_tags",
+    "log_analysis_access_tags": {
+      "name": "log_analysis_access_tags",
       "type": "list(string)",
-      "description": "A list of access tags to apply to the LogDNA instance created by the module. For more information, see https://cloud.ibm.com/docs/account?topic=account-access-tags-tutorial.",
+      "description": "A list of access tags to apply to the Log Analysis instance created by the module. For more information, see https://cloud.ibm.com/docs/account?topic=account-access-tags-tutorial.",
       "default": [],
       "source": [
-        "module.logdna.ibm_resource_tag.logdna_tag.count",
-        "module.logdna.ibm_resource_tag.logdna_tag.tags"
+        "module.log_analysis.ibm_resource_tag.log_analysis_tag.count",
+        "module.log_analysis.ibm_resource_tag.log_analysis_tag.tags"
       ],
       "pos": {
         "filename": "variables.tf",
@@ -293,62 +420,62 @@
         "type": "TypeString"
       }
     },
-    "logdna_cos_bucket_endpoint": {
-      "name": "logdna_cos_bucket_endpoint",
+    "log_analysis_cos_bucket_endpoint": {
+      "name": "log_analysis_cos_bucket_endpoint",
       "type": "string",
-      "description": "An endpoint for the COS bucket for the LogDNA archive. Pass either the public or private endpoint. (Only required when var.enable_archive and var.logdna_provision are true).",
+      "description": "An endpoint for the COS bucket for the Log Analysis archive. Pass either the public or private endpoint. (Only required when var.enable_archive and var.log_analysis_provision are true).",
       "source": [
-        "module.logdna"
+        "module.log_analysis"
       ],
       "pos": {
         "filename": "variables.tf",
         "line": 127
       }
     },
-    "logdna_cos_bucket_name": {
-      "name": "logdna_cos_bucket_name",
+    "log_analysis_cos_bucket_name": {
+      "name": "log_analysis_cos_bucket_name",
       "type": "string",
-      "description": "The name of an existing COS bucket to be used for the LogDNA archive. (Only required when var.enable_archive and var.logdna_provision are true).",
+      "description": "The name of an existing COS bucket to be used for the Log Analysis archive. (Only required when var.enable_archive and var.log_analysis_provision are true).",
       "source": [
-        "module.logdna"
+        "module.log_analysis"
       ],
       "pos": {
         "filename": "variables.tf",
         "line": 121
       }
     },
-    "logdna_cos_instance_id": {
-      "name": "logdna_cos_instance_id",
+    "log_analysis_cos_instance_id": {
+      "name": "log_analysis_cos_instance_id",
       "type": "string",
-      "description": "The ID of the cloud object storage instance containing the LogDNA archive bucket. (Only required when var.enable_archive and var.logdna_provision are true).",
+      "description": "The ID of the cloud object storage instance containing the Log Analysis archive bucket. (Only required when var.enable_archive and var.log_analysis_provision are true).",
       "source": [
-        "module.logdna"
+        "module.log_analysis"
       ],
       "pos": {
         "filename": "variables.tf",
         "line": 115
       }
     },
-    "logdna_instance_name": {
-      "name": "logdna_instance_name",
+    "log_analysis_instance_name": {
+      "name": "log_analysis_instance_name",
       "type": "string",
-      "description": "The name of the IBM Cloud Logging instance to create. Defaults to 'logdna-\u003cregion\u003e'",
+      "description": "The name of the IBM Cloud Logging instance to create. Defaults to 'log-analysis-\u003cregion\u003e'",
       "source": [
-        "module.logdna"
+        "module.log_analysis"
       ],
       "pos": {
         "filename": "variables.tf",
         "line": 40
       }
     },
-    "logdna_manager_key_name": {
-      "name": "logdna_manager_key_name",
+    "log_analysis_manager_key_name": {
+      "name": "log_analysis_manager_key_name",
       "type": "string",
       "description": "The name to give the IBM Cloud Logging manager key.",
       "default": "LogDnaManagerKey",
       "required": true,
       "source": [
-        "module.logdna.ibm_resource_key.resource_key.name"
+        "module.log_analysis.ibm_resource_key.resource_key.name"
       ],
       "pos": {
         "filename": "variables.tf",
@@ -356,13 +483,13 @@
       },
       "immutable": true
     },
-    "logdna_manager_key_tags": {
-      "name": "logdna_manager_key_tags",
+    "log_analysis_manager_key_tags": {
+      "name": "log_analysis_manager_key_tags",
       "type": "list(string)",
       "description": "Tags associated with the IBM Cloud Logging manager key.",
       "default": [],
       "source": [
-        "module.logdna.ibm_resource_key.resource_key.tags"
+        "module.log_analysis.ibm_resource_key.resource_key.tags"
       ],
       "pos": {
         "filename": "variables.tf",
@@ -373,42 +500,42 @@
         "type": "TypeString"
       }
     },
-    "logdna_plan": {
-      "name": "logdna_plan",
+    "log_analysis_plan": {
+      "name": "log_analysis_plan",
       "type": "string",
       "description": "The IBM Cloud Logging plan to provision. Available: lite, 7-day, 14-day, 30-day, hipaa-30-day",
       "default": "lite",
       "required": true,
       "source": [
-        "module.logdna.ibm_resource_instance.logdna.plan"
+        "module.log_analysis.ibm_resource_instance.log_analysis.plan"
       ],
       "pos": {
         "filename": "variables.tf",
         "line": 46
       }
     },
-    "logdna_provision": {
-      "name": "logdna_provision",
+    "log_analysis_provision": {
+      "name": "log_analysis_provision",
       "type": "bool",
       "description": "Provision an IBM Cloud Logging instance?",
       "default": true,
       "source": [
-        "module.logdna.ibm_resource_instance.logdna.count",
-        "module.logdna.ibm_resource_key.resource_key.count",
-        "module.logdna.logdna_archive.archive_config.count"
+        "module.log_analysis.ibm_resource_instance.log_analysis.count",
+        "module.log_analysis.ibm_resource_key.resource_key.count",
+        "module.log_analysis.logdna_archive.archive_config.count"
       ],
       "pos": {
         "filename": "variables.tf",
         "line": 34
       }
     },
-    "logdna_resource_key_role": {
-      "name": "logdna_resource_key_role",
+    "log_analysis_resource_key_role": {
+      "name": "log_analysis_resource_key_role",
       "type": "string",
       "description": "Role assigned to provide the IBM Cloud Logging key.",
       "default": "Manager",
       "source": [
-        "module.logdna.ibm_resource_key.resource_key.role"
+        "module.log_analysis.ibm_resource_key.resource_key.role"
       ],
       "pos": {
         "filename": "variables.tf",
@@ -416,13 +543,13 @@
       },
       "immutable": true
     },
-    "logdna_service_endpoints": {
-      "name": "logdna_service_endpoints",
+    "log_analysis_service_endpoints": {
+      "name": "log_analysis_service_endpoints",
       "type": "string",
-      "description": "The type of the service endpoint that will be set for the LogDNA instance.",
+      "description": "The type of the service endpoint that will be set for the Log Analysis instance.",
       "default": "public-and-private",
       "source": [
-        "module.logdna.ibm_resource_instance.logdna.service_endpoints"
+        "module.log_analysis.ibm_resource_instance.log_analysis.service_endpoints"
       ],
       "pos": {
         "filename": "variables.tf",
@@ -430,13 +557,13 @@
       },
       "computed": true
     },
-    "logdna_tags": {
-      "name": "logdna_tags",
+    "log_analysis_tags": {
+      "name": "log_analysis_tags",
       "type": "list(string)",
       "description": "Tags associated with the IBM Cloud Logging instance (Optional, array of strings).",
       "default": [],
       "source": [
-        "module.logdna.ibm_resource_instance.logdna.tags"
+        "module.log_analysis.ibm_resource_instance.log_analysis.tags"
       ],
       "pos": {
         "filename": "variables.tf",
@@ -450,10 +577,10 @@
         "type": "TypeString"
       }
     },
-    "logdna_targets": {
-      "name": "logdna_targets",
+    "log_analysis_targets": {
+      "name": "log_analysis_targets",
       "type": "list(object({\n    instance_id   = string\n    ingestion_key = string\n    target_region = optional(string)\n    target_name   = string\n  }))",
-      "description": "List of logdna target to be created",
+      "description": "List of log analysis target to be created",
       "default": [],
       "sensitive": true,
       "source": [
@@ -472,8 +599,8 @@
       "required": true,
       "source": [
         "module.activity_tracker.ibm_resource_instance.activity_tracker.location",
-        "module.logdna.ibm_resource_instance.logdna.location",
-        "module.sysdig.ibm_resource_instance.sysdig.location"
+        "module.cloud_monitoring.ibm_resource_instance.cloud_monitoring.location",
+        "module.log_analysis.ibm_resource_instance.log_analysis.location"
       ],
       "pos": {
         "filename": "variables.tf",
@@ -488,8 +615,8 @@
       "description": "The id of the IBM Cloud resource group where the instance(s) will be created.",
       "source": [
         "module.activity_tracker.ibm_resource_instance.activity_tracker.resource_group_id",
-        "module.logdna.ibm_resource_instance.logdna.resource_group_id",
-        "module.sysdig.ibm_resource_instance.sysdig.resource_group_id"
+        "module.cloud_monitoring.ibm_resource_instance.cloud_monitoring.resource_group_id",
+        "module.log_analysis.ibm_resource_instance.log_analysis.resource_group_id"
       ],
       "pos": {
         "filename": "variables.tf",
@@ -501,133 +628,6 @@
       "cloud_data_range": [
         "resolved_to:id"
       ]
-    },
-    "sysdig_access_tags": {
-      "name": "sysdig_access_tags",
-      "type": "list(string)",
-      "description": "A list of access tags to apply to the Sysdig instance created by the module. For more information, see https://cloud.ibm.com/docs/account?topic=account-access-tags-tutorial.",
-      "default": [],
-      "source": [
-        "module.sysdig.ibm_resource_tag.sysdig_tag.count",
-        "module.sysdig.ibm_resource_tag.sysdig_tag.tags"
-      ],
-      "pos": {
-        "filename": "variables.tf",
-        "line": 177
-      },
-      "min_length": 1,
-      "max_length": 128,
-      "matches": "^[A-Za-z0-9:_ .-]+$",
-      "computed": true,
-      "elem": {
-        "type": "TypeString"
-      }
-    },
-    "sysdig_instance_name": {
-      "name": "sysdig_instance_name",
-      "type": "string",
-      "description": "The name of the IBM Cloud Monitoring instance to create. Defaults to 'sysdig-\u003cregion\u003e'",
-      "source": [
-        "module.sysdig"
-      ],
-      "pos": {
-        "filename": "variables.tf",
-        "line": 142
-      }
-    },
-    "sysdig_manager_key_name": {
-      "name": "sysdig_manager_key_name",
-      "type": "string",
-      "description": "The name to give the IBM Cloud Monitoring manager key.",
-      "default": "SysdigManagerKey",
-      "required": true,
-      "source": [
-        "module.sysdig.ibm_resource_key.resource_key.name"
-      ],
-      "pos": {
-        "filename": "variables.tf",
-        "line": 159
-      },
-      "immutable": true
-    },
-    "sysdig_manager_key_tags": {
-      "name": "sysdig_manager_key_tags",
-      "type": "list(string)",
-      "description": "Tags associated with the IBM Cloud Monitoring manager key.",
-      "default": [],
-      "source": [
-        "module.sysdig.ibm_resource_key.resource_key.tags"
-      ],
-      "pos": {
-        "filename": "variables.tf",
-        "line": 165
-      },
-      "cloud_data_type": "tags",
-      "elem": {
-        "type": "TypeString"
-      }
-    },
-    "sysdig_plan": {
-      "name": "sysdig_plan",
-      "type": "string",
-      "description": "The IBM Cloud Monitoring plan to provision. Available: lite, graduated-tier, graduated-tier-sysdig-secure-plus-monitor",
-      "default": "lite",
-      "required": true,
-      "source": [
-        "module.sysdig.ibm_resource_instance.sysdig.plan"
-      ],
-      "pos": {
-        "filename": "variables.tf",
-        "line": 148
-      }
-    },
-    "sysdig_provision": {
-      "name": "sysdig_provision",
-      "type": "bool",
-      "description": "Provision a Sysdig instance?",
-      "default": true,
-      "source": [
-        "module.sysdig.ibm_resource_instance.sysdig.count",
-        "module.sysdig.ibm_resource_key.resource_key.count"
-      ],
-      "pos": {
-        "filename": "variables.tf",
-        "line": 136
-      }
-    },
-    "sysdig_service_endpoints": {
-      "name": "sysdig_service_endpoints",
-      "type": "string",
-      "description": "The type of the service endpoint that will be set for the Sisdig instance.",
-      "default": "public-and-private",
-      "source": [
-        "module.sysdig.ibm_resource_instance.sysdig.service_endpoints"
-      ],
-      "pos": {
-        "filename": "variables.tf",
-        "line": 196
-      },
-      "computed": true
-    },
-    "sysdig_tags": {
-      "name": "sysdig_tags",
-      "type": "list(string)",
-      "description": "Tags associated with the IBM Cloud Monitoring instance (Optional, array of strings).",
-      "default": [],
-      "source": [
-        "module.sysdig.ibm_resource_instance.sysdig.tags"
-      ],
-      "pos": {
-        "filename": "variables.tf",
-        "line": 171
-      },
-      "min_length": 1,
-      "max_length": 128,
-      "matches": "^[A-Za-z0-9:_ .-]+$",
-      "computed": true,
-      "elem": {
-        "type": "TypeString"
-      }
     }
   },
   "outputs": {
@@ -704,65 +704,120 @@
         "line": 123
       }
     },
-    "logdna_crn": {
+    "cloud_monitoring_access_key": {
+      "name": "access_key",
+      "description": "The cloud monitoring access key for agents to use",
+      "value": "module.cloud_monitoring.access_key",
+      "sensitive": true,
+      "pos": {
+        "filename": "outputs.tf",
+        "line": 74
+      }
+    },
+    "cloud_monitoring_crn": {
       "name": "crn",
-      "description": "The id of the provisioned LogDNA instance.",
-      "value": "module.logdna.crn",
+      "description": "The id of the provisioned cloud monitoring instance.",
+      "value": "module.cloud_monitoring.crn",
+      "pos": {
+        "filename": "outputs.tf",
+        "line": 54
+      }
+    },
+    "cloud_monitoring_guid": {
+      "name": "guid",
+      "description": "The guid of the provisioned cloud monitoring instance.",
+      "value": "module.cloud_monitoring.guid",
+      "pos": {
+        "filename": "outputs.tf",
+        "line": 59
+      }
+    },
+    "cloud_monitoring_manager_key_name": {
+      "name": "manager_key_name",
+      "description": "The cloud monitoring manager key name",
+      "value": "module.cloud_monitoring.manager_key_name",
+      "pos": {
+        "filename": "outputs.tf",
+        "line": 80
+      }
+    },
+    "cloud_monitoring_name": {
+      "name": "name",
+      "description": "The name of the provisioned cloud monitoring instance.",
+      "value": "module.cloud_monitoring.name",
+      "pos": {
+        "filename": "outputs.tf",
+        "line": 64
+      }
+    },
+    "cloud_monitoring_resource_group_id": {
+      "name": "resource_group_id",
+      "description": "The resource group where cloud monitoring monitor instance resides",
+      "value": "module.cloud_monitoring.resource_group_id",
+      "pos": {
+        "filename": "outputs.tf",
+        "line": 69
+      }
+    },
+    "log_analysis_crn": {
+      "name": "crn",
+      "description": "The id of the provisioned Log Analysis instance.",
+      "value": "module.log_analysis.crn",
       "pos": {
         "filename": "outputs.tf",
         "line": 14
       }
     },
-    "logdna_guid": {
+    "log_analysis_guid": {
       "name": "guid",
-      "description": "The guid of the provisioned LogDNA instance.",
-      "value": "module.logdna.guid",
+      "description": "The guid of the provisioned Log Analysis instance.",
+      "value": "module.log_analysis.guid",
       "pos": {
         "filename": "outputs.tf",
         "line": 19
       }
     },
-    "logdna_ingestion_key": {
+    "log_analysis_ingestion_key": {
       "name": "ingestion_key",
-      "description": "LogDNA ingest key for agents to use",
-      "value": "module.logdna.ingestion_key",
+      "description": "Log Analysis ingest key for agents to use",
+      "value": "module.log_analysis.ingestion_key",
       "sensitive": true,
       "pos": {
         "filename": "outputs.tf",
         "line": 40
       }
     },
-    "logdna_manager_key_name": {
+    "log_analysis_manager_key_name": {
       "name": "manager_key_name",
-      "description": "The LogDNA manager key name",
-      "value": "module.logdna.manager_key_name",
+      "description": "The Log Analysis manager key name",
+      "value": "module.log_analysis.manager_key_name",
       "pos": {
         "filename": "outputs.tf",
         "line": 46
       }
     },
-    "logdna_name": {
+    "log_analysis_name": {
       "name": "name",
-      "description": "The name of the provisioned LogDNA instance.",
-      "value": "module.logdna.name",
+      "description": "The name of the provisioned Log Analysis instance.",
+      "value": "module.log_analysis.name",
       "pos": {
         "filename": "outputs.tf",
         "line": 24
       }
     },
-    "logdna_resource_group_id": {
+    "log_analysis_resource_group_id": {
       "name": "resource_group_id",
-      "description": "The resource group where LogDNA instance resides",
-      "value": "module.logdna.resource_group_id",
+      "description": "The resource group where Log Analysis instance resides",
+      "value": "module.log_analysis.resource_group_id",
       "pos": {
         "filename": "outputs.tf",
         "line": 29
       }
     },
-    "logdna_resource_key": {
+    "log_analysis_resource_key": {
       "name": "resource_key",
-      "description": "LogDNA service key for agents to use",
-      "value": "module.logdna.resource_key",
+      "description": "Log Analysis service key for agents to use",
+      "value": "module.log_analysis.resource_key",
       "sensitive": true,
       "pos": {
         "filename": "outputs.tf",
@@ -779,61 +834,6 @@
       },
       "type": "string",
       "cloud_data_type": "region"
-    },
-    "sysdig_access_key": {
-      "name": "access_key",
-      "description": "Sysdig access key for agents to use",
-      "value": "module.sysdig.access_key",
-      "sensitive": true,
-      "pos": {
-        "filename": "outputs.tf",
-        "line": 74
-      }
-    },
-    "sysdig_crn": {
-      "name": "crn",
-      "description": "The id of the provisioned Sysdig instance.",
-      "value": "module.sysdig.crn",
-      "pos": {
-        "filename": "outputs.tf",
-        "line": 54
-      }
-    },
-    "sysdig_guid": {
-      "name": "guid",
-      "description": "The guid of the provisioned Sysdig instance.",
-      "value": "module.sysdig.guid",
-      "pos": {
-        "filename": "outputs.tf",
-        "line": 59
-      }
-    },
-    "sysdig_manager_key_name": {
-      "name": "manager_key_name",
-      "description": "The Sysdig manager key name",
-      "value": "module.sysdig.manager_key_name",
-      "pos": {
-        "filename": "outputs.tf",
-        "line": 80
-      }
-    },
-    "sysdig_name": {
-      "name": "name",
-      "description": "The name of the provisioned Sysdig instance.",
-      "value": "module.sysdig.name",
-      "pos": {
-        "filename": "outputs.tf",
-        "line": 64
-      }
-    },
-    "sysdig_resource_group_id": {
-      "name": "resource_group_id",
-      "description": "The resource group where Sysdig monitor instance resides",
-      "value": "module.sysdig.resource_group_id",
-      "pos": {
-        "filename": "outputs.tf",
-        "line": 69
-      }
     }
   },
   "required_core": [
@@ -882,7 +882,7 @@
         "global_event_routing_settings": "global_event_routing_settings",
         "ibmcloud_api_key": "ibmcloud_api_key",
         "instance_name": "activity_tracker_instance_name",
-        "logdna_targets": "logdna_targets",
+        "log_analysis_targets": "log_analysis_targets",
         "manager_key_name": "activity_tracker_manager_key_name",
         "manager_key_tags": "activity_tracker_manager_key_tags",
         "plan": "activity_tracker_plan",
@@ -957,12 +957,12 @@
             "line": 68
           }
         },
-        "ibm_atracker_target.atracker_logdna_targets": {
+        "ibm_atracker_target.atracker_log_analysis_targets": {
           "mode": "managed",
           "type": "ibm_atracker_target",
-          "name": "atracker_logdna_targets",
+          "name": "atracker_log_analysis_targets",
           "attributes": {
-            "for_each": "logdna_targets"
+            "for_each": "log_analysis_targets"
           },
           "provider": {
             "name": "ibm"
@@ -1117,190 +1117,29 @@
         "line": 8
       }
     },
-    "logdna": {
-      "name": "logdna",
-      "source": "./modules/logdna",
+    "cloud_monitoring": {
+      "name": "cloud_monitoring",
+      "source": "./modules/cloud_monitoring",
       "attributes": {
-        "access_tags": "logdna_access_tags",
-        "cos_bucket_endpoint": "logdna_cos_bucket_endpoint",
-        "cos_bucket_name": "logdna_cos_bucket_name",
-        "cos_instance_id": "logdna_cos_instance_id",
-        "enable_archive": "enable_archive",
-        "enable_platform_logs": "enable_platform_logs",
-        "ibmcloud_api_key": "ibmcloud_api_key",
-        "instance_name": "logdna_instance_name",
-        "logdna_provision": "logdna_provision",
-        "manager_key_name": "logdna_manager_key_name",
-        "manager_key_tags": "logdna_manager_key_tags",
-        "plan": "logdna_plan",
-        "region": "region",
-        "resource_group_id": "resource_group_id",
-        "resource_key_role": "logdna_resource_key_role",
-        "service_endpoints": "logdna_service_endpoints",
-        "tags": "logdna_tags"
-      },
-      "managed_resources": {
-        "ibm_resource_instance.logdna": {
-          "mode": "managed",
-          "type": "ibm_resource_instance",
-          "name": "logdna",
-          "attributes": {
-            "count": "logdna_provision",
-            "location": "region",
-            "parameters": "enable_platform_logs",
-            "plan": "plan",
-            "resource_group_id": "resource_group_id",
-            "service_endpoints": "service_endpoints",
-            "tags": "tags"
-          },
-          "provider": {
-            "name": "ibm"
-          },
-          "pos": {
-            "filename": "modules/logdna/main.tf",
-            "line": 12
-          }
-        },
-        "ibm_resource_key.resource_key": {
-          "mode": "managed",
-          "type": "ibm_resource_key",
-          "name": "resource_key",
-          "attributes": {
-            "count": "logdna_provision",
-            "name": "manager_key_name",
-            "role": "resource_key_role",
-            "tags": "manager_key_tags"
-          },
-          "provider": {
-            "name": "ibm"
-          },
-          "pos": {
-            "filename": "modules/logdna/main.tf",
-            "line": 34
-          }
-        },
-        "ibm_resource_tag.logdna_tag": {
-          "mode": "managed",
-          "type": "ibm_resource_tag",
-          "name": "logdna_tag",
-          "attributes": {
-            "count": "access_tags",
-            "tags": "access_tags"
-          },
-          "provider": {
-            "name": "ibm"
-          },
-          "pos": {
-            "filename": "modules/logdna/main.tf",
-            "line": 27
-          }
-        },
-        "logdna_archive.archive_config": {
-          "mode": "managed",
-          "type": "logdna_archive",
-          "name": "archive_config",
-          "attributes": {
-            "count": "logdna_provision"
-          },
-          "provider": {
-            "name": "logdna",
-            "alias": "ld"
-          },
-          "pos": {
-            "filename": "modules/logdna/main.tf",
-            "line": 42
-          }
-        }
-      },
-      "data_resources": {},
-      "outputs": {
-        "crn": {
-          "name": "crn",
-          "description": "The id of the provisioned LogDNA instance.",
-          "pos": {
-            "filename": "modules/logdna/outputs.tf",
-            "line": 1
-          }
-        },
-        "guid": {
-          "name": "guid",
-          "description": "The guid of the provisioned LogDNA instance.",
-          "pos": {
-            "filename": "modules/logdna/outputs.tf",
-            "line": 6
-          }
-        },
-        "ingestion_key": {
-          "name": "ingestion_key",
-          "description": "LogDNA ingest key for agents to use",
-          "sensitive": true,
-          "pos": {
-            "filename": "modules/logdna/outputs.tf",
-            "line": 27
-          }
-        },
-        "manager_key_name": {
-          "name": "manager_key_name",
-          "description": "The LogDNA manager key name",
-          "pos": {
-            "filename": "modules/logdna/outputs.tf",
-            "line": 33
-          }
-        },
-        "name": {
-          "name": "name",
-          "description": "The name of the provisioned LogDNA instance.",
-          "pos": {
-            "filename": "modules/logdna/outputs.tf",
-            "line": 11
-          }
-        },
-        "resource_group_id": {
-          "name": "resource_group_id",
-          "description": "The resource group where LogDNA instance resides",
-          "pos": {
-            "filename": "modules/logdna/outputs.tf",
-            "line": 16
-          }
-        },
-        "resource_key": {
-          "name": "resource_key",
-          "description": "LogDNA service key for agents to use",
-          "sensitive": true,
-          "pos": {
-            "filename": "modules/logdna/outputs.tf",
-            "line": 21
-          }
-        }
-      },
-      "pos": {
-        "filename": "main.tf",
-        "line": 36
-      }
-    },
-    "sysdig": {
-      "name": "sysdig",
-      "source": "./modules/sysdig",
-      "attributes": {
-        "access_tags": "sysdig_access_tags",
+        "access_tags": "cloud_monitoring_access_tags",
+        "cloud_monitoring_provision": "cloud_monitoring_provision",
         "enable_platform_metrics": "enable_platform_metrics",
-        "instance_name": "sysdig_instance_name",
-        "manager_key_name": "sysdig_manager_key_name",
-        "manager_key_tags": "sysdig_manager_key_tags",
-        "plan": "sysdig_plan",
+        "instance_name": "cloud_monitoring_instance_name",
+        "manager_key_name": "cloud_monitoring_manager_key_name",
+        "manager_key_tags": "cloud_monitoring_manager_key_tags",
+        "plan": "cloud_monitoring_plan",
         "region": "region",
         "resource_group_id": "resource_group_id",
-        "service_endpoints": "sysdig_service_endpoints",
-        "sysdig_provision": "sysdig_provision",
-        "tags": "sysdig_tags"
+        "service_endpoints": "cloud_monitoring_service_endpoints",
+        "tags": "cloud_monitoring_tags"
       },
       "managed_resources": {
-        "ibm_resource_instance.sysdig": {
+        "ibm_resource_instance.cloud_monitoring": {
           "mode": "managed",
           "type": "ibm_resource_instance",
-          "name": "sysdig",
+          "name": "cloud_monitoring",
           "attributes": {
-            "count": "sysdig_provision",
+            "count": "cloud_monitoring_provision",
             "location": "region",
             "parameters": "enable_platform_metrics",
             "plan": "plan",
@@ -1312,7 +1151,7 @@
             "name": "ibm"
           },
           "pos": {
-            "filename": "modules/sysdig/main.tf",
+            "filename": "modules/cloud_monitoring/main.tf",
             "line": 5
           }
         },
@@ -1321,7 +1160,7 @@
           "type": "ibm_resource_key",
           "name": "resource_key",
           "attributes": {
-            "count": "sysdig_provision",
+            "count": "cloud_monitoring_provision",
             "name": "manager_key_name",
             "tags": "manager_key_tags"
           },
@@ -1329,14 +1168,14 @@
             "name": "ibm"
           },
           "pos": {
-            "filename": "modules/sysdig/main.tf",
+            "filename": "modules/cloud_monitoring/main.tf",
             "line": 27
           }
         },
-        "ibm_resource_tag.sysdig_tag": {
+        "ibm_resource_tag.cloud_monitoring_tag": {
           "mode": "managed",
           "type": "ibm_resource_tag",
-          "name": "sysdig_tag",
+          "name": "cloud_monitoring_tag",
           "attributes": {
             "count": "access_tags",
             "tags": "access_tags"
@@ -1345,7 +1184,7 @@
             "name": "ibm"
           },
           "pos": {
-            "filename": "modules/sysdig/main.tf",
+            "filename": "modules/cloud_monitoring/main.tf",
             "line": 20
           }
         }
@@ -1354,50 +1193,50 @@
       "outputs": {
         "access_key": {
           "name": "access_key",
-          "description": "Sysdig access key for agents to use",
+          "description": "The cloud monitoring access key for agents to use",
           "sensitive": true,
           "pos": {
-            "filename": "modules/sysdig/outputs.tf",
+            "filename": "modules/cloud_monitoring/outputs.tf",
             "line": 21
           }
         },
         "crn": {
           "name": "crn",
-          "description": "The id of the provisioned Sysdig instance.",
+          "description": "The id of the provisioned cloud monitoring instance.",
           "pos": {
-            "filename": "modules/sysdig/outputs.tf",
+            "filename": "modules/cloud_monitoring/outputs.tf",
             "line": 1
           }
         },
         "guid": {
           "name": "guid",
-          "description": "The guid of the provisioned Sysdig instance.",
+          "description": "The guid of the provisioned cloud monitoring instance.",
           "pos": {
-            "filename": "modules/sysdig/outputs.tf",
+            "filename": "modules/cloud_monitoring/outputs.tf",
             "line": 6
           }
         },
         "manager_key_name": {
           "name": "manager_key_name",
-          "description": "The Sysdig manager key name",
+          "description": "The cloud monitoring manager key name",
           "pos": {
-            "filename": "modules/sysdig/outputs.tf",
+            "filename": "modules/cloud_monitoring/outputs.tf",
             "line": 27
           }
         },
         "name": {
           "name": "name",
-          "description": "The name of the provisioned Sysdig instance.",
+          "description": "The name of the provisioned cloud monitoring instance.",
           "pos": {
-            "filename": "modules/sysdig/outputs.tf",
+            "filename": "modules/cloud_monitoring/outputs.tf",
             "line": 11
           }
         },
         "resource_group_id": {
           "name": "resource_group_id",
-          "description": "The resource group where Sysdig monitor instance resides",
+          "description": "The resource group where cloud monitoring monitor instance resides",
           "pos": {
-            "filename": "modules/sysdig/outputs.tf",
+            "filename": "modules/cloud_monitoring/outputs.tf",
             "line": 16
           }
         }
@@ -1405,6 +1244,167 @@
       "pos": {
         "filename": "main.tf",
         "line": 61
+      }
+    },
+    "log_analysis": {
+      "name": "log_analysis",
+      "source": "./modules/log_analysis",
+      "attributes": {
+        "access_tags": "log_analysis_access_tags",
+        "cos_bucket_endpoint": "log_analysis_cos_bucket_endpoint",
+        "cos_bucket_name": "log_analysis_cos_bucket_name",
+        "cos_instance_id": "log_analysis_cos_instance_id",
+        "enable_archive": "enable_archive",
+        "enable_platform_logs": "enable_platform_logs",
+        "ibmcloud_api_key": "ibmcloud_api_key",
+        "instance_name": "log_analysis_instance_name",
+        "log_analysis_provision": "log_analysis_provision",
+        "manager_key_name": "log_analysis_manager_key_name",
+        "manager_key_tags": "log_analysis_manager_key_tags",
+        "plan": "log_analysis_plan",
+        "region": "region",
+        "resource_group_id": "resource_group_id",
+        "resource_key_role": "log_analysis_resource_key_role",
+        "service_endpoints": "log_analysis_service_endpoints",
+        "tags": "log_analysis_tags"
+      },
+      "managed_resources": {
+        "ibm_resource_instance.log_analysis": {
+          "mode": "managed",
+          "type": "ibm_resource_instance",
+          "name": "log_analysis",
+          "attributes": {
+            "count": "log_analysis_provision",
+            "location": "region",
+            "parameters": "enable_platform_logs",
+            "plan": "plan",
+            "resource_group_id": "resource_group_id",
+            "service_endpoints": "service_endpoints",
+            "tags": "tags"
+          },
+          "provider": {
+            "name": "ibm"
+          },
+          "pos": {
+            "filename": "modules/log_analysis/main.tf",
+            "line": 12
+          }
+        },
+        "ibm_resource_key.resource_key": {
+          "mode": "managed",
+          "type": "ibm_resource_key",
+          "name": "resource_key",
+          "attributes": {
+            "count": "log_analysis_provision",
+            "name": "manager_key_name",
+            "role": "resource_key_role",
+            "tags": "manager_key_tags"
+          },
+          "provider": {
+            "name": "ibm"
+          },
+          "pos": {
+            "filename": "modules/log_analysis/main.tf",
+            "line": 34
+          }
+        },
+        "ibm_resource_tag.log_analysis_tag": {
+          "mode": "managed",
+          "type": "ibm_resource_tag",
+          "name": "log_analysis_tag",
+          "attributes": {
+            "count": "access_tags",
+            "tags": "access_tags"
+          },
+          "provider": {
+            "name": "ibm"
+          },
+          "pos": {
+            "filename": "modules/log_analysis/main.tf",
+            "line": 27
+          }
+        },
+        "logdna_archive.archive_config": {
+          "mode": "managed",
+          "type": "logdna_archive",
+          "name": "archive_config",
+          "attributes": {
+            "count": "log_analysis_provision"
+          },
+          "provider": {
+            "name": "logdna",
+            "alias": "ld"
+          },
+          "pos": {
+            "filename": "modules/log_analysis/main.tf",
+            "line": 42
+          }
+        }
+      },
+      "data_resources": {},
+      "outputs": {
+        "crn": {
+          "name": "crn",
+          "description": "The id of the provisioned Log Analysis instance.",
+          "pos": {
+            "filename": "modules/log_analysis/outputs.tf",
+            "line": 1
+          }
+        },
+        "guid": {
+          "name": "guid",
+          "description": "The guid of the provisioned Log Analysis instance.",
+          "pos": {
+            "filename": "modules/log_analysis/outputs.tf",
+            "line": 6
+          }
+        },
+        "ingestion_key": {
+          "name": "ingestion_key",
+          "description": "Log Analysis ingest key for agents to use",
+          "sensitive": true,
+          "pos": {
+            "filename": "modules/log_analysis/outputs.tf",
+            "line": 27
+          }
+        },
+        "manager_key_name": {
+          "name": "manager_key_name",
+          "description": "The Log Analysis manager key name",
+          "pos": {
+            "filename": "modules/log_analysis/outputs.tf",
+            "line": 33
+          }
+        },
+        "name": {
+          "name": "name",
+          "description": "The name of the provisioned Log Analysis instance.",
+          "pos": {
+            "filename": "modules/log_analysis/outputs.tf",
+            "line": 11
+          }
+        },
+        "resource_group_id": {
+          "name": "resource_group_id",
+          "description": "The resource group where Log Analysis instance resides",
+          "pos": {
+            "filename": "modules/log_analysis/outputs.tf",
+            "line": 16
+          }
+        },
+        "resource_key": {
+          "name": "resource_key",
+          "description": "Log Analysis service key for agents to use",
+          "sensitive": true,
+          "pos": {
+            "filename": "modules/log_analysis/outputs.tf",
+            "line": 21
+          }
+        }
+      },
+      "pos": {
+        "filename": "main.tf",
+        "line": 36
       }
     }
   }

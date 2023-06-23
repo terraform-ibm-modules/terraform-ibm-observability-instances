@@ -138,8 +138,8 @@ variable "eventstreams_targets" {
   sensitive   = true
 }
 
-# logDNA Targets
-variable "logdna_targets" {
+# log Analysis Targets
+variable "log_analysis_targets" {
   type = list(object({
     instance_id   = string
     ingestion_key = string
@@ -147,7 +147,7 @@ variable "logdna_targets" {
     target_name   = string
   }))
   default     = []
-  description = "List of logdna target to be created"
+  description = "List of log analysis target to be created"
   sensitive   = true
 }
 
