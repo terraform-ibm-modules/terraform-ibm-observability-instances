@@ -150,6 +150,9 @@ To attach access management tags to resources in this module, you need the follo
     - **Tagging** service
         - `Administrator` platform access
 
+<!-- BEGIN MODULES HOOK -->
+<!-- END MODULES HOOK -->
+
 <!-- BEGIN EXAMPLES HOOK -->
 ## Examples
 
