@@ -27,7 +27,63 @@ This module supports provisioning the following observability instances:
 
  -->
 
-Table of Content
+Table of Contents
+====================
+* Terraform modules
+  * [Terraform IBM Observability instances module](#Terraform-IBM-Observability-instances-module)
+    <details>
+      <summary></summary>
+
+    * [Usage](#Usage)
+    * [Required IAM access policies](#Required-IAM-access-policies)
+    * [Requirements](#Requirements)
+    * [Modules](#Modules)
+    * [Resources](#Resources)
+    * [Inputs](#Inputs)
+    * [Outputs](#Outputs)
+    </details>
+
+  * [Activity Tracker instance sub-module](#Activity-Tracker-instance-sub-module)
+    <details>
+      <summary>Content</summary>
+
+    * [Usage](#Usage)
+    * [Requirements](#Requirements)
+    * [Modules](#Modules)
+    * [Resources](#Resources)
+    * [Inputs](#Inputs)
+    * [Outputs](#Outputs)
+    </details>
+
+  * [IBM Cloud Monitoring instance sub-module](#IBM-Cloud-Monitoring-instance-sub-module)
+    <details>
+      <summary>Content</summary>
+
+    * [Usage](#Usage)
+    * [Requirements](#Requirements)
+    * [Modules](#Modules)
+    * [Resources](#Resources)
+    * [Inputs](#Inputs)
+    * [Outputs](#Outputs)
+    </details>
+
+  * [Log Analysis instance sub-module](#Log-Analysis-instance-sub-module)
+    <details>
+      <summary>Content</summary>
+
+    * [Usage](#Usage)
+    * [Requirements](#Requirements)
+    * [Modules](#Modules)
+    * [Resources](#Resources)
+    * [Inputs](#Inputs)
+    * [Outputs](#Outputs)
+    </details>
+
+* [Examples](#Examples)
+* [Contributing](#Contributing)
+
+
+Table of Contents
 ====================
 * Terraform modules
     <details>
@@ -78,10 +134,8 @@ Table of Content
 * [Examples](#Examples)
 * [Contributing](#Contributing)
 
-
-
 <!-- BEGIN TOC HOOK -->
-Table of Content
+Table of Contents
 ====================
 
 * [Terraform modules](#Terraform-modules)
