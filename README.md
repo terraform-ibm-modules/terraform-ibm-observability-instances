@@ -15,6 +15,111 @@ This module supports provisioning the following observability instances:
   * Monitor the health of services and applications in IBM Cloud.
 
 :information_source: The module also creates a manager key for each instance, and supports passing COS bucket details to enable archiving for Log Analysis and Activity Tracker, it also supports activity tracker event routing to COS, Log Analysis and Event Streams..
+<!-- 
+<details>
+  <summary>Click me</summary>
+  sdsd
+</details>
+* asdsad<details>
+  <summary>Click me</summary>
+  sdsd
+  </details>
+
+ -->
+
+Table of Content
+====================
+* Terraform modules
+    <details>
+      <summary>Terraform IBM Observability instances module</summary>
+
+    * [Usage](#Usage)
+    * [Required IAM access policies](#Required-IAM-access-policies)
+    * [Requirements](#Requirements)
+    * [Modules](#Modules)
+    * [Resources](#Resources)
+    * [Inputs](#Inputs)
+    * [Outputs](#Outputs)
+    </details>
+
+    <details>
+      <summary>Activity Tracker instance sub-module</summary>
+
+    * [Usage](#Usage)
+    * [Requirements](#Requirements)
+    * [Modules](#Modules)
+    * [Resources](#Resources)
+    * [Inputs](#Inputs)
+    * [Outputs](#Outputs)
+    </details>
+
+    <details>
+      <summary>IBM Cloud Monitoring instance sub-module</summary>
+
+    * [Usage](#Usage)
+    * [Requirements](#Requirements)
+    * [Modules](#Modules)
+    * [Resources](#Resources)
+    * [Inputs](#Inputs)
+    * [Outputs](#Outputs)
+    </details>
+
+    <details>
+      <summary>Log Analysis instance sub-module</summary>
+
+    * [Usage](#Usage)
+    * [Requirements](#Requirements)
+    * [Modules](#Modules)
+    * [Resources](#Resources)
+    * [Inputs](#Inputs)
+    * [Outputs](#Outputs)
+    </details>
+
+* [Examples](#Examples)
+* [Contributing](#Contributing)
+
+
+
+<!-- BEGIN TOC HOOK -->
+Table of Content
+====================
+
+* [Terraform modules](#Terraform-modules)
+    * [Terraform IBM Observability instances module](#Terraform-IBM-Observability-instances-module)
+        * [Usage](#Usage)
+        * [Required IAM access policies](#Required-IAM-access-policies)
+        * [Requirements](#Requirements)
+        * [Modules](#Modules)
+        * [Resources](#Resources)
+        * [Inputs](#Inputs)
+        * [Outputs](#Outputs)
+    * [Activity Tracker instance sub-module](#Activity-Tracker-instance-sub-module)
+        * [Usage](#Usage)
+        * [Requirements](#Requirements)
+        * [Modules](#Modules)
+        * [Resources](#Resources)
+        * [Inputs](#Inputs)
+        * [Outputs](#Outputs)
+        * [Contributing](#Contributing)
+    * [IBM Cloud Monitoring instance sub-module](#IBM-Cloud-Monitoring-instance-sub-module)
+        * [Usage](#Usage)
+        * [Requirements](#Requirements)
+        * [Modules](#Modules)
+        * [Resources](#Resources)
+        * [Inputs](#Inputs)
+        * [Outputs](#Outputs)
+        * [Contributing](#Contributing)
+    * [Log Analysis instance sub-module](#Log-Analysis-instance-sub-module)
+        * [Usage](#Usage)
+        * [Requirements](#Requirements)
+        * [Modules](#Modules)
+        * [Resources](#Resources)
+        * [Inputs](#Inputs)
+        * [Outputs](#Outputs)
+        * [Contributing](#Contributing)
+* [Examples](#Examples)
+* [Contributing](#Contributing)
+<!-- END TOC HOOK -->
 
 ## Usage
 
@@ -150,13 +255,7 @@ To attach access management tags to resources in this module, you need the follo
     - **Tagging** service
         - `Administrator` platform access
 
-<!-- BEGIN EXAMPLES HOOK -->
-## Examples
 
-- [ Provision IBM Cloud Monitoring and Log Analysis + Activity Tracker with archiving enabled using encrypted COS bucket](examples/observability_archive)
-- [ Provision Activity Tracker with event routing to COS bucket, Event streams and Log Analysis](examples/observability_at_event_routing)
-- [ Provision basic observability instances (Log Analysis, Cloud Monitoring, Activity Tracker)](examples/observability_basic)
-<!-- END EXAMPLES HOOK -->
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
 
@@ -253,6 +352,14 @@ No resources.
 | <a name="output_region"></a> [region](#output\_region) | Region that instance(s) are provisioned to. |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 <!-- BEGIN CONTRIBUTING HOOK -->
+
+<!-- BEGIN EXAMPLES HOOK -->
+## Examples
+
+- [ Provision IBM Cloud Monitoring and Log Analysis + Activity Tracker with archiving enabled using encrypted COS bucket](examples/observability_archive)
+- [ Provision Activity Tracker with event routing to COS bucket, Event streams and Log Analysis](examples/observability_at_event_routing)
+- [ Provision basic observability instances (Log Analysis, Cloud Monitoring, Activity Tracker)](examples/observability_basic)
+<!-- END EXAMPLES HOOK -->
 
 <!-- Leave this section as is so that your module has a link to local development environment set up steps for contributors to follow -->
 ## Contributing
