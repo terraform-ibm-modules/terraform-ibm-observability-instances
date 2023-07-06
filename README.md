@@ -29,6 +29,24 @@ This module supports provisioning the following observability instances:
 
 Table of Contents
 ====================
+
+* [Terraform modules](#Terraform-modules)
+    * [Terraform IBM Observability instances module](#Terraform-IBM-Observability-instances-module)
+        * [Usage](#Usage)
+        * [Required IAM access policies](#Required-IAM-access-policies)
+        * [Requirements](#Requirements)
+        * [Modules](#Modules)
+        * [Resources](#Resources)
+        * [Inputs](#Inputs)
+        * [Outputs](#Outputs)
+    * [Activity Tracker instance sub-module](#Activity-Tracker-instance-sub-module)
+    * [IBM Cloud Monitoring instance sub-module](#IBM-Cloud-Monitoring-instance-sub-module)
+    * [Log Analysis instance sub-module](#Log-Analysis-instance-sub-module)
+* [Examples](#Examples)
+* [Contributing](#Contributing)
+
+Table of Contents
+====================
 * Terraform modules
   * [Terraform IBM Observability instances module](#Terraform-IBM-Observability-instances-module)
     <details>
