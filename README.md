@@ -158,7 +158,7 @@ To attach access management tags to resources in this module, you need the follo
 - [ Provision basic observability instances (Log Analysis, Cloud Monitoring, Activity Tracker)](examples/observability_basic)
 <!-- END EXAMPLES HOOK -->
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
-## Requirements
+### Requirements
 
 | Name | Version |
 |------|---------|
@@ -166,7 +166,7 @@ To attach access management tags to resources in this module, you need the follo
 | <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | >= 1.51.0 |
 | <a name="requirement_logdna"></a> [logdna](#requirement\_logdna) | >= 1.14.2 |
 
-## Modules
+### Modules
 
 | Name | Source | Version |
 |------|--------|---------|
@@ -174,11 +174,11 @@ To attach access management tags to resources in this module, you need the follo
 | <a name="module_cloud_monitoring"></a> [cloud\_monitoring](#module\_cloud\_monitoring) | ./modules/cloud_monitoring | n/a |
 | <a name="module_log_analysis"></a> [log\_analysis](#module\_log\_analysis) | ./modules/log_analysis | n/a |
 
-## Resources
+### Resources
 
 No resources.
 
-## Inputs
+### Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
@@ -225,7 +225,7 @@ No resources.
 | <a name="input_region"></a> [region](#input\_region) | The IBM Cloud region where instances will be created. | `string` | `"us-south"` | no |
 | <a name="input_resource_group_id"></a> [resource\_group\_id](#input\_resource\_group\_id) | The id of the IBM Cloud resource group where the instance(s) will be created. | `string` | `null` | no |
 
-## Outputs
+### Outputs
 
 | Name | Description |
 |------|-------------|
