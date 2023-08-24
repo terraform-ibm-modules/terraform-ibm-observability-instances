@@ -4,7 +4,7 @@ terraform {
     # Use "greater than or equal to" range in modules
     ibm = {
       source  = "ibm-cloud/ibm"
-      version = ">= 1.49.0"
+      version = ">= 1.56.1"
     }
     logdna = {
       source                = "logdna/logdna"
