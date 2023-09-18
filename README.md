@@ -4,6 +4,7 @@
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 [![latest release](https://img.shields.io/github/v/release/terraform-ibm-modules/terraform-ibm-observability-instances?logo=GitHub&sort=semver)](https://github.com/terraform-ibm-modules/terraform-ibm-observability-instances/releases/latest)
+[![Renovate enabled](https://img.shields.io/badge/renovate-enabled-brightgreen.svg)](https://renovatebot.com/)
 
 This module supports provisioning the following observability instances:
 
@@ -14,9 +15,26 @@ This module supports provisioning the following observability instances:
 * **IBM Cloud Monitoring with Cloud Monitoring**
   * Monitor the health of services and applications in IBM Cloud.
 
-:information_source: The module also creates a manager key for each instance, and supports passing COS bucket details to enable archiving for Log Analysis and Activity Tracker, it also supports activity tracker event routing to COS, Log Analysis and Event Streams..
+:information_source: The module also creates a manager key for each instance, and supports passing COS bucket details to enable archiving for Log Analysis and Activity Tracker, it also supports activity tracker event routing to COS, Log Analysis and Event Streams.
 
-## Usage
+<!-- Below content is automatically populated via pre-commit hook -->
+<!-- BEGIN OVERVIEW HOOK -->
+## Overview
+* [terraform-ibm-observability-instances](#terraform-ibm-observability-instances)
+* [Submodules](./modules)
+    * [activity_tracker](./modules/activity_tracker)
+    * [cloud_monitoring](./modules/cloud_monitoring)
+    * [log_analysis](./modules/log_analysis)
+* [Examples](./examples)
+    * [Provision Activity Tracker with event routing to COS bucket, Event streams and Log Analysis](./examples/observability_at_event_routing)
+    * [Provision IBM Cloud Monitoring and Log Analysis + Activity Tracker with archiving enabled using encrypted COS bucket](./examples/observability_archive)
+    * [Provision basic observability instances (Log Analysis, Cloud Monitoring, Activity Tracker)](./examples/observability_basic)
+* [Contributing](#contributing)
+
+## terraform-ibm-observability-instances
+<!-- END OVERVIEW HOOK -->
+
+### Usage
 
 To provision Activity Tracker, Log Analysis and IBM Cloud Monitoring
 
@@ -126,7 +144,7 @@ module "cloud_monitoring" {
 }
 ```
 
-## Required IAM access policies
+### Required IAM access policies
 
 You need the following permissions to run this module.
 
@@ -150,13 +168,7 @@ To attach access management tags to resources in this module, you need the follo
     - **Tagging** service
         - `Administrator` platform access
 
-<!-- BEGIN EXAMPLES HOOK -->
-## Examples
-
-- [ Provision IBM Cloud Monitoring and Log Analysis + Activity Tracker with archiving enabled using encrypted COS bucket](examples/observability_archive)
-- [ Provision Activity Tracker with event routing to COS bucket, Event streams and Log Analysis](examples/observability_at_event_routing)
-- [ Provision basic observability instances (Log Analysis, Cloud Monitoring, Activity Tracker)](examples/observability_basic)
-<!-- END EXAMPLES HOOK -->
+<!-- Below content is automatically populated via pre-commit hook -->
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ### Requirements
 
@@ -252,7 +264,6 @@ No resources.
 | <a name="output_log_analysis_resource_key"></a> [log\_analysis\_resource\_key](#output\_log\_analysis\_resource\_key) | Log Analysis service key for agents to use |
 | <a name="output_region"></a> [region](#output\_region) | Region that instance(s) are provisioned to. |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
-<!-- BEGIN CONTRIBUTING HOOK -->
 
 <!-- Leave this section as is so that your module has a link to local development environment set up steps for contributors to follow -->
 ## Contributing
@@ -260,5 +271,3 @@ No resources.
 You can report issues and request features for this module in GitHub issues in the module repo. See [Report an issue or request a feature](https://github.com/terraform-ibm-modules/.github/blob/main/.github/SUPPORT.md).
 
 To set up your local development environment, see [Local development setup](https://terraform-ibm-modules.github.io/documentation/#/local-dev-setup) in the project documentation.
-<!-- Source for this readme file: https://github.com/terraform-ibm-modules/common-dev-assets/tree/main/module-assets/ci/module-template-automation -->
-<!-- END CONTRIBUTING HOOK -->
