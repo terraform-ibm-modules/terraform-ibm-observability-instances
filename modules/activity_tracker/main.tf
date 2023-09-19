@@ -88,6 +88,11 @@ resource "ibm_atracker_target" "atracker_log_analysis_targets" {
   name        = each.key
   target_type = "logdna"
   region      = each.value.target_region
+
+  moved {
+    from = ibm_atracker_target.atracker_logdna_targets[each.key]
+    to = ibm_atracker_target.atracker_log_analysis_targets[each.key]
+  }
 }
 
 # Routes
