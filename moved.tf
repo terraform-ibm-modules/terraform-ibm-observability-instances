@@ -13,6 +13,7 @@ moved {
   to   = module.activity_tracker.logdna_archive.archive_config
 }
 
+
 moved {
   from = ibm_resource_instance.logdna
   to   = module.logdna.ibm_resource_instance.logdna
@@ -61,4 +62,9 @@ moved {
 moved {
   from = ibm_resource_key.at_resource_key
   to   = module.activity_tracker.ibm_resource_key.resource_key
+}
+
+moved {
+  from = module.activity_tracker.ibm_atracker_target.atracker_logdna_targets
+  to   = module.activity_tracker.ibm_atracker_target.atracker_log_analysis_targets
 }
