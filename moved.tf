@@ -13,7 +13,6 @@ moved {
   to   = module.activity_tracker.logdna_archive.archive_config
 }
 
-
 moved {
   from = ibm_resource_instance.logdna
   to   = module.logdna.ibm_resource_instance.logdna
