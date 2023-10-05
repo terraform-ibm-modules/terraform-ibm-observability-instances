@@ -30,9 +30,9 @@ This module supports provisioning the following observability instances:
     * [Provision IBM Cloud Monitoring and Log Analysis + Activity Tracker with archiving enabled using encrypted COS bucket](./examples/observability_archive)
     * [Provision basic observability instances (Log Analysis, Cloud Monitoring, Activity Tracker)](./examples/observability_basic)
 * [Contributing](#contributing)
+<!-- END OVERVIEW HOOK -->
 
 ## terraform-ibm-observability-instances
-<!-- END OVERVIEW HOOK -->
 
 ### Usage
 
@@ -63,7 +63,7 @@ provider "logdna" {
 
 module "observability_instances" {
   source  = "terraform-ibm-modules/observability-instances/ibm"
-  version = "latest" # Replace "latest" with a release version to lock into a specific release
+  version = "X.X.X" # Replace "X.X.X" with a release version to lock into a specific release
   providers = {
     logdna.at  = logdna.at
     logdna.ld  = logdna.ld
@@ -93,8 +93,8 @@ provider "logdna" {
 }
 
 module "log_analysis" {
-  # Replace "main" with a GIT release version to lock into a specific release
-  source = "git::https://github.com/terraform-ibm-modules/terraform-ibm-observability-instances//modules/log_analysis?ref=main"
+  source  = "terraform-ibm-modules/observability-instances/ibm//modules/log_analysis"
+  version = "X.X.X" # Replace "X.X.X" with a release version to lock into a specific release
   providers = {
     logdna.ld = logdna.ld
   }
@@ -124,7 +124,7 @@ provider "logdna" {
 
 module "activity_tracker" {
   source  = "terraform-ibm-modules/observability/ibm"
-  version = "latest" # Replace "latest" with a release version to lock into a specific release
+  version = "X.X.X" # Replace "X.X.X" with a release version to lock into a specific release
   providers = {
     logdna.at = logdna.at
   }
@@ -137,8 +137,8 @@ To provision IBM Cloud Monitoring only
 
 ```hcl
 module "cloud_monitoring" {
-  # Replace "main" with a GIT release version to lock into a specific release
-  source = "git::https://github.com/terraform-ibm-modules/terraform-ibm-observability-instances//modules/cloud_monitoring?ref=main"
+  source  = "terraform-ibm-modules/observability/ibm//modules/cloud_monitoring"
+  version = "X.X.X" # Replace "X.X.X" with a release version to lock into a specific release
   resource_group_id = module.resource_group.resource_group_id
   region = var.region
 }
