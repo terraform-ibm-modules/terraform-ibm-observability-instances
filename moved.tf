@@ -62,3 +62,8 @@ moved {
   from = ibm_resource_key.at_resource_key
   to   = module.activity_tracker.ibm_resource_key.resource_key
 }
+
+moved {
+  from = module.activity_tracker.ibm_atracker_target.atracker_logdna_targets
+  to   = module.activity_tracker.ibm_atracker_target.atracker_log_analysis_targets
+}
