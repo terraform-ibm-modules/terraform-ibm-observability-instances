@@ -837,7 +837,7 @@
     }
   },
   "required_core": [
-    "\u003e= 1.0.0, \u003c= 1.5.5"
+    "\u003e= 1.0.0, \u003c 1.6.0"
   ],
   "required_providers": {
     "ibm": {
