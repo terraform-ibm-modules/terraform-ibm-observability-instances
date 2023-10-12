@@ -27,7 +27,7 @@ This module supports provisioning the following observability instances:
     * [log_analysis](./modules/log_analysis)
 * [Examples](./examples)
     * [Provision Activity Tracker with event routing to COS bucket, Event streams and Log Analysis](./examples/observability_at_event_routing)
-    * [Provision IBM Cloud Monitoring and Log Analysis + Activity Tracker with archiving enabled using encrypted COS bucket](./examples/observability_archive)
+    * [Provision IBM Cloud Monitoring, Log Analysis and Activity Tracker with archiving to an encrypted COS bucket](./examples/observability_archive)
     * [Provision basic observability instances (Log Analysis, Cloud Monitoring, Activity Tracker)](./examples/observability_basic)
 * [Contributing](#contributing)
 <!-- END OVERVIEW HOOK -->
