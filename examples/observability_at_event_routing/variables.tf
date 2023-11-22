@@ -89,7 +89,7 @@ variable "metadata_region_backup" {
 variable "permitted_target_regions" {
   type        = list(string)
   description = "List of regions where target can be defined."
-  default     = ["us-south", "eu-de", "us-east", "eu-gb", "au-syd"]
+  default     = ["us-south", "eu-de", "us-east", "eu-es", "eu-gb", "au-syd"]
 }
 
 variable "private_api_endpoint_only" {
