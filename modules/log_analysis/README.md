@@ -29,7 +29,7 @@ provider "logdna" {
 }
 
 module "log_analysis" {
-  source  = "terraform-ibm-modules/observability-instances/ibm"
+  source  = "terraform-ibm-modules/observability-instances/ibm//modules/log_analysis"
   version = "latest" # Replace "latest" with a release version to lock into a specific release
   providers = {
     logdna.ld = logdna.ld
