@@ -54,10 +54,11 @@ resource "logdna_archive" "archive_config" {
 resource "ibm_atracker_target" "atracker_cos_targets" {
   for_each = nonsensitive({ for target in var.cos_targets : target.target_name => target })
   cos_endpoint {
-    endpoint   = each.value.endpoint
-    bucket     = each.value.bucket_name
-    target_crn = each.value.instance_id
-    api_key    = each.value.api_key
+    endpoint                   = each.value.endpoint
+    bucket                     = each.value.bucket_name
+    target_crn                 = each.value.instance_id
+    api_key                    = each.value.api_key
+    service_to_service_enabled = each.value.service_to_service_enabled
   }
   name        = each.key
   target_type = "cloud_object_storage"
