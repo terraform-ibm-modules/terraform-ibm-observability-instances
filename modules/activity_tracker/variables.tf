@@ -118,8 +118,8 @@ variable "cos_targets" {
   sensitive   = true
 
   validation {
-    condition     = alltrue([for cos_target in var.cos_targets : cos_target.service_to_service_enabled == false && cos_target.api_key != null])
-    error_message = "The api key is required if service_to_service authorization is not enabled"
+    condition     = alltrue([for cos_target in var.cos_targets : (cos_target.service_to_service_enabled == true && cos_target.api_key == null) || (cos_target.service_to_service_enabled == false && cos_target.api_key != null)])
+    error_message = "If 'service_to_service_enabled' is true, 'api_key' value should not be passed. If you wish to use 'api_key', set 'service_to_service_enabled' to false."
   }
 }
 
@@ -187,4 +187,16 @@ variable "global_event_routing_settings" {
   })
   description = "Global settings for event routing"
   default     = null
+
+  # https://cloud.ibm.com/docs/atracker?topic=atracker-regions#regions-atracker
+  validation {
+    error_message = "Valid regions for permitted_target_regions are: [eu-gb eu-de au-syd us-east us-south eu-es]"
+    condition = (var.global_event_routing_settings == null ?
+      true :
+      alltrue([
+        for region in var.global_event_routing_settings.permitted_target_regions :
+        contains(["eu-gb", "eu-de", "au-syd", "us-east", "us-south", "eu-es"], region)
+      ])
+    )
+  }
 }

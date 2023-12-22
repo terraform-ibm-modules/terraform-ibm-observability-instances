@@ -1,6 +1,6 @@
 # Terraform IBM Observability instances module
 
-[![Stable (With quality checks)](<https://img.shields.io/badge/Status-Stable%20(With%20quality%20checks)-green?style=plastic>)](https://terraform-ibm-modules.github.io/documentation/#/badge-status)
+[![Graduated (Supported)](https://img.shields.io/badge/Status-Graduated%20(Supported)-brightgreen)](https://terraform-ibm-modules.github.io/documentation/#/badge-status)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 [![latest release](https://img.shields.io/github/v/release/terraform-ibm-modules/terraform-ibm-observability-instances?logo=GitHub&sort=semver)](https://github.com/terraform-ibm-modules/terraform-ibm-observability-instances/releases/latest)
@@ -27,12 +27,12 @@ This module supports provisioning the following observability instances:
     * [log_analysis](./modules/log_analysis)
 * [Examples](./examples)
     * [Provision Activity Tracker with event routing to COS bucket, Event streams and Log Analysis](./examples/observability_at_event_routing)
-    * [Provision IBM Cloud Monitoring and Log Analysis + Activity Tracker with archiving enabled using encrypted COS bucket](./examples/observability_archive)
+    * [Provision IBM Cloud Monitoring, Log Analysis and Activity Tracker with archiving to an encrypted COS bucket](./examples/observability_archive)
     * [Provision basic observability instances (Log Analysis, Cloud Monitoring, Activity Tracker)](./examples/observability_basic)
 * [Contributing](#contributing)
+<!-- END OVERVIEW HOOK -->
 
 ## terraform-ibm-observability-instances
-<!-- END OVERVIEW HOOK -->
 
 ### Usage
 
@@ -63,7 +63,7 @@ provider "logdna" {
 
 module "observability_instances" {
   source  = "terraform-ibm-modules/observability-instances/ibm"
-  version = "latest" # Replace "latest" with a release version to lock into a specific release
+  version = "X.X.X" # Replace "X.X.X" with a release version to lock into a specific release
   providers = {
     logdna.at  = logdna.at
     logdna.ld  = logdna.ld
@@ -93,8 +93,8 @@ provider "logdna" {
 }
 
 module "log_analysis" {
-  # Replace "main" with a GIT release version to lock into a specific release
-  source = "git::https://github.com/terraform-ibm-modules/terraform-ibm-observability-instances//modules/log_analysis?ref=main"
+  source  = "terraform-ibm-modules/observability-instances/ibm//modules/log_analysis"
+  version = "X.X.X" # Replace "X.X.X" with a release version to lock into a specific release
   providers = {
     logdna.ld = logdna.ld
   }
@@ -123,8 +123,8 @@ provider "logdna" {
 }
 
 module "activity_tracker" {
-  source  = "terraform-ibm-modules/observability/ibm"
-  version = "latest" # Replace "latest" with a release version to lock into a specific release
+  source  = "terraform-ibm-modules/observability/ibm//modules/activity_tracker"
+  version = "X.X.X" # Replace "X.X.X" with a release version to lock into a specific release
   providers = {
     logdna.at = logdna.at
   }
@@ -137,8 +137,8 @@ To provision IBM Cloud Monitoring only
 
 ```hcl
 module "cloud_monitoring" {
-  # Replace "main" with a GIT release version to lock into a specific release
-  source = "git::https://github.com/terraform-ibm-modules/terraform-ibm-observability-instances//modules/cloud_monitoring?ref=main"
+  source  = "terraform-ibm-modules/observability/ibm//modules/cloud_monitoring"
+  version = "X.X.X" # Replace "X.X.X" with a release version to lock into a specific release
   resource_group_id = module.resource_group.resource_group_id
   region = var.region
 }
@@ -174,9 +174,9 @@ To attach access management tags to resources in this module, you need the follo
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0.0 |
-| <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | >= 1.56.1 |
-| <a name="requirement_logdna"></a> [logdna](#requirement\_logdna) | >= 1.14.2 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0.0, < 1.6.0 |
+| <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | >= 1.56.1, < 2.0.0 |
+| <a name="requirement_logdna"></a> [logdna](#requirement\_logdna) | >= 1.14.2, < 2.0.0 |
 
 ### Modules
 
