@@ -194,14 +194,6 @@ module "activity_tracker" {
         module.activity_tracker.activity_tracker_targets["${var.prefix}-logdna-target-1"].id,
         module.activity_tracker.activity_tracker_targets["${var.prefix}-eventstreams-target-1"].id
       ]
-    },
-    {
-      route_name = "${var.prefix}-route-2"
-      locations  = ["*", "global"]
-      target_ids = [
-        module.activity_tracker.activity_tracker_targets["${var.prefix}-cos-target-2"].id,
-        module.activity_tracker.activity_tracker_targets["${var.prefix}-logdna-target-2"].id
-      ]
     }
   ]
 
