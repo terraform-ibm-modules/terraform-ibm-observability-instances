@@ -294,13 +294,14 @@ variable "at_cos_bucket_endpoint" {
 # COS Targets
 variable "cos_targets" {
   type = list(object({
-    endpoint                   = string
-    bucket_name                = string
-    instance_id                = string
-    api_key                    = optional(string)
-    service_to_service_enabled = optional(bool, false)
-    target_region              = optional(string)
-    target_name                = string
+    endpoint                          = string
+    bucket_name                       = string
+    instance_id                       = string
+    api_key                           = optional(string)
+    service_to_service_enabled        = optional(bool, false)
+    target_region                     = optional(string)
+    target_name                       = string
+    skip_atracker_cos_iam_auth_policy = optional(bool, true)
   }))
   default     = []
   description = "List of cos target to be created"

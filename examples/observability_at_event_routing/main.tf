@@ -149,12 +149,13 @@ module "activity_tracker" {
       target_name   = "${var.prefix}-cos-target-1"
     },
     {
-      api_key       = ibm_resource_key.cos_resource_key_2.credentials.apikey
-      bucket_name   = module.cos_bucket_2.bucket_name
-      endpoint      = module.cos_bucket_2.s3_endpoint_private
-      instance_id   = module.cos_bucket_2.cos_instance_id
-      target_region = local.cos_target_region
-      target_name   = "${var.prefix}-cos-target-2"
+      bucket_name                       = module.cos_bucket_2.bucket_name
+      endpoint                          = module.cos_bucket_2.s3_endpoint_private
+      instance_id                       = module.cos_bucket_2.cos_instance_id
+      target_region                     = local.cos_target_region
+      target_name                       = "${var.prefix}-cos-target-2"
+      skip_atracker_cos_iam_auth_policy = false
+      service_to_service_enabled        = true
     }
   ]
 
