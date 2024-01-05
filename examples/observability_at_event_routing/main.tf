@@ -39,12 +39,6 @@ module "cos_bucket_1" {
   retention_enabled      = false
 }
 
-resource "ibm_resource_key" "cos_resource_key_1" {
-  name                 = "${var.prefix}-cos-service-key-1"
-  resource_instance_id = module.cos_bucket_1.cos_instance_id
-  role                 = "Writer"
-}
-
 module "cos_bucket_2" {
   source                 = "terraform-ibm-modules/cos/ibm"
   version                = "7.1.3"
@@ -55,12 +49,6 @@ module "cos_bucket_2" {
   bucket_name            = "${var.prefix}-cos-target-bucket-2"
   kms_encryption_enabled = false
   retention_enabled      = false
-}
-
-resource "ibm_resource_key" "cos_resource_key_2" {
-  name                 = "${var.prefix}-cos-service-key-2"
-  resource_instance_id = module.cos_bucket_2.cos_instance_id
-  role                 = "Writer"
 }
 
 # Event stream target
@@ -141,12 +129,13 @@ module "activity_tracker" {
   # Targets
   cos_targets = [
     {
-      api_key       = ibm_resource_key.cos_resource_key_1.credentials.apikey
-      bucket_name   = module.cos_bucket_1.bucket_name
-      endpoint      = module.cos_bucket_1.s3_endpoint_private
-      instance_id   = module.cos_bucket_1.cos_instance_id
-      target_region = local.cos_target_region
-      target_name   = "${var.prefix}-cos-target-1"
+      bucket_name                       = module.cos_bucket_1.bucket_name
+      endpoint                          = module.cos_bucket_1.s3_endpoint_private
+      instance_id                       = module.cos_bucket_1.cos_instance_id
+      target_region                     = local.cos_target_region
+      target_name                       = "${var.prefix}-cos-target-1"
+      skip_atracker_cos_iam_auth_policy = false
+      service_to_service_enabled        = true
     },
     {
       bucket_name                       = module.cos_bucket_2.bucket_name
