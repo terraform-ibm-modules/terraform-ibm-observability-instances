@@ -109,10 +109,10 @@ variable "cos_targets" {
     bucket_name                       = string
     instance_id                       = string
     api_key                           = optional(string)
-    service_to_service_enabled        = optional(bool, false)
+    service_to_service_enabled        = optional(bool, true)
     target_region                     = optional(string)
     target_name                       = string
-    skip_atracker_cos_iam_auth_policy = optional(bool, true)
+    skip_atracker_cos_iam_auth_policy = optional(bool, false)
   }))
   default     = []
   description = "List of cos target to be created"
