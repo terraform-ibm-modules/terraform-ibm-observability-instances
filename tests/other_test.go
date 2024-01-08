@@ -7,7 +7,7 @@ import (
 )
 
 const basicExampleTerraformDir = "examples/observability_basic"
-const atEventRoutingTerraformDir = "examples/observability_archive"
+const observabilityArchiveTerraformDir = "examples/observability_archive"
 
 func TestRunBasicExample(t *testing.T) {
 	t.Parallel()
@@ -23,7 +23,7 @@ func TestRunEventRoutingExample(t *testing.T) {
 
 	options := testhelper.TestOptionsDefaultWithVars(&testhelper.TestOptions{
 		Testing:                       t,
-		TerraformDir:                  atEventRoutingTerraformDir,
+		TerraformDir:                  observabilityArchiveTerraformDir,
 		Prefix:                        "obs-at-event-routing",
 		ResourceGroup:                 resourceGroup,
 		CloudInfoService:              sharedInfoSvc,
