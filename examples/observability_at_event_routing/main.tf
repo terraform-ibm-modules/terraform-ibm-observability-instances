@@ -39,18 +39,6 @@ module "cos_bucket_1" {
   retention_enabled      = false
 }
 
-module "cos_bucket_2" {
-  source                 = "terraform-ibm-modules/cos/ibm"
-  version                = "7.1.5"
-  resource_group_id      = module.resource_group.resource_group_id
-  region                 = local.cos_target_region
-  cos_instance_name      = "${var.prefix}-cos-target-instance-2"
-  cos_tags               = var.resource_tags
-  bucket_name            = "${var.prefix}-cos-target-bucket-2"
-  kms_encryption_enabled = false
-  retention_enabled      = false
-}
-
 # Event stream target
 resource "ibm_resource_instance" "es_instance" {
   name              = "${var.prefix}-eventsteams-instance"
@@ -93,20 +81,6 @@ module "log_analysis_1" {
   access_tags       = var.access_tags
 }
 
-module "log_analysis_2" {
-  source = "../../modules/log_analysis"
-  providers = {
-    logdna.ld = logdna.ld_2
-  }
-  instance_name     = "${var.prefix}-logdna-target-instance-2"
-  resource_group_id = module.resource_group.resource_group_id
-  plan              = "7-day"
-  region            = local.log_analysis_target_region
-  manager_key_name  = "${var.prefix}-logdna-manager-key-2"
-  resource_key_role = "Manager"
-  access_tags       = var.access_tags
-}
-
 ########################################################################
 # Activity Tracker With Event Routing
 #########################################################################
@@ -136,15 +110,6 @@ module "activity_tracker" {
       target_name                       = "${var.prefix}-cos-target-1"
       skip_atracker_cos_iam_auth_policy = false
       service_to_service_enabled        = true
-    },
-    {
-      bucket_name                       = module.cos_bucket_2.bucket_name
-      endpoint                          = module.cos_bucket_2.s3_endpoint_private
-      instance_id                       = module.cos_bucket_2.cos_instance_id
-      target_region                     = local.cos_target_region
-      target_name                       = "${var.prefix}-cos-target-2"
-      skip_atracker_cos_iam_auth_policy = false
-      service_to_service_enabled        = true
     }
   ]
 
@@ -165,12 +130,6 @@ module "activity_tracker" {
       ingestion_key = module.log_analysis_1.ingestion_key
       target_region = local.log_analysis_target_region
       target_name   = "${var.prefix}-logdna-target-1"
-    },
-    {
-      instance_id   = module.log_analysis_2.crn
-      ingestion_key = module.log_analysis_2.ingestion_key
-      target_region = local.log_analysis_target_region
-      target_name   = "${var.prefix}-logdna-target-2"
     }
   ]
 
