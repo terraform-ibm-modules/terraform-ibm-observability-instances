@@ -15,12 +15,21 @@ module "resource_group" {
 ##############################################################################
 
 module "key_protect" {
-  source                    = "terraform-ibm-modules/key-protect-all-inclusive/ibm"
-  version                   = "4.6.0"
-  resource_group_id         = module.resource_group.resource_group_id
-  region                    = var.region
-  resource_tags             = var.resource_tags
-  key_map                   = { "observability" = ["observability-key"] }
+  source            = "terraform-ibm-modules/key-protect-all-inclusive/ibm"
+  version           = "4.6.0"
+  resource_group_id = module.resource_group.resource_group_id
+  region            = var.region
+  resource_tags     = var.resource_tags
+  keys = [
+    {
+      key_ring_name = "observability"
+      keys = [
+        {
+          key_name = "observability-key"
+        }
+      ]
+    }
+  ]
   key_protect_instance_name = "${var.prefix}-kp"
 }
 
@@ -41,8 +50,8 @@ module "cos" {
   cos_instance_name          = "${var.prefix}-cos"
   cos_tags                   = var.resource_tags
   bucket_name                = local.bucket_name
-  existing_kms_instance_guid = module.key_protect.key_protect_guid
-  create_hmac_key            = false
+  existing_kms_instance_guid = module.key_protect.kms_guid
+  create_resource_key        = false
   retention_enabled          = false
   activity_tracker_crn       = module.observability_instance_creation.activity_tracker_crn
   sysdig_crn                 = module.observability_instance_creation.cloud_monitoring_crn
