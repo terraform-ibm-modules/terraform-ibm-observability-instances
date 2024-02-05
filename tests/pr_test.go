@@ -58,32 +58,21 @@ func setupOptions(t *testing.T, prefix string, dir string) *testhelper.TestOptio
 	return options
 }
 
-func TestRunCompleteExample(t *testing.T) {
+func TestRunObservabilityArchiveExample(t *testing.T) {
 	t.Parallel()
 
-	options := setupOptions(t, "obs-complete", completeExampleTerraformDir)
+	options := setupOptions(t, "obs-complete", observabilityArchiveTerraformDir)
 	output, err := options.RunTestConsistency()
 	assert.Nil(t, err, "This should not have errored")
 	assert.NotNil(t, output, "Expected some output")
 }
 
-func TestRunUpgradeExample(t *testing.T) {
-	t.Parallel()
-
-	options := setupOptions(t, "obs-upg", completeExampleTerraformDir)
-	output, err := options.RunTestUpgrade()
-	if !options.UpgradeTestSkipped {
-		assert.Nil(t, err, "This should not have errored")
-		assert.NotNil(t, output, "Expected some output")
-	}
-}
-
-func TestRunEventRoutingExample(t *testing.T) {
+func TestRunCompleteExample(t *testing.T) {
 	t.Parallel()
 
 	options := testhelper.TestOptionsDefaultWithVars(&testhelper.TestOptions{
 		Testing:                       t,
-		TerraformDir:                  observabilityArchiveTerraformDir,
+		TerraformDir:                  completeExampleTerraformDir,
 		Prefix:                        "obs-at-event-routing",
 		ResourceGroup:                 resourceGroup,
 		CloudInfoService:              sharedInfoSvc,
@@ -98,4 +87,28 @@ func TestRunEventRoutingExample(t *testing.T) {
 	output, err := options.RunTestConsistency()
 	assert.Nil(t, err, "This should not have errored")
 	assert.NotNil(t, output, "Expected some output")
+}
+
+func TestRunUpgradeExample(t *testing.T) {
+	t.Parallel()
+
+	options := testhelper.TestOptionsDefaultWithVars(&testhelper.TestOptions{
+		Testing:                       t,
+		TerraformDir:                  completeExampleTerraformDir,
+		Prefix:                        "obs-at-event-routing",
+		ResourceGroup:                 resourceGroup,
+		CloudInfoService:              sharedInfoSvc,
+		ExcludeActivityTrackerRegions: true,
+		TerraformVars: map[string]interface{}{
+			"existing_activity_tracker_crn":      permanentResources["activityTrackerFrankfurtCrn"],
+			"existing_activity_tracker_key_name": permanentResources["activityTrackerFrankfurtResourceKeyName"],
+			"existing_activity_tracker_region":   permanentResources["activityTrackerFrankfurtRegion"],
+			"access_tags":                        permanentResources["accessTags"],
+		},
+	})
+	output, err := options.RunTestUpgrade()
+	if !options.UpgradeTestSkipped {
+		assert.Nil(t, err, "This should not have errored")
+		assert.NotNil(t, output, "Expected some output")
+	}
 }
