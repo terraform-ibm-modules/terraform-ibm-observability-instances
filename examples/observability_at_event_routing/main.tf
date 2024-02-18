@@ -39,18 +39,6 @@ module "cos_bucket_1" {
   retention_enabled      = false
 }
 
-module "cos_bucket_2" {
-  source                 = "terraform-ibm-modules/cos/ibm"
-  version                = "7.3.1"
-  resource_group_id      = module.resource_group.resource_group_id
-  region                 = local.cos_target_region
-  cos_instance_name      = "${var.prefix}-cos-target-instance-2"
-  cos_tags               = var.resource_tags
-  bucket_name            = "${var.prefix}-cos-target-bucket-2"
-  kms_encryption_enabled = false
-  retention_enabled      = false
-}
-
 # Event stream target
 resource "ibm_resource_instance" "es_instance" {
   name              = "${var.prefix}-eventsteams-instance"

@@ -11,8 +11,8 @@ import (
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/testhelper"
 )
 
-const completeExampleTerraformDir = "examples/observability_at_event_routing"
-const observabilityArchiveTerraformDir = "examples/observability_archive"
+const observabilityArchiveExampleTerraformDir = "examples/observability_archive"
+const atEventRoutingTerraformDir = "examples/observability_at_event_routing"
 
 const resourceGroup = "geretain-test-observability-instances"
 
@@ -61,18 +61,18 @@ func setupOptions(t *testing.T, prefix string, dir string) *testhelper.TestOptio
 func TestRunObservabilityArchiveExample(t *testing.T) {
 	t.Parallel()
 
-	options := setupOptions(t, "obs-complete", observabilityArchiveTerraformDir)
+	options := setupOptions(t, "obs-complete", observabilityArchiveExampleTerraformDir)
 	output, err := options.RunTestConsistency()
 	assert.Nil(t, err, "This should not have errored")
 	assert.NotNil(t, output, "Expected some output")
 }
 
-func TestRunCompleteExample(t *testing.T) {
+func TestRunEventRoutingExample(t *testing.T) {
 	t.Parallel()
 
 	options := testhelper.TestOptionsDefaultWithVars(&testhelper.TestOptions{
 		Testing:                       t,
-		TerraformDir:                  completeExampleTerraformDir,
+		TerraformDir:                  atEventRoutingTerraformDir,
 		Prefix:                        "obs-at-event-routing",
 		ResourceGroup:                 resourceGroup,
 		CloudInfoService:              sharedInfoSvc,
@@ -92,20 +92,8 @@ func TestRunCompleteExample(t *testing.T) {
 func TestRunUpgradeExample(t *testing.T) {
 	t.Parallel()
 
-	options := testhelper.TestOptionsDefaultWithVars(&testhelper.TestOptions{
-		Testing:                       t,
-		TerraformDir:                  completeExampleTerraformDir,
-		Prefix:                        "obs-at-event-routing",
-		ResourceGroup:                 resourceGroup,
-		CloudInfoService:              sharedInfoSvc,
-		ExcludeActivityTrackerRegions: true,
-		TerraformVars: map[string]interface{}{
-			"existing_activity_tracker_crn":      permanentResources["activityTrackerFrankfurtCrn"],
-			"existing_activity_tracker_key_name": permanentResources["activityTrackerFrankfurtResourceKeyName"],
-			"existing_activity_tracker_region":   permanentResources["activityTrackerFrankfurtRegion"],
-			"access_tags":                        permanentResources["accessTags"],
-		},
-	})
+	options := setupOptions(t, "obs-upg", atEventRoutingTerraformDir)
+
 	output, err := options.RunTestUpgrade()
 	if !options.UpgradeTestSkipped {
 		assert.Nil(t, err, "This should not have errored")
