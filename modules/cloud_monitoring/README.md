@@ -13,7 +13,7 @@ To provision Cloud Monitoring instance
 
 ```hcl
 module "cloud_monitoring" {
-  source  = "terraform-ibm-modules/observability/ibm//modules/cloud_monitoring"
+  source  = "terraform-ibm-modules/observability-instances/ibm//modules/cloud_monitoring"
   version = "latest" # Replace "latest" with a release version to lock into a specific release
   resource_group_id = module.resource_group.resource_group_id
   region = var.region
