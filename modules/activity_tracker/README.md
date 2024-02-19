@@ -29,7 +29,7 @@ provider "logdna" {
 }
 
 module "activity_tracker" {
-  source  = "terraform-ibm-modules/observability/ibm//modules/activity_tracker"
+  source  = "terraform-ibm-modules/observability-instances/ibm//modules/activity_tracker"
   version = "latest" # Replace "latest" with a release version to lock into a specific release
   providers = {
     logdna.at = logdna.at

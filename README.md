@@ -123,7 +123,7 @@ provider "logdna" {
 }
 
 module "activity_tracker" {
-  source  = "terraform-ibm-modules/observability/ibm//modules/activity_tracker"
+  source  = "terraform-ibm-modules/observability-instances/ibm//modules/activity_tracker"
   version = "X.X.X" # Replace "X.X.X" with a release version to lock into a specific release
   providers = {
     logdna.at = logdna.at
@@ -137,7 +137,7 @@ To provision IBM Cloud Monitoring only
 
 ```hcl
 module "cloud_monitoring" {
-  source  = "terraform-ibm-modules/observability/ibm//modules/cloud_monitoring"
+  source  = "terraform-ibm-modules/observability-instances/ibm//modules/cloud_monitoring"
   version = "X.X.X" # Replace "X.X.X" with a release version to lock into a specific release
   resource_group_id = module.resource_group.resource_group_id
   region = var.region
