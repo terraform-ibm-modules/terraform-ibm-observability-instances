@@ -148,7 +148,7 @@ module "activity_tracker" {
 
   # Global Settings
   global_event_routing_settings = {
-    default_targets           = [module.activity_tracker.activity_tracker_targets["${var.prefix}-eventstreams-target-1"].id]
+    default_targets           = var.target_enabled ? [module.activity_tracker.activity_tracker_targets["${var.prefix}-eventstreams-target-1"].id] : []
     permitted_target_regions  = var.permitted_target_regions
     metadata_region_primary   = var.metadata_region_primary
     metadata_region_backup    = var.metadata_region_backup

@@ -82,6 +82,8 @@ func TestRunEventRoutingExample(t *testing.T) {
 			"existing_activity_tracker_key_name": permanentResources["activityTrackerFrankfurtResourceKeyName"],
 			"existing_activity_tracker_region":   permanentResources["activityTrackerFrankfurtRegion"],
 			"access_tags":                        permanentResources["accessTags"],
+			"target_enabled":                     "false", // This variable makes sure that the global default target is empty for the upgrade test.
+			// If it is not set then the upgrade and complete clashes resulting in test failure as documented in this issue https://github.ibm.com/GoldenEye/issues/issues/5269.
 		},
 	})
 	output, err := options.RunTestConsistency()
