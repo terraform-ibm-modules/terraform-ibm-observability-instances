@@ -11,7 +11,7 @@ import (
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/testhelper"
 )
 
-const completeExampleTerraformDir = "examples/observability_archive"
+const observabilityArchiveExampleTerraformDir = "examples/observability_archive"
 const atEventRoutingTerraformDir = "examples/observability_at_event_routing"
 
 const resourceGroup = "geretain-test-observability-instances"
@@ -58,10 +58,10 @@ func setupOptions(t *testing.T, prefix string, dir string) *testhelper.TestOptio
 	return options
 }
 
-func TestRunCompleteExample(t *testing.T) {
+func TestRunObservabilityArchiveExample(t *testing.T) {
 	t.Parallel()
 
-	options := setupOptions(t, "obs-complete", completeExampleTerraformDir)
+	options := setupOptions(t, "obs-complete", observabilityArchiveExampleTerraformDir)
 	output, err := options.RunTestConsistency()
 	assert.Nil(t, err, "This should not have errored")
 	assert.NotNil(t, output, "Expected some output")
@@ -82,6 +82,8 @@ func TestRunEventRoutingExample(t *testing.T) {
 			"existing_activity_tracker_key_name": permanentResources["activityTrackerFrankfurtResourceKeyName"],
 			"existing_activity_tracker_region":   permanentResources["activityTrackerFrankfurtRegion"],
 			"access_tags":                        permanentResources["accessTags"],
+			"target_enabled":                     "false", // This variable makes sure that the global default target is empty for the upgrade test.
+			// If it is not set then the upgrade and complete clashes resulting in test failure as documented in this issue https://github.ibm.com/GoldenEye/issues/issues/5269.
 		},
 	})
 	output, err := options.RunTestConsistency()
@@ -92,7 +94,8 @@ func TestRunEventRoutingExample(t *testing.T) {
 func TestRunUpgradeExample(t *testing.T) {
 	t.Parallel()
 
-	options := setupOptions(t, "obs-upg", completeExampleTerraformDir)
+	options := setupOptions(t, "obs-upg", atEventRoutingTerraformDir)
+
 	output, err := options.RunTestUpgrade()
 	if !options.UpgradeTestSkipped {
 		assert.Nil(t, err, "This should not have errored")
