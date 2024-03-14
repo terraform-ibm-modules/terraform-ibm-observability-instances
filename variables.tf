@@ -147,12 +147,12 @@ variable "cloud_monitoring_instance_name" {
 
 variable "cloud_monitoring_plan" {
   type        = string
-  description = "The IBM Cloud Monitoring plan to provision. Available: lite, graduated-tier, graduated-tier-sysdig-secure-plus-monitor"
+  description = "The IBM Cloud Monitoring plan to provision. Available: lite, graduated-tier"
   default     = "lite"
 
   validation {
-    condition     = can(regex("^lite$|^graduated-tier$|^graduated-tier-sysdig-secure-plus-monitor$", var.cloud_monitoring_plan))
-    error_message = "The cloud_monitoring_plan value must be one of the following: lite, graduated-tier, graduated-tier-sysdig-secure-plus-monitor."
+    condition     = can(regex("^lite$|^graduated-tier$", var.cloud_monitoring_plan))
+    error_message = "The cloud_monitoring_plan value must be one of the following: lite, graduated-tier."
   }
 }
 
