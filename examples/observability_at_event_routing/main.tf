@@ -29,7 +29,7 @@ module "resource_group" {
 # COS target
 module "cos_bucket_1" {
   source                 = "terraform-ibm-modules/cos/ibm"
-  version                = "7.5.0"
+  version                = "7.5.1"
   resource_group_id      = module.resource_group.resource_group_id
   region                 = local.cos_target_region
   cos_instance_name      = "${var.prefix}-cos-target-instance-1"
@@ -41,7 +41,7 @@ module "cos_bucket_1" {
 
 module "cos_bucket_2" {
   source                 = "terraform-ibm-modules/cos/ibm"
-  version                = "7.5.0"
+  version                = "7.5.1"
   resource_group_id      = module.resource_group.resource_group_id
   region                 = local.cos_target_region
   cos_instance_name      = "${var.prefix}-cos-target-instance-2"
