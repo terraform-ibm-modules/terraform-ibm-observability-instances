@@ -16,7 +16,7 @@ module "resource_group" {
 
 module "key_protect" {
   source            = "terraform-ibm-modules/kms-all-inclusive/ibm"
-  version           = "4.8.4"
+  version           = "4.8.5"
   resource_group_id = module.resource_group.resource_group_id
   region            = var.region
   resource_tags     = var.resource_tags
@@ -44,7 +44,7 @@ locals {
 
 module "cos" {
   source                     = "terraform-ibm-modules/cos/ibm"
-  version                    = "7.5.1"
+  version                    = "7.5.3"
   resource_group_id          = module.resource_group.resource_group_id
   region                     = var.region
   cos_instance_name          = "${var.prefix}-cos"
