@@ -14,13 +14,11 @@ variable "archive_api_key" {
 variable "prefix" {
   type        = string
   description = "Prefix for name of all resource created by this example"
-  default     = "test-obs-archive"
 }
 
 variable "region" {
   description = "Region where resources will be created"
   type        = string
-  default     = "eu-gb"
 }
 
 variable "resource_group" {
