@@ -50,6 +50,11 @@ resource "logdna_archive" "archive_config" {
 # Activity Tracker Event Routing
 #########################################################################
 
+resource "time_sleep" "wait_for_authorization_policy" {
+  depends_on      = [ibm_iam_authorization_policy.atracker_cos]
+  create_duration = "30s"
+}
+
 # atracker to COS s2s auth policy
 resource "ibm_iam_authorization_policy" "atracker_cos" {
   for_each                    = nonsensitive({ for target in var.cos_targets : target.target_name => target if target.service_to_service_enabled && !target.skip_atracker_cos_iam_auth_policy })
@@ -62,7 +67,8 @@ resource "ibm_iam_authorization_policy" "atracker_cos" {
 
 # COS targets
 resource "ibm_atracker_target" "atracker_cos_targets" {
-  for_each = nonsensitive({ for target in var.cos_targets : target.target_name => target })
+  depends_on = [time_sleep.wait_for_authorization_policy]
+  for_each   = nonsensitive({ for target in var.cos_targets : target.target_name => target })
   cos_endpoint {
     endpoint                   = each.value.endpoint
     bucket                     = each.value.bucket_name

@@ -11,5 +11,9 @@ terraform {
       version               = ">= 1.14.2, < 2.0.0"
       configuration_aliases = [logdna.at]
     }
+    time = {
+      source  = "hashicorp/time"
+      version = ">= 0.9.1, < 1.0.0"
+    }
   }
 }
