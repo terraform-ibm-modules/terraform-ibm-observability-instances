@@ -10,4 +10,5 @@ output "log_analysis_name" {
 output "cos_bucket" {
   value       = module.cos
   description = "Cloud Object Storage information"
+  sensitive   = true
 }

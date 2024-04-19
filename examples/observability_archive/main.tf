@@ -44,14 +44,13 @@ locals {
 
 module "cos" {
   source                     = "terraform-ibm-modules/cos/ibm"
-  version                    = "7.5.3"
+  version                    = "8.1.8"
   resource_group_id          = module.resource_group.resource_group_id
   region                     = var.region
   cos_instance_name          = "${var.prefix}-cos"
   cos_tags                   = var.resource_tags
   bucket_name                = local.bucket_name
   existing_kms_instance_guid = module.key_protect.kms_guid
-  create_resource_key        = false
   retention_enabled          = false
   activity_tracker_crn       = module.observability_instance_creation.activity_tracker_crn
   sysdig_crn                 = module.observability_instance_creation.cloud_monitoring_crn
