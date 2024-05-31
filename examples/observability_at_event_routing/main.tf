@@ -27,17 +27,6 @@ module "resource_group" {
 }
 
 # COS target
-module "cos_bucket_1" {
-  source                 = "terraform-ibm-modules/cos/ibm"
-  version                = "8.2.8"
-  resource_group_id      = module.resource_group.resource_group_id
-  region                 = local.cos_target_region
-  cos_instance_name      = "${var.prefix}-cos-target-instance-1"
-  cos_tags               = var.resource_tags
-  bucket_name            = "${var.prefix}-cos-target-bucket-1"
-  kms_encryption_enabled = false
-  retention_enabled      = false
-}
 
 module "cos_bucket_2" {
   source                 = "terraform-ibm-modules/cos/ibm"
@@ -93,20 +82,6 @@ module "log_analysis_1" {
   access_tags       = var.access_tags
 }
 
-module "log_analysis_2" {
-  source = "../../modules/log_analysis"
-  providers = {
-    logdna.ld = logdna.ld_2
-  }
-  instance_name     = "${var.prefix}-logdna-target-instance-2"
-  resource_group_id = module.resource_group.resource_group_id
-  plan              = "7-day"
-  region            = local.log_analysis_target_region
-  manager_key_name  = "${var.prefix}-logdna-manager-key-2"
-  resource_key_role = "Manager"
-  access_tags       = var.access_tags
-}
-
 ########################################################################
 # Activity Tracker With Event Routing
 #########################################################################
@@ -128,15 +103,6 @@ module "activity_tracker" {
 
   # Targets
   cos_targets = [
-    {
-      bucket_name                       = module.cos_bucket_1.bucket_name
-      endpoint                          = module.cos_bucket_1.s3_endpoint_private
-      instance_id                       = module.cos_bucket_1.cos_instance_id
-      target_region                     = local.cos_target_region
-      target_name                       = "${var.prefix}-cos-target-1"
-      skip_atracker_cos_iam_auth_policy = false
-      service_to_service_enabled        = true
-    },
     {
       bucket_name                       = module.cos_bucket_2.bucket_name
       endpoint                          = module.cos_bucket_2.s3_endpoint_private
@@ -165,12 +131,6 @@ module "activity_tracker" {
       ingestion_key = module.log_analysis_1.ingestion_key
       target_region = local.log_analysis_target_region
       target_name   = "${var.prefix}-logdna-target-1"
-    },
-    {
-      instance_id   = module.log_analysis_2.crn
-      ingestion_key = module.log_analysis_2.ingestion_key
-      target_region = local.log_analysis_target_region
-      target_name   = "${var.prefix}-logdna-target-2"
     }
   ]
 
@@ -180,24 +140,16 @@ module "activity_tracker" {
       route_name = "${var.prefix}-route-1"
       locations  = ["*", "global"]
       target_ids = [
-        module.activity_tracker.activity_tracker_targets["${var.prefix}-cos-target-1"].id,
+        module.activity_tracker.activity_tracker_targets["${var.prefix}-cos-target-2"].id,
         module.activity_tracker.activity_tracker_targets["${var.prefix}-logdna-target-1"].id,
         module.activity_tracker.activity_tracker_targets["${var.prefix}-eventstreams-target-1"].id
-      ]
-    },
-    {
-      route_name = "${var.prefix}-route-2"
-      locations  = ["*", "global"]
-      target_ids = [
-        module.activity_tracker.activity_tracker_targets["${var.prefix}-cos-target-2"].id,
-        module.activity_tracker.activity_tracker_targets["${var.prefix}-logdna-target-2"].id
       ]
     }
   ]
 
   # Global Settings
   global_event_routing_settings = {
-    default_targets           = [module.activity_tracker.activity_tracker_targets["${var.prefix}-eventstreams-target-1"].id]
+    default_targets           = var.target_enabled ? [module.activity_tracker.activity_tracker_targets["${var.prefix}-eventstreams-target-1"].id] : []
     permitted_target_regions  = var.permitted_target_regions
     metadata_region_primary   = var.metadata_region_primary
     metadata_region_backup    = var.metadata_region_backup

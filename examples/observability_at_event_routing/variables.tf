@@ -95,3 +95,9 @@ variable "private_api_endpoint_only" {
   description = "Set this true to restrict access only to private api endpoint."
   default     = false
 }
+
+variable "target_enabled" {
+  type        = bool
+  description = "This variable defines whether the global event routing settings for the example have a default target specified."
+  default     = true
+}
