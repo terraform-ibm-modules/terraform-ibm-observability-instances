@@ -94,15 +94,17 @@ module "cos" {
 }
 
 module "cos_bucket_1" {
-  source                 = "terraform-ibm-modules/cos/ibm"
-  version                = "8.2.8"
-  resource_group_id      = module.resource_group.resource_group_id
-  region                 = local.cos_target_region
-  cos_instance_name      = "${var.prefix}-cos"
-  cos_tags               = var.resource_tags
-  bucket_name            = "${var.prefix}-cos-target-bucket-1"
-  kms_encryption_enabled = false
-  retention_enabled      = false
+  source                     = "terraform-ibm-modules/cos/ibm"
+  version                    = "8.2.8"
+  resource_group_id          = module.resource_group.resource_group_id
+  region                     = local.cos_target_region
+  cos_instance_name          = "${var.prefix}-cos"
+  cos_tags                   = var.resource_tags
+  bucket_name                = "${var.prefix}-cos-target-bucket-1"
+  kms_encryption_enabled     = true
+  retention_enabled          = false
+  existing_kms_instance_guid = module.key_protect.kms_guid
+  kms_key_crn                = module.key_protect.keys["observability.observability-key"].crn
 }
 
 ##############################################################################
