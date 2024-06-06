@@ -67,9 +67,13 @@ func TestRunCompleteExample(t *testing.T) {
 		Prefix:           "obs-complete",
 		ResourceGroup:    resourceGroup,
 		CloudInfoService: sharedInfoSvc,
-		TerraformVars: map[string]interface{}{
-			"region": "us-south",
+		IgnoreDestroys: testhelper.Exemptions{
+			List: ignoreDestroys,
 		},
+		// TerraformVars: map[string]interface{}{
+		// 	"region": "us-south",
+		// },
+		ExcludeActivityTrackerRegions: true,
 	})
 	output, err := options.RunTestConsistency()
 	assert.Nil(t, err, "This should not have errored")
