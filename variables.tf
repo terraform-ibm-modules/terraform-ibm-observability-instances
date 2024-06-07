@@ -15,12 +15,17 @@ variable "resource_group_id" {
   default     = null
 }
 
-variable "enable_archive" {
+variable "log_analysis_enable_archive" {
   type        = bool
-  description = "Enable archive on log analysis and activity tracker instances"
+  description = "Enable archive on log analysis instances"
   default     = false
 }
 
+variable "activity_tracker_enable_archive" {
+  type        = bool
+  description = "Enable archive on activity tracker instances"
+  default     = false
+}
 variable "ibmcloud_api_key" {
   type        = string
   description = "Restricted IBM Cloud API Key used only for writing Log Analysis archives to Cloud Object Storage"
@@ -114,19 +119,19 @@ variable "log_analysis_service_endpoints" {
 
 variable "log_analysis_cos_instance_id" {
   type        = string
-  description = "The ID of the cloud object storage instance containing the Log Analysis archive bucket. (Only required when var.enable_archive and var.log_analysis_provision are true)."
+  description = "The ID of the cloud object storage instance containing the Log Analysis archive bucket. (Only required when var.log_analysis_enable_archive and var.log_analysis_provision are true)."
   default     = null
 }
 
 variable "log_analysis_cos_bucket_name" {
   type        = string
-  description = "The name of an existing COS bucket to be used for the Log Analysis archive. (Only required when var.enable_archive and var.log_analysis_provision are true)."
+  description = "The name of an existing COS bucket to be used for the Log Analysis archive. (Only required when var.log_analysis_enable_archive and var.log_analysis_provision are true)."
   default     = null
 }
 
 variable "log_analysis_cos_bucket_endpoint" {
   type        = string
-  description = "An endpoint for the COS bucket for the Log Analysis archive. Pass either the public or private endpoint. (Only required when var.enable_archive and var.log_analysis_provision are true)."
+  description = "An endpoint for the COS bucket for the Log Analysis archive. Pass either the public or private endpoint. (Only required when var.log_analysis_enable_archive and var.log_analysis_provision are true)."
   default     = null
 }
 
@@ -272,19 +277,19 @@ variable "activity_tracker_service_endpoints" {
 
 variable "at_cos_instance_id" {
   type        = string
-  description = "The ID of the cloud object storage instance containing the Activity Tracker archive bucket (Only required when var.enable_archive and var.activity_tracker_provision are true)."
+  description = "The ID of the cloud object storage instance containing the Activity Tracker archive bucket (Only required when var.activity_tracker_enable_archive and var.activity_tracker_provision are true)."
   default     = null
 }
 
 variable "at_cos_bucket_name" {
   type        = string
-  description = "The name of an existing COS bucket to be used for the Activity Tracker archive (Only required when var.enable_archive and var.activity_tracker_provision are true)."
+  description = "The name of an existing COS bucket to be used for the Activity Tracker archive (Only required when var.activity_tracker_enable_archive and var.activity_tracker_provision are true)."
   default     = null
 }
 
 variable "at_cos_bucket_endpoint" {
   type        = string
-  description = "An endpoint for the COS bucket for the Activity Tracker archive. Pass either the public or private endpoint (Only required when var.enable_archive and var.activity_tracker_provision are true)"
+  description = "An endpoint for the COS bucket for the Activity Tracker archive. Pass either the public or private endpoint (Only required when var.activity_tracker_enable_archive and var.activity_tracker_provision are true)"
   default     = null
 }
 
