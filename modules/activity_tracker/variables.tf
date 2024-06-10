@@ -10,7 +10,7 @@ variable "resource_group_id" {
   default     = null
 }
 
-variable "enable_archive" {
+variable "activity_tracker_enable_archive" {
   type        = bool
   description = "Enable archive on Activity Tracker instances"
   default     = false
@@ -82,19 +82,19 @@ variable "service_endpoints" {
 
 variable "cos_instance_id" {
   type        = string
-  description = "The ID of the cloud object storage instance containing the archive bucket (Only required when var.enable_archive and var.activity_tracker_provision are true)."
+  description = "The ID of the cloud object storage instance containing the archive bucket (Only required when var.activity_tracker_enable_archive and var.activity_tracker_provision are true)."
   default     = null
 }
 
 variable "cos_bucket_name" {
   type        = string
-  description = "The name of an existing COS bucket to be used for the archive (Only required when var.enable_archive and var.activity_tracker_provision are true)."
+  description = "The name of an existing COS bucket to be used for the archive (Only required when var.activity_tracker_enable_archive and var.activity_tracker_provision are true)."
   default     = null
 }
 
 variable "cos_bucket_endpoint" {
   type        = string
-  description = "An endpoint for the COS bucket for the archive. Pass either the public or private endpoint (Only required when var.enable_archive and var.activity_tracker_provision are true)"
+  description = "An endpoint for the COS bucket for the archive. Pass either the public or private endpoint (Only required when var.activity_tracker_enable_archive and var.activity_tracker_provision are true)"
   default     = null
 }
 
