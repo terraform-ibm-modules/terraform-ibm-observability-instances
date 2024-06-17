@@ -191,12 +191,12 @@ variable "global_event_routing_settings" {
 
   # https://cloud.ibm.com/docs/atracker?topic=atracker-regions#regions-atracker
   validation {
-    error_message = "Valid regions for permitted_target_regions are: [eu-gb eu-de au-syd us-east us-south eu-es]"
+    error_message = "Valid regions for permitted_target_regions are: us-south, eu-de, us-east, eu-es, eu-gb, au-syd, br-sao, ca-tor, eu-es, jp-tok, jp-osa, in-che"
     condition = (var.global_event_routing_settings == null ?
       true :
       alltrue([
         for region in var.global_event_routing_settings.permitted_target_regions :
-        contains(["eu-gb", "eu-de", "au-syd", "us-east", "us-south", "eu-es"], region)
+        contains(["us-south", "eu-de", "us-east", "eu-es", "eu-gb", "au-syd", "br-sao", "ca-tor", "eu-es", "jp-tok", "jp-osa", "in-che"], region)
       ])
     )
   }
