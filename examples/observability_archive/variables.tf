@@ -38,3 +38,40 @@ variable "access_tags" {
   description = "Optional list of access management tags to add to resources that are created"
   default     = []
 }
+
+variable "eventstreams_target_region" {
+  type        = string
+  description = "Region where event streams target will be created"
+  default     = null
+}
+
+variable "cos_target_region" {
+  type        = string
+  description = "Region where cos target will be created"
+  default     = null
+}
+
+# Event Routing Global Setting
+variable "metadata_region_primary" {
+  type        = string
+  description = "Primary region to store all your meta data."
+  default     = "us-south"
+}
+
+variable "metadata_region_backup" {
+  type        = string
+  description = "Backup region to store all your meta data in a ."
+  default     = "us-east"
+}
+
+variable "permitted_target_regions" {
+  type        = list(string)
+  description = "List of regions where target can be defined."
+  default     = ["us-south", "eu-de", "us-east", "eu-es", "eu-gb", "au-syd"]
+}
+
+variable "private_api_endpoint_only" {
+  type        = bool
+  description = "Set this true to restrict access only to private api endpoint."
+  default     = false
+}

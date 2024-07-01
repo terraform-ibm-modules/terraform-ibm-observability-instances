@@ -61,11 +61,33 @@ func setupOptions(t *testing.T, prefix string, dir string) *testhelper.TestOptio
 func TestRunCompleteExample(t *testing.T) {
 	t.Parallel()
 
-	options := setupOptions(t, "obs-complete", completeExampleTerraformDir)
+	options := testhelper.TestOptionsDefaultWithVars(&testhelper.TestOptions{
+		Testing:          t,
+		TerraformDir:     completeExampleTerraformDir,
+		Prefix:           "obs-complete",
+		ResourceGroup:    resourceGroup,
+		CloudInfoService: sharedInfoSvc,
+		IgnoreDestroys: testhelper.Exemptions{
+			List: ignoreDestroys,
+		},
+		// TerraformVars: map[string]interface{}{
+		// 	"region": "us-south",
+		// },
+		ExcludeActivityTrackerRegions: true,
+	})
 	output, err := options.RunTestConsistency()
 	assert.Nil(t, err, "This should not have errored")
 	assert.NotNil(t, output, "Expected some output")
 }
+
+// func TestRunCompleteExample(t *testing.T) {
+// 	t.Parallel()
+
+// 	options := setupOptions(t, "obs-complete", completeExampleTerraformDir)
+// 	output, err := options.RunTestConsistency()
+// 	assert.Nil(t, err, "This should not have errored")
+// 	assert.NotNil(t, output, "Expected some output")
+// }
 
 func TestRunEventRoutingExample(t *testing.T) {
 	t.Parallel()
