@@ -10,7 +10,7 @@ variable "resource_group_id" {
   default     = null
 }
 
-variable "enable_archive" {
+variable "activity_tracker_enable_archive" {
   type        = bool
   description = "Enable archive on Activity Tracker instances"
   default     = false
@@ -82,19 +82,19 @@ variable "service_endpoints" {
 
 variable "cos_instance_id" {
   type        = string
-  description = "The ID of the cloud object storage instance containing the archive bucket (Only required when var.enable_archive and var.activity_tracker_provision are true)."
+  description = "The ID of the cloud object storage instance containing the archive bucket (Only required when var.activity_tracker_enable_archive and var.activity_tracker_provision are true)."
   default     = null
 }
 
 variable "cos_bucket_name" {
   type        = string
-  description = "The name of an existing COS bucket to be used for the archive (Only required when var.enable_archive and var.activity_tracker_provision are true)."
+  description = "The name of an existing COS bucket to be used for the archive (Only required when var.activity_tracker_enable_archive and var.activity_tracker_provision are true)."
   default     = null
 }
 
 variable "cos_bucket_endpoint" {
   type        = string
-  description = "An endpoint for the COS bucket for the archive. Pass either the public or private endpoint (Only required when var.enable_archive and var.activity_tracker_provision are true)"
+  description = "An endpoint for the COS bucket for the archive. Pass either the public or private endpoint (Only required when var.activity_tracker_enable_archive and var.activity_tracker_provision are true)"
   default     = null
 }
 
@@ -191,12 +191,12 @@ variable "global_event_routing_settings" {
 
   # https://cloud.ibm.com/docs/atracker?topic=atracker-regions#regions-atracker
   validation {
-    error_message = "Valid regions for permitted_target_regions are: [eu-gb eu-de au-syd us-east us-south eu-es]"
+    error_message = "Valid regions for permitted_target_regions are: us-south, eu-de, us-east, eu-es, eu-gb, au-syd, br-sao, ca-tor, eu-es, jp-tok, jp-osa, in-che"
     condition = (var.global_event_routing_settings == null ?
       true :
       alltrue([
         for region in var.global_event_routing_settings.permitted_target_regions :
-        contains(["eu-gb", "eu-de", "au-syd", "us-east", "us-south", "eu-es"], region)
+        contains(["us-south", "eu-de", "us-east", "eu-es", "eu-gb", "au-syd", "br-sao", "ca-tor", "eu-es", "jp-tok", "jp-osa", "in-che"], region)
       ])
     )
   }

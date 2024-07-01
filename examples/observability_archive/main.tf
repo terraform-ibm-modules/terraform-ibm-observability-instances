@@ -15,7 +15,7 @@ locals {
 
 module "resource_group" {
   source  = "terraform-ibm-modules/resource-group/ibm"
-  version = "1.1.5"
+  version = "1.1.6"
   # if an existing resource group is not set (null) create a new one using prefix
   resource_group_name          = var.resource_group == null ? "${var.prefix}-resource-group" : null
   existing_resource_group_name = var.resource_group
@@ -27,7 +27,7 @@ module "resource_group" {
 
 module "key_protect" {
   source            = "terraform-ibm-modules/kms-all-inclusive/ibm"
-  version           = "4.13.1"
+  version           = "4.13.4"
   resource_group_id = module.resource_group.resource_group_id
   region            = var.region
   resource_tags     = var.resource_tags
@@ -80,7 +80,7 @@ resource "ibm_resource_key" "es_resource_key" {
 
 module "cos" {
   source                     = "terraform-ibm-modules/cos/ibm"
-  version                    = "8.2.13"
+  version                    = "8.5.3"
   resource_group_id          = module.resource_group.resource_group_id
   region                     = var.region
   cos_instance_name          = "${var.prefix}-cos"
@@ -136,7 +136,8 @@ module "observability_instance_creation" {
   log_analysis_access_tags          = var.access_tags
   cloud_monitoring_access_tags      = var.access_tags
   activity_tracker_access_tags      = var.access_tags
-  enable_archive                    = true
+  log_analysis_enable_archive       = true
+  activity_tracker_enable_archive   = true
   ibmcloud_api_key                  = local.archive_api_key
   log_analysis_cos_instance_id      = module.cos.cos_instance_id
   log_analysis_cos_bucket_name      = local.bucket_name

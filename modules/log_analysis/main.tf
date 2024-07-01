@@ -2,8 +2,8 @@ locals {
   instance_name = var.instance_name != null ? var.instance_name : "log-analysis-${var.region}"
 
   # When archive is enabled cos instance information is required to identify bucket
-  cos_validate_condition = var.enable_archive && var.log_analysis_provision && ((var.cos_instance_id == null || var.cos_bucket_name == null || var.cos_bucket_endpoint == null))
-  cos_validate_msg       = "'cos_instance_id', 'cos_bucket_name' and 'cos_bucket_endpoint' are required when 'enable_archive' is true"
+  cos_validate_condition = var.log_analysis_enable_archive && var.log_analysis_provision && ((var.cos_instance_id == null || var.cos_bucket_name == null || var.cos_bucket_endpoint == null))
+  cos_validate_msg       = "'cos_instance_id', 'cos_bucket_name' and 'cos_bucket_endpoint' are required when 'log_analysis_enable_archive' is true"
   # tflint-ignore: terraform_unused_declarations
   cos_validate_check = regex("^${local.cos_validate_msg}$", (!local.cos_validate_condition ? local.cos_validate_msg : ""))
 }
@@ -40,7 +40,7 @@ resource "ibm_resource_key" "resource_key" {
 }
 
 resource "logdna_archive" "archive_config" {
-  count       = var.log_analysis_provision && var.enable_archive ? 1 : 0
+  count       = var.log_analysis_provision && var.log_analysis_enable_archive ? 1 : 0
   provider    = logdna.ld
   integration = "ibm"
   ibm_config {
