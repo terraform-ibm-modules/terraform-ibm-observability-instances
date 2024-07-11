@@ -136,7 +136,8 @@ module "observability_instance_creation" {
   log_analysis_access_tags          = var.access_tags
   cloud_monitoring_access_tags      = var.access_tags
   activity_tracker_access_tags      = var.access_tags
-  enable_archive                    = true
+  log_analysis_enable_archive       = true
+  activity_tracker_enable_archive   = true
   ibmcloud_api_key                  = local.archive_api_key
   log_analysis_cos_instance_id      = module.cos.cos_instance_id
   log_analysis_cos_bucket_name      = local.bucket_name
