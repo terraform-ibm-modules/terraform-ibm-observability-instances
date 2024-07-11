@@ -44,7 +44,7 @@ module "log_analysis" {
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0.0, < 1.7.0 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0.0 |
 | <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | >= 1.56.1, < 2.0.0 |
 | <a name="requirement_logdna"></a> [logdna](#requirement\_logdna) | >= 1.14.2, < 2.0.0 |
 
@@ -66,13 +66,13 @@ No modules.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_access_tags"></a> [access\_tags](#input\_access\_tags) | Access Management Tags associated with the IBM Cloud Logging instance (Optional, array of strings). | `list(string)` | `[]` | no |
-| <a name="input_cos_bucket_endpoint"></a> [cos\_bucket\_endpoint](#input\_cos\_bucket\_endpoint) | An endpoint for the COS bucket for the Log Analysis archive. Pass either the public or private endpoint. (Only required when var.enable\_archive and var.log\_analysis\_provision are true). | `string` | `null` | no |
-| <a name="input_cos_bucket_name"></a> [cos\_bucket\_name](#input\_cos\_bucket\_name) | The name of an existing COS bucket to be used for the Log Analysis archive. (Only required when var.enable\_archive and var.log\_analysis\_provision are true). | `string` | `null` | no |
-| <a name="input_cos_instance_id"></a> [cos\_instance\_id](#input\_cos\_instance\_id) | The ID of the cloud object storage instance containing the Log Analysis archive bucket. (Only required when var.enable\_archive and var.log\_analysis\_provision are true). | `string` | `null` | no |
-| <a name="input_enable_archive"></a> [enable\_archive](#input\_enable\_archive) | Enable archive on Log Analysis and Activity Tracker instances | `bool` | `false` | no |
+| <a name="input_cos_bucket_endpoint"></a> [cos\_bucket\_endpoint](#input\_cos\_bucket\_endpoint) | An endpoint for the COS bucket for the Log Analysis archive. Pass either the public or private endpoint. (Only required when var.log\_analysis\_enable\_archive and var.log\_analysis\_provision are true). | `string` | `null` | no |
+| <a name="input_cos_bucket_name"></a> [cos\_bucket\_name](#input\_cos\_bucket\_name) | The name of an existing COS bucket to be used for the Log Analysis archive. (Only required when var.log\_analysis\_enable\_archive and var.log\_analysis\_provision are true). | `string` | `null` | no |
+| <a name="input_cos_instance_id"></a> [cos\_instance\_id](#input\_cos\_instance\_id) | The ID of the cloud object storage instance containing the Log Analysis archive bucket. (Only required when var.log\_analysis\_enable\_archive and var.log\_analysis\_provision are true). | `string` | `null` | no |
 | <a name="input_enable_platform_logs"></a> [enable\_platform\_logs](#input\_enable\_platform\_logs) | Receive platform logs in the provisioned IBM Cloud Logging instance. | `bool` | `true` | no |
 | <a name="input_ibmcloud_api_key"></a> [ibmcloud\_api\_key](#input\_ibmcloud\_api\_key) | Only required to archive. The IBM Cloud API Key. | `string` | `null` | no |
 | <a name="input_instance_name"></a> [instance\_name](#input\_instance\_name) | The name of the IBM Cloud Logging instance to create. Defaults to 'log-analysis-<region>' | `string` | `null` | no |
+| <a name="input_log_analysis_enable_archive"></a> [log\_analysis\_enable\_archive](#input\_log\_analysis\_enable\_archive) | Enable archive on Log Analysis instances | `bool` | `false` | no |
 | <a name="input_log_analysis_provision"></a> [log\_analysis\_provision](#input\_log\_analysis\_provision) | Provision an IBM Cloud Logging instance? | `bool` | `true` | no |
 | <a name="input_manager_key_name"></a> [manager\_key\_name](#input\_manager\_key\_name) | The name to give the IBM Cloud Logging manager key. | `string` | `"LogDnaManagerKey"` | no |
 | <a name="input_manager_key_tags"></a> [manager\_key\_tags](#input\_manager\_key\_tags) | Tags associated with the IBM Cloud Logging manager key. | `list(string)` | `[]` | no |
