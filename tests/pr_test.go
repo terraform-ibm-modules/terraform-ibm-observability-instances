@@ -11,7 +11,7 @@ import (
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/testhelper"
 )
 
-const completeExampleTerraformDir = "examples/observability_archive"
+const completeExampleTerraformDir = "examples/observability_complete"
 const atEventRoutingTerraformDir = "examples/observability_at_event_routing"
 
 const resourceGroup = "geretain-test-observability-instances"
@@ -70,24 +70,12 @@ func TestRunCompleteExample(t *testing.T) {
 		IgnoreDestroys: testhelper.Exemptions{
 			List: ignoreDestroys,
 		},
-		// TerraformVars: map[string]interface{}{
-		// 	"region": "us-south",
-		// },
 		ExcludeActivityTrackerRegions: true,
 	})
 	output, err := options.RunTestConsistency()
 	assert.Nil(t, err, "This should not have errored")
 	assert.NotNil(t, output, "Expected some output")
 }
-
-// func TestRunCompleteExample(t *testing.T) {
-// 	t.Parallel()
-
-// 	options := setupOptions(t, "obs-complete", completeExampleTerraformDir)
-// 	output, err := options.RunTestConsistency()
-// 	assert.Nil(t, err, "This should not have errored")
-// 	assert.NotNil(t, output, "Expected some output")
-// }
 
 func TestRunEventRoutingExample(t *testing.T) {
 	t.Parallel()
