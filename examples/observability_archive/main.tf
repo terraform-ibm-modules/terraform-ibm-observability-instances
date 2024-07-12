@@ -80,7 +80,7 @@ resource "ibm_resource_key" "es_resource_key" {
 
 module "cos" {
   source                     = "terraform-ibm-modules/cos/ibm"
-  version                    = "8.2.13"
+  version                    = "8.6.2"
   resource_group_id          = module.resource_group.resource_group_id
   region                     = var.region
   cos_instance_name          = "${var.prefix}-cos"
@@ -95,7 +95,7 @@ module "cos" {
 
 module "cos_bucket_1" {
   source                     = "terraform-ibm-modules/cos/ibm"
-  version                    = "8.2.8"
+  version                    = "8.6.2"
   resource_group_id          = module.resource_group.resource_group_id
   region                     = local.cos_target_region
   cos_instance_name          = "${var.prefix}-cos"
