@@ -15,7 +15,7 @@ locals {
 
 module "resource_group" {
   source  = "terraform-ibm-modules/resource-group/ibm"
-  version = "1.1.5"
+  version = "1.1.6"
   # if an existing resource group is not set (null) create a new one using prefix
   resource_group_name          = var.resource_group == null ? "${var.prefix}-resource-group" : null
   existing_resource_group_name = var.resource_group
@@ -27,7 +27,7 @@ module "resource_group" {
 
 module "key_protect" {
   source            = "terraform-ibm-modules/kms-all-inclusive/ibm"
-  version           = "4.13.1"
+  version           = "4.13.4"
   resource_group_id = module.resource_group.resource_group_id
   region            = var.region
   resource_tags     = var.resource_tags
@@ -152,7 +152,7 @@ module "observability_instance_creation" {
       endpoint                          = module.cos_bucket_1.s3_endpoint_private
       instance_id                       = module.cos_bucket_1.cos_instance_id
       target_region                     = local.cos_target_region
-      target_name                       = "${var.prefix}-cos-target-1"
+      target_name                       = "${var.prefix}-cos-target"
       skip_atracker_cos_iam_auth_policy = false
       service_to_service_enabled        = true
     }
@@ -182,7 +182,7 @@ module "observability_instance_creation" {
       route_name = "${var.prefix}-route"
       locations  = ["*", "global"]
       target_ids = [
-        module.observability_instance_creation.activity_tracker_targets["${var.prefix}-cos-target-1"].id,
+        module.observability_instance_creation.activity_tracker_targets["${var.prefix}-cos-target"].id,
         module.observability_instance_creation.activity_tracker_targets["${var.prefix}-log-analysis"].id,
         module.observability_instance_creation.activity_tracker_targets["${var.prefix}-eventstreams-target-1"].id
       ]
