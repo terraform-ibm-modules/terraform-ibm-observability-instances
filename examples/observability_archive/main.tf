@@ -89,7 +89,7 @@ module "cos" {
   existing_kms_instance_guid = module.key_protect.kms_guid
   retention_enabled          = false
   activity_tracker_crn       = module.observability_instance_creation.activity_tracker_crn
-  sysdig_crn                 = module.observability_instance_creation.cloud_monitoring_crn
+  monitoring_crn             = module.observability_instance_creation.cloud_monitoring_crn
   kms_key_crn                = module.key_protect.keys["observability.observability-key"].crn
 }
 
