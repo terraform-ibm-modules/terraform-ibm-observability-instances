@@ -22,5 +22,5 @@ repository:
 
   # Uncomment this description property
   # and update the description to the current repo description.
-  description: "Deploys services for LogDNA, Activity Tracker, and SysDig"
+  description: "Deploys services for LogDNA, Activity Tracker, SysDig, and Cloud Logs"
   topics: core-team, terraform, ibm-cloud, terraform-module, logdna, sysdig, activity-tracker, observability-instances, logging, monitoring, supported, graduated
