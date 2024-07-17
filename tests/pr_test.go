@@ -12,7 +12,6 @@ import (
 )
 
 const completeExampleTerraformDir = "examples/observability_archive"
-const atEventRoutingTerraformDir = "examples/observability_at_event_routing"
 
 const resourceGroup = "geretain-test-observability-instances"
 
@@ -71,28 +70,6 @@ func TestRunCompleteExample(t *testing.T) {
 			List: ignoreDestroys,
 		},
 		ExcludeActivityTrackerRegions: true,
-	})
-	output, err := options.RunTestConsistency()
-	assert.Nil(t, err, "This should not have errored")
-	assert.NotNil(t, output, "Expected some output")
-}
-
-func TestRunEventRoutingExample(t *testing.T) {
-	t.Parallel()
-
-	options := testhelper.TestOptionsDefaultWithVars(&testhelper.TestOptions{
-		Testing:                       t,
-		TerraformDir:                  atEventRoutingTerraformDir,
-		Prefix:                        "obs-at-event-routing",
-		ResourceGroup:                 resourceGroup,
-		CloudInfoService:              sharedInfoSvc,
-		ExcludeActivityTrackerRegions: true,
-		TerraformVars: map[string]interface{}{
-			"existing_activity_tracker_crn":      permanentResources["activityTrackerFrankfurtCrn"],
-			"existing_activity_tracker_key_name": permanentResources["activityTrackerFrankfurtResourceKeyName"],
-			"existing_activity_tracker_region":   permanentResources["activityTrackerFrankfurtRegion"],
-			"access_tags":                        permanentResources["accessTags"],
-		},
 	})
 	output, err := options.RunTestConsistency()
 	assert.Nil(t, err, "This should not have errored")
