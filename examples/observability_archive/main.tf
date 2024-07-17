@@ -66,12 +66,14 @@ module "cos_bucket" {
       kms_encryption_enabled = false
       region_location        = var.region
       resource_instance_id   = module.cos.cos_instance_id
+      kms_key_crn            = module.key_protect.keys["observability.observability-key"].crn
     },
     {
       bucket_name            = "${var.prefix}-metrics-data"
       kms_encryption_enabled = false
       region_location        = var.region
       resource_instance_id   = module.cos.cos_instance_id
+      kms_key_crn            = module.key_protect.keys["observability.observability-key"].crn
     }
   ]
 }
