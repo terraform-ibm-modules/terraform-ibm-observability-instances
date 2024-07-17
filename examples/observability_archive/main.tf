@@ -62,18 +62,25 @@ module "cos_bucket" {
   version = "8.6.2"
   bucket_configs = [
     {
-      bucket_name            = "${var.prefix}-logs-data"
-      kms_encryption_enabled = false
-      region_location        = var.region
-      resource_instance_id   = module.cos.cos_instance_id
-      kms_key_crn            = module.key_protect.keys["observability.observability-key"].crn
+      bucket_name                   = "${var.prefix}-logs-data"
+      kms_encryption_enabled        = false
+      region_location               = var.region
+      resource_instance_id          = module.cos.cos_instance_id
+      kms_encryption_enabled        = true
+      kms_guid                      = module.key_protect.kms_guid
+      kms_key_crn                   = module.key_protect.keys["observability.observability-key"].crn
+      skip_iam_authorization_policy = true
+
     },
     {
-      bucket_name            = "${var.prefix}-metrics-data"
-      kms_encryption_enabled = false
-      region_location        = var.region
-      resource_instance_id   = module.cos.cos_instance_id
-      kms_key_crn            = module.key_protect.keys["observability.observability-key"].crn
+      bucket_name                   = "${var.prefix}-metrics-data"
+      kms_encryption_enabled        = false
+      region_location               = var.region
+      resource_instance_id          = module.cos.cos_instance_id
+      kms_encryption_enabled        = true
+      kms_guid                      = module.key_protect.kms_guid
+      kms_key_crn                   = module.key_protect.keys["observability.observability-key"].crn
+      skip_iam_authorization_policy = true
     }
   ]
 }
