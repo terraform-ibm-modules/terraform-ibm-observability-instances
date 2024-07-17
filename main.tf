@@ -72,3 +72,20 @@ module "cloud_monitoring" {
   enable_platform_metrics    = var.enable_platform_metrics
   service_endpoints          = var.cloud_monitoring_service_endpoints
 }
+
+# IBM Cloud Logs
+module "cloud_logs" {
+  source               = "./modules/cloud_logs"
+  region               = var.region
+  resource_group_id    = var.resource_group_id
+  cloud_logs_provision = var.cloud_logs_provision
+  instance_name        = var.cloud_logs_instance_name
+  plan                 = var.cloud_logs_plan
+  tags                 = var.cloud_logs_tags
+  access_tags          = var.cloud_logs_access_tags
+  retention_period     = var.cloud_logs_retention_period
+  data_storage         = var.cloud_logs_data_storage
+  service_endpoints    = var.cloud_logs_service_endpoints
+  # skip_en_iam_authorization_policy = var.skip_en_iam_authorization_policy
+  existing_en_instances = var.cloud_logs_existing_en_instances
+}

@@ -38,3 +38,9 @@ variable "access_tags" {
   description = "Optional list of access management tags to add to resources that are created"
   default     = []
 }
+
+variable "en_region" {
+  type        = string
+  description = "Region where event notification will be created"
+  default     = "au-syd"
+}

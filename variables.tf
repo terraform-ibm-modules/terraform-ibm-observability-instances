@@ -364,3 +364,102 @@ variable "global_event_routing_settings" {
   description = "Global settings for event routing"
   default     = null
 }
+
+##############################################################################
+
+# IBM Cloud Logs
+variable "cloud_logs_provision" {
+  description = "Provision a IBM Cloud Logs instance?"
+  type        = bool
+  default     = true
+}
+
+variable "cloud_logs_instance_name" {
+  type        = string
+  description = "The name of the IBM Cloud Logs instance to create. Defaults to 'cloud_logs-<region>'"
+  default     = null
+}
+
+variable "cloud_logs_plan" {
+  type        = string
+  description = "The IBM Cloud Logs plan to provision. Available: standard"
+  default     = "standard"
+}
+
+variable "cloud_logs_tags" {
+  type        = list(string)
+  description = "Tags associated with the IBM Cloud Logs instance (Optional, array of strings)."
+  default     = []
+}
+
+variable "cloud_logs_access_tags" {
+  type        = list(string)
+  description = "A list of access tags to apply to the IBM Cloud Logs instance created by the module. For more information, see https://cloud.ibm.com/docs/account?topic=account-access-tags-tutorial."
+  default     = []
+
+  validation {
+    condition = alltrue([
+      for tag in var.cloud_logs_access_tags : can(regex("[\\w\\-_\\.]+:[\\w\\-_\\.]+", tag)) && length(tag) <= 128
+    ])
+    error_message = "Tags must match the regular expression \"[\\w\\-_\\.]+:[\\w\\-_\\.]+\". For more information, see https://cloud.ibm.com/docs/account?topic=account-tag&interface=ui#limits."
+  }
+}
+
+variable "cloud_logs_service_endpoints" {
+  description = "The type of the service endpoint that will be set for the IBM Cloud Logs instance."
+  type        = string
+  default     = "public-and-private"
+  validation {
+    condition     = contains(["public", "private", "public-and-private"], var.cloud_logs_service_endpoints)
+    error_message = "The specified service_endpoints is not a valid selection"
+  }
+}
+
+variable "cloud_logs_retention_period" {
+  type        = number
+  description = "The number of days IBM Cloud Logs will retain the logs data in Priority insights."
+  default     = 7
+}
+
+# variable "skip_cloud_logs_to_en_iam_authorization_policy" {
+#   type        = bool
+#   description = "Set to true to skip the creation of an IAM authorization policy that permits all Secrets Manager instances (scoped to the resource group) an 'Event Source Manager' role to the given Event Notifications instance passed in the `existing_en_instance_crn` input variable. In addition, no policy is created if `enable_event_notification` is set to false."
+#   default     = false
+# }
+
+variable "cloud_logs_existing_en_instances" {
+  type = list(object({
+    en_instance_id      = string
+    en_region           = string
+    en_instance_name    = optional(string)
+    source_id           = optional(string)
+    source_name         = optional(string)
+    skip_en_auth_policy = optional(bool, false)
+  }))
+  default     = []
+  description = "List of Event Notifications instance details for routing critical events that occur in your IBM Cloud Logs."
+}
+
+variable "cloud_logs_data_storage" {
+  type = object({
+    logs-data = optional(object({
+      enabled              = optional(bool, false)
+      bucket_crn           = optional(string)
+      bucket_endpoint      = optional(string)
+      skip_cos_auth_policy = optional(bool, false)
+    }), {})
+    metrics-data = optional(object({
+      enabled              = optional(bool, false)
+      bucket_crn           = optional(string)
+      bucket_endpoint      = optional(string)
+      skip_cos_auth_policy = optional(bool, false)
+    }), {})
+    }
+  )
+  default = {
+    logs-data    = null,
+    metrics-data = null
+  }
+  description = "A logs data bucket and a metrics bucket in IBM Cloud Object Storage to store your IBM Cloud Logs data for long term storage, search, analysis and alerting."
+}
+##############################################################################

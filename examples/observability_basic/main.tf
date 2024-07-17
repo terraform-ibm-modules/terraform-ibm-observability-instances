@@ -20,19 +20,23 @@ module "test_observability_instance_creation" {
   log_analysis_instance_name        = "${var.prefix}-log-analysis"
   cloud_monitoring_instance_name    = "${var.prefix}-cloud-monitoring"
   activity_tracker_instance_name    = "${var.prefix}-activity-tracker"
+  cloud_logs_instance_name          = "${var.prefix}-cloud-logs"
   resource_group_id                 = module.resource_group.resource_group_id
   log_analysis_plan                 = "7-day"
   cloud_monitoring_plan             = "graduated-tier"
   activity_tracker_plan             = "7-day"
+  cloud_logs_plan                   = "standard"
   enable_platform_logs              = false
   enable_platform_metrics           = false
   log_analysis_tags                 = var.resource_tags
   cloud_monitoring_tags             = var.resource_tags
   activity_tracker_tags             = var.resource_tags
+  cloud_logs_tags                   = var.resource_tags
   log_analysis_manager_key_tags     = var.resource_tags
   cloud_monitoring_manager_key_tags = var.resource_tags
   activity_tracker_manager_key_tags = var.resource_tags
   log_analysis_access_tags          = var.access_tags
   cloud_monitoring_access_tags      = var.access_tags
   activity_tracker_access_tags      = var.access_tags
+  cloud_logs_access_tags            = var.access_tags
 }
