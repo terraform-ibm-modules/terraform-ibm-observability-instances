@@ -39,6 +39,7 @@ variable "access_tags" {
   default     = []
 }
 
+# Activity Tracker Event Routing
 variable "eventstreams_target_region" {
   type        = string
   description = "Region where event streams target will be created"
@@ -48,6 +49,12 @@ variable "eventstreams_target_region" {
 variable "cos_target_region" {
   type        = string
   description = "Region where cos target will be created"
+  default     = null
+}
+
+variable "log_analysis_target_region" {
+  type        = string
+  description = "Region where log analysis target will be created"
   default     = null
 }
 

@@ -7,6 +7,7 @@ locals {
 
   eventstreams_target_region = var.eventstreams_target_region != null ? var.eventstreams_target_region : var.region
   cos_target_region          = var.cos_target_region != null ? var.cos_target_region : var.region
+  log_analysis_target_region = var.log_analysis_target_region != null ? var.log_analysis_target_region : var.region
 }
 
 ##############################################################################
@@ -164,15 +165,15 @@ module "observability_instance_creation" {
       instance_id   = ibm_resource_instance.es_instance.id
       brokers       = ibm_event_streams_topic.es_topic.kafka_brokers_sasl
       topic         = ibm_event_streams_topic.es_topic.name
-      target_region = var.region
-      target_name   = "${var.prefix}-eventstreams-target-1"
+      target_region = local.eventstreams_target_region
+      target_name   = "${var.prefix}-eventstreams-target"
     }
   ]
   log_analysis_targets = [
     {
       instance_id   = module.observability_instance_creation.log_analysis_crn
       ingestion_key = module.observability_instance_creation.log_analysis_ingestion_key
-      target_region = var.region
+      target_region = local.log_analysis_target_region
       target_name   = "${var.prefix}-log-analysis"
     }
   ]
@@ -184,13 +185,13 @@ module "observability_instance_creation" {
       target_ids = [
         module.observability_instance_creation.activity_tracker_targets["${var.prefix}-cos-target"].id,
         module.observability_instance_creation.activity_tracker_targets["${var.prefix}-log-analysis"].id,
-        module.observability_instance_creation.activity_tracker_targets["${var.prefix}-eventstreams-target-1"].id
+        module.observability_instance_creation.activity_tracker_targets["${var.prefix}-eventstreams-target"].id
       ]
     }
   ]
 
   global_event_routing_settings = {
-    default_targets           = [module.observability_instance_creation.activity_tracker_targets["${var.prefix}-eventstreams-target-1"].id]
+    default_targets           = [module.observability_instance_creation.activity_tracker_targets["${var.prefix}-eventstreams-target"].id]
     permitted_target_regions  = var.permitted_target_regions
     metadata_region_primary   = var.metadata_region_primary
     metadata_region_backup    = var.metadata_region_backup
