@@ -47,6 +47,7 @@ func setupOptions(t *testing.T, prefix string, dir string) *testhelper.TestOptio
 		Testing:       t,
 		TerraformDir:  dir,
 		Prefix:        prefix,
+		Region:        "eu-es", // Cloud Logs only supported in eu-de and eu-es regions.
 		ResourceGroup: resourceGroup,
 		IgnoreDestroys: testhelper.Exemptions{
 			List: ignoreDestroys,
