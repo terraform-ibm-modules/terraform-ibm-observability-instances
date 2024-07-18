@@ -136,6 +136,7 @@ module "observability_instance_creation" {
   at_cos_instance_id                = module.cos.cos_instance_id
   at_cos_bucket_endpoint            = module.cos.s3_endpoint_private
   cloud_logs_retention_period       = 14
+  cloud_logs_region                 = "eu-es"
   cloud_logs_data_storage = {
     logs-data = {
       enabled         = true

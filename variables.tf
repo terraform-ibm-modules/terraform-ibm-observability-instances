@@ -386,6 +386,12 @@ variable "cloud_logs_plan" {
   default     = "standard"
 }
 
+variable "cloud_logs_region" {
+  description = "The IBM Cloud region where Cloud Logs instances will be created."
+  type        = string
+  default     = null
+}
+
 variable "cloud_logs_tags" {
   type        = list(string)
   description = "Tags associated with the IBM Cloud Logs instance (Optional, array of strings)."
@@ -420,12 +426,6 @@ variable "cloud_logs_retention_period" {
   description = "The number of days IBM Cloud Logs will retain the logs data in Priority insights."
   default     = 7
 }
-
-# variable "skip_cloud_logs_to_en_iam_authorization_policy" {
-#   type        = bool
-#   description = "Set to true to skip the creation of an IAM authorization policy that permits all Secrets Manager instances (scoped to the resource group) an 'Event Source Manager' role to the given Event Notifications instance passed in the `existing_en_instance_crn` input variable. In addition, no policy is created if `enable_event_notification` is set to false."
-#   default     = false
-# }
 
 variable "cloud_logs_existing_en_instances" {
   type = list(object({

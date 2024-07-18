@@ -76,7 +76,7 @@ module "cloud_monitoring" {
 # IBM Cloud Logs
 module "cloud_logs" {
   source                = "./modules/cloud_logs"
-  region                = var.region
+  region                = var.cloud_logs_region != null ? var.cloud_logs_region : var.region
   resource_group_id     = var.resource_group_id
   cloud_logs_provision  = var.cloud_logs_provision
   instance_name         = var.cloud_logs_instance_name
