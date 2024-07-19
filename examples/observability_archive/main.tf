@@ -138,12 +138,12 @@ module "observability_instance_creation" {
   cloud_logs_retention_period       = 14
   cloud_logs_region                 = "eu-es"
   cloud_logs_data_storage = {
-    logs-data = {
+    logs_data = {
       enabled         = true
       bucket_crn      = module.cos_bucket.buckets["${var.prefix}-logs-data"].bucket_crn
       bucket_endpoint = module.cos_bucket.buckets["${var.prefix}-logs-data"].s3_endpoint_direct
     },
-    metrics-data = {
+    metrics_data = {
       enabled         = true
       bucket_crn      = module.cos_bucket.buckets["${var.prefix}-metrics-data"].bucket_crn
       bucket_endpoint = module.cos_bucket.buckets["${var.prefix}-metrics-data"].s3_endpoint_direct

@@ -1,12 +1,7 @@
 variable "region" {
   description = "The region where observability resources are created."
   type        = string
-  default     = "eu-de"
-
-  validation {
-    condition     = contains(["eu-de", "eu-es"], var.region)
-    error_message = "The specified region is not valid. Specify a valid region to create observability resources in."
-  }
+  default     = "eu-es"
 }
 
 variable "resource_group_id" {
@@ -60,13 +55,13 @@ variable "retention_period" {
 
 variable "data_storage" {
   type = object({
-    logs-data = optional(object({
+    logs_data = optional(object({
       enabled              = optional(bool, false)
       bucket_crn           = optional(string)
       bucket_endpoint      = optional(string)
       skip_cos_auth_policy = optional(bool, false)
     }), {})
-    metrics-data = optional(object({
+    metrics_data = optional(object({
       enabled              = optional(bool, false)
       bucket_crn           = optional(string)
       bucket_endpoint      = optional(string)
@@ -75,35 +70,35 @@ variable "data_storage" {
     }
   )
   default = {
-    logs-data    = null,
-    metrics-data = null
+    logs_data    = null,
+    metrics_data = null
   }
   validation {
-    condition     = var.data_storage.logs-data.bucket_crn != var.data_storage.metrics-data.bucket_crn
+    condition     = var.data_storage.logs_data.bucket_crn != var.data_storage.metrics_data.bucket_crn
     error_message = "The same bucket cannot be used as both your data bucket and your metrics bucket."
   }
   validation {
-    error_message = "`bucket_crn` and `bucket_endpoint` must be included if logs-data `enabled` is true."
+    error_message = "`bucket_crn` and `bucket_endpoint` must be included if logs_data `enabled` is true."
     condition = (
-      lookup(var.data_storage.logs-data, "enabled", null) == null
+      lookup(var.data_storage.logs_data, "enabled", null) == null
       ) || (
-      lookup(var.data_storage.logs-data, "enabled", false) == false
+      lookup(var.data_storage.logs_data, "enabled", false) == false
       ) || (
-      lookup(var.data_storage.logs-data, "bucket_crn", null) != null &&
-      lookup(var.data_storage.logs-data, "bucket_endpoint", null) != null &&
-      lookup(var.data_storage.logs-data, "enabled", false) == true
+      lookup(var.data_storage.logs_data, "bucket_crn", null) != null &&
+      lookup(var.data_storage.logs_data, "bucket_endpoint", null) != null &&
+      lookup(var.data_storage.logs_data, "enabled", false) == true
     )
   }
   validation {
-    error_message = "`bucket_crn` and `bucket_endpoint` must be included if metrics-data `enabled` is true."
+    error_message = "`bucket_crn` and `bucket_endpoint` must be included if metrics_data `enabled` is true."
     condition = (
-      lookup(var.data_storage.metrics-data, "enabled", null) == null
+      lookup(var.data_storage.metrics_data, "enabled", null) == null
       ) || (
-      lookup(var.data_storage.metrics-data, "enabled", false) == false
+      lookup(var.data_storage.metrics_data, "enabled", false) == false
       ) || (
-      lookup(var.data_storage.metrics-data, "bucket_crn", null) != null &&
-      lookup(var.data_storage.metrics-data, "bucket_endpoint", null) != null &&
-      lookup(var.data_storage.metrics-data, "enabled", false) == true
+      lookup(var.data_storage.metrics_data, "bucket_crn", null) != null &&
+      lookup(var.data_storage.metrics_data, "bucket_endpoint", null) != null &&
+      lookup(var.data_storage.metrics_data, "enabled", false) == true
     )
   }
   description = "A logs data bucket and a metrics bucket in IBM Cloud Object Storage to store your IBM Cloud Logs data for long term storage, search, analysis and alerting."

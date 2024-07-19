@@ -13,10 +13,10 @@ resource "ibm_resource_instance" "cloud_logs" {
   tags              = var.tags
   location          = var.region
   parameters = {
-    "logs_bucket_crn"         = var.data_storage.logs-data.enabled ? var.data_storage.logs-data.bucket_crn : null
-    "logs_bucket_endpoint"    = var.data_storage.logs-data.enabled ? var.data_storage.logs-data.bucket_endpoint : null
-    "metrics_bucket_crn"      = var.data_storage.metrics-data.enabled ? var.data_storage.metrics-data.bucket_crn : null
-    "metrics_bucket_endpoint" = var.data_storage.metrics-data.enabled ? var.data_storage.metrics-data.bucket_endpoint : null
+    "logs_bucket_crn"         = var.data_storage.logs_data.enabled ? var.data_storage.logs_data.bucket_crn : null
+    "logs_bucket_endpoint"    = var.data_storage.logs_data.enabled ? var.data_storage.logs_data.bucket_endpoint : null
+    "metrics_bucket_crn"      = var.data_storage.metrics_data.enabled ? var.data_storage.metrics_data.bucket_crn : null
+    "metrics_bucket_endpoint" = var.data_storage.metrics_data.enabled ? var.data_storage.metrics_data.bucket_endpoint : null
     "retention_period"        = var.retention_period
   }
   service_endpoints = var.service_endpoints

@@ -148,7 +148,7 @@ output "cloud_logs_name" {
   description = "The name of the provisioned Cloud Logs instance."
 }
 
-output "cloud_logs_esource_group_id" {
+output "cloud_logs_resource_group_id" {
   value       = module.cloud_logs.resource_group_id
   description = "The resource group where Cloud Logs instance resides."
 }

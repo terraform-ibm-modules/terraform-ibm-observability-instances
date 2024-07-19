@@ -442,13 +442,13 @@ variable "cloud_logs_existing_en_instances" {
 
 variable "cloud_logs_data_storage" {
   type = object({
-    logs-data = optional(object({
+    logs_data = optional(object({
       enabled              = optional(bool, false)
       bucket_crn           = optional(string)
       bucket_endpoint      = optional(string)
       skip_cos_auth_policy = optional(bool, false)
     }), {})
-    metrics-data = optional(object({
+    metrics_data = optional(object({
       enabled              = optional(bool, false)
       bucket_crn           = optional(string)
       bucket_endpoint      = optional(string)
@@ -457,8 +457,8 @@ variable "cloud_logs_data_storage" {
     }
   )
   default = {
-    logs-data    = null,
-    metrics-data = null
+    logs_data    = null,
+    metrics_data = null
   }
   description = "A logs data bucket and a metrics bucket in IBM Cloud Object Storage to store your IBM Cloud Logs data for long term storage, search, analysis and alerting."
 }
