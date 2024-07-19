@@ -1,4 +1,4 @@
-# Provision IBM Cloud Monitoring, Log Analysis and Activity Tracker
+# Provision IBM Cloud Monitoring, Log Analysis and Activity Tracker with archiving and event routing
 
 Example that deploys:
 

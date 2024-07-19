@@ -26,7 +26,7 @@ This module supports provisioning the following observability instances:
     * [cloud_monitoring](./modules/cloud_monitoring)
     * [log_analysis](./modules/log_analysis)
 * [Examples](./examples)
-    * [Provision IBM Cloud Monitoring, Log Analysis and Activity Tracker](./examples/advance)
+    * [Provision IBM Cloud Monitoring, Log Analysis and Activity Tracker with archiving and event routing](./examples/advance)
     * [Provision basic observability instances (Log Analysis, Cloud Monitoring, Activity Tracker)](./examples/basic)
 * [Contributing](#contributing)
 <!-- END OVERVIEW HOOK -->
