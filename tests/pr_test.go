@@ -11,7 +11,7 @@ import (
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/testhelper"
 )
 
-const advanceExampleTerraformDir = "examples/advanced"
+const advanceExampleTerraformDir = "examples/advance"
 
 const resourceGroup = "geretain-test-observability-instances"
 
