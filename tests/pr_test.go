@@ -11,7 +11,7 @@ import (
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/testhelper"
 )
 
-const completeExampleTerraformDir = "examples/observability_advance"
+const advanceExampleTerraformDir = "examples/advanced"
 
 const resourceGroup = "geretain-test-observability-instances"
 
@@ -57,13 +57,13 @@ func setupOptions(t *testing.T, prefix string, dir string) *testhelper.TestOptio
 	return options
 }
 
-func TestRunCompleteExample(t *testing.T) {
+func TestRunAdvanceExample(t *testing.T) {
 	t.Parallel()
 
 	options := testhelper.TestOptionsDefaultWithVars(&testhelper.TestOptions{
 		Testing:          t,
-		TerraformDir:     completeExampleTerraformDir,
-		Prefix:           "obs-complete",
+		TerraformDir:     advanceExampleTerraformDir,
+		Prefix:           "obs-advance",
 		ResourceGroup:    resourceGroup,
 		CloudInfoService: sharedInfoSvc,
 		IgnoreDestroys: testhelper.Exemptions{
@@ -79,7 +79,7 @@ func TestRunCompleteExample(t *testing.T) {
 func TestRunUpgradeExample(t *testing.T) {
 	t.Parallel()
 
-	options := setupOptions(t, "obs-upg", completeExampleTerraformDir)
+	options := setupOptions(t, "obs-upg", advanceExampleTerraformDir)
 	output, err := options.RunTestUpgrade()
 	if !options.UpgradeTestSkipped {
 		assert.Nil(t, err, "This should not have errored")

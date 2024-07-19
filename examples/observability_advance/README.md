@@ -1,3 +1,0 @@
-# Provision IBM Cloud Monitoring, Log Analysis and Activity Tracker with archiving to an encrypted COS bucket. Additionally, provision Activity Tracker with event routing to COS bucket, Event streams and Log Analysis
-
-Example that deploys Log Analysis, Cloud Monitoring, and Activity Tracker instances, along with a Key Protect instance, root key, COS instance, and COS bucket which is used to archive the Log Analysis and Activity Tracker logs into an encrypted bucket. Additionally, it deploys an Activity Tracker instance with event routing to COS bucket, Event streams and Log Analysis.

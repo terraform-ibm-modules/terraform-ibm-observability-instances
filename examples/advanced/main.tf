@@ -94,7 +94,7 @@ module "cos" {
   kms_key_crn                = module.key_protect.keys["observability.observability-key"].crn
 }
 
-module "cos_bucket_1" {
+module "activity_tracker_event_routing_bucket" {
   source                     = "terraform-ibm-modules/cos/ibm"
   version                    = "8.6.2"
   resource_group_id          = module.resource_group.resource_group_id
@@ -149,9 +149,9 @@ module "observability_instance_creation" {
 
   cos_targets = [
     {
-      bucket_name                       = module.cos_bucket_1.bucket_name
-      endpoint                          = module.cos_bucket_1.s3_endpoint_private
-      instance_id                       = module.cos_bucket_1.cos_instance_id
+      bucket_name                       = module.activity_tracker_event_routing_bucket.bucket_name
+      endpoint                          = module.activity_tracker_event_routing_bucket.s3_endpoint_private
+      instance_id                       = module.activity_tracker_event_routing_bucket.cos_instance_id
       target_region                     = local.cos_target_region
       target_name                       = "${var.prefix}-cos-target"
       skip_atracker_cos_iam_auth_policy = false
