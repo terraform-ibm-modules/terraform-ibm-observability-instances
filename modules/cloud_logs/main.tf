@@ -95,6 +95,7 @@ resource "time_sleep" "wait_for_en_authorization_policy" {
 }
 
 resource "ibm_logs_outgoing_webhook" "en_integration" {
+  depends_on  = [time_sleep.wait_for_en_authorization_policy]
   for_each    = { for idx, en in var.existing_en_instances : idx => en }
   instance_id = ibm_resource_instance.cloud_logs[0].guid
   region      = var.region
