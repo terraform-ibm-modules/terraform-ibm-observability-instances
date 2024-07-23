@@ -69,7 +69,7 @@ module "cos_bucket" {
       kms_encryption_enabled        = true
       kms_guid                      = module.key_protect.kms_guid
       kms_key_crn                   = module.key_protect.keys["observability.observability-key"].crn
-      skip_iam_authorization_policy = false
+      skip_iam_authorization_policy = true
 
     },
     {
