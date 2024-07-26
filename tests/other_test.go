@@ -6,7 +6,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-const basicExampleTerraformDir = "examples/observability_basic"
+const basicExampleTerraformDir = "examples/basic"
 
 func TestRunBasicExample(t *testing.T) {
 	t.Parallel()
