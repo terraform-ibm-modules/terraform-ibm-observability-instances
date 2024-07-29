@@ -4,6 +4,13 @@ variable "ibmcloud_api_key" {
   sensitive   = true
 }
 
+variable "archive_api_key" {
+  type        = string
+  description = "Limited IBM Cloud API Token for Log Analysis archiving to COS"
+  sensitive   = true
+  default     = null
+}
+
 variable "prefix" {
   type        = string
   description = "Prefix for name of all resource created by this example"
@@ -32,25 +39,13 @@ variable "access_tags" {
   default     = []
 }
 
-variable "existing_activity_tracker_crn" {
-  type        = string
-  description = "Optional crn of existing activity tracker, if not provided new activity tracker instance will be provisioned"
-  default     = null
-}
-
-variable "existing_activity_tracker_key_name" {
-  type        = string
-  description = "Optional key name of existing activity tracker, required if existing_activity_tracker_crn is provided"
-  default     = null
-}
-
-variable "existing_activity_tracker_region" {
-  type        = string
-  description = "Optional region of existing activity tracker, required if existing_activity_tracker_crn is provided"
-  default     = null
-}
-
 # Activity Tracker Event Routing
+variable "eventstreams_target_region" {
+  type        = string
+  description = "Region where event streams target will be created"
+  default     = null
+}
+
 variable "cos_target_region" {
   type        = string
   description = "Region where cos target will be created"
@@ -62,14 +57,6 @@ variable "log_analysis_target_region" {
   description = "Region where log analysis target will be created"
   default     = null
 }
-
-variable "eventstreams_target_region" {
-  type        = string
-  description = "Region where event streams target will be created"
-  default     = null
-}
-
-##############################################################################
 
 # Event Routing Global Setting
 variable "metadata_region_primary" {
@@ -94,4 +81,10 @@ variable "private_api_endpoint_only" {
   type        = bool
   description = "Set this true to restrict access only to private api endpoint."
   default     = false
+}
+
+variable "en_region" {
+  type        = string
+  description = "Region where event notification will be created"
+  default     = "au-syd"
 }
