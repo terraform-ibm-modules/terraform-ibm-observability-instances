@@ -60,7 +60,17 @@ func setupOptions(t *testing.T, prefix string, dir string) *testhelper.TestOptio
 func TestRunAdvanceExample(t *testing.T) {
 	t.Parallel()
 
-	options := setupOptions(t, "obs-advance", advanceExampleTerraformDir)
+	options := testhelper.TestOptionsDefaultWithVars(&testhelper.TestOptions{
+		Testing:          t,
+		TerraformDir:     advanceExampleTerraformDir,
+		Prefix:           "obs-advance",
+		ResourceGroup:    resourceGroup,
+		CloudInfoService: sharedInfoSvc,
+		IgnoreDestroys: testhelper.Exemptions{
+			List: ignoreDestroys,
+		},
+		ExcludeActivityTrackerRegions: true,
+	})
 	output, err := options.RunTestConsistency()
 	assert.Nil(t, err, "This should not have errored")
 	assert.NotNil(t, output, "Expected some output")
