@@ -74,7 +74,7 @@ variable "data_storage" {
     metrics_data = null
   }
   validation {
-    condition     = var.data_storage.logs_data.bucket_crn != var.data_storage.metrics_data.bucket_crn
+    condition     = (var.data_storage.logs_data.bucket_crn == null && var.data_storage.metrics_data.bucket_crn == null) || (var.data_storage.logs_data.bucket_crn != var.data_storage.metrics_data.bucket_crn)
     error_message = "The same bucket cannot be used as both your data bucket and your metrics bucket."
   }
   validation {

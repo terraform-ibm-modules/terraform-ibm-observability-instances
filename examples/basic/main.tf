@@ -39,4 +39,5 @@ module "test_observability_instance_creation" {
   cloud_monitoring_access_tags      = var.access_tags
   activity_tracker_access_tags      = var.access_tags
   cloud_logs_access_tags            = var.access_tags
+  cloud_logs_region                 = "eu-es"
 }
