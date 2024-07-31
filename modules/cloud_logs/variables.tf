@@ -10,15 +10,9 @@ variable "resource_group_id" {
   default     = null
 }
 
-variable "cloud_logs_provision" {
-  description = "Provision an IBM Cloud Logs instance?"
-  type        = bool
-  default     = true
-}
-
 variable "instance_name" {
   type        = string
-  description = "The name of the IBM Cloud Logs instance to create. Defaults to 'cloud_logs-<region>'"
+  description = "The name of the IBM Cloud Logs instance to create. Defaults to 'cloud-logs-<region>'"
   default     = null
 }
 
@@ -35,7 +29,7 @@ variable "plan" {
   }
 }
 
-variable "tags" {
+variable "resource_tags" {
   type        = list(string)
   description = "Tags associated with the IBM Cloud Logs instance (Optional, array of strings)."
   default     = []

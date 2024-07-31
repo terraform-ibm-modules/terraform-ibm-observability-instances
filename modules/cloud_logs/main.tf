@@ -5,12 +5,11 @@ locals {
 
 # Cloud Logs
 resource "ibm_resource_instance" "cloud_logs" {
-  count             = var.cloud_logs_provision ? 1 : 0
   name              = local.instance_name
   resource_group_id = var.resource_group_id
   service           = "logs"
   plan              = var.plan
-  tags              = var.tags
+  tags              = var.resource_tags
   location          = var.region
   parameters = {
     "logs_bucket_crn"         = var.data_storage.logs_data.enabled ? var.data_storage.logs_data.bucket_crn : null
@@ -22,9 +21,9 @@ resource "ibm_resource_instance" "cloud_logs" {
   service_endpoints = var.service_endpoints
 }
 
-resource "ibm_resource_tag" "log_analysis_tag" {
-  count       = length(var.access_tags) == 0 ? 0 : var.cloud_logs_provision ? 1 : 0
-  resource_id = ibm_resource_instance.cloud_logs[0].crn
+resource "ibm_resource_tag" "cloud_logs_tag" {
+  count       = length(var.access_tags) == 0 ? 0 : 1
+  resource_id = ibm_resource_instance.cloud_logs.crn
   tags        = var.access_tags
   tag_type    = "access"
 }
@@ -82,11 +81,11 @@ resource "ibm_iam_authorization_policy" "cos_policy" {
 resource "ibm_iam_authorization_policy" "en_policy" {
   for_each                    = { for idx, en in var.existing_en_instances : idx => en if !en.skip_en_auth_policy }
   source_service_name         = "logs"
-  source_resource_instance_id = ibm_resource_instance.cloud_logs[0].guid
+  source_resource_instance_id = ibm_resource_instance.cloud_logs.guid
   target_service_name         = "event-notifications"
   target_resource_instance_id = each.value.en_instance_id
   roles                       = ["Event Source Manager"]
-  description                 = "Allow Cloud Logs with instance ID ${ibm_resource_instance.cloud_logs[0].guid} 'Event Source Manager' role access on the Event Notification instance GUID ${each.value.en_instance_id}"
+  description                 = "Allow Cloud Logs with instance ID ${ibm_resource_instance.cloud_logs.guid} 'Event Source Manager' role access on the Event Notification instance GUID ${each.value.en_instance_id}"
 }
 
 resource "time_sleep" "wait_for_en_authorization_policy" {
@@ -97,7 +96,7 @@ resource "time_sleep" "wait_for_en_authorization_policy" {
 resource "ibm_logs_outgoing_webhook" "en_integration" {
   depends_on  = [time_sleep.wait_for_en_authorization_policy]
   for_each    = { for idx, en in var.existing_en_instances : idx => en }
-  instance_id = ibm_resource_instance.cloud_logs[0].guid
+  instance_id = ibm_resource_instance.cloud_logs.guid
   region      = var.region
   name        = each.value.en_instance_name == null ? "${local.instance_name}-en-integration-${each.key}" : each.value.en_instance_name
   type        = "ibm_event_notifications"

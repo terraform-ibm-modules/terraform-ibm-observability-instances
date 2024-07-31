@@ -134,21 +134,21 @@ output "activity_tracker_routes" {
 
 # IBM Cloud Logs
 output "cloud_logs_crn" {
-  value       = module.cloud_logs.crn
+  value       = length(module.cloud_logs) > 0 ? module.cloud_logs[0].crn : null
   description = "The id of the provisioned Cloud Logs instance."
 }
 
 output "cloud_logs_guid" {
-  value       = module.cloud_logs.guid
+  value       = length(module.cloud_logs) > 0 ? module.cloud_logs[0].guid : null
   description = "The guid of the provisioned Cloud Logs instance."
 }
 
 output "cloud_logs_name" {
-  value       = module.cloud_logs.name
+  value       = length(module.cloud_logs) > 0 ? module.cloud_logs[0].name : null
   description = "The name of the provisioned Cloud Logs instance."
 }
 
 output "cloud_logs_resource_group_id" {
-  value       = module.cloud_logs.resource_group_id
+  value       = length(module.cloud_logs) > 0 ? module.cloud_logs[0].resource_group_id : null
   description = "The resource group where Cloud Logs instance resides."
 }
