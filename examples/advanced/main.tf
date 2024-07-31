@@ -46,6 +46,22 @@ module "key_protect" {
 }
 
 ##############################################################################
+# Event Notification
+##############################################################################
+
+module "event_notification" {
+  source            = "terraform-ibm-modules/event-notifications/ibm"
+  version           = "1.6.5"
+  resource_group_id = module.resource_group.resource_group_id
+  name              = "${var.prefix}-en"
+  tags              = var.resource_tags
+  plan              = "standard"
+  service_endpoints = "public"
+  region            = var.en_region
+}
+
+
+##############################################################################
 # Event stream target
 ##############################################################################
 
@@ -94,6 +110,33 @@ module "cos" {
   kms_key_crn                = module.key_protect.keys["observability.observability-key"].crn
 }
 
+module "cloud_logs_buckets" {
+  source  = "terraform-ibm-modules/cos/ibm//modules/buckets"
+  version = "8.6.2"
+  bucket_configs = [
+    {
+      bucket_name                   = "${var.prefix}-logs-data"
+      kms_encryption_enabled        = true
+      region_location               = var.region
+      resource_instance_id          = module.cos.cos_instance_id
+      kms_encryption_enabled        = true
+      kms_guid                      = module.key_protect.kms_guid
+      kms_key_crn                   = module.key_protect.keys["observability.observability-key"].crn
+      skip_iam_authorization_policy = false
+    },
+    {
+      bucket_name                   = "${var.prefix}-metrics-data"
+      kms_encryption_enabled        = true
+      region_location               = var.region
+      resource_instance_id          = module.cos.cos_instance_id
+      kms_encryption_enabled        = true
+      kms_guid                      = module.key_protect.kms_guid
+      kms_key_crn                   = module.key_protect.keys["observability.observability-key"].crn
+      skip_iam_authorization_policy = true
+    }
+  ]
+}
+
 module "activity_tracker_event_routing_bucket" {
   source                     = "terraform-ibm-modules/cos/ibm"
   version                    = "8.6.2"
@@ -123,20 +166,24 @@ module "observability_instance_creation" {
   log_analysis_instance_name        = "${var.prefix}-log-analysis"
   cloud_monitoring_instance_name    = "${var.prefix}-cloud-monitoring"
   activity_tracker_instance_name    = "${var.prefix}-activity-tracker"
+  cloud_logs_instance_name          = "${var.prefix}-cloud-logs"
   enable_platform_metrics           = false
   enable_platform_logs              = false
   log_analysis_plan                 = "7-day"
   cloud_monitoring_plan             = "graduated-tier"
   activity_tracker_plan             = "7-day"
+  cloud_logs_plan                   = "standard"
   log_analysis_tags                 = var.resource_tags
   cloud_monitoring_tags             = var.resource_tags
   activity_tracker_tags             = var.resource_tags
   log_analysis_manager_key_tags     = var.resource_tags
   cloud_monitoring_manager_key_tags = var.resource_tags
   activity_tracker_manager_key_tags = var.resource_tags
+  cloud_logs_tags                   = var.resource_tags
   log_analysis_access_tags          = var.access_tags
   cloud_monitoring_access_tags      = var.access_tags
   activity_tracker_access_tags      = var.access_tags
+  cloud_logs_access_tags            = var.access_tags
   log_analysis_enable_archive       = true
   activity_tracker_enable_archive   = true
   ibmcloud_api_key                  = local.archive_api_key
@@ -197,4 +244,23 @@ module "observability_instance_creation" {
     metadata_region_backup    = var.metadata_region_backup
     private_api_endpoint_only = var.private_api_endpoint_only
   }
+
+  cloud_logs_retention_period = 14
+  cloud_logs_region           = "eu-es"
+  cloud_logs_data_storage = {
+    logs_data = {
+      enabled         = true
+      bucket_crn      = module.cloud_logs_buckets.buckets["${var.prefix}-logs-data"].bucket_crn
+      bucket_endpoint = module.cloud_logs_buckets.buckets["${var.prefix}-logs-data"].s3_endpoint_direct
+    },
+    metrics_data = {
+      enabled         = true
+      bucket_crn      = module.cloud_logs_buckets.buckets["${var.prefix}-metrics-data"].bucket_crn
+      bucket_endpoint = module.cloud_logs_buckets.buckets["${var.prefix}-metrics-data"].s3_endpoint_direct
+    }
+  }
+  cloud_logs_existing_en_instances = [{
+    en_instance_id = module.event_notification.guid
+    en_region      = var.en_region
+  }]
 }

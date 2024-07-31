@@ -129,3 +129,26 @@ output "activity_tracker_routes" {
   value       = module.activity_tracker.activity_tracker_routes
   description = "The map of created routes"
 }
+
+##############################################################################
+
+# IBM Cloud Logs
+output "cloud_logs_crn" {
+  value       = length(module.cloud_logs) > 0 ? module.cloud_logs[0].crn : null
+  description = "The id of the provisioned Cloud Logs instance."
+}
+
+output "cloud_logs_guid" {
+  value       = length(module.cloud_logs) > 0 ? module.cloud_logs[0].guid : null
+  description = "The guid of the provisioned Cloud Logs instance."
+}
+
+output "cloud_logs_name" {
+  value       = length(module.cloud_logs) > 0 ? module.cloud_logs[0].name : null
+  description = "The name of the provisioned Cloud Logs instance."
+}
+
+output "cloud_logs_resource_group_id" {
+  value       = length(module.cloud_logs) > 0 ? module.cloud_logs[0].resource_group_id : null
+  description = "The resource group where Cloud Logs instance resides."
+}

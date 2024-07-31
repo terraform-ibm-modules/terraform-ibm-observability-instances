@@ -82,3 +82,9 @@ variable "private_api_endpoint_only" {
   description = "Set this true to restrict access only to private api endpoint."
   default     = false
 }
+
+variable "en_region" {
+  type        = string
+  description = "Region where event notification will be created"
+  default     = "au-syd"
+}

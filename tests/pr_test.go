@@ -18,6 +18,8 @@ const resourceGroup = "geretain-test-observability-instances"
 // Define a struct with fields that match the structure of the YAML data
 const yamlLocation = "../common-dev-assets/common-go-assets/common-permanent-resources.yaml"
 
+const bestRegionYAMLPath = "../common-dev-assets/common-go-assets/cloudinfo-region-event-routing-prefs.yaml"
+
 // Temporarly ignore until we bump to v4 of key protect all inclusive
 var ignoreDestroys = []string{
 	"module.key_protect.module.key_protect[0].restapi_object.enable_metrics[0]",
@@ -52,32 +54,21 @@ func setupOptions(t *testing.T, prefix string, dir string) *testhelper.TestOptio
 		},
 		CloudInfoService:              sharedInfoSvc,
 		ExcludeActivityTrackerRegions: true,
+		BestRegionYAMLPath:            bestRegionYAMLPath,
 	})
 
 	return options
 }
 
 func TestRunAdvanceExample(t *testing.T) {
-	t.Parallel()
 
-	options := testhelper.TestOptionsDefaultWithVars(&testhelper.TestOptions{
-		Testing:          t,
-		TerraformDir:     advanceExampleTerraformDir,
-		Prefix:           "obs-advance",
-		ResourceGroup:    resourceGroup,
-		CloudInfoService: sharedInfoSvc,
-		IgnoreDestroys: testhelper.Exemptions{
-			List: ignoreDestroys,
-		},
-		ExcludeActivityTrackerRegions: true,
-	})
+	options := setupOptions(t, "obs-advance", advanceExampleTerraformDir)
 	output, err := options.RunTestConsistency()
 	assert.Nil(t, err, "This should not have errored")
 	assert.NotNil(t, output, "Expected some output")
 }
 
 func TestRunUpgradeExample(t *testing.T) {
-	t.Parallel()
 
 	options := setupOptions(t, "obs-upg", advanceExampleTerraformDir)
 	output, err := options.RunTestUpgrade()

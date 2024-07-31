@@ -9,7 +9,6 @@ import (
 const basicExampleTerraformDir = "examples/basic"
 
 func TestRunBasicExample(t *testing.T) {
-	t.Parallel()
 
 	options := setupOptions(t, "obs-basic", basicExampleTerraformDir)
 	output, err := options.RunTestConsistency()
