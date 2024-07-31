@@ -7,7 +7,6 @@ variable "region" {
 variable "resource_group_id" {
   type        = string
   description = "The id of the IBM Cloud resource group where the instance(s) will be created."
-  default     = null
 }
 
 variable "cloud_monitoring_provision" {
