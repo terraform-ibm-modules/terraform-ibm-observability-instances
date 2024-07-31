@@ -123,7 +123,6 @@ module "cloud_logs_buckets" {
       kms_guid                      = module.key_protect.kms_guid
       kms_key_crn                   = module.key_protect.keys["observability.observability-key"].crn
       skip_iam_authorization_policy = false
-
     },
     {
       bucket_name                   = "${var.prefix}-metrics-data"
