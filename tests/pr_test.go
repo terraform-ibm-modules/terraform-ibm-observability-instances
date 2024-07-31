@@ -61,7 +61,6 @@ func setupOptions(t *testing.T, prefix string, dir string) *testhelper.TestOptio
 }
 
 func TestRunAdvanceExample(t *testing.T) {
-	t.Parallel()
 
 	options := setupOptions(t, "obs-advance", advanceExampleTerraformDir)
 	output, err := options.RunTestConsistency()
