@@ -28,7 +28,7 @@ module "resource_group" {
 
 module "key_protect" {
   source            = "terraform-ibm-modules/kms-all-inclusive/ibm"
-  version           = "4.13.4"
+  version           = "4.15.3"
   resource_group_id = module.resource_group.resource_group_id
   region            = var.region
   resource_tags     = var.resource_tags
@@ -51,7 +51,7 @@ module "key_protect" {
 
 module "event_notification" {
   source            = "terraform-ibm-modules/event-notifications/ibm"
-  version           = "1.6.5"
+  version           = "1.9.1"
   resource_group_id = module.resource_group.resource_group_id
   name              = "${var.prefix}-en"
   tags              = var.resource_tags
@@ -97,7 +97,7 @@ resource "ibm_resource_key" "es_resource_key" {
 
 module "cos" {
   source                     = "terraform-ibm-modules/cos/ibm"
-  version                    = "8.6.2"
+  version                    = "8.9.2"
   resource_group_id          = module.resource_group.resource_group_id
   region                     = var.region
   cos_instance_name          = "${var.prefix}-cos"
@@ -112,7 +112,7 @@ module "cos" {
 
 module "cloud_logs_buckets" {
   source  = "terraform-ibm-modules/cos/ibm//modules/buckets"
-  version = "8.6.2"
+  version = "8.9.2"
   bucket_configs = [
     {
       bucket_name                   = "${var.prefix}-logs-data"
@@ -139,7 +139,7 @@ module "cloud_logs_buckets" {
 
 module "activity_tracker_event_routing_bucket" {
   source                     = "terraform-ibm-modules/cos/ibm"
-  version                    = "8.6.2"
+  version                    = "8.9.2"
   resource_group_id          = module.resource_group.resource_group_id
   region                     = local.cos_target_region
   cos_instance_name          = "${var.prefix}-cos"
