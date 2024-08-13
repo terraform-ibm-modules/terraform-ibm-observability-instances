@@ -111,8 +111,9 @@ module "cos" {
 }
 
 module "cloud_logs_buckets" {
-  source  = "terraform-ibm-modules/cos/ibm//modules/buckets"
-  version = "8.6.2"
+  depends_on = [module.cos]
+  source     = "terraform-ibm-modules/cos/ibm//modules/buckets"
+  version    = "8.6.2"
   bucket_configs = [
     {
       bucket_name                   = "${var.prefix}-logs-data"
@@ -122,7 +123,7 @@ module "cloud_logs_buckets" {
       kms_encryption_enabled        = true
       kms_guid                      = module.key_protect.kms_guid
       kms_key_crn                   = module.key_protect.keys["observability.observability-key"].crn
-      skip_iam_authorization_policy = false
+      skip_iam_authorization_policy = true
     },
     {
       bucket_name                   = "${var.prefix}-metrics-data"
