@@ -123,7 +123,7 @@ module "cloud_logs_buckets" {
       kms_encryption_enabled        = true
       kms_guid                      = module.key_protect.kms_guid
       kms_key_crn                   = module.key_protect.keys["observability.observability-key"].crn
-      skip_iam_authorization_policy = true
+      skip_iam_authorization_policy = true # A bucket created in the cos module already creates the IAM policy to access the KMS.
     },
     {
       bucket_name                   = "${var.prefix}-metrics-data"
