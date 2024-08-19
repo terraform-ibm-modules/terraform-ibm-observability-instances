@@ -111,7 +111,7 @@ module "cos" {
 }
 
 module "cloud_logs_buckets" {
-  depends_on = [module.cos]
+  depends_on = [module.cos] # The `cos` module execution must be fully completed, including the instantiation of the cos_instance and configuration of the default bucket, as a prerequisite to executing the cloud_logs_buckets module. This ensures that the cloud_logs_buckets module can utilize the authentication policy created by the `cos` module.
   source     = "terraform-ibm-modules/cos/ibm//modules/buckets"
   version    = "8.6.2"
   bucket_configs = [
