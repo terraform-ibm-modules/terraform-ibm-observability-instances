@@ -111,25 +111,24 @@ module "cos" {
 }
 
 module "cloud_logs_buckets" {
-  source  = "terraform-ibm-modules/cos/ibm//modules/buckets"
-  version = "8.6.2"
+  depends_on = [module.cos] # The `cos` module execution must be fully completed, including the instantiation of the cos_instance and configuration of the default bucket, as a prerequisite to executing the cloud_logs_buckets module. This ensures that the cloud_logs_buckets module can utilize the authentication policy created by the `cos` module.
+  source     = "terraform-ibm-modules/cos/ibm//modules/buckets"
+  version    = "8.6.2"
   bucket_configs = [
     {
       bucket_name                   = "${var.prefix}-logs-data"
       kms_encryption_enabled        = true
       region_location               = var.region
       resource_instance_id          = module.cos.cos_instance_id
-      kms_encryption_enabled        = true
       kms_guid                      = module.key_protect.kms_guid
       kms_key_crn                   = module.key_protect.keys["observability.observability-key"].crn
-      skip_iam_authorization_policy = false
+      skip_iam_authorization_policy = true # A bucket created in the cos module already creates the IAM policy to access the KMS.
     },
     {
       bucket_name                   = "${var.prefix}-metrics-data"
       kms_encryption_enabled        = true
       region_location               = var.region
       resource_instance_id          = module.cos.cos_instance_id
-      kms_encryption_enabled        = true
       kms_guid                      = module.key_protect.kms_guid
       kms_key_crn                   = module.key_protect.keys["observability.observability-key"].crn
       skip_iam_authorization_policy = true
