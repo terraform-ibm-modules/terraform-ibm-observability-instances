@@ -6,6 +6,9 @@
 [![latest release](https://img.shields.io/github/v/release/terraform-ibm-modules/terraform-ibm-observability-instances?logo=GitHub&sort=semver)](https://github.com/terraform-ibm-modules/terraform-ibm-observability-instances/releases/latest)
 [![Renovate enabled](https://img.shields.io/badge/renovate-enabled-brightgreen.svg)](https://renovatebot.com/)
 
+> [!IMPORTANT]
+> The IBM Log Analysis and IBM Cloud Activity Tracker services are deprecated. IBM Cloud Logs is the replacement service. This module will be updated to provision the new services before the end of support in March 2025.
+
 This module supports provisioning the following observability instances:
 
 * **IBM Cloud Activity Tracker**
