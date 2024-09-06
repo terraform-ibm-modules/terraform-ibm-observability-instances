@@ -65,6 +65,22 @@ resource "ibm_iam_authorization_policy" "atracker_cos" {
   description                 = "Permit AT service Object Writer access to COS instance ${each.value.instance_id}"
 }
 
+resource "time_sleep" "wait_for_cloud_logs_auth_policy" {
+  depends_on      = [ibm_iam_authorization_policy.atracker_cloud_logs]
+  create_duration = "30s"
+}
+
+# atracker to cloud logs s2s auth policy
+resource "ibm_iam_authorization_policy" "atracker_cloud_logs" {
+  for_each                    = nonsensitive({ for target in var.cloud_logs_targets : target.target_name => target })
+  source_service_name         = "atracker"
+  target_service_name         = "logs"
+  target_resource_instance_id = regex(".*:(.*)::", each.value.instance_id)[0]
+  roles                       = ["Sender"]
+  description                 = "Permit AT service Sender access to Cloud Logs instance ${each.value.instance_id}"
+}
+
+
 # COS targets
 resource "ibm_atracker_target" "atracker_cos_targets" {
   depends_on = [time_sleep.wait_for_authorization_policy]
@@ -109,7 +125,8 @@ resource "ibm_atracker_target" "atracker_log_analysis_targets" {
 
 # Cloud Logs targets
 resource "ibm_atracker_target" "atracker_cloud_logs_targets" {
-  for_each = nonsensitive({ for target in var.cloud_logs_targets : target.target_name => target })
+  depends_on = [time_sleep.wait_for_cloud_logs_auth_policy]
+  for_each   = nonsensitive({ for target in var.cloud_logs_targets : target.target_name => target })
   cloudlogs_endpoint {
     target_crn = each.value.instance_id
   }

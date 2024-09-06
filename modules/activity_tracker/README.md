@@ -63,12 +63,14 @@ No modules.
 | [ibm_atracker_target.atracker_cos_targets](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/atracker_target) | resource |
 | [ibm_atracker_target.atracker_eventstreams_targets](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/atracker_target) | resource |
 | [ibm_atracker_target.atracker_log_analysis_targets](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/atracker_target) | resource |
+| [ibm_iam_authorization_policy.atracker_cloud_logs](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/iam_authorization_policy) | resource |
 | [ibm_iam_authorization_policy.atracker_cos](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/iam_authorization_policy) | resource |
 | [ibm_resource_instance.activity_tracker](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/resource_instance) | resource |
 | [ibm_resource_key.resource_key](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/resource_key) | resource |
 | [ibm_resource_tag.activity_tracker_tag](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/resource_tag) | resource |
 | [logdna_archive.archive_config](https://registry.terraform.io/providers/logdna/logdna/latest/docs/resources/archive) | resource |
 | [time_sleep.wait_for_authorization_policy](https://registry.terraform.io/providers/hashicorp/time/latest/docs/resources/sleep) | resource |
+| [time_sleep.wait_for_cloud_logs_auth_policy](https://registry.terraform.io/providers/hashicorp/time/latest/docs/resources/sleep) | resource |
 
 ### Inputs
 
@@ -78,7 +80,7 @@ No modules.
 | <a name="input_activity_tracker_enable_archive"></a> [activity\_tracker\_enable\_archive](#input\_activity\_tracker\_enable\_archive) | Enable archive on Activity Tracker instances | `bool` | `false` | no |
 | <a name="input_activity_tracker_provision"></a> [activity\_tracker\_provision](#input\_activity\_tracker\_provision) | Provision an Activity Tracker instance? | `bool` | `true` | no |
 | <a name="input_activity_tracker_routes"></a> [activity\_tracker\_routes](#input\_activity\_tracker\_routes) | List of routes to be created, maximum four routes are allowed | <pre>list(object({<br>    locations  = list(string)<br>    target_ids = list(string)<br>    route_name = string<br>  }))</pre> | `[]` | no |
-| <a name="input_cloud_logs_targets"></a> [cloud\_logs\_targets](#input\_cloud\_logs\_targets) | List of Cloud logs target to be created | <pre>list(object({<br>    instance_id   = string<br>    target_region = optional(string)<br>    target_name   = string<br>  }))</pre> | `[]` | no |
+| <a name="input_cloud_logs_targets"></a> [cloud\_logs\_targets](#input\_cloud\_logs\_targets) | List of Cloud Logs targets to be created | <pre>list(object({<br>    instance_id   = string<br>    target_region = optional(string)<br>    target_name   = string<br>  }))</pre> | `[]` | no |
 | <a name="input_cos_bucket_endpoint"></a> [cos\_bucket\_endpoint](#input\_cos\_bucket\_endpoint) | An endpoint for the COS bucket for the archive. Pass either the public or private endpoint (Only required when var.activity\_tracker\_enable\_archive and var.activity\_tracker\_provision are true) | `string` | `null` | no |
 | <a name="input_cos_bucket_name"></a> [cos\_bucket\_name](#input\_cos\_bucket\_name) | The name of an existing COS bucket to be used for the archive (Only required when var.activity\_tracker\_enable\_archive and var.activity\_tracker\_provision are true). | `string` | `null` | no |
 | <a name="input_cos_instance_id"></a> [cos\_instance\_id](#input\_cos\_instance\_id) | The ID of the cloud object storage instance containing the archive bucket (Only required when var.activity\_tracker\_enable\_archive and var.activity\_tracker\_provision are true). | `string` | `null` | no |

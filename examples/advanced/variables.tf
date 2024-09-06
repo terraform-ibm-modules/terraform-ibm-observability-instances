@@ -58,6 +58,12 @@ variable "log_analysis_target_region" {
   default     = null
 }
 
+variable "cloud_logs_target_region" {
+  type        = string
+  description = "Region where cloud log target will be created"
+  default     = null
+}
+
 # Event Routing Global Setting
 variable "metadata_region_primary" {
   type        = string

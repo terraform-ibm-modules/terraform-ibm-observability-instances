@@ -8,6 +8,8 @@ locals {
   eventstreams_target_region = var.eventstreams_target_region != null ? var.eventstreams_target_region : var.region
   cos_target_region          = var.cos_target_region != null ? var.cos_target_region : var.region
   log_analysis_target_region = var.log_analysis_target_region != null ? var.log_analysis_target_region : var.region
+  cloud_log_target_region    = var.cloud_logs_target_region != null ? var.cloud_logs_target_region : var.region
+  cloud_log_target_name      = var.prefix != null ? "${var.prefix}-cloud-logs-target" : "cloud-logs-target"
 }
 
 ##############################################################################
@@ -193,7 +195,7 @@ module "observability_instance_creation" {
   at_cos_instance_id                = module.cos.cos_instance_id
   at_cos_bucket_endpoint            = module.cos.s3_endpoint_private
 
-  cos_targets = [
+  at_cos_targets = [
     {
       bucket_name                       = module.activity_tracker_event_routing_bucket.bucket_name
       endpoint                          = module.activity_tracker_event_routing_bucket.s3_endpoint_private
@@ -205,7 +207,7 @@ module "observability_instance_creation" {
     }
   ]
 
-  eventstreams_targets = [
+  at_eventstreams_targets = [
     {
       api_key       = ibm_resource_key.es_resource_key.credentials.apikey
       instance_id   = ibm_resource_instance.es_instance.id
@@ -215,7 +217,7 @@ module "observability_instance_creation" {
       target_name   = "${var.prefix}-eventstreams-target"
     }
   ]
-  log_analysis_targets = [
+  at_log_analysis_targets = [
     {
       instance_id   = module.observability_instance_creation.log_analysis_crn
       ingestion_key = module.observability_instance_creation.log_analysis_ingestion_key
@@ -224,11 +226,11 @@ module "observability_instance_creation" {
     }
   ]
 
-  cloud_log_targets = [
+  at_cloud_logs_targets = [
     {
       instance_id   = module.observability_instance_creation.cloud_logs_crn
-      target_region = "eu-es"
-      target_name   = "${var.prefix}-cloud-logs-target"
+      target_region = local.cloud_log_target_region
+      target_name   = local.cloud_log_target_name
     }
   ]
 
@@ -240,7 +242,7 @@ module "observability_instance_creation" {
         module.observability_instance_creation.activity_tracker_targets["${var.prefix}-cos-target"].id,
         module.observability_instance_creation.activity_tracker_targets["${var.prefix}-log-analysis"].id,
         module.observability_instance_creation.activity_tracker_targets["${var.prefix}-eventstreams-target"].id,
-        module.observability_instance_creation.activity_tracker_targets["${var.prefix}-cloud-logs-target"].id
+        module.observability_instance_creation.activity_tracker_targets[local.cloud_log_target_name].id
       ]
     }
   ]

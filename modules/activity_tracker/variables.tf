@@ -160,7 +160,7 @@ variable "cloud_logs_targets" {
     target_name   = string
   }))
   default     = []
-  description = "List of Cloud logs target to be created"
+  description = "List of Cloud Logs targets to be created"
   sensitive   = true
 }
 

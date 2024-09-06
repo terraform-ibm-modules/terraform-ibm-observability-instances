@@ -296,7 +296,7 @@ variable "at_cos_bucket_endpoint" {
 # Activity Tracker Event Routing
 #########################################################################
 # COS Targets
-variable "cos_targets" {
+variable "at_cos_targets" {
   type = list(object({
     endpoint                          = string
     bucket_name                       = string
@@ -313,7 +313,7 @@ variable "cos_targets" {
 }
 
 # Event Streams Targets
-variable "eventstreams_targets" {
+variable "at_eventstreams_targets" {
   type = list(object({
     instance_id   = string
     brokers       = list(string)
@@ -328,7 +328,7 @@ variable "eventstreams_targets" {
 }
 
 # Log Analysis Targets
-variable "log_analysis_targets" {
+variable "at_log_analysis_targets" {
   type = list(object({
     instance_id   = string
     ingestion_key = string
@@ -341,7 +341,7 @@ variable "log_analysis_targets" {
 }
 
 # Cloud Logs Targets
-variable "cloud_log_targets" {
+variable "at_cloud_logs_targets" {
   type = list(object({
     instance_id   = string
     target_region = optional(string)
