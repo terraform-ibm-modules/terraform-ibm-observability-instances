@@ -138,3 +138,13 @@ variable "skip_logs_routing_auth_policy" {
   type        = bool
   default     = false
 }
+
+variable "logs_routing_tenant_name" {
+  description = "The name for this tenant. The name is regionally unique across all tenants in the account."
+  type        = string
+  default     = null
+  validation {
+    condition     = var.logs_routing_tenant_name != null ? length(var.logs_routing_tenant_name) < 35 : true
+    error_message = "The maximum length is 35 characters."
+  }
+}

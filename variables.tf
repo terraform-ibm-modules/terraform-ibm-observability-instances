@@ -474,4 +474,10 @@ variable "skip_logs_routing_auth_policy" {
   default     = false
 }
 
+variable "logs_routing_tenant_name" {
+  description = "The name for this tenant. The name is regionally unique across all tenants in the account."
+  type        = string
+  default     = null
+}
+
 ##############################################################################

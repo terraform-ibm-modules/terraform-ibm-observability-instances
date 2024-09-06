@@ -89,4 +89,5 @@ module "cloud_logs" {
   existing_en_instances         = var.cloud_logs_existing_en_instances
   enable_cloud_logs_as_target   = var.enable_cloud_logs_as_target
   skip_logs_routing_auth_policy = var.skip_logs_routing_auth_policy
+  logs_routing_tenant_name      = var.logs_routing_tenant_name
 }

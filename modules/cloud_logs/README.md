@@ -33,6 +33,7 @@ module "cloud_logs" {
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0.0 |
 | <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | >= 1.69.0, < 2.0.0 |
+| <a name="requirement_random"></a> [random](#requirement\_random) | >= 3.5.1, < 4.0.0 |
 | <a name="requirement_time"></a> [time](#requirement\_time) | >= 0.9.1, < 1.0.0 |
 
 ### Modules
@@ -50,6 +51,7 @@ No modules.
 | [ibm_logs_router_tenant.logs_router_tenant_instance](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/logs_router_tenant) | resource |
 | [ibm_resource_instance.cloud_logs](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/resource_instance) | resource |
 | [ibm_resource_tag.cloud_logs_tag](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/resource_tag) | resource |
+| [random_string.random_tenant_suffix](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/string) | resource |
 | [time_sleep.wait_for_en_authorization_policy](https://registry.terraform.io/providers/hashicorp/time/latest/docs/resources/sleep) | resource |
 | [ibm_iam_account_settings.iam_account_settings](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/data-sources/iam_account_settings) | data source |
 
@@ -62,6 +64,7 @@ No modules.
 | <a name="input_enable_cloud_logs_as_target"></a> [enable\_cloud\_logs\_as\_target](#input\_enable\_cloud\_logs\_as\_target) | Whether to set IBM Cloud Logs be designated as a target for logs routing in a specific region. | `bool` | `false` | no |
 | <a name="input_existing_en_instances"></a> [existing\_en\_instances](#input\_existing\_en\_instances) | List of Event Notifications instance details for routing critical events that occur in your IBM Cloud Logs | <pre>list(object({<br>    en_instance_id      = string<br>    en_region           = string<br>    en_integration_name = optional(string)<br>    skip_en_auth_policy = optional(bool, false)<br>  }))</pre> | `[]` | no |
 | <a name="input_instance_name"></a> [instance\_name](#input\_instance\_name) | The name of the IBM Cloud Logs instance to create. Defaults to 'cloud-logs-<region>' | `string` | `null` | no |
+| <a name="input_logs_routing_tenant_name"></a> [logs\_routing\_tenant\_name](#input\_logs\_routing\_tenant\_name) | The name for this tenant. The name is regionally unique across all tenants in the account. | `string` | `null` | no |
 | <a name="input_plan"></a> [plan](#input\_plan) | The IBM Cloud Logs plan to provision. Available: standard | `string` | `"standard"` | no |
 | <a name="input_region"></a> [region](#input\_region) | The region where observability resources are created. | `string` | `"eu-es"` | no |
 | <a name="input_resource_group_id"></a> [resource\_group\_id](#input\_resource\_group\_id) | The id of the IBM Cloud resource group where the instance(s) will be created. | `string` | `null` | no |

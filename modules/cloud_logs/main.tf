@@ -135,8 +135,18 @@ resource "ibm_iam_authorization_policy" "logs_routing_policy" {
     value    = ibm_resource_instance.cloud_logs.guid
   }
 }
+
+##############################################################################
+# Random Suffix
+##############################################################################
+
+resource "random_string" "random_tenant_suffix" {
+  length  = 13
+  numeric = true
+}
+
 resource "ibm_logs_router_tenant" "logs_router_tenant_instance" {
-  name = "${local.instance_name}-tenant"
+  name = var.logs_routing_tenant_name != null ? var.logs_routing_tenant_name : "${var.region}-${random_string.random_tenant_suffix.result}"
   targets {
     log_sink_crn = ibm_resource_instance.cloud_logs.crn
     name         = local.instance_name
