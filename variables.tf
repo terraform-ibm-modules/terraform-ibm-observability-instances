@@ -349,7 +349,6 @@ variable "at_cloud_logs_targets" {
   }))
   default     = []
   description = "List of cloud logs target to be created"
-  sensitive   = true
 }
 
 # Routes
