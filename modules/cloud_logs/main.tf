@@ -104,7 +104,5 @@ resource "ibm_logs_outgoing_webhook" "en_integration" {
   ibm_event_notifications {
     event_notifications_instance_id = each.value.en_instance_id
     region_id                       = each.value.en_region
-    source_id                       = each.value.source_id
-    source_name                     = each.value.source_name
   }
 }
