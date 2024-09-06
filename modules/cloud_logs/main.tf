@@ -98,13 +98,11 @@ resource "ibm_logs_outgoing_webhook" "en_integration" {
   for_each    = { for idx, en in var.existing_en_instances : idx => en }
   instance_id = ibm_resource_instance.cloud_logs.guid
   region      = var.region
-  name        = each.value.en_instance_name == null ? "${local.instance_name}-en-integration-${each.key}" : each.value.en_instance_name
+  name        = each.value.en_integration_name == null ? "${local.instance_name}-en-integration-${each.key}" : each.value.en_integration_name
   type        = "ibm_event_notifications"
 
   ibm_event_notifications {
     event_notifications_instance_id = each.value.en_instance_id
     region_id                       = each.value.en_region
-    source_id                       = each.value.source_id
-    source_name                     = each.value.source_name
   }
 }
