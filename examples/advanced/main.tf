@@ -224,6 +224,14 @@ module "observability_instance_creation" {
     }
   ]
 
+  cloud_log_targets = [
+    {
+      instance_id   = module.observability_instance_creation.cloud_logs_crn
+      target_region = "eu-es"
+      target_name   = "${var.prefix}-cloud-logs-target"
+    }
+  ]
+
   activity_tracker_routes = [
     {
       route_name = "${var.prefix}-route"
@@ -231,7 +239,8 @@ module "observability_instance_creation" {
       target_ids = [
         module.observability_instance_creation.activity_tracker_targets["${var.prefix}-cos-target"].id,
         module.observability_instance_creation.activity_tracker_targets["${var.prefix}-log-analysis"].id,
-        module.observability_instance_creation.activity_tracker_targets["${var.prefix}-eventstreams-target"].id
+        module.observability_instance_creation.activity_tracker_targets["${var.prefix}-eventstreams-target"].id,
+        module.observability_instance_creation.activity_tracker_targets["${var.prefix}-cloud-logs-target"].id
       ]
     }
   ]

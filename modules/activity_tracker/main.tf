@@ -107,6 +107,17 @@ resource "ibm_atracker_target" "atracker_log_analysis_targets" {
   region      = each.value.target_region
 }
 
+# Cloud Logs targets
+resource "ibm_atracker_target" "atracker_cloud_logs_targets" {
+  for_each = nonsensitive({ for target in var.cloud_log_targets : target.target_name => target })
+  cloudlogs_endpoint {
+    target_crn = each.value.instance_id
+  }
+  name        = each.key
+  target_type = "cloud_logs"
+  region      = each.value.target_region
+}
+
 # Routes
 resource "ibm_atracker_route" "atracker_routes" {
   for_each = { for route in var.activity_tracker_routes : route.route_name => route }

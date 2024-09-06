@@ -340,6 +340,18 @@ variable "log_analysis_targets" {
   sensitive   = true
 }
 
+# Cloud Logs Targets
+variable "cloud_log_targets" {
+  type = list(object({
+    instance_id   = string
+    target_region = optional(string)
+    target_name   = string
+  }))
+  default     = []
+  description = "List of cloud logs target to be created"
+  sensitive   = true
+}
+
 # Routes
 variable "activity_tracker_routes" {
   type = list(object({
