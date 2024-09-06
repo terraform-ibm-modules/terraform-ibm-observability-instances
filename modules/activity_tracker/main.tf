@@ -109,7 +109,7 @@ resource "ibm_atracker_target" "atracker_log_analysis_targets" {
 
 # Cloud Logs targets
 resource "ibm_atracker_target" "atracker_cloud_logs_targets" {
-  for_each = nonsensitive({ for target in var.cloud_log_targets : target.target_name => target })
+  for_each = nonsensitive({ for target in var.cloud_logs_targets : target.target_name => target })
   cloudlogs_endpoint {
     target_crn = each.value.instance_id
   }
@@ -174,6 +174,14 @@ locals {
     }
   }
 
+  cloud_log_targets = {
+    for cloud_log_target in ibm_aibm_atracker_target.atracker_cloud_logs_targets :
+    cloud_log_target["name"] => {
+      id = cloud_log_target["id"]
+      crn = cloud_log_target["crn"]
+    }
+  }
+
   activity_tracker_routes = {
     for atracker_route in ibm_atracker_route.atracker_routes :
     atracker_route["name"] => {
@@ -182,6 +190,6 @@ locals {
     }
   }
 
-  activity_tracker_targets = merge(local.cos_targets, local.log_analysis_targets, local.eventstreams_targets)
+  activity_tracker_targets = merge(local.cos_targets, local.log_analysis_targets, local.eventstreams_targets, local.cloud_log_targets)
 
 }

@@ -153,7 +153,7 @@ variable "log_analysis_targets" {
 }
 
 # Cloud Logs Targets
-variable "cloud_log_targets" {
+variable "cloud_logs_targets" {
   type = list(object({
     instance_id   = string
     target_region = optional(string)

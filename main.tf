@@ -29,7 +29,7 @@ module "activity_tracker" {
   cos_targets                     = var.cos_targets
   eventstreams_targets            = var.eventstreams_targets
   log_analysis_targets            = var.log_analysis_targets
-  cloud_log_targets               = var.cloud_log_targets
+  cloud_logs_targets               = var.cloud_log_targets
   global_event_routing_settings   = var.global_event_routing_settings
 }
 
