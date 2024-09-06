@@ -1,5 +1,6 @@
 locals {
-  instance_name = var.instance_name != null ? var.instance_name : "cloud-logs-${var.region}"
+  instance_name                     = var.instance_name != null ? var.instance_name : "cloud-logs-${var.region}"
+  create_access_policy_logs_routing = var.enable_cloud_logs_as_target && !var.skip_logs_routing_auth_policy
 }
 
 
@@ -104,5 +105,44 @@ resource "ibm_logs_outgoing_webhook" "en_integration" {
   ibm_event_notifications {
     event_notifications_instance_id = each.value.en_instance_id
     region_id                       = each.value.en_region
+  }
+}
+
+##############################################################################
+# Logs Routing
+##############################################################################
+resource "ibm_iam_authorization_policy" "logs_routing_policy" {
+  count               = local.create_access_policy_logs_routing ? 1 : 0
+  source_service_name = "logs-router"
+  roles               = ["Sender"]
+  description         = "Allow Logs Routing `Sender` access to the IBM Cloud Logs with ID ${ibm_resource_instance.cloud_logs.guid}."
+
+  resource_attributes {
+    name     = "serviceName"
+    operator = "stringEquals"
+    value    = "logs"
+  }
+
+  resource_attributes {
+    name     = "accountId"
+    operator = "stringEquals"
+    value    = data.ibm_iam_account_settings.iam_account_settings.account_id
+  }
+
+  resource_attributes {
+    name     = "serviceInstance"
+    operator = "stringEquals"
+    value    = ibm_resource_instance.cloud_logs.guid
+  }
+}
+resource "ibm_logs_router_tenant" "logs_router_tenant_instance" {
+  name = "${local.instance_name}-tenant"
+  targets {
+    log_sink_crn = ibm_resource_instance.cloud_logs.crn
+    name         = local.instance_name
+    parameters {
+      host = "${ibm_resource_instance.cloud_logs.guid}.ingress.${var.region}.logs.cloud.ibm.com"
+      port = 443
+    }
   }
 }

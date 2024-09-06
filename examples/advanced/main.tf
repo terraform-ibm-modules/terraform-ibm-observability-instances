@@ -245,7 +245,6 @@ module "observability_instance_creation" {
   }
 
   cloud_logs_retention_period = 14
-  cloud_logs_region           = "eu-es"
   cloud_logs_data_storage = {
     logs_data = {
       enabled         = true
@@ -262,4 +261,5 @@ module "observability_instance_creation" {
     en_instance_id = module.event_notification.guid
     en_region      = var.en_region
   }]
+  enable_cloud_logs_as_target = true
 }

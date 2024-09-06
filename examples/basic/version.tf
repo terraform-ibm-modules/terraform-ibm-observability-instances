@@ -5,7 +5,7 @@ terraform {
     # module's version.tf (basic), and 1 example that will always use the latest provider version.
     ibm = {
       source  = "ibm-cloud/ibm"
-      version = "1.67.1"
+      version = "1.69.0"
     }
     logdna = {
       source  = "logdna/logdna"

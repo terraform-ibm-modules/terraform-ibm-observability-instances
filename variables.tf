@@ -461,4 +461,17 @@ variable "cloud_logs_data_storage" {
   }
   description = "A logs data bucket and a metrics bucket in IBM Cloud Object Storage to store your IBM Cloud Logs data for long term storage, search, analysis and alerting."
 }
+
+variable "enable_cloud_logs_as_target" {
+  description = "Whether to set IBM Cloud Logs be designated as a target for logs routing in a specific region."
+  type        = bool
+  default     = false
+}
+
+variable "skip_logs_routing_auth_policy" {
+  description = "Whether to create an IAM authorization policy that permits Logs Routing Sender access to the IBM Cloud Logs."
+  type        = bool
+  default     = false
+}
+
 ##############################################################################

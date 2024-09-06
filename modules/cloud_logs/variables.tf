@@ -122,3 +122,19 @@ variable "existing_en_instances" {
   default     = []
   description = "List of Event Notifications instance details for routing critical events that occur in your IBM Cloud Logs"
 }
+
+##############################################################################
+# Logs Routing
+##############################################################################
+
+variable "enable_cloud_logs_as_target" {
+  description = "Whether to set IBM Cloud Logs be designated as a target for logs routing in a specific region."
+  type        = bool
+  default     = false
+}
+
+variable "skip_logs_routing_auth_policy" {
+  description = "Whether to create an IAM authorization policy that permits Logs Routing Sender access to the IBM Cloud Logs."
+  type        = bool
+  default     = false
+}
