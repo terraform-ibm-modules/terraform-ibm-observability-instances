@@ -143,6 +143,9 @@ resource "ibm_iam_authorization_policy" "logs_routing_policy" {
 resource "random_string" "random_tenant_suffix" {
   length  = 13
   numeric = true
+  upper   = false
+  lower   = false
+  special = false
 }
 
 resource "ibm_logs_router_tenant" "logs_router_tenant_instance" {
