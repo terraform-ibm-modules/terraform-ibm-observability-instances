@@ -116,7 +116,7 @@ variable "existing_en_instances" {
   type = list(object({
     en_instance_id      = string
     en_region           = string
-    en_instance_name    = optional(string)
+    en_integration_name = optional(string)
     skip_en_auth_policy = optional(bool, false)
   }))
   default     = []
