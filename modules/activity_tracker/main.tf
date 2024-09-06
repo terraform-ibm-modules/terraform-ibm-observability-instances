@@ -177,7 +177,7 @@ locals {
   cloud_log_targets = {
     for cloud_log_target in ibm_aibm_atracker_target.atracker_cloud_logs_targets :
     cloud_log_target["name"] => {
-      id = cloud_log_target["id"]
+      id  = cloud_log_target["id"]
       crn = cloud_log_target["crn"]
     }
   }
