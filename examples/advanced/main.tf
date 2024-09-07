@@ -28,7 +28,7 @@ module "resource_group" {
 
 module "key_protect" {
   source            = "terraform-ibm-modules/kms-all-inclusive/ibm"
-  version           = "4.15.9"
+  version           = "4.15.10"
   resource_group_id = module.resource_group.resource_group_id
   region            = var.region
   resource_tags     = var.resource_tags
@@ -51,7 +51,7 @@ module "key_protect" {
 
 module "event_notification" {
   source            = "terraform-ibm-modules/event-notifications/ibm"
-  version           = "1.10.5"
+  version           = "1.10.8"
   resource_group_id = module.resource_group.resource_group_id
   name              = "${var.prefix}-en"
   tags              = var.resource_tags
@@ -97,7 +97,7 @@ resource "ibm_resource_key" "es_resource_key" {
 
 module "cos" {
   source                     = "terraform-ibm-modules/cos/ibm"
-  version                    = "8.11.3"
+  version                    = "8.11.5"
   resource_group_id          = module.resource_group.resource_group_id
   region                     = var.region
   cos_instance_name          = "${var.prefix}-cos"
@@ -113,7 +113,7 @@ module "cos" {
 module "cloud_logs_buckets" {
   depends_on = [module.cos] # The `cos` module execution must be fully completed, including the instantiation of the cos_instance and configuration of the default bucket, as a prerequisite to executing the cloud_logs_buckets module. This ensures that the cloud_logs_buckets module can utilize the authentication policy created by the `cos` module.
   source     = "terraform-ibm-modules/cos/ibm//modules/buckets"
-  version    = "8.11.3"
+  version    = "8.11.5"
   bucket_configs = [
     {
       bucket_name                   = "${var.prefix}-logs-data"
@@ -138,7 +138,7 @@ module "cloud_logs_buckets" {
 
 module "activity_tracker_event_routing_bucket" {
   source                     = "terraform-ibm-modules/cos/ibm"
-  version                    = "8.11.3"
+  version                    = "8.11.5"
   resource_group_id          = module.resource_group.resource_group_id
   region                     = local.cos_target_region
   cos_instance_name          = "${var.prefix}-cos"
