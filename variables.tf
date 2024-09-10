@@ -465,7 +465,7 @@ variable "cloud_logs_data_storage" {
 variable "enable_cloud_logs_as_target" {
   description = "Whether to set IBM Cloud Logs be designated as a target for logs routing in a specific region."
   type        = bool
-  default     = false
+  default     = true
 }
 
 variable "skip_logs_routing_auth_policy" {

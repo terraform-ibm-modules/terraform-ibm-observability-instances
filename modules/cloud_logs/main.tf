@@ -148,13 +148,18 @@ resource "random_string" "random_tenant_suffix" {
   special = false
 }
 
+locals {
+  cloud_logs_endpoint = (var.service_endpoints == "public-and-private") ? "public" : var.service_endpoints
+  log_sink_host       = (local.cloud_logs_endpoint == "public") ? "${ibm_resource_instance.cloud_logs.guid}.ingress.${var.region}.logs.cloud.ibm.com" : "${ibm_resource_instance.cloud_logs.guid}.ingress.private.${var.region}.logs.cloud.ibm.com"
+}
+
 resource "ibm_logs_router_tenant" "logs_router_tenant_instance" {
   name = var.logs_routing_tenant_name != null ? var.logs_routing_tenant_name : "${var.region}-${random_string.random_tenant_suffix.result}"
   targets {
     log_sink_crn = ibm_resource_instance.cloud_logs.crn
     name         = local.instance_name
     parameters {
-      host = "${ibm_resource_instance.cloud_logs.guid}.ingress.${var.region}.logs.cloud.ibm.com"
+      host = local.log_sink_host
       port = 443
     }
   }
