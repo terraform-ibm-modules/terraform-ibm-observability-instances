@@ -66,7 +66,7 @@ No modules.
 | <a name="input_instance_name"></a> [instance\_name](#input\_instance\_name) | The name of the IBM Cloud Logs instance to create. Defaults to 'cloud-logs-<region>' | `string` | `null` | no |
 | <a name="input_logs_routing_tenant_name"></a> [logs\_routing\_tenant\_name](#input\_logs\_routing\_tenant\_name) | The name for this tenant. The name is regionally unique across all tenants in the account. | `string` | `null` | no |
 | <a name="input_plan"></a> [plan](#input\_plan) | The IBM Cloud Logs plan to provision. Available: standard | `string` | `"standard"` | no |
-| <a name="input_region"></a> [region](#input\_region) | The region where observability resources are created. | `string` | `"eu-es"` | no |
+| <a name="input_region"></a> [region](#input\_region) | The IBM Cloud region where Cloud logs instance will be created. | `string` | `"us-south"` | no |
 | <a name="input_resource_group_id"></a> [resource\_group\_id](#input\_resource\_group\_id) | The id of the IBM Cloud resource group where the instance(s) will be created. | `string` | `null` | no |
 | <a name="input_resource_tags"></a> [resource\_tags](#input\_resource\_tags) | Tags associated with the IBM Cloud Logs instance (Optional, array of strings). | `list(string)` | `[]` | no |
 | <a name="input_retention_period"></a> [retention\_period](#input\_retention\_period) | The number of days IBM Cloud Logs will retain the logs data in Priority insights. | `number` | `7` | no |

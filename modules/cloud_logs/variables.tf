@@ -1,7 +1,7 @@
 variable "region" {
-  description = "The region where observability resources are created."
+  description = "The IBM Cloud region where Cloud logs instance will be created."
   type        = string
-  default     = "eu-es"
+  default     = "us-south"
 }
 
 variable "resource_group_id" {
