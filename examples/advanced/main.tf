@@ -261,5 +261,6 @@ module "observability_instance_creation" {
     en_instance_id = module.event_notification.guid
     en_region      = var.en_region
   }]
-  logs_routing_tenant_regions = [var.region]
+  # Only 1 account level tenant can be created per region, so to prevent tests from clashing, not creating any tenants until https://github.ibm.com/GoldenEye/issues/issues/10676 is implemented
+  # logs_routing_tenant_regions = [var.region]
 }
