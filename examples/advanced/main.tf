@@ -261,5 +261,5 @@ module "observability_instance_creation" {
     en_instance_id = module.event_notification.guid
     en_region      = var.en_region
   }]
-  enable_cloud_logs_as_target = true
+  logs_routing_tenant_regions = [var.region]
 }

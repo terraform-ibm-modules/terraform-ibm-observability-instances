@@ -1,6 +1,5 @@
 locals {
-  instance_name                     = var.instance_name != null ? var.instance_name : "cloud-logs-${var.region}"
-  create_access_policy_logs_routing = var.enable_cloud_logs_as_target && !var.skip_logs_routing_auth_policy
+  instance_name = var.instance_name != null ? var.instance_name : "cloud-logs-${var.region}"
 }
 
 
@@ -111,8 +110,10 @@ resource "ibm_logs_outgoing_webhook" "en_integration" {
 ##############################################################################
 # Logs Routing
 ##############################################################################
+
+# Create required auth policy to allow log routing service to send logs to the cloud logs instance
 resource "ibm_iam_authorization_policy" "logs_routing_policy" {
-  count               = local.create_access_policy_logs_routing ? 1 : 0
+  count               = !var.skip_logs_routing_auth_policy ? 1 : 0
   source_service_name = "logs-router"
   roles               = ["Sender"]
   description         = "Allow Logs Routing `Sender` access to the IBM Cloud Logs with ID ${ibm_resource_instance.cloud_logs.guid}."
@@ -136,25 +137,38 @@ resource "ibm_iam_authorization_policy" "logs_routing_policy" {
   }
 }
 
-##############################################################################
-# Random Suffix
-##############################################################################
-
 resource "random_string" "random_tenant_suffix" {
-  length  = 13
+  length  = 4
   numeric = true
   upper   = false
   lower   = false
   special = false
 }
 
+# Lookup supported regions (Cloud Logs support the same as VPC regions)
+# data "ibm_is_regions" "regions" {} # uncomment when region support comes in https://github.com/IBM-Cloud/terraform-provider-ibm/pull/5634
+
+# Lookup current provider region
+data "ibm_is_region" "provider_region" {}
+
 locals {
-  cloud_logs_endpoint = (var.service_endpoints == "public-and-private") ? "public" : var.service_endpoints
-  log_sink_host       = (local.cloud_logs_endpoint == "public") ? "${ibm_resource_instance.cloud_logs.guid}.ingress.${var.region}.logs.cloud.ibm.com" : "${ibm_resource_instance.cloud_logs.guid}.ingress.private.${var.region}.logs.cloud.ibm.com"
+  log_sink_host = var.use_private_endpoint_logs_routing ? "${ibm_resource_instance.cloud_logs.guid}.ingress.private.${var.region}.logs.cloud.ibm.com" : "${ibm_resource_instance.cloud_logs.guid}.ingress.${var.region}.logs.cloud.ibm.com"
+
+  # Temporary validation to ensure the provider region matches the region passed in the var.logs_routing_tenant_regions
+  region_validate_condition = length(var.logs_routing_tenant_regions) != 0 ? data.ibm_is_region.provider_region.name != var.logs_routing_tenant_regions[0] : false
+  region_validate_msg       = "The provider region defined in the provider config, and the region passed in the 'logs_routing_tenant_regions' list currently must match. If not region has been defined in the provider config, it defaults to us-south."
+  # tflint-ignore: terraform_unused_declarations
+  region_validate_check = regex("^${local.region_validate_msg}$", (!local.region_validate_condition ? local.region_validate_msg : ""))
 }
 
-resource "ibm_logs_router_tenant" "logs_router_tenant_instance" {
-  name = var.logs_routing_tenant_name != null ? var.logs_routing_tenant_name : "${var.region}-${random_string.random_tenant_suffix.result}"
+resource "ibm_logs_router_tenant" "logs_router_tenant_instances" {
+  # until provider supports passing region to this resource (coming in https://github.com/IBM-Cloud/terraform-provider-ibm/pull/5634),
+  # the for_each will only ever include the provider region
+
+  # for_each = contains(var.logs_routing_tenant_regions, "*") ? toset(data.ibm_is_regions.regions.regions[*].name) : var.logs_routing_tenant_regions
+  for_each = contains(var.logs_routing_tenant_regions, "*") ? toset([data.ibm_is_region.provider_region.name]) : toset(var.logs_routing_tenant_regions)
+  name     = "${each.key}-${random_string.random_tenant_suffix.result}"
+  # region = each.key
   targets {
     log_sink_crn = ibm_resource_instance.cloud_logs.crn
     name         = local.instance_name
