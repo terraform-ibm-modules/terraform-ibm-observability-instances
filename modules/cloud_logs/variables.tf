@@ -147,7 +147,7 @@ variable "logs_routing_tenant_regions" {
 variable "use_private_endpoint_logs_routing" {
   type        = bool
   default     = true
-  description = "Set to true to use a private endpoint when setting up a tenant for IBM Cloud Logs. Set to false if you want to use a public endpoint. NOTE: In order to use private, you must have a VFR enabled account. More info: https://cloud.ibm.com/docs/account?topic=account-vrf-service-endpoint"
+  description = "Set to true to use a private endpoint when setting up a tenant for IBM Cloud Logs. Set to false if you want to use a public endpoint. NOTE: In order to use private, you must have a VRF enabled account. More info: https://cloud.ibm.com/docs/account?topic=account-vrf-service-endpoint"
 }
 
 variable "skip_logs_routing_auth_policy" {
