@@ -343,12 +343,13 @@ variable "at_log_analysis_targets" {
 # Cloud Logs Targets
 variable "at_cloud_logs_targets" {
   type = list(object({
-    instance_id   = string
-    target_region = optional(string)
-    target_name   = string
+    instance_id                              = string
+    target_region                            = optional(string)
+    target_name                              = string
+    skip_atracker_cloud_logs_iam_auth_policy = optional(bool, false)
   }))
   default     = []
-  description = "List of cloud logs target to be created"
+  description = "List of Cloud Logs targets to be created"
 }
 
 # Routes

@@ -126,7 +126,7 @@ resource "ibm_atracker_target" "atracker_log_analysis_targets" {
 # Cloud Logs targets
 resource "ibm_atracker_target" "atracker_cloud_logs_targets" {
   depends_on = [time_sleep.wait_for_cloud_logs_auth_policy]
-  for_each   = { for target in var.cloud_logs_targets : target.target_name => target }
+  for_each   = { for target in var.cloud_logs_targets : target.target_name => target if !target.skip_atracker_cloud_logs_iam_auth_policy }
   cloudlogs_endpoint {
     target_crn = each.value.instance_id
   }
