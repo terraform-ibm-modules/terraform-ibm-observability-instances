@@ -231,7 +231,6 @@ No resources.
 | <a name="input_cloud_logs_instance_name"></a> [cloud\_logs\_instance\_name](#input\_cloud\_logs\_instance\_name) | The name of the IBM Cloud Logs instance to create. Defaults to 'cloud\_logs-<region>' | `string` | `null` | no |
 | <a name="input_cloud_logs_plan"></a> [cloud\_logs\_plan](#input\_cloud\_logs\_plan) | The IBM Cloud Logs plan to provision. Available: standard | `string` | `"standard"` | no |
 | <a name="input_cloud_logs_provision"></a> [cloud\_logs\_provision](#input\_cloud\_logs\_provision) | Provision a IBM Cloud Logs instance? | `bool` | `true` | no |
-| <a name="input_cloud_logs_region"></a> [cloud\_logs\_region](#input\_cloud\_logs\_region) | The IBM Cloud region where Cloud Logs instances will be created. | `string` | `null` | no |
 | <a name="input_cloud_logs_retention_period"></a> [cloud\_logs\_retention\_period](#input\_cloud\_logs\_retention\_period) | The number of days IBM Cloud Logs will retain the logs data in Priority insights. Allowed values: 7, 14, 30, 60, 90. | `number` | `7` | no |
 | <a name="input_cloud_logs_service_endpoints"></a> [cloud\_logs\_service\_endpoints](#input\_cloud\_logs\_service\_endpoints) | The type of the service endpoint that will be set for the IBM Cloud Logs instance. | `string` | `"public-and-private"` | no |
 | <a name="input_cloud_logs_tags"></a> [cloud\_logs\_tags](#input\_cloud\_logs\_tags) | Tags associated with the IBM Cloud Logs instance (Optional, array of strings). | `list(string)` | `[]` | no |

@@ -77,7 +77,7 @@ module "cloud_monitoring" {
 module "cloud_logs" {
   count                             = var.cloud_logs_provision ? 1 : 0
   source                            = "./modules/cloud_logs"
-  region                            = var.cloud_logs_region != null ? var.cloud_logs_region : var.region
+  region                            = var.region
   resource_group_id                 = var.resource_group_id
   instance_name                     = var.cloud_logs_instance_name
   plan                              = var.cloud_logs_plan

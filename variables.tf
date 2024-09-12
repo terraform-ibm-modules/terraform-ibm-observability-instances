@@ -385,12 +385,6 @@ variable "cloud_logs_plan" {
   default     = "standard"
 }
 
-variable "cloud_logs_region" {
-  description = "The IBM Cloud region where Cloud Logs instances will be created."
-  type        = string
-  default     = null
-}
-
 variable "cloud_logs_tags" {
   type        = list(string)
   description = "Tags associated with the IBM Cloud Logs instance (Optional, array of strings)."
