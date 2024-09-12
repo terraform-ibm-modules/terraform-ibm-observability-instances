@@ -152,7 +152,7 @@ resource "random_string" "random_tenant_suffix" {
 data "ibm_is_region" "provider_region" {}
 
 locals {
-  log_sink_host = var.use_private_endpoint_logs_routing ? "${ibm_resource_instance.cloud_logs.guid}.ingress.private.${var.region}.logs.cloud.ibm.com" : "${ibm_resource_instance.cloud_logs.guid}.ingress.${var.region}.logs.cloud.ibm.com"
+  log_sink_host = var.use_private_endpoint_logs_routing ? ibm_resource_instance.cloud_logs.extensions.external_ingress_private : ibm_resource_instance.cloud_logs.extensions.external_ingress
 
   # Temporary validation to ensure the provider region matches the region passed in the var.logs_routing_tenant_regions
   region_validate_condition = length(var.logs_routing_tenant_regions) != 0 ? data.ibm_is_region.provider_region.name != var.logs_routing_tenant_regions[0] : false
