@@ -152,8 +152,6 @@ resource "random_string" "random_tenant_suffix" {
 data "ibm_is_region" "provider_region" {}
 
 locals {
-  log_sink_host = var.use_private_endpoint_logs_routing ? ibm_resource_instance.cloud_logs.extensions.external_ingress_private : ibm_resource_instance.cloud_logs.extensions.external_ingress
-
   # Temporary validation to ensure the provider region matches the region passed in the var.logs_routing_tenant_regions
   region_validate_condition = length(var.logs_routing_tenant_regions) != 0 ? data.ibm_is_region.provider_region.name != var.logs_routing_tenant_regions[0] : false
   region_validate_msg       = "The provider region defined in the provider config, and the region passed in the 'logs_routing_tenant_regions' list currently must match. If not region has been defined in the provider config, it defaults to us-south."
@@ -165,7 +163,6 @@ resource "ibm_logs_router_tenant" "logs_router_tenant_instances" {
   # until provider supports passing region to this resource (coming in https://github.com/IBM-Cloud/terraform-provider-ibm/pull/5634),
   # the for_each will only ever include the provider region
 
-  # for_each = contains(var.logs_routing_tenant_regions, "*") ? toset(data.ibm_is_regions.regions.regions[*].name) : var.logs_routing_tenant_regions
   for_each = contains(var.logs_routing_tenant_regions, "*") ? toset([data.ibm_is_region.provider_region.name]) : toset(var.logs_routing_tenant_regions)
   name     = "${each.key}-${random_string.random_tenant_suffix.result}"
   # region = each.key
@@ -173,7 +170,7 @@ resource "ibm_logs_router_tenant" "logs_router_tenant_instances" {
     log_sink_crn = ibm_resource_instance.cloud_logs.crn
     name         = local.instance_name
     parameters {
-      host = local.log_sink_host
+      host = ibm_resource_instance.cloud_logs.extensions.external_ingress
       port = 443
     }
   }

@@ -72,7 +72,6 @@ No modules.
 | <a name="input_retention_period"></a> [retention\_period](#input\_retention\_period) | The number of days IBM Cloud Logs will retain the logs data in Priority insights. Allowed values: 7, 14, 30, 60, 90. | `number` | `7` | no |
 | <a name="input_service_endpoints"></a> [service\_endpoints](#input\_service\_endpoints) | The type of the service endpoint that will be set for the IBM Cloud Logs instance. Allowed values: public-and-private | `string` | `"public-and-private"` | no |
 | <a name="input_skip_logs_routing_auth_policy"></a> [skip\_logs\_routing\_auth\_policy](#input\_skip\_logs\_routing\_auth\_policy) | Whether to create an IAM authorization policy that permits the Logs Routing server 'Sender' access to the IBM Cloud Logs instance created by this module. | `bool` | `false` | no |
-| <a name="input_use_private_endpoint_logs_routing"></a> [use\_private\_endpoint\_logs\_routing](#input\_use\_private\_endpoint\_logs\_routing) | Set to true to use a private endpoint when setting up a tenant for IBM Cloud Logs. Set to false if you want to use a public endpoint. NOTE: In order to use private, you must have a VRF enabled account. More info: https://cloud.ibm.com/docs/account?topic=account-vrf-service-endpoint | `bool` | `true` | no |
 
 ### Outputs
 

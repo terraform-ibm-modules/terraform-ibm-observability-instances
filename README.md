@@ -266,7 +266,6 @@ No resources.
 | <a name="input_region"></a> [region](#input\_region) | The IBM Cloud region where instances will be created. | `string` | `"us-south"` | no |
 | <a name="input_resource_group_id"></a> [resource\_group\_id](#input\_resource\_group\_id) | The id of the IBM Cloud resource group where the instance(s) will be created. | `string` | n/a | yes |
 | <a name="input_skip_logs_routing_auth_policy"></a> [skip\_logs\_routing\_auth\_policy](#input\_skip\_logs\_routing\_auth\_policy) | Whether to create an IAM authorization policy that permits Logs Routing Sender access to the IBM Cloud Logs. | `bool` | `false` | no |
-| <a name="input_use_private_endpoint_logs_routing"></a> [use\_private\_endpoint\_logs\_routing](#input\_use\_private\_endpoint\_logs\_routing) | Set to true to use a private endpoint when setting up a tenant for IBM Cloud Logs. Set to false if you want to use a public endpoint. NOTE: In order to use private, you must have a VRF enabled account. More info: https://cloud.ibm.com/docs/account?topic=account-vrf-service-endpoint | `bool` | `true` | no |
 
 ### Outputs
 
