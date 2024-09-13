@@ -17,3 +17,13 @@ output "resource_group_id" {
   value       = ibm_resource_instance.cloud_logs.resource_group_id
   description = "The resource group where Cloud Logs instance resides"
 }
+
+output "ingress_endpoint" {
+  value       = ibm_resource_instance.cloud_logs.extensions.external_ingress
+  description = "The public ingress endpoint of the provisioned Cloud Logs instance."
+}
+
+output "ingress_private_endpoint" {
+  value       = ibm_resource_instance.cloud_logs.extensions.external_ingress_private
+  description = "The private ingress endpoint of the provisioned Cloud Logs instance."
+}
