@@ -152,3 +152,13 @@ output "cloud_logs_resource_group_id" {
   value       = length(module.cloud_logs) > 0 ? module.cloud_logs[0].resource_group_id : null
   description = "The resource group where Cloud Logs instance resides."
 }
+
+output "ingress_endpoint" {
+  value       = length(module.cloud_logs) > 0 ? module.cloud_logs[0].ingress_endpoint : null
+  description = "The public ingress endpoint of the provisioned Cloud Logs instance."
+}
+
+output "ingress_private_endpoint" {
+  value       = length(module.cloud_logs) > 0 ? module.cloud_logs[0].ingress_private_endpoint : null
+  description = "The private ingress endpoint of the provisioned Cloud Logs instance."
+}
