@@ -21,3 +21,7 @@ output "cloud_logs_name" {
   value       = module.test_observability_instance_creation.cloud_logs_name
   description = "The name of the provisioned Cloud Logs instance."
 }
+
+output "dsf" {
+  value = module.test_observability_instance_creation.cloud_logs_ingress_endpoint
+}
