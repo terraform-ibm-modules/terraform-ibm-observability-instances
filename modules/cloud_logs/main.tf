@@ -146,27 +146,12 @@ resource "random_string" "random_tenant_suffix" {
 }
 
 # Lookup supported regions (Cloud Logs support the same as VPC regions)
-# data "ibm_is_regions" "regions" {} # uncomment when region support comes in https://github.com/IBM-Cloud/terraform-provider-ibm/pull/5634
-
-# Lookup current provider region
-data "ibm_is_region" "provider_region" {}
-
-locals {
-  # Temporary validation to ensure the provider region matches the region passed in the var.logs_routing_tenant_regions
-  region_validate_condition = length(var.logs_routing_tenant_regions) != 0 ? data.ibm_is_region.provider_region.name != var.logs_routing_tenant_regions[0] : false
-  region_validate_msg       = "The provider region defined in the provider config, and the region passed in the 'logs_routing_tenant_regions' list currently must match. If not region has been defined in the provider config, it defaults to us-south."
-  # tflint-ignore: terraform_unused_declarations
-  region_validate_check = regex("^${local.region_validate_msg}$", (!local.region_validate_condition ? local.region_validate_msg : ""))
-}
+data "ibm_is_regions" "regions" {}
 
 resource "ibm_logs_router_tenant" "logs_router_tenant_instances" {
-  # until provider supports passing region to this resource (coming in https://github.com/IBM-Cloud/terraform-provider-ibm/pull/5634),
-  # the for_each will only ever include the provider region
-
-  # for_each = contains(var.logs_routing_tenant_regions, "*") ? toset(data.ibm_is_regions.regions.regions[*].name) : var.logs_routing_tenant_regions
-  for_each = contains(var.logs_routing_tenant_regions, "*") ? toset([data.ibm_is_region.provider_region.name]) : toset(var.logs_routing_tenant_regions)
+  for_each = contains(var.logs_routing_tenant_regions, "*") ? toset(data.ibm_is_regions.regions.regions[*].name) : var.logs_routing_tenant_regions
   name     = "${each.key}-${random_string.random_tenant_suffix.result}"
-  # region = each.key
+  region   = each.key
   targets {
     log_sink_crn = ibm_resource_instance.cloud_logs.crn
     name         = local.instance_name
