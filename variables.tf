@@ -296,7 +296,7 @@ variable "at_cos_bucket_endpoint" {
 # Activity Tracker Event Routing
 #########################################################################
 # COS Targets
-variable "cos_targets" {
+variable "at_cos_targets" {
   type = list(object({
     endpoint                          = string
     bucket_name                       = string
@@ -313,7 +313,7 @@ variable "cos_targets" {
 }
 
 # Event Streams Targets
-variable "eventstreams_targets" {
+variable "at_eventstreams_targets" {
   type = list(object({
     instance_id   = string
     brokers       = list(string)
@@ -328,7 +328,7 @@ variable "eventstreams_targets" {
 }
 
 # Log Analysis Targets
-variable "log_analysis_targets" {
+variable "at_log_analysis_targets" {
   type = list(object({
     instance_id   = string
     ingestion_key = string
@@ -338,6 +338,18 @@ variable "log_analysis_targets" {
   default     = []
   description = "List of log analysis target to be created"
   sensitive   = true
+}
+
+# Cloud Logs Targets
+variable "at_cloud_logs_targets" {
+  type = list(object({
+    instance_id                              = string
+    target_region                            = optional(string)
+    target_name                              = string
+    skip_atracker_cloud_logs_iam_auth_policy = optional(bool, false)
+  }))
+  default     = []
+  description = "List of Cloud Logs targets to be created"
 }
 
 # Routes
@@ -430,9 +442,7 @@ variable "cloud_logs_existing_en_instances" {
   type = list(object({
     en_instance_id      = string
     en_region           = string
-    en_instance_name    = optional(string)
-    source_id           = optional(string)
-    source_name         = optional(string)
+    en_integration_name = optional(string)
     skip_en_auth_policy = optional(bool, false)
   }))
   default     = []
