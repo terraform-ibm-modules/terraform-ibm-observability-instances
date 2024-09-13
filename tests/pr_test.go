@@ -90,6 +90,9 @@ func TestRunAdvanceExampleInSchematics(t *testing.T) {
 		Tags:                   []string{"test-schematic"},
 		DeleteWorkspaceOnFail:  false,
 		WaitJobCompleteMinutes: 60,
+		CloudInfoService:       sharedInfoSvc,
+		// Support being tracked in https://github.ibm.com/GoldenEye/issues/issues/10723
+		// ExcludeActivityTrackerRegions: true,
 	})
 
 	options.TerraformVars = []testschematic.TestSchematicTerraformVar{
@@ -97,6 +100,8 @@ func TestRunAdvanceExampleInSchematics(t *testing.T) {
 		{Name: "prefix", Value: options.Prefix, DataType: "string"},
 		{Name: "region", Value: options.Region, DataType: "string"},
 		{Name: "atracker_target_region", Value: validRegions[rand.Intn(len(validRegions))], DataType: "string"},
+		// Disable AT provisioning in this test until ExcludeActivityTrackerRegions is supported (https://github.ibm.com/GoldenEye/issues/issues/10723)
+		{Name: "activity_tracker_provision", Value: false, DataType: "boolean"},
 	}
 
 	err := options.RunSchematicTest()

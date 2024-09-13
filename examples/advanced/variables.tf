@@ -77,3 +77,9 @@ variable "en_region" {
   description = "Region where event notification will be created"
   default     = "au-syd"
 }
+
+variable "activity_tracker_provision" {
+  type        = bool
+  description = "Whether to provision an Activity Tracker instance"
+  default     = true
+}

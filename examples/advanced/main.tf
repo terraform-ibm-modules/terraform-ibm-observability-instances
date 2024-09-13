@@ -175,6 +175,7 @@ module "observability_instance_creation" {
   activity_tracker_plan             = "7-day"
   cloud_logs_plan                   = "standard"
   log_analysis_tags                 = var.resource_tags
+  activity_tracker_provision        = var.activity_tracker_provision
   cloud_monitoring_tags             = var.resource_tags
   activity_tracker_tags             = var.resource_tags
   log_analysis_manager_key_tags     = var.resource_tags
