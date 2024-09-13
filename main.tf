@@ -26,9 +26,10 @@ module "activity_tracker" {
   cos_bucket_name                 = var.at_cos_bucket_name
   cos_bucket_endpoint             = var.at_cos_bucket_endpoint
   activity_tracker_routes         = var.activity_tracker_routes
-  cos_targets                     = var.cos_targets
-  eventstreams_targets            = var.eventstreams_targets
-  log_analysis_targets            = var.log_analysis_targets
+  cos_targets                     = var.at_cos_targets
+  eventstreams_targets            = var.at_eventstreams_targets
+  log_analysis_targets            = var.at_log_analysis_targets
+  cloud_logs_targets              = var.at_cloud_logs_targets
   global_event_routing_settings   = var.global_event_routing_settings
 }
 

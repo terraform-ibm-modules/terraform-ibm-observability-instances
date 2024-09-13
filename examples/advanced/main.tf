@@ -5,9 +5,11 @@ locals {
   bucket_name     = "${var.prefix}-observability-archive-bucket"
   archive_api_key = var.archive_api_key == null ? var.ibmcloud_api_key : var.archive_api_key
 
-  eventstreams_target_region = var.eventstreams_target_region != null ? var.eventstreams_target_region : var.region
-  cos_target_region          = var.cos_target_region != null ? var.cos_target_region : var.region
-  log_analysis_target_region = var.log_analysis_target_region != null ? var.log_analysis_target_region : var.region
+  atracker_targets_region   = var.atracker_target_region != null ? var.atracker_target_region : var.region
+  cos_target_name           = var.prefix != null ? "${var.prefix}-cos-target" : "cos-target"
+  log_analysis_target_name  = var.prefix != null ? "${var.prefix}-log-analysis" : "log-analysis"
+  event_streams_target_name = var.prefix != null ? "${var.prefix}-eventstreams-target" : "eventstreams-target"
+  cloud_log_target_name     = var.prefix != null ? "${var.prefix}-cloud-logs-target" : "cloud-logs-target"
 }
 
 ##############################################################################
@@ -69,7 +71,7 @@ resource "ibm_resource_instance" "es_instance" {
   name              = "${var.prefix}-eventsteams-instance"
   service           = "messagehub"
   plan              = "standard"
-  location          = local.eventstreams_target_region
+  location          = local.atracker_targets_region
   resource_group_id = module.resource_group.resource_group_id
 }
 
@@ -140,7 +142,7 @@ module "activity_tracker_event_routing_bucket" {
   source                     = "terraform-ibm-modules/cos/ibm"
   version                    = "8.11.7"
   resource_group_id          = module.resource_group.resource_group_id
-  region                     = local.cos_target_region
+  region                     = local.atracker_targets_region
   cos_instance_name          = "${var.prefix}-cos"
   cos_tags                   = var.resource_tags
   bucket_name                = "${var.prefix}-cos-target-bucket-1"
@@ -193,34 +195,42 @@ module "observability_instance_creation" {
   at_cos_instance_id                = module.cos.cos_instance_id
   at_cos_bucket_endpoint            = module.cos.s3_endpoint_private
 
-  cos_targets = [
+  at_cos_targets = [
     {
       bucket_name                       = module.activity_tracker_event_routing_bucket.bucket_name
       endpoint                          = module.activity_tracker_event_routing_bucket.s3_endpoint_private
       instance_id                       = module.activity_tracker_event_routing_bucket.cos_instance_id
-      target_region                     = local.cos_target_region
+      target_region                     = local.atracker_targets_region
       target_name                       = "${var.prefix}-cos-target"
       skip_atracker_cos_iam_auth_policy = false
       service_to_service_enabled        = true
     }
   ]
 
-  eventstreams_targets = [
+  at_eventstreams_targets = [
     {
       api_key       = ibm_resource_key.es_resource_key.credentials.apikey
       instance_id   = ibm_resource_instance.es_instance.id
       brokers       = ibm_event_streams_topic.es_topic.kafka_brokers_sasl
       topic         = ibm_event_streams_topic.es_topic.name
-      target_region = local.eventstreams_target_region
+      target_region = local.atracker_targets_region
       target_name   = "${var.prefix}-eventstreams-target"
     }
   ]
-  log_analysis_targets = [
+  at_log_analysis_targets = [
     {
       instance_id   = module.observability_instance_creation.log_analysis_crn
       ingestion_key = module.observability_instance_creation.log_analysis_ingestion_key
-      target_region = local.log_analysis_target_region
+      target_region = local.atracker_targets_region
       target_name   = "${var.prefix}-log-analysis"
+    }
+  ]
+
+  at_cloud_logs_targets = [
+    {
+      instance_id   = module.observability_instance_creation.cloud_logs_crn
+      target_region = local.atracker_targets_region
+      target_name   = local.cloud_log_target_name
     }
   ]
 
@@ -229,15 +239,16 @@ module "observability_instance_creation" {
       route_name = "${var.prefix}-route"
       locations  = ["*", "global"]
       target_ids = [
-        module.observability_instance_creation.activity_tracker_targets["${var.prefix}-cos-target"].id,
-        module.observability_instance_creation.activity_tracker_targets["${var.prefix}-log-analysis"].id,
-        module.observability_instance_creation.activity_tracker_targets["${var.prefix}-eventstreams-target"].id
+        module.observability_instance_creation.activity_tracker_targets[local.cos_target_name].id,
+        module.observability_instance_creation.activity_tracker_targets[local.log_analysis_target_name].id,
+        module.observability_instance_creation.activity_tracker_targets[local.event_streams_target_name].id,
+        module.observability_instance_creation.activity_tracker_targets[local.cloud_log_target_name].id
       ]
     }
   ]
 
   global_event_routing_settings = {
-    default_targets           = [module.observability_instance_creation.activity_tracker_targets["${var.prefix}-eventstreams-target"].id]
+    default_targets           = [module.observability_instance_creation.activity_tracker_targets[local.event_streams_target_name].id]
     permitted_target_regions  = var.permitted_target_regions
     metadata_region_primary   = var.metadata_region_primary
     metadata_region_backup    = var.metadata_region_backup
