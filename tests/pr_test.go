@@ -101,7 +101,7 @@ func TestRunAdvanceExampleInSchematics(t *testing.T) {
 		{Name: "region", Value: options.Region, DataType: "string"},
 		{Name: "atracker_target_region", Value: validRegions[rand.Intn(len(validRegions))], DataType: "string"},
 		// Disable AT provisioning in this test until ExcludeActivityTrackerRegions is supported (https://github.ibm.com/GoldenEye/issues/issues/10723)
-		{Name: "activity_tracker_provision", Value: false, DataType: "boolean"},
+		{Name: "activity_tracker_provision", Value: false, DataType: "bool"},
 	}
 
 	err := options.RunSchematicTest()
