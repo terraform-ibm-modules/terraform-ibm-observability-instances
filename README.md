@@ -280,6 +280,8 @@ No resources.
 | <a name="output_activity_tracker_targets"></a> [activity\_tracker\_targets](#output\_activity\_tracker\_targets) | The map of created targets |
 | <a name="output_cloud_logs_crn"></a> [cloud\_logs\_crn](#output\_cloud\_logs\_crn) | The id of the provisioned Cloud Logs instance. |
 | <a name="output_cloud_logs_guid"></a> [cloud\_logs\_guid](#output\_cloud\_logs\_guid) | The guid of the provisioned Cloud Logs instance. |
+| <a name="output_cloud_logs_ingress_endpoint"></a> [cloud\_logs\_ingress\_endpoint](#output\_cloud\_logs\_ingress\_endpoint) | The public ingress endpoint of the provisioned Cloud Logs instance. |
+| <a name="output_cloud_logs_ingress_private_endpoint"></a> [cloud\_logs\_ingress\_private\_endpoint](#output\_cloud\_logs\_ingress\_private\_endpoint) | The private ingress endpoint of the provisioned Cloud Logs instance. |
 | <a name="output_cloud_logs_name"></a> [cloud\_logs\_name](#output\_cloud\_logs\_name) | The name of the provisioned Cloud Logs instance. |
 | <a name="output_cloud_logs_resource_group_id"></a> [cloud\_logs\_resource\_group\_id](#output\_cloud\_logs\_resource\_group\_id) | The resource group where Cloud Logs instance resides. |
 | <a name="output_cloud_monitoring_access_key"></a> [cloud\_monitoring\_access\_key](#output\_cloud\_monitoring\_access\_key) | IBM cloud monitoring access key for agents to use |
