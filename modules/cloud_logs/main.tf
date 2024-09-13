@@ -163,6 +163,7 @@ resource "ibm_logs_router_tenant" "logs_router_tenant_instances" {
   # until provider supports passing region to this resource (coming in https://github.com/IBM-Cloud/terraform-provider-ibm/pull/5634),
   # the for_each will only ever include the provider region
 
+  # for_each = contains(var.logs_routing_tenant_regions, "*") ? toset(data.ibm_is_regions.regions.regions[*].name) : var.logs_routing_tenant_regions
   for_each = contains(var.logs_routing_tenant_regions, "*") ? toset([data.ibm_is_region.provider_region.name]) : toset(var.logs_routing_tenant_regions)
   name     = "${each.key}-${random_string.random_tenant_suffix.result}"
   # region = each.key
