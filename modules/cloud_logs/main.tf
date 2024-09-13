@@ -146,7 +146,7 @@ resource "random_string" "random_tenant_suffix" {
 }
 
 resource "ibm_logs_router_tenant" "logs_router_tenant_instances" {
-  for_each = var.logs_routing_tenant_regions
+  for_each = toset(var.logs_routing_tenant_regions)
   name     = "${each.key}-${random_string.random_tenant_suffix.result}"
   region   = each.key
   targets {
