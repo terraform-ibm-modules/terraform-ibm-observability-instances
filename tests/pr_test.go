@@ -90,17 +90,17 @@ func TestRunAdvanceExampleInSchematics(t *testing.T) {
 		Tags:                   []string{"test-schematic"},
 		DeleteWorkspaceOnFail:  false,
 		WaitJobCompleteMinutes: 60,
-		BestRegionYAMLPath:     bestRegionYAMLPath,
 	})
 
 	options.TerraformVars = []testschematic.TestSchematicTerraformVar{
 		{Name: "ibmcloud_api_key", Value: options.RequiredEnvironmentVars["TF_VAR_ibmcloud_api_key"], DataType: "string", Secure: true},
 		{Name: "prefix", Value: options.Prefix, DataType: "string"},
-		{Name: "region", Value: validRegions[rand.Intn(len(validRegions))], DataType: "string"},
+		{Name: "region", Value: options.Region, DataType: "string"},
+		{Name: "atracker_target_region", Value: validRegions[rand.Intn(len(validRegions))], DataType: "string"},
 	}
 
 	err := options.RunSchematicTest()
-	assert.Nil(t, err, "This should not have errored")
+	assert.NoError(t, err, "Schematic Test had unexpected error")
 }
 
 func TestRunUpgradeExample(t *testing.T) {
