@@ -175,6 +175,7 @@ module "observability_instance_creation" {
   activity_tracker_plan             = "7-day"
   cloud_logs_plan                   = "standard"
   log_analysis_tags                 = var.resource_tags
+  activity_tracker_provision        = var.activity_tracker_provision
   cloud_monitoring_tags             = var.resource_tags
   activity_tracker_tags             = var.resource_tags
   log_analysis_manager_key_tags     = var.resource_tags
@@ -256,7 +257,6 @@ module "observability_instance_creation" {
   }
 
   cloud_logs_retention_period = 14
-  cloud_logs_region           = "eu-es"
   cloud_logs_data_storage = {
     logs_data = {
       enabled         = true
@@ -273,4 +273,6 @@ module "observability_instance_creation" {
     en_instance_id = module.event_notification.guid
     en_region      = var.en_region
   }]
+  # Only 1 account level tenant can be created per region, so to prevent tests from clashing, not creating any tenants until https://github.ibm.com/GoldenEye/issues/issues/10676 is implemented
+  # logs_routing_tenant_regions = [var.region]
 }

@@ -192,7 +192,7 @@ To attach access management tags to resources in this module, you need the follo
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0.0 |
-| <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | >= 1.67.1, < 2.0.0 |
+| <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | >= 1.69.2, < 2.0.0 |
 | <a name="requirement_logdna"></a> [logdna](#requirement\_logdna) | >= 1.14.2, < 2.0.0 |
 
 ### Modules
@@ -235,8 +235,7 @@ No resources.
 | <a name="input_cloud_logs_instance_name"></a> [cloud\_logs\_instance\_name](#input\_cloud\_logs\_instance\_name) | The name of the IBM Cloud Logs instance to create. Defaults to 'cloud\_logs-<region>' | `string` | `null` | no |
 | <a name="input_cloud_logs_plan"></a> [cloud\_logs\_plan](#input\_cloud\_logs\_plan) | The IBM Cloud Logs plan to provision. Available: standard | `string` | `"standard"` | no |
 | <a name="input_cloud_logs_provision"></a> [cloud\_logs\_provision](#input\_cloud\_logs\_provision) | Provision a IBM Cloud Logs instance? | `bool` | `true` | no |
-| <a name="input_cloud_logs_region"></a> [cloud\_logs\_region](#input\_cloud\_logs\_region) | The IBM Cloud region where Cloud Logs instances will be created. | `string` | `null` | no |
-| <a name="input_cloud_logs_retention_period"></a> [cloud\_logs\_retention\_period](#input\_cloud\_logs\_retention\_period) | The number of days IBM Cloud Logs will retain the logs data in Priority insights. | `number` | `7` | no |
+| <a name="input_cloud_logs_retention_period"></a> [cloud\_logs\_retention\_period](#input\_cloud\_logs\_retention\_period) | The number of days IBM Cloud Logs will retain the logs data in Priority insights. Allowed values: 7, 14, 30, 60, 90. | `number` | `7` | no |
 | <a name="input_cloud_logs_service_endpoints"></a> [cloud\_logs\_service\_endpoints](#input\_cloud\_logs\_service\_endpoints) | The type of the service endpoint that will be set for the IBM Cloud Logs instance. | `string` | `"public-and-private"` | no |
 | <a name="input_cloud_logs_tags"></a> [cloud\_logs\_tags](#input\_cloud\_logs\_tags) | Tags associated with the IBM Cloud Logs instance (Optional, array of strings). | `list(string)` | `[]` | no |
 | <a name="input_cloud_monitoring_access_tags"></a> [cloud\_monitoring\_access\_tags](#input\_cloud\_monitoring\_access\_tags) | A list of access tags to apply to the Cloud Monitoring instance created by the module. For more information, see https://cloud.ibm.com/docs/account?topic=account-access-tags-tutorial. | `list(string)` | `[]` | no |
@@ -245,7 +244,7 @@ No resources.
 | <a name="input_cloud_monitoring_manager_key_tags"></a> [cloud\_monitoring\_manager\_key\_tags](#input\_cloud\_monitoring\_manager\_key\_tags) | Tags associated with the IBM Cloud Monitoring manager key. | `list(string)` | `[]` | no |
 | <a name="input_cloud_monitoring_plan"></a> [cloud\_monitoring\_plan](#input\_cloud\_monitoring\_plan) | The IBM Cloud Monitoring plan to provision. Available: lite, graduated-tier | `string` | `"lite"` | no |
 | <a name="input_cloud_monitoring_provision"></a> [cloud\_monitoring\_provision](#input\_cloud\_monitoring\_provision) | Provision a IBM cloud monitoring instance? | `bool` | `true` | no |
-| <a name="input_cloud_monitoring_service_endpoints"></a> [cloud\_monitoring\_service\_endpoints](#input\_cloud\_monitoring\_service\_endpoints) | The type of the service endpoint that will be set for the IBM cloud monitoring instance. | `string` | `"public-and-private"` | no |
+| <a name="input_cloud_monitoring_service_endpoints"></a> [cloud\_monitoring\_service\_endpoints](#input\_cloud\_monitoring\_service\_endpoints) | The type of the service endpoint that will be set for the IBM Cloud Logs instance. Allowed values: public-and-private | `string` | `"public-and-private"` | no |
 | <a name="input_cloud_monitoring_tags"></a> [cloud\_monitoring\_tags](#input\_cloud\_monitoring\_tags) | Tags associated with the IBM Cloud Monitoring instance (Optional, array of strings). | `list(string)` | `[]` | no |
 | <a name="input_enable_platform_logs"></a> [enable\_platform\_logs](#input\_enable\_platform\_logs) | Receive platform logs in the provisioned IBM Cloud Logging instance. | `bool` | `true` | no |
 | <a name="input_enable_platform_metrics"></a> [enable\_platform\_metrics](#input\_enable\_platform\_metrics) | Receive platform metrics in the provisioned IBM Cloud Monitoring instance. | `bool` | `true` | no |
@@ -264,8 +263,10 @@ No resources.
 | <a name="input_log_analysis_resource_key_role"></a> [log\_analysis\_resource\_key\_role](#input\_log\_analysis\_resource\_key\_role) | Role assigned to provide the IBM Cloud Logging key. | `string` | `"Manager"` | no |
 | <a name="input_log_analysis_service_endpoints"></a> [log\_analysis\_service\_endpoints](#input\_log\_analysis\_service\_endpoints) | The type of the service endpoint that will be set for the Log Analysis instance. | `string` | `"public-and-private"` | no |
 | <a name="input_log_analysis_tags"></a> [log\_analysis\_tags](#input\_log\_analysis\_tags) | Tags associated with the IBM Cloud Logging instance (Optional, array of strings). | `list(string)` | `[]` | no |
+| <a name="input_logs_routing_tenant_regions"></a> [logs\_routing\_tenant\_regions](#input\_logs\_routing\_tenant\_regions) | Pass a list of regions to create a tenant for that is targetted to the Cloud Logs instance created by this module. To manage platform logs that are generated by IBM Cloud® services in a region of IBM Cloud, you must create a tenant in each region that you operate. Leave the list empty if you don't want to create any tenants. | `list(any)` | `[]` | no |
 | <a name="input_region"></a> [region](#input\_region) | The IBM Cloud region where instances will be created. | `string` | `"us-south"` | no |
 | <a name="input_resource_group_id"></a> [resource\_group\_id](#input\_resource\_group\_id) | The id of the IBM Cloud resource group where the instance(s) will be created. | `string` | n/a | yes |
+| <a name="input_skip_logs_routing_auth_policy"></a> [skip\_logs\_routing\_auth\_policy](#input\_skip\_logs\_routing\_auth\_policy) | Whether to create an IAM authorization policy that permits Logs Routing Sender access to the IBM Cloud Logs. | `bool` | `false` | no |
 
 ### Outputs
 
