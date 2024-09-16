@@ -198,11 +198,11 @@ variable "enable_platform_metrics" {
 }
 
 variable "cloud_monitoring_service_endpoints" {
-  description = "The type of the service endpoint that will be set for the IBM Cloud Logs instance. Allowed values: public-and-private"
+  description = "The type of the service endpoint that will be set for the IBM Cloud Monitoring instance. Allowed values: public-and-private"
   type        = string
   default     = "public-and-private"
   validation {
-    condition     = contains(["public-and-private"], var.cloud_monitoring_service_endpoints)
+    condition     = contains(["public","private","public-and-private"], var.cloud_monitoring_service_endpoints)
     error_message = "The specified service_endpoints is not a valid selection. Allowed values: public-and-private"
   }
 }
