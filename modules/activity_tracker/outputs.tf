@@ -7,6 +7,7 @@ output "guid" {
   value       = length(ibm_resource_instance.activity_tracker) > 0 ? ibm_resource_instance.activity_tracker[0].guid : null
   description = "The guid of the provisioned Activity Tracker instance."
 }
+
 output "name" {
   value       = length(ibm_resource_instance.activity_tracker) > 0 ? ibm_resource_instance.activity_tracker[0].name : null
   description = "The name of the provisioned Activity Tracker instance."

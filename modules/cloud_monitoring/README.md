@@ -1,24 +1,50 @@
-# IBM Cloud Monitoring instance sub-module
+# IBM Cloud Monitoring module
 
-This sub-module supports provisioning the following observability instances:
-
-- **IBM Cloud Monitoring with Cloud Monitoring**
-  - Monitor the health of services and applications in IBM Cloud.
-
-:information_source: This sub-module also creates a manager key.
+This module supports configuring an IBM Cloud Monitoring instance.
 
 ## Usage
 
-To provision Cloud Monitoring instance
-
 ```hcl
+# Locals
+locals {
+  region      = "us-south"
+}
+
+# Required providers
+terraform {
+  required_version = ">= 1.0.0"
+  required_providers {
+    ibm = {
+      source  = "ibm-cloud/ibm"
+      version = "X.Y.Z" # lock into a supported provider version
+    }
+  }
+}
+provider "ibm" {
+  ibmcloud_api_key = XXXXXXXXXXXX
+  region           = local.region
+}
+
 module "cloud_monitoring" {
-  source  = "terraform-ibm-modules/observability-instances/ibm//modules/cloud_monitoring"
-  version = "latest" # Replace "latest" with a release version to lock into a specific release
-  resource_group_id = module.resource_group.resource_group_id
-  region = var.region
+  source            = "terraform-ibm-modules/observability-instances/ibm//modules/cloud_monitoring"
+  version           = "X.Y.Z" # Replace "X.Y.Z" with a release version to lock into a specific release
+  resource_group_id = "xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX"
+  region            = local.region
 }
 ```
+
+### Required IAM access policies
+
+You need the following permissions to run this module.
+
+- Service
+    - **Resource group only**
+        - `Viewer` access on the specific resource group
+    - **Cloud Monitoring**
+        - `Editor` platform access
+        - `Manager` service access
+    - **Tagging service** (Required if attaching access tags to the Monitoring instance)
+        - `Editor` platform access
 
   <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ### Requirements
@@ -45,7 +71,6 @@ No modules.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_access_tags"></a> [access\_tags](#input\_access\_tags) | Access Management Tags associated with the IBM Cloud Monitoring instance (Optional, array of strings). | `list(string)` | `[]` | no |
-| <a name="input_cloud_monitoring_provision"></a> [cloud\_monitoring\_provision](#input\_cloud\_monitoring\_provision) | Provision a IBM cloud monitoring instance? | `bool` | `true` | no |
 | <a name="input_enable_platform_metrics"></a> [enable\_platform\_metrics](#input\_enable\_platform\_metrics) | Receive platform metrics in the provisioned IBM Cloud Monitoring instance. | `bool` | `true` | no |
 | <a name="input_instance_name"></a> [instance\_name](#input\_instance\_name) | The name of the IBM Cloud Monitoring instance to create. Defaults to 'cloud-monitoring-<region>' | `string` | `null` | no |
 | <a name="input_manager_key_name"></a> [manager\_key\_name](#input\_manager\_key\_name) | The name to give the IBM Cloud Monitoring manager key. | `string` | `"SysdigManagerKey"` | no |

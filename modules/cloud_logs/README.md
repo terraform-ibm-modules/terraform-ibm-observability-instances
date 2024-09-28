@@ -1,30 +1,69 @@
-# Cloud Logs instance sub-module
+# IBM Cloud Logs module
 
-This sub-module supports provisioning the following observability instances:
-
-- **IBM Cloud Logging with Cloud Logs**
-  - View, analyze, and alert on activity tracking events and logging activity.
-
-:information_source: This sub-module also supports passing COS bucket details to store your IBM Cloud Logs data for long term storage, search, analysis and alerting.
+This module supports configuring an IBM Cloud Logs instance and log routing tenants to enable platform logs.
 
 ## Usage
 
 To provision Cloud Logs instance
 
 ```hcl
-# required ibm provider config
-provider "ibm" {
-  ibmcloud_api_key = var.ibmcloud_api_key #pragma: allowlist secret
+# Locals
+locals {
+  region      = "us-south"
 }
 
-# IBM cloud logs
+# Required providers
+terraform {
+  required_version = ">= 1.0.0"
+  required_providers {
+    ibm = {
+      source  = "ibm-cloud/ibm"
+      version = "X.Y.Z" # lock into a supported provider version
+    }
+  }
+}
+provider "ibm" {
+  ibmcloud_api_key = XXXXXXXXXXXX
+  region           = local.region
+}
+
+# IBM Cloud Logs
 module "cloud_logs" {
-  source  = "terraform-ibm-modules/observability-instances/ibm//modules/cloud_logs"
-  version = "X.X.X" # Replace "X.X.X" with a release version to lock into a specific release
-  resource_group_id = module.resource_group.resource_group_id
-  region = var.region
+  source            = "terraform-ibm-modules/observability-instances/ibm//modules/cloud_logs"
+  version           = "X.Y.Z" # Replace "X.Y.Z" with a release version to lock into a specific release
+  resource_group_id = "xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX"
+  region            = local.region
+  data_storage = {
+    # logs and metrics buckets must be different
+    logs_data = {
+      enabled         = true
+      bucket_crn      = "crn:v1:bluemix:public:cloud-object-storage:global:a/......"
+      bucket_endpoint = "s3.direct.us-south.cloud-object-storage.appdomain.cloud"
+    },
+    metrics_data = {
+      enabled         = true
+      bucket_crn      = "crn:v1:bluemix:public:cloud-object-storage:global:a/......"
+      bucket_endpoint = "s3.direct.us-south.cloud-object-storage.appdomain.cloud"
+    }
+  }
 }
 ```
+
+### Required IAM access policies
+
+You need the following permissions to run this module.
+
+- Service
+    - **Resource group only**
+        - `Viewer` access on the specific resource group
+    - **Cloud Logs**
+        - `Editor` platform access
+        - `Manager` service access
+    - **IBM Cloud Logs Routing** (Required if creating tenants, which are required to enable platform logs)
+        - `Editor` platform access
+        - `Manager` service access
+    - **Tagging service** (Required if attaching access tags to the ICL instance)
+        - `Editor` platform access
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ### Requirements
@@ -60,10 +99,11 @@ No modules.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_access_tags"></a> [access\_tags](#input\_access\_tags) | A list of access tags to apply to the IBM Cloud Logs instance created by the module. For more information, see https://cloud.ibm.com/docs/account?topic=account-access-tags-tutorial. | `list(string)` | `[]` | no |
-| <a name="input_data_storage"></a> [data\_storage](#input\_data\_storage) | A logs data bucket and a metrics bucket in IBM Cloud Object Storage to store your IBM Cloud Logs data for long term storage, search, analysis and alerting. | <pre>object({<br>    logs_data = optional(object({<br>      enabled              = optional(bool, false)<br>      bucket_crn           = optional(string)<br>      bucket_endpoint      = optional(string)<br>      skip_cos_auth_policy = optional(bool, false)<br>    }), {})<br>    metrics_data = optional(object({<br>      enabled              = optional(bool, false)<br>      bucket_crn           = optional(string)<br>      bucket_endpoint      = optional(string)<br>      skip_cos_auth_policy = optional(bool, false)<br>    }), {})<br>    }<br>  )</pre> | <pre>{<br>  "logs_data": null,<br>  "metrics_data": null<br>}</pre> | no |
-| <a name="input_existing_en_instances"></a> [existing\_en\_instances](#input\_existing\_en\_instances) | List of Event Notifications instance details for routing critical events that occur in your IBM Cloud Logs | <pre>list(object({<br>    en_instance_id      = string<br>    en_region           = string<br>    en_integration_name = optional(string)<br>    skip_en_auth_policy = optional(bool, false)<br>  }))</pre> | `[]` | no |
+| <a name="input_data_storage"></a> [data\_storage](#input\_data\_storage) | A logs data bucket and a metrics bucket in IBM Cloud Object Storage to store your IBM Cloud Logs data for long term storage, search, analysis and alerting. | <pre>object({<br/>    logs_data = optional(object({<br/>      enabled              = optional(bool, false)<br/>      bucket_crn           = optional(string)<br/>      bucket_endpoint      = optional(string)<br/>      skip_cos_auth_policy = optional(bool, false)<br/>    }), {})<br/>    metrics_data = optional(object({<br/>      enabled              = optional(bool, false)<br/>      bucket_crn           = optional(string)<br/>      bucket_endpoint      = optional(string)<br/>      skip_cos_auth_policy = optional(bool, false)<br/>    }), {})<br/>    }<br/>  )</pre> | <pre>{<br/>  "logs_data": null,<br/>  "metrics_data": null<br/>}</pre> | no |
+| <a name="input_enable_platform_logs"></a> [enable\_platform\_logs](#input\_enable\_platform\_logs) | Setting this to true will create a tenant in the same region that the Cloud Logs instance is provisioned to enable platform logs for that region. To send platform logs from other regions, you can explicitially specify a list of regions using the `logs_routing_tenant_regions` input. NOTE: You can only have 1 tenant per region in an account. | `bool` | `true` | no |
+| <a name="input_existing_en_instances"></a> [existing\_en\_instances](#input\_existing\_en\_instances) | List of Event Notifications instance details for routing critical events that occur in your IBM Cloud Logs | <pre>list(object({<br/>    en_instance_id      = string<br/>    en_region           = string<br/>    en_integration_name = optional(string)<br/>    skip_en_auth_policy = optional(bool, false)<br/>  }))</pre> | `[]` | no |
 | <a name="input_instance_name"></a> [instance\_name](#input\_instance\_name) | The name of the IBM Cloud Logs instance to create. Defaults to 'cloud-logs-<region>' | `string` | `null` | no |
-| <a name="input_logs_routing_tenant_regions"></a> [logs\_routing\_tenant\_regions](#input\_logs\_routing\_tenant\_regions) | Pass a list of regions to create a tenant for that is targetted to the Cloud Logs instance created by this module. To manage platform logs that are generated by IBM Cloud® services in a region of IBM Cloud, you must create a tenant in each region that you operate. Leave the list empty if you don't want to create any tenants. | `list(any)` | `[]` | no |
+| <a name="input_logs_routing_tenant_regions"></a> [logs\_routing\_tenant\_regions](#input\_logs\_routing\_tenant\_regions) | Pass a list of regions to create a tenant for that is targetted to the Cloud Logs instance created by this module. To manage platform logs that are generated by IBM Cloud® services in a region of IBM Cloud, you must create a tenant in each region that you operate. Leave the list empty if you don't want to create any tenants. NOTE: You can only have 1 tenant per region in an account. | `list(any)` | `[]` | no |
 | <a name="input_plan"></a> [plan](#input\_plan) | The IBM Cloud Logs plan to provision. Available: standard | `string` | `"standard"` | no |
 | <a name="input_region"></a> [region](#input\_region) | The IBM Cloud region where Cloud logs instance will be created. | `string` | `"us-south"` | no |
 | <a name="input_resource_group_id"></a> [resource\_group\_id](#input\_resource\_group\_id) | The id of the IBM Cloud resource group where the instance will be created. | `string` | `null` | no |

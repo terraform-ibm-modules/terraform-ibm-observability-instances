@@ -9,12 +9,6 @@ variable "resource_group_id" {
   description = "The id of the IBM Cloud resource group where the instance(s) will be created."
 }
 
-variable "cloud_monitoring_provision" {
-  description = "Provision a IBM cloud monitoring instance?"
-  type        = bool
-  default     = true
-}
-
 variable "instance_name" {
   type        = string
   description = "The name of the IBM Cloud Monitoring instance to create. Defaults to 'cloud-monitoring-<region>'"

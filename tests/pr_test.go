@@ -13,29 +13,18 @@ import (
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/testschematic"
 )
 
-// Current supported regions for IBM Cloud® Activity Tracker Event Routing
+// Since Event Notifications is used in example, need to use a region it supports
 var validRegions = []string{
 	"au-syd",
 	"eu-de",
 	"eu-es",
 	"eu-gb",
 	"us-south",
-	"us-east",
 }
 
 const advanceExampleTerraformDir = "examples/advanced"
-
 const resourceGroup = "geretain-test-observability-instances"
-
-// Define a struct with fields that match the structure of the YAML data
 const yamlLocation = "../common-dev-assets/common-go-assets/common-permanent-resources.yaml"
-
-const bestRegionYAMLPath = "../common-dev-assets/common-go-assets/cloudinfo-region-event-routing-prefs.yaml"
-
-// Temporarly ignore until we bump to v4 of key protect all inclusive
-var ignoreDestroys = []string{
-	"module.key_protect.module.key_protect[0].restapi_object.enable_metrics[0]",
-}
 
 var sharedInfoSvc *cloudinfo.CloudInfoService
 var permanentResources map[string]interface{}
@@ -57,16 +46,12 @@ func TestMain(m *testing.M) {
 
 func setupOptions(t *testing.T, prefix string, dir string) *testhelper.TestOptions {
 	options := testhelper.TestOptionsDefaultWithVars(&testhelper.TestOptions{
-		Testing:       t,
-		TerraformDir:  dir,
-		Prefix:        prefix,
-		ResourceGroup: resourceGroup,
-		IgnoreDestroys: testhelper.Exemptions{
-			List: ignoreDestroys,
-		},
-		CloudInfoService:              sharedInfoSvc,
-		ExcludeActivityTrackerRegions: true,
-		BestRegionYAMLPath:            bestRegionYAMLPath,
+		Testing:          t,
+		TerraformDir:     dir,
+		Prefix:           prefix,
+		ResourceGroup:    resourceGroup,
+		CloudInfoService: sharedInfoSvc,
+		Region:           validRegions[rand.Intn(len(validRegions))],
 	})
 
 	return options
@@ -91,17 +76,12 @@ func TestRunAdvanceExampleInSchematics(t *testing.T) {
 		DeleteWorkspaceOnFail:  false,
 		WaitJobCompleteMinutes: 60,
 		CloudInfoService:       sharedInfoSvc,
-		// Support being tracked in https://github.ibm.com/GoldenEye/issues/issues/10723
-		// ExcludeActivityTrackerRegions: true,
 	})
 
 	options.TerraformVars = []testschematic.TestSchematicTerraformVar{
 		{Name: "ibmcloud_api_key", Value: options.RequiredEnvironmentVars["TF_VAR_ibmcloud_api_key"], DataType: "string", Secure: true},
 		{Name: "prefix", Value: options.Prefix, DataType: "string"},
 		{Name: "region", Value: options.Region, DataType: "string"},
-		{Name: "atracker_target_region", Value: validRegions[rand.Intn(len(validRegions))], DataType: "string"},
-		// Disable AT provisioning in this test until ExcludeActivityTrackerRegions is supported (https://github.ibm.com/GoldenEye/issues/issues/10723)
-		{Name: "activity_tracker_provision", Value: false, DataType: "bool"},
 	}
 
 	err := options.RunSchematicTest()

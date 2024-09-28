@@ -35,6 +35,7 @@ module "activity_tracker" {
 
 # Log Analysis
 module "log_analysis" {
+  count  = var.log_analysis_provision ? 1 : 0
   source = "./modules/log_analysis"
   providers = {
     logdna.ld = logdna.ld
@@ -43,7 +44,6 @@ module "log_analysis" {
   resource_group_id           = var.resource_group_id
   log_analysis_enable_archive = var.log_analysis_enable_archive
   ibmcloud_api_key            = var.ibmcloud_api_key
-  log_analysis_provision      = var.log_analysis_provision
   instance_name               = var.log_analysis_instance_name
   plan                        = var.log_analysis_plan
   manager_key_name            = var.log_analysis_manager_key_name
@@ -60,18 +60,18 @@ module "log_analysis" {
 
 # IBM Cloud Monitoring
 module "cloud_monitoring" {
-  source                     = "./modules/cloud_monitoring"
-  region                     = var.region
-  resource_group_id          = var.resource_group_id
-  cloud_monitoring_provision = var.cloud_monitoring_provision
-  instance_name              = var.cloud_monitoring_instance_name
-  plan                       = var.cloud_monitoring_plan
-  manager_key_name           = var.cloud_monitoring_manager_key_name
-  manager_key_tags           = var.cloud_monitoring_manager_key_tags
-  tags                       = var.cloud_monitoring_tags
-  access_tags                = var.cloud_monitoring_access_tags
-  enable_platform_metrics    = var.enable_platform_metrics
-  service_endpoints          = var.cloud_monitoring_service_endpoints
+  count                   = var.cloud_monitoring_provision ? 1 : 0
+  source                  = "./modules/cloud_monitoring"
+  region                  = var.region
+  resource_group_id       = var.resource_group_id
+  instance_name           = var.cloud_monitoring_instance_name
+  plan                    = var.cloud_monitoring_plan
+  manager_key_name        = var.cloud_monitoring_manager_key_name
+  manager_key_tags        = var.cloud_monitoring_manager_key_tags
+  tags                    = var.cloud_monitoring_tags
+  access_tags             = var.cloud_monitoring_access_tags
+  enable_platform_metrics = var.enable_platform_metrics
+  service_endpoints       = var.cloud_monitoring_service_endpoints
 }
 
 # IBM Cloud Logs
@@ -90,4 +90,5 @@ module "cloud_logs" {
   existing_en_instances         = var.cloud_logs_existing_en_instances
   skip_logs_routing_auth_policy = var.skip_logs_routing_auth_policy
   logs_routing_tenant_regions   = var.logs_routing_tenant_regions
+  enable_platform_logs          = var.enable_platform_logs
 }

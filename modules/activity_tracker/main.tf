@@ -80,7 +80,6 @@ resource "ibm_iam_authorization_policy" "atracker_cloud_logs" {
   description                 = "Permit AT service Sender access to Cloud Logs instance ${each.value.instance_id}"
 }
 
-
 # COS targets
 resource "ibm_atracker_target" "atracker_cos_targets" {
   depends_on = [time_sleep.wait_for_authorization_policy]

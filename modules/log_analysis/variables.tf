@@ -23,12 +23,6 @@ variable "ibmcloud_api_key" {
   sensitive   = true
 }
 
-variable "log_analysis_provision" {
-  description = "Provision an IBM Cloud Logging instance?"
-  type        = bool
-  default     = true
-}
-
 variable "instance_name" {
   type        = string
   description = "The name of the IBM Cloud Logging instance to create. Defaults to 'log-analysis-<region>'"
