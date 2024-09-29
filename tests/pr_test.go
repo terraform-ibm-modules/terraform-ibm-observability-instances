@@ -76,6 +76,7 @@ func TestRunAdvanceExampleInSchematics(t *testing.T) {
 		DeleteWorkspaceOnFail:  false,
 		WaitJobCompleteMinutes: 60,
 		CloudInfoService:       sharedInfoSvc,
+		Region:                 validRegions[rand.Intn(len(validRegions))],
 	})
 
 	options.TerraformVars = []testschematic.TestSchematicTerraformVar{
