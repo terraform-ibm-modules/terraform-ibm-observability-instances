@@ -12,39 +12,39 @@ output "region" {
 
 # Log Analysis
 output "log_analysis_crn" {
-  value       = length(module.log_analysis) > 0 ? module.log_analysis[0].crn : null
+  value       = module.log_analysis[0].crn
   description = "DEPRECATED: The id of the provisioned Log Analysis instance."
 }
 
 output "log_analysis_guid" {
-  value       = length(module.log_analysis) > 0 ? module.log_analysis[0].guid : null
+  value       = module.log_analysis[0].guid
   description = "DEPRECATED: The guid of the provisioned Log Analysis instance."
 }
 
 output "log_analysis_name" {
-  value       = length(module.log_analysis) > 0 ? module.log_analysis[0].name : null
+  value       = module.log_analysis[0].name
   description = "DEPRECATED: The name of the provisioned Log Analysis instance."
 }
 
 output "log_analysis_resource_group_id" {
-  value       = length(module.log_analysis) > 0 ? module.log_analysis[0].resource_group_id : null
+  value       = module.log_analysis[0].resource_group_id
   description = "DEPRECATED: The resource group where Log Analysis instance resides"
 }
 
 output "log_analysis_resource_key" {
-  value       = length(module.log_analysis) > 0 ? module.log_analysis[0].resource_key : null
+  value       = module.log_analysis[0].resource_key
   description = "DEPRECATED: Log Analysis service key for agents to use"
   sensitive   = true
 }
 
 output "log_analysis_ingestion_key" {
-  value       = length(module.log_analysis) > 0 ? module.log_analysis[0].ingestion_key : null
+  value       = module.log_analysis[0].ingestion_key
   description = "DEPRECATED: Log Analysis ingest key for agents to use"
   sensitive   = true
 }
 
 output "log_analysis_manager_key_name" {
-  value       = length(module.log_analysis) > 0 ? module.log_analysis[0].manager_key_name : null
+  value       = module.log_analysis[0].manager_key_name
   description = "DEPRECATED: The Log Analysis manager key name"
 }
 
