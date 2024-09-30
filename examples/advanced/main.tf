@@ -201,8 +201,9 @@ module "observability_instances" {
     }
   }
   cloud_logs_existing_en_instances = [{
-    en_instance_id = module.event_notification.guid
-    en_region      = var.region
+    en_instance_id      = module.event_notification.guid
+    en_region           = var.region
+    en_integration_name = "${var.prefix}-en"
   }]
 
   # Activity Tracker targets
