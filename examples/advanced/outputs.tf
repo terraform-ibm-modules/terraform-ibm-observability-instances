@@ -2,13 +2,12 @@
 # Outputs
 ##############################################################################
 
-output "log_analysis_name" {
-  value       = module.observability_instance_creation.log_analysis_name
-  description = "The name of the provisioned Log Analysis instance."
+output "cloud_monitoring_crn" {
+  value       = module.observability_instances.cloud_monitoring_crn
+  description = "The crn of the provisioned IBM Cloud Monitoring instance."
 }
 
-output "cos_bucket" {
-  value       = module.cos
-  description = "Cloud Object Storage information"
-  sensitive   = true
+output "cloud_logs_crn" {
+  value       = module.observability_instances.cloud_logs_crn
+  description = "The crn of the provisioned IBM Cloud Logs instance."
 }

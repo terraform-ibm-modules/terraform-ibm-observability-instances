@@ -1,4 +1,3 @@
-# The following moved blocks allow consumers to upgrade from v2 of the module without instances being destroyed
 moved {
   from = logdna_archive.logdna_config
   to   = module.logdna.logdna_archive.archive_config
@@ -66,4 +65,14 @@ moved {
 moved {
   from = module.activity_tracker.ibm_atracker_target.atracker_logdna_targets
   to   = module.activity_tracker.ibm_atracker_target.atracker_log_analysis_targets
+}
+
+moved {
+  from = module.log_analysis
+  to   = module.log_analysis[0]
+}
+
+moved {
+  from = module.cloud_monitoring
+  to   = module.cloud_monitoring[0]
 }

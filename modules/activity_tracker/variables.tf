@@ -1,43 +1,43 @@
 variable "region" {
   type        = string
-  description = "The IBM Cloud region where instances will be created."
+  description = "DEPRECATED: The IBM Cloud region where the Activity Tracker instance will be created."
   default     = "us-south"
 }
 
 variable "resource_group_id" {
   type        = string
-  description = "The id of the IBM Cloud resource group where the instance(s) will be created."
+  description = "DEPRECATED: The id of the IBM Cloud resource group where the instance will be created."
   default     = null
 }
 
 variable "activity_tracker_enable_archive" {
   type        = bool
-  description = "Enable archive on Activity Tracker instances"
+  description = "DEPRECATED: Enable archive on Activity Tracker instances"
   default     = false
 }
 
 variable "ibmcloud_api_key" {
   type        = string
-  description = "Only required to archive. The IBM Cloud API Key."
+  description = "DEPRECATED: The IBM Cloud API Key to use Activity Tracking archiving. Only required if `activity_tracker_enable_archive` is true."
   default     = null
   sensitive   = true
 }
 
 variable "activity_tracker_provision" {
-  description = "Provision an Activity Tracker instance?"
+  description = "DEPRECATED: Provision an Activity Tracker instance?"
   type        = bool
-  default     = true
+  default     = false
 }
 
 variable "instance_name" {
   type        = string
-  description = "The name of the Activity Tracker instance to create. Defaults to 'activity-tracker-<region>'"
+  description = "DEPRECATED: The name of the Activity Tracker instance to create. Defaults to 'activity-tracker-<region>'"
   default     = null
 }
 
 variable "plan" {
   type        = string
-  description = "The Activity Tracker plan to provision. Available: lite, 7-day, 14-day, 30-day, hipaa-30-day"
+  description = "DEPRECATED: The Activity Tracker plan to provision. Available: lite, 7-day, 14-day, 30-day, hipaa-30-day"
   default     = "lite"
 
   validation {
@@ -48,30 +48,30 @@ variable "plan" {
 
 variable "manager_key_name" {
   type        = string
-  description = "The name to give the Activity Tracker manager key."
+  description = "DEPRECATED: The name to give the Activity Tracker manager key."
   default     = "AtManagerKey"
 }
 
 variable "manager_key_tags" {
   type        = list(string)
-  description = "Tags associated with the Activity Tracker manager key."
+  description = "DEPRECATED: Tags associated with the Activity Tracker manager key."
   default     = []
 }
 
 variable "tags" {
   type        = list(string)
-  description = "Tags associated with the Activity Tracker instance (Optional, array of strings)."
+  description = "DEPRECATED: Tags associated with the Activity Tracker instance (Optional, array of strings)."
   default     = []
 }
 
 variable "access_tags" {
   type        = list(string)
-  description = "Access Management Tags associated with the Activity Tracker instance (Optional, array of strings)."
+  description = "DEPRECATED: Access Management Tags associated with the Activity Tracker instance (Optional, array of strings)."
   default     = []
 }
 
 variable "service_endpoints" {
-  description = "The type of the service endpoint that will be set for the activity tracker instance."
+  description = "DEPRECATED: The type of the service endpoint that will be set for the activity tracker instance."
   type        = string
   default     = "public-and-private"
   validation {
@@ -82,19 +82,19 @@ variable "service_endpoints" {
 
 variable "cos_instance_id" {
   type        = string
-  description = "The ID of the cloud object storage instance containing the archive bucket (Only required when var.activity_tracker_enable_archive and var.activity_tracker_provision are true)."
+  description = "DEPRECATED: The ID of the cloud object storage instance containing the archive bucket (Only required when var.activity_tracker_enable_archive and var.activity_tracker_provision are true)."
   default     = null
 }
 
 variable "cos_bucket_name" {
   type        = string
-  description = "The name of an existing COS bucket to be used for the archive (Only required when var.activity_tracker_enable_archive and var.activity_tracker_provision are true)."
+  description = "DEPRECATED: The name of an existing COS bucket to be used for the archive (Only required when var.activity_tracker_enable_archive and var.activity_tracker_provision are true)."
   default     = null
 }
 
 variable "cos_bucket_endpoint" {
   type        = string
-  description = "An endpoint for the COS bucket for the archive. Pass either the public or private endpoint (Only required when var.activity_tracker_enable_archive and var.activity_tracker_provision are true)"
+  description = "DEPRECATED: An endpoint for the COS bucket for the archive. Pass either the public or private endpoint (Only required when var.activity_tracker_enable_archive and var.activity_tracker_provision are true)"
   default     = null
 }
 
@@ -203,12 +203,12 @@ variable "global_event_routing_settings" {
 
   # https://cloud.ibm.com/docs/atracker?topic=atracker-regions#regions-atracker
   validation {
-    error_message = "Valid regions for permitted_target_regions are: us-south, eu-de, us-east, eu-es, eu-gb, au-syd, br-sao, ca-tor, eu-es, jp-tok, jp-osa, in-che"
+    error_message = "Valid regions for permitted_target_regions are: us-south, eu-de, us-east, eu-es, eu-gb, au-syd, br-sao, ca-tor, eu-es, jp-tok, jp-osa, in-che, eu-fr2"
     condition = (var.global_event_routing_settings == null ?
       true :
       alltrue([
         for region in var.global_event_routing_settings.permitted_target_regions :
-        contains(["us-south", "eu-de", "us-east", "eu-es", "eu-gb", "au-syd", "br-sao", "ca-tor", "eu-es", "jp-tok", "jp-osa", "in-che"], region)
+        contains(["us-south", "eu-de", "us-east", "eu-es", "eu-gb", "au-syd", "br-sao", "ca-tor", "eu-es", "jp-tok", "jp-osa", "in-che", "eu-fr2"], region)
       ])
     )
   }

@@ -1,3 +1,7 @@
-# Provision basic observability instances (Log Analysis, Cloud Monitoring, Activity Tracker, Cloud Logs)
+# Basic example (Cloud Logs, Monitoring, Activity Tracker route with Cloud Logs target)
 
-Example that deploys Log Analysis, Cloud Monitoring, Activity Tracker, and Cloud Logs instances with basic configuration.
+Example that configures:
+- Cloud Logs instance
+- Monitoring instance
+- Activity Tracker target for the Cloud Logs instance
+- Activity Tracker route to the Cloud Logs target

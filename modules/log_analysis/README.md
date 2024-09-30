@@ -1,43 +1,70 @@
-# Log Analysis instance sub-module
+# (DEPRECATED) Log Analysis module
 
-This sub-module supports provisioning the following observability instances:
+This module supports configuring IBM Cloud Logging with Log Analysis.
 
-- **IBM Cloud Logging with Log Analysis**
-  - Manage operating system logs, application logs, and platform logs in IBM Cloud.
-
-:information_source: This sub-module also creates a manager key, and supports passing COS bucket details to enable archiving for Log Analysis.
+> [!IMPORTANT]
+> The IBM Log Analysis service is deprecated. [IBM Cloud Logs](https://www.ibm.com/products/cloud-logs) is the replacement service and can be provisioned using the [cloud_logs](../cloud_logs/) module. Customers will need to migrate to IBM Cloud Logs prior to 30 March 2025.
 
 ## Usage
 
 To provision Log Analysis instance
 
 ```hcl
-# required ibm provider config
-provider "ibm" {
-  ibmcloud_api_key = var.ibmcloud_api_key #pragma: allowlist secret
+# Locals
+locals {
+  region      = "us-south"
+  at_endpoint = "https://api.${local.region}.logging.cloud.ibm.com"
 }
 
-# required log analysis provider config
-locals {
-  at_endpoint = "https://api.${var.region}.logging.cloud.ibm.com"
+# Required providers
+# NOTE: It is required to configure the logdna provider, even if not enabling archiving.
+terraform {
+  required_version = ">= 1.0.0"
+  required_providers {
+    ibm = {
+      source  = "ibm-cloud/ibm"
+      version = "X.Y.Z" # lock into a supported provider version
+    }
+    logdna = {
+      source  = "logdna/logdna"
+      version = "X.Y.Z" # lock into a supported provider version
+    }
+  }
+}
+provider "ibm" {
+  ibmcloud_api_key = XXXXXXXXXXXX
+  region           = local.region
 }
 
 provider "logdna" {
   alias      = "ld"
-  servicekey = module.log_analysis.resource_key
+  servicekey = module.log_analysis.resource_key != null ? module.log_analysis.resource_key : ""
   url        = local.at_endpoint
 }
 
 module "log_analysis" {
-  source  = "terraform-ibm-modules/observability-instances/ibm//modules/log_analysis"
-  version = "latest" # Replace "latest" with a release version to lock into a specific release
+  source    = "terraform-ibm-modules/observability-instances/ibm//modules/log_analysis"
+  version   = "X.Y.Z" # Replace "X.Y.Z" with a release version to lock into a specific release
   providers = {
     logdna.ld = logdna.ld
   }
-  resource_group_id = module.resource_group.resource_group_id
-  region = var.region
+  resource_group_id = "xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX"
+  region            = local.region
 }
 ```
+
+### Required IAM access policies
+
+You need the following permissions to run this module.
+
+- Service
+    - **Resource group only**
+        - `Viewer` access on the specific resource group
+    - **Log Analysis**
+        - `Editor` platform access
+        - `Manager` service access
+    - **Tagging service** (Required if attaching access tags to the Log Analysis instance)
+        - `Editor` platform access
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ### Requirements
@@ -73,7 +100,6 @@ No modules.
 | <a name="input_ibmcloud_api_key"></a> [ibmcloud\_api\_key](#input\_ibmcloud\_api\_key) | Only required to archive. The IBM Cloud API Key. | `string` | `null` | no |
 | <a name="input_instance_name"></a> [instance\_name](#input\_instance\_name) | The name of the IBM Cloud Logging instance to create. Defaults to 'log-analysis-<region>' | `string` | `null` | no |
 | <a name="input_log_analysis_enable_archive"></a> [log\_analysis\_enable\_archive](#input\_log\_analysis\_enable\_archive) | Enable archive on Log Analysis instances | `bool` | `false` | no |
-| <a name="input_log_analysis_provision"></a> [log\_analysis\_provision](#input\_log\_analysis\_provision) | Provision an IBM Cloud Logging instance? | `bool` | `true` | no |
 | <a name="input_manager_key_name"></a> [manager\_key\_name](#input\_manager\_key\_name) | The name to give the IBM Cloud Logging manager key. | `string` | `"LogDnaManagerKey"` | no |
 | <a name="input_manager_key_tags"></a> [manager\_key\_tags](#input\_manager\_key\_tags) | Tags associated with the IBM Cloud Logging manager key. | `list(string)` | `[]` | no |
 | <a name="input_plan"></a> [plan](#input\_plan) | The IBM Cloud Logging plan to provision. Available: lite, 7-day, 14-day, 30-day, hipaa-30-day | `string` | `"lite"` | no |
