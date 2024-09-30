@@ -90,6 +90,7 @@ func TestRunAdvanceExampleInSchematics(t *testing.T) {
 }
 
 func TestRunUpgradeExample(t *testing.T) {
+	t.Parallel()
 
 	options := setupOptions(t, "obs-upg", advanceExampleTerraformDir)
 	output, err := options.RunTestUpgrade()
