@@ -9,12 +9,12 @@ locals {
 
 provider "logdna" {
   alias      = "at"
-  servicekey = ""
+  servicekey = module.observability_instances.activity_tracker_resource_key != null ? module.observability_instances.activity_tracker_resource_key : ""
   url        = local.at_endpoint
 }
 
 provider "logdna" {
   alias      = "ld"
-  servicekey = ""
+  servicekey = module.observability_instances.log_analysis_resource_key != null ? module.observability_instances.log_analysis_resource_key : ""
   url        = local.at_endpoint
 }
