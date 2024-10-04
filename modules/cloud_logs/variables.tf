@@ -43,12 +43,12 @@ variable "access_tags" {
 
 variable "retention_period" {
   type        = number
-  description = "The number of days IBM Cloud Logs will retain the logs data in Priority insights. Allowed values: 7, 14, 30, 60, 90."
+  description = "The number of days IBM Cloud Logs will retain the logs data in Priority insights. Allowed values: 7, 14, 30, 60, 90, 180."
   default     = 7
 
   validation {
-    condition     = contains([7, 14, 30, 60, 90], var.retention_period)
-    error_message = "Valid values 'retention_period' are: 7, 14, 30, 60, 90"
+    condition     = contains([7, 14, 30, 60, 90, 180], var.retention_period)
+    error_message = "Valid values 'retention_period' are: 7, 14, 30, 60, 90, 180"
   }
 }
 
