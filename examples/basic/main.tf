@@ -67,10 +67,6 @@ module "observability_instances" {
   # delete line above and use below syntax to pull module source from hashicorp when consuming this module
   # source    = "terraform-ibm-modules/observability-instances/ibm"
   # version   = "X.Y.Z" # Replace "X.X.X" with a release version to lock into a specific release
-  providers = {
-    logdna.at = logdna.at
-    logdna.ld = logdna.ld
-  }
   resource_group_id            = module.resource_group.resource_group_id
   region                       = var.region
   enable_platform_logs         = false

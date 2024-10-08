@@ -1,51 +1,3 @@
-locals {
-  instance_name = var.instance_name != null ? var.instance_name : "activity-tracker-${var.region}"
-
-  # When archive is enabled cos instance information is required to identify bucket
-  cos_validate_condition = var.activity_tracker_enable_archive && var.activity_tracker_provision && ((var.cos_instance_id == null || var.cos_bucket_name == null || var.cos_bucket_endpoint == null))
-  cos_validate_msg       = "'cos_instance_id', 'cos_bucket_name' and 'cos_bucket_endpoint' are required when 'activity_tracker_enable_archive' is true"
-  # tflint-ignore: terraform_unused_declarations
-  cos_validate_check = regex("^${local.cos_validate_msg}$", (!local.cos_validate_condition ? local.cos_validate_msg : ""))
-}
-
-resource "ibm_resource_instance" "activity_tracker" {
-  count             = var.activity_tracker_provision ? 1 : 0
-  name              = local.instance_name
-  resource_group_id = var.resource_group_id
-  service           = "logdnaat"
-  plan              = var.plan
-  location          = var.region
-  tags              = var.tags
-  service_endpoints = var.service_endpoints
-}
-
-resource "ibm_resource_tag" "activity_tracker_tag" {
-  count       = length(var.access_tags) == 0 ? 0 : var.activity_tracker_provision ? 1 : 0
-  resource_id = ibm_resource_instance.activity_tracker[0].crn
-  tags        = var.access_tags
-  tag_type    = "access"
-}
-
-resource "ibm_resource_key" "resource_key" {
-  count                = var.activity_tracker_provision ? 1 : 0
-  name                 = var.manager_key_name
-  resource_instance_id = ibm_resource_instance.activity_tracker[0].id
-  role                 = "Manager"
-  tags                 = var.manager_key_tags
-}
-
-resource "logdna_archive" "archive_config" {
-  count       = var.activity_tracker_provision && var.activity_tracker_enable_archive ? 1 : 0
-  provider    = logdna.at
-  integration = "ibm"
-  ibm_config {
-    apikey             = var.ibmcloud_api_key
-    bucket             = var.cos_bucket_name
-    endpoint           = var.cos_bucket_endpoint
-    resourceinstanceid = var.cos_instance_id
-  }
-}
-
 ########################################################################
 # Activity Tracker Event Routing
 #########################################################################
@@ -110,18 +62,6 @@ resource "ibm_atracker_target" "atracker_eventstreams_targets" {
   region      = each.value.target_region
 }
 
-# Log Analysis targets
-resource "ibm_atracker_target" "atracker_log_analysis_targets" {
-  for_each = nonsensitive({ for target in var.log_analysis_targets : target.target_name => target })
-  logdna_endpoint {
-    target_crn    = each.value.instance_id
-    ingestion_key = each.value.ingestion_key
-  }
-  name        = each.key
-  target_type = "logdna"
-  region      = each.value.target_region
-}
-
 # Cloud Logs targets
 resource "ibm_atracker_target" "atracker_cloud_logs_targets" {
   depends_on = [time_sleep.wait_for_cloud_logs_auth_policy]
@@ -174,14 +114,6 @@ locals {
     }
   }
 
-  log_analysis_targets = {
-    for log_analysis_target in ibm_atracker_target.atracker_log_analysis_targets :
-    log_analysis_target["name"] => {
-      id  = log_analysis_target["id"]
-      crn = log_analysis_target["crn"]
-    }
-  }
-
   eventstreams_targets = {
     for eventstreams_target in ibm_atracker_target.atracker_eventstreams_targets :
     eventstreams_target["name"] => {
@@ -206,6 +138,6 @@ locals {
     }
   }
 
-  activity_tracker_targets = merge(local.cos_targets, local.log_analysis_targets, local.eventstreams_targets, local.cloud_log_targets)
+  activity_tracker_targets = merge(local.cos_targets, local.eventstreams_targets, local.cloud_log_targets)
 
 }

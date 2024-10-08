@@ -7,10 +7,5 @@ terraform {
       source  = "ibm-cloud/ibm"
       version = ">= 1.69.2, < 2.0.0"
     }
-    logdna = {
-      source                = "logdna/logdna"
-      version               = ">= 1.14.2, < 2.0.0"
-      configuration_aliases = [logdna.at, logdna.ld]
-    }
   }
 }

@@ -1,61 +1,21 @@
 ##############################################################################
 # observability-instances-module
-#
-# Deploy the observability instances - Log Analysis, Cloud Monitoring and Activity Tracker
 ##############################################################################
+
+# Input variable validation
+locals {
+  # tflint-ignore: terraform_unused_declarations
+  resource_group_val = var.resource_group_id == null && (var.cloud_monitoring_provision || var.cloud_logs_provision) ? tobool("resource_group_id is a required input when 'cloud_monitoring_provision' or 'cloud_logs_provision' is true") : true
+}
 
 # Activity tracker
 module "activity_tracker" {
-  source = "./modules/activity_tracker"
-  providers = {
-    logdna.at = logdna.at
-  }
-  region                          = var.region
-  resource_group_id               = var.resource_group_id
-  activity_tracker_enable_archive = var.activity_tracker_enable_archive
-  ibmcloud_api_key                = var.ibmcloud_api_key
-  activity_tracker_provision      = var.activity_tracker_provision
-  instance_name                   = var.activity_tracker_instance_name
-  plan                            = var.activity_tracker_plan
-  manager_key_name                = var.activity_tracker_manager_key_name
-  manager_key_tags                = var.activity_tracker_manager_key_tags
-  tags                            = var.activity_tracker_tags
-  access_tags                     = var.activity_tracker_access_tags
-  service_endpoints               = var.activity_tracker_service_endpoints
-  cos_instance_id                 = var.at_cos_instance_id
-  cos_bucket_name                 = var.at_cos_bucket_name
-  cos_bucket_endpoint             = var.at_cos_bucket_endpoint
-  activity_tracker_routes         = var.activity_tracker_routes
-  cos_targets                     = var.at_cos_targets
-  eventstreams_targets            = var.at_eventstreams_targets
-  log_analysis_targets            = var.at_log_analysis_targets
-  cloud_logs_targets              = var.at_cloud_logs_targets
-  global_event_routing_settings   = var.global_event_routing_settings
-}
-
-# Log Analysis
-module "log_analysis" {
-  count  = var.log_analysis_provision ? 1 : 0
-  source = "./modules/log_analysis"
-  providers = {
-    logdna.ld = logdna.ld
-  }
-  region                      = var.region
-  resource_group_id           = var.resource_group_id
-  log_analysis_enable_archive = var.log_analysis_enable_archive
-  ibmcloud_api_key            = var.ibmcloud_api_key
-  instance_name               = var.log_analysis_instance_name
-  plan                        = var.log_analysis_plan
-  manager_key_name            = var.log_analysis_manager_key_name
-  manager_key_tags            = var.log_analysis_manager_key_tags
-  resource_key_role           = var.log_analysis_resource_key_role
-  tags                        = var.log_analysis_tags
-  access_tags                 = var.log_analysis_access_tags
-  enable_platform_logs        = var.enable_platform_logs
-  service_endpoints           = var.log_analysis_service_endpoints
-  cos_instance_id             = var.log_analysis_cos_instance_id
-  cos_bucket_name             = var.log_analysis_cos_bucket_name
-  cos_bucket_endpoint         = var.log_analysis_cos_bucket_endpoint
+  source                        = "./modules/activity_tracker"
+  activity_tracker_routes       = var.activity_tracker_routes
+  cos_targets                   = var.at_cos_targets
+  eventstreams_targets          = var.at_eventstreams_targets
+  cloud_logs_targets            = var.at_cloud_logs_targets
+  global_event_routing_settings = var.global_event_routing_settings
 }
 
 # IBM Cloud Monitoring
