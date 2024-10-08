@@ -12,119 +12,6 @@ variable "region" {
 variable "resource_group_id" {
   type        = string
   description = "The id of the IBM Cloud resource group where the instance(s) will be created."
-}
-
-variable "log_analysis_enable_archive" {
-  type        = bool
-  description = "DEPRECATED: Enable archive on log analysis instances"
-  default     = false
-}
-
-variable "activity_tracker_enable_archive" {
-  type        = bool
-  description = "DEPRECATED: Enable archive on activity tracker instances"
-  default     = false
-}
-variable "ibmcloud_api_key" {
-  type        = string
-  description = "DEPRECATED: Restricted IBM Cloud API Key used only for writing Log Analysis archives to Cloud Object Storage"
-  default     = null
-  sensitive   = true
-}
-
-##############################################################################
-
-# Log Analysis
-variable "log_analysis_provision" {
-  description = "DEPRECATED: Provision an IBM Cloud Logging instance?"
-  type        = bool
-  default     = false
-}
-
-variable "log_analysis_instance_name" {
-  type        = string
-  description = "DEPRECATED: The name of the IBM Cloud Logging instance to create. Defaults to 'log-analysis-<region>'"
-  default     = null
-}
-
-variable "log_analysis_plan" {
-  type        = string
-  description = "DEPRECATED: The IBM Cloud Logging plan to provision. Available: lite, 7-day, 14-day, 30-day, hipaa-30-day"
-  default     = "lite"
-
-  validation {
-    condition     = can(regex("^lite$|^7-day$|^14-day$|^30-day$|^hipaa-30-day$", var.log_analysis_plan))
-    error_message = "The log_analysis_plan value must be one of the following: lite, 7-day, 14-day, 30-day, hipaa-30-day."
-  }
-}
-
-variable "log_analysis_manager_key_name" {
-  type        = string
-  description = "DEPRECATED: The name to give the IBM Cloud Logging manager key."
-  default     = "LogDnaManagerKey"
-}
-
-variable "log_analysis_resource_key_role" {
-  type        = string
-  description = "DEPRECATED: Role assigned to provide the IBM Cloud Logging key."
-  default     = "Manager"
-
-  validation {
-    condition     = contains(["Manager", "Reader", "Standard Member"], var.log_analysis_resource_key_role)
-    error_message = "Allowed roles can be Manager, Reader or Standard Member."
-  }
-}
-
-variable "log_analysis_manager_key_tags" {
-  type        = list(string)
-  description = "DEPRECATED: Tags associated with the IBM Cloud Logging manager key."
-  default     = []
-}
-
-variable "log_analysis_tags" {
-  type        = list(string)
-  description = "DEPRECATED: Tags associated with the IBM Cloud Logging instance (Optional, array of strings)."
-  default     = []
-}
-
-variable "log_analysis_access_tags" {
-  type        = list(string)
-  description = "DEPRECATED: A list of access tags to apply to the Log Analysis instance created by the module. For more information, see https://cloud.ibm.com/docs/account?topic=account-access-tags-tutorial."
-  default     = []
-
-  validation {
-    condition = alltrue([
-      for tag in var.log_analysis_access_tags : can(regex("[\\w\\-_\\.]+:[\\w\\-_\\.]+", tag)) && length(tag) <= 128
-    ])
-    error_message = "Tags must match the regular expression \"[\\w\\-_\\.]+:[\\w\\-_\\.]+\". For more information, see https://cloud.ibm.com/docs/account?topic=account-tag&interface=ui#limits."
-  }
-}
-
-variable "log_analysis_service_endpoints" {
-  description = "DEPRECATED: The type of the service endpoint that will be set for the Log Analysis instance."
-  type        = string
-  default     = "public-and-private"
-  validation {
-    condition     = contains(["public", "private", "public-and-private"], var.log_analysis_service_endpoints)
-    error_message = "The specified service_endpoints is not a valid selection"
-  }
-}
-
-variable "log_analysis_cos_instance_id" {
-  type        = string
-  description = "DEPRECATED: The ID of the cloud object storage instance containing the Log Analysis archive bucket. (Only required when var.log_analysis_enable_archive and var.log_analysis_provision are true)."
-  default     = null
-}
-
-variable "log_analysis_cos_bucket_name" {
-  type        = string
-  description = "DEPRECATED: The name of an existing COS bucket to be used for the Log Analysis archive. (Only required when var.log_analysis_enable_archive and var.log_analysis_provision are true)."
-  default     = null
-}
-
-variable "log_analysis_cos_bucket_endpoint" {
-  type        = string
-  description = "DEPRECATED: An endpoint for the COS bucket for the Log Analysis archive. Pass either the public or private endpoint. (Only required when var.log_analysis_enable_archive and var.log_analysis_provision are true)."
   default     = null
 }
 
@@ -201,91 +88,6 @@ variable "cloud_monitoring_service_endpoints" {
   }
 }
 
-##############################################################################
-
-# Activity Tracker
-variable "activity_tracker_provision" {
-  description = "DEPRECATED: Provision an Activity Tracker instance?"
-  type        = bool
-  default     = false
-}
-
-variable "activity_tracker_instance_name" {
-  type        = string
-  description = "DEPRECATED: The name of the Activity Tracker instance to create. Defaults to 'activity-tracker-<region>'"
-  default     = null
-}
-
-variable "activity_tracker_plan" {
-  type        = string
-  description = "DEPRECATED: The Activity Tracker plan to provision. Available: lite, 7-day, 14-day, 30-day, hipaa-30-day"
-  default     = "lite"
-
-  validation {
-    condition     = can(regex("^lite$|^7-day$|^14-day$|^30-day$|^hipaa-30-day$", var.activity_tracker_plan))
-    error_message = "The activity_tracker_plan value must be one of the following: lite, 7-day, 14-day, 30-day, hipaa-30-day."
-  }
-}
-
-variable "activity_tracker_manager_key_name" {
-  type        = string
-  description = "DEPRECATED: The name to give the Activity Tracker manager key."
-  default     = "AtManagerKey"
-}
-
-variable "activity_tracker_manager_key_tags" {
-  type        = list(string)
-  description = "DEPRECATED: Tags associated with the Activity Tracker manager key."
-  default     = []
-}
-
-variable "activity_tracker_tags" {
-  type        = list(string)
-  description = "DEPRECATED: Tags associated with the Activity Tracker instance (Optional, array of strings)."
-  default     = []
-}
-
-variable "activity_tracker_access_tags" {
-  type        = list(string)
-  description = "DEPRECATED: A list of access tags to apply to the Activity Tracker instance created by the module. For more information, see https://cloud.ibm.com/docs/account?topic=account-access-tags-tutorial."
-  default     = []
-
-  validation {
-    condition = alltrue([
-      for tag in var.activity_tracker_access_tags : can(regex("[\\w\\-_\\.]+:[\\w\\-_\\.]+", tag)) && length(tag) <= 128
-    ])
-    error_message = "Tags must match the regular expression \"[\\w\\-_\\.]+:[\\w\\-_\\.]+\". For more information, see https://cloud.ibm.com/docs/account?topic=account-tag&interface=ui#limits."
-  }
-}
-
-variable "activity_tracker_service_endpoints" {
-  description = "DEPRECATED: The type of the service endpoint that will be set for the activity tracker instance."
-  type        = string
-  default     = "public-and-private"
-  validation {
-    condition     = contains(["public", "private", "public-and-private"], var.activity_tracker_service_endpoints)
-    error_message = "The specified service_endpoints is not a valid selection"
-  }
-}
-
-variable "at_cos_instance_id" {
-  type        = string
-  description = "DEPRECATED: The ID of the cloud object storage instance containing the Activity Tracker archive bucket (Only required when var.activity_tracker_enable_archive and var.activity_tracker_provision are true)."
-  default     = null
-}
-
-variable "at_cos_bucket_name" {
-  type        = string
-  description = "DEPRECATED: The name of an existing COS bucket to be used for the Activity Tracker archive (Only required when var.activity_tracker_enable_archive and var.activity_tracker_provision are true)."
-  default     = null
-}
-
-variable "at_cos_bucket_endpoint" {
-  type        = string
-  description = "DEPRECATED: An endpoint for the COS bucket for the Activity Tracker archive. Pass either the public or private endpoint (Only required when var.activity_tracker_enable_archive and var.activity_tracker_provision are true)"
-  default     = null
-}
-
 ########################################################################
 # Activity Tracker Event Routing
 #########################################################################
@@ -318,19 +120,6 @@ variable "at_eventstreams_targets" {
   }))
   default     = []
   description = "List of event streams target to be created"
-  sensitive   = true
-}
-
-# Log Analysis Targets
-variable "at_log_analysis_targets" {
-  type = list(object({
-    instance_id   = string
-    ingestion_key = string
-    target_region = optional(string)
-    target_name   = string
-  }))
-  default     = []
-  description = "DEPRECATED: List of log analysis target to be created"
   sensitive   = true
 }
 
@@ -473,7 +262,7 @@ variable "skip_logs_routing_auth_policy" {
 
 variable "enable_platform_logs" {
   type        = bool
-  description = "Setting this to true will create a tenant in the same region that the Cloud Logs instance is provisioned to enable platform logs for that region. To send platform logs from other regions, you can explicitially specify a list of regions using the `logs_routing_tenant_regions` input. NOTE: You can only have 1 tenant per region in an account. If `log_analysis_provision` is set to true, this variable will also enable platform logs for the Log analysis instance."
+  description = "Setting this to true will create a tenant in the same region that the Cloud Logs instance is provisioned to enable platform logs for that region. To send platform logs from other regions, you can explicitially specify a list of regions using the `logs_routing_tenant_regions` input. NOTE: You can only have 1 tenant per region in an account."
   default     = true
 }
 
