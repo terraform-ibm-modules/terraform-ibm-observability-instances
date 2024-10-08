@@ -10,46 +10,6 @@ output "region" {
 
 ##############################################################################
 
-# Log Analysis
-output "log_analysis_crn" {
-  value       = var.log_analysis_provision ? module.log_analysis[0].crn : null
-  description = "DEPRECATED: The id of the provisioned Log Analysis instance."
-}
-
-output "log_analysis_guid" {
-  value       = var.log_analysis_provision ? module.log_analysis[0].guid : null
-  description = "DEPRECATED: The guid of the provisioned Log Analysis instance."
-}
-
-output "log_analysis_name" {
-  value       = var.log_analysis_provision ? module.log_analysis[0].name : null
-  description = "DEPRECATED: The name of the provisioned Log Analysis instance."
-}
-
-output "log_analysis_resource_group_id" {
-  value       = var.log_analysis_provision ? module.log_analysis[0].resource_group_id : null
-  description = "DEPRECATED: The resource group where Log Analysis instance resides"
-}
-
-output "log_analysis_resource_key" {
-  value       = var.log_analysis_provision ? module.log_analysis[0].resource_key : null
-  description = "DEPRECATED: Log Analysis service key for agents to use"
-  sensitive   = true
-}
-
-output "log_analysis_ingestion_key" {
-  value       = var.log_analysis_provision ? module.log_analysis[0].ingestion_key : null
-  description = "DEPRECATED: Log Analysis ingest key for agents to use"
-  sensitive   = true
-}
-
-output "log_analysis_manager_key_name" {
-  value       = var.log_analysis_provision ? module.log_analysis[0].manager_key_name : null
-  description = "DEPRECATED: The Log Analysis manager key name"
-}
-
-##############################################################################
-
 # IBM Cloud Monitoring
 output "cloud_monitoring_crn" {
   value       = length(module.cloud_monitoring) > 0 ? module.cloud_monitoring[0].crn : null
@@ -80,40 +40,6 @@ output "cloud_monitoring_access_key" {
 output "cloud_monitoring_manager_key_name" {
   value       = length(module.cloud_monitoring) > 0 ? module.cloud_monitoring[0].manager_key_name : null
   description = "The IBM cloud monitoring manager key name"
-}
-
-##############################################################################
-
-# Activity Tracker
-output "activity_tracker_crn" {
-  value       = module.activity_tracker.crn
-  description = "DEPRECATED: The id of the provisioned Activity Tracker instance."
-}
-
-output "activity_tracker_guid" {
-  value       = module.activity_tracker.guid
-  description = "DEPRECATED: The guid of the provisioned Activity Tracker instance."
-}
-
-output "activity_tracker_name" {
-  value       = module.activity_tracker.name
-  description = "DEPRECATED: The name of the provisioned Activity Tracker instance."
-}
-
-output "activity_tracker_resource_group_id" {
-  value       = module.activity_tracker.resource_group_id
-  description = "DEPRECATED: The resource group where Activity Tracker instance resides"
-}
-
-output "activity_tracker_resource_key" {
-  value       = module.activity_tracker.resource_key
-  description = "DEPRECATED: The resource/service key for agents to use"
-  sensitive   = true
-}
-
-output "activity_tracker_manager_key_name" {
-  value       = module.activity_tracker.manager_key_name
-  description = "DEPRECATED: The Activity Tracker manager key name"
 }
 
 ########################################################################
