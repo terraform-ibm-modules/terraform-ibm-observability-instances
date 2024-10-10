@@ -30,7 +30,7 @@ variable "eventstreams_targets" {
     instance_id   = string
     brokers       = list(string)
     topic         = string
-    api_key       = string
+    api_key       = string # pragma: allowlist secret
     target_region = optional(string)
     target_name   = string
   }))
