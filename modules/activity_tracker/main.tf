@@ -32,6 +32,21 @@ resource "ibm_iam_authorization_policy" "atracker_cloud_logs" {
   description                 = "Permit AT service Sender access to Cloud Logs instance ${each.value.instance_id}"
 }
 
+resource "time_sleep" "wait_for_event_stream_auth_policy" {
+  depends_on      = [ibm_iam_authorization_policy.atracker_es]
+  create_duration = "30s"
+}
+
+# atracker to event stream s2s auth policy
+resource "ibm_iam_authorization_policy" "atracker_es" {
+  for_each                    = nonsensitive({ for target in var.eventstreams_targets : target.target_name => target if target.service_to_service_enabled && !target.skip_atracker_es_iam_auth_policy })
+  source_service_name         = "atracker"
+  target_service_name         = "messagehub"
+  target_resource_instance_id = regex(".*:(.*)::", each.value.instance_id)[0]
+  roles                       = ["Writer"]
+  description                 = "Permit AT service `Writer` access to the eventstream instance ${each.value.instance_id}"
+}
+
 # COS targets
 resource "ibm_atracker_target" "atracker_cos_targets" {
   depends_on = [time_sleep.wait_for_authorization_policy]
@@ -52,10 +67,11 @@ resource "ibm_atracker_target" "atracker_cos_targets" {
 resource "ibm_atracker_target" "atracker_eventstreams_targets" {
   for_each = nonsensitive({ for target in var.eventstreams_targets : target.target_name => target })
   eventstreams_endpoint {
-    target_crn = each.value.instance_id
-    brokers    = each.value.brokers
-    topic      = each.value.topic
-    api_key    = each.value.api_key
+    target_crn                 = each.value.instance_id
+    brokers                    = each.value.brokers
+    topic                      = each.value.topic
+    api_key                    = each.value.api_key
+    service_to_service_enabled = each.value.service_to_service_enabled
   }
   name        = each.key
   target_type = "event_streams"
