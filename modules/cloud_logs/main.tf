@@ -5,6 +5,7 @@ locals {
 
 # Cloud Logs
 resource "ibm_resource_instance" "cloud_logs" {
+  depends_on        = [time_sleep.wait_for_cos_authorization_policy]
   name              = local.instance_name
   resource_group_id = var.resource_group_id
   service           = "logs"
@@ -71,6 +72,13 @@ resource "ibm_iam_authorization_policy" "cos_policy" {
     operator = "stringEquals"
     value    = regex("bucket:(.*)", each.value.bucket_crn)[0]
   }
+}
+
+resource "time_sleep" "wait_for_cos_authorization_policy" {
+  depends_on = [ibm_iam_authorization_policy.cos_policy]
+  # trigger once if any of the buckets create an auth policy
+  count           = anytrue([for _, bucket in var.data_storage : bucket.enabled && !bucket.skip_cos_auth_policy]) ? 1 : 0
+  create_duration = "30s"
 }
 
 ##############################################################################
