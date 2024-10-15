@@ -82,14 +82,6 @@ module "event_streams" {
   }, ]
 }
 
-# TODO: Remove this resource and create service key when https://github.com/terraform-ibm-modules/terraform-ibm-event-streams/issues/307 is complete
-# Resource key used to add an Event Streams Activity Tracker target
-resource "ibm_resource_key" "es_resource_key" {
-  name                 = "${var.prefix}-eventstreams-service-key"
-  resource_instance_id = module.event_streams.id
-  role                 = "Writer"
-}
-
 ##############################################################################
 # COS instance + bucket (used for cloud logs and AT target)
 ##############################################################################
