@@ -31,7 +31,7 @@ variable "eventstreams_targets" {
     brokers                          = list(string)
     topic                            = string
     api_key                          = optional(string)
-    service_to_service_enabled       = optional(bool)
+    service_to_service_enabled       = optional(bool, true)
     target_region                    = optional(string)
     target_name                      = string
     skip_atracker_es_iam_auth_policy = optional(bool, false)

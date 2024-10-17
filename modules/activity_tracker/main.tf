@@ -32,6 +32,7 @@ resource "ibm_iam_authorization_policy" "atracker_cloud_logs" {
   description                 = "Permit AT service Sender access to Cloud Logs instance ${each.value.instance_id}"
 }
 
+# workaround for https://github.com/IBM-Cloud/terraform-provider-ibm/issues/4478
 resource "time_sleep" "wait_for_event_stream_auth_policy" {
   depends_on      = [ibm_iam_authorization_policy.atracker_es]
   create_duration = "30s"
@@ -65,7 +66,8 @@ resource "ibm_atracker_target" "atracker_cos_targets" {
 
 # Event Streams targets
 resource "ibm_atracker_target" "atracker_eventstreams_targets" {
-  for_each = nonsensitive({ for target in var.eventstreams_targets : target.target_name => target })
+  depends_on = [time_sleep.wait_for_event_stream_auth_policy]
+  for_each   = nonsensitive({ for target in var.eventstreams_targets : target.target_name => target })
   eventstreams_endpoint {
     target_crn                 = each.value.instance_id
     brokers                    = each.value.brokers
