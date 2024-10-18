@@ -33,9 +33,7 @@ resource "ibm_resource_tag" "cloud_logs_tag" {
 # Get Cloud Account ID
 ##############################################################################
 
-data "ibm_iam_account_settings" "iam_account_settings" {
-}
-
+# If logs or metrics data is enabled, parse details from it
 module "cos_crn_parser" {
   source  = "terraform-ibm-modules/common-utilities/ibm//modules/crn-parser"
   version = "1.1.0"
