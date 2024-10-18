@@ -27,16 +27,23 @@ variable "cos_targets" {
 # Event Streams Targets
 variable "eventstreams_targets" {
   type = list(object({
-    instance_id   = string
-    brokers       = list(string)
-    topic         = string
-    api_key       = string # pragma: allowlist secret
-    target_region = optional(string)
-    target_name   = string
+    instance_id                      = string
+    brokers                          = list(string)
+    topic                            = string
+    api_key                          = optional(string)
+    service_to_service_enabled       = optional(bool, true)
+    target_region                    = optional(string)
+    target_name                      = string
+    skip_atracker_es_iam_auth_policy = optional(bool, false)
   }))
   default     = []
   description = "List of event streams target to be created"
   sensitive   = true
+
+  validation {
+    condition     = alltrue([for es_target in var.eventstreams_targets : (es_target.service_to_service_enabled == true && es_target.api_key == null) || (es_target.service_to_service_enabled == false && es_target.api_key != null)])
+    error_message = "If 'service_to_service_enabled' is true, 'api_key' value should not be passed. If you wish to use 'api_key', set 'service_to_service_enabled' to false."
+  }
 }
 
 # Cloud Logs Targets

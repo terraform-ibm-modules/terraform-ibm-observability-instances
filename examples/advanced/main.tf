@@ -82,16 +82,8 @@ module "event_streams" {
   }, ]
 }
 
-# TODO: Remove this resource and create service key when https://github.com/terraform-ibm-modules/terraform-ibm-event-streams/issues/307 is complete
-# Resource key used to add an Event Streams Activity Tracker target
-resource "ibm_resource_key" "es_resource_key" {
-  name                 = "${var.prefix}-eventstreams-service-key"
-  resource_instance_id = module.event_streams.id
-  role                 = "Writer"
-}
-
 ##############################################################################
-# COS instance + bucket (used for logdna + AT archiving + AT target)
+# COS instance + bucket (used for cloud logs and AT target)
 ##############################################################################
 
 module "cos" {
@@ -223,12 +215,13 @@ module "observability_instances" {
   ]
   at_eventstreams_targets = [
     {
-      api_key       = ibm_resource_key.es_resource_key.credentials.apikey
-      instance_id   = module.event_streams.id
-      brokers       = [module.event_streams.kafka_brokers_sasl[0]]
-      topic         = local.topic_name
-      target_region = var.region
-      target_name   = local.es_target_name
+      instance_id                      = module.event_streams.id
+      brokers                          = [module.event_streams.kafka_brokers_sasl[0]]
+      topic                            = local.topic_name
+      target_region                    = var.region
+      target_name                      = local.es_target_name
+      service_to_service_enabled       = true
+      skip_atracker_es_iam_auth_policy = false
     }
   ]
 

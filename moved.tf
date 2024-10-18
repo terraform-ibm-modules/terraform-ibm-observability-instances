@@ -1,36 +1,3 @@
-moved {
-  from = logdna_archive.logdna_config
-  to   = module.logdna.logdna_archive.archive_config
-}
-
-moved {
-  from = module.logdna.logdna_archive.archive_config
-  to   = module.log_analysis.logdna_archive.archive_config
-}
-moved {
-  from = logdna_archive.activity_tracker_config
-  to   = module.activity_tracker.logdna_archive.archive_config
-}
-
-moved {
-  from = ibm_resource_instance.logdna
-  to   = module.logdna.ibm_resource_instance.logdna
-}
-
-moved {
-  from = module.logdna.ibm_resource_instance.logdna
-  to   = module.log_analysis.ibm_resource_instance.log_analysis
-}
-
-moved {
-  from = ibm_resource_key.log_dna_resource_key
-  to   = module.logdna.ibm_resource_key.resource_key
-}
-
-moved {
-  from = module.logdna.ibm_resource_key.resource_key
-  to   = module.log_analysis.ibm_resource_key.resource_key
-}
 
 moved {
   from = ibm_resource_instance.sysdig
@@ -53,23 +20,8 @@ moved {
 }
 
 moved {
-  from = ibm_resource_instance.activity_tracker
-  to   = module.activity_tracker.ibm_resource_instance.activity_tracker
-}
-
-moved {
-  from = ibm_resource_key.at_resource_key
-  to   = module.activity_tracker.ibm_resource_key.resource_key
-}
-
-moved {
   from = module.activity_tracker.ibm_atracker_target.atracker_logdna_targets
   to   = module.activity_tracker.ibm_atracker_target.atracker_log_analysis_targets
-}
-
-moved {
-  from = module.log_analysis
-  to   = module.log_analysis[0]
 }
 
 moved {
