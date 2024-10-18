@@ -36,6 +36,12 @@ resource "ibm_resource_tag" "cloud_logs_tag" {
 data "ibm_iam_account_settings" "iam_account_settings" {
 }
 
+module "cos_crn_parser" {
+  source  = "terraform-ibm-modules/common-utilities/ibm//modules/crn-parser"
+  version = "1.1.0"
+  crn     = var.data_storage.logs_data.enabled ? var.data_storage.logs_data.bucket_crn : (var.data_storage.metrics_data.enabled ? var.data_storage.metrics_data.bucket_crn : null)
+}
+
 resource "ibm_iam_authorization_policy" "cos_policy" {
   for_each                 = { for index, bucket in var.data_storage : index => bucket if bucket.enabled && !bucket.skip_cos_auth_policy }
   source_service_name      = "logs"
@@ -52,7 +58,7 @@ resource "ibm_iam_authorization_policy" "cos_policy" {
   resource_attributes {
     name     = "accountId"
     operator = "stringEquals"
-    value    = data.ibm_iam_account_settings.iam_account_settings.account_id
+    value    = module.cos_crn_parser.account_id
   }
 
   resource_attributes {
@@ -135,7 +141,7 @@ resource "ibm_iam_authorization_policy" "logs_routing_policy" {
   resource_attributes {
     name     = "accountId"
     operator = "stringEquals"
-    value    = data.ibm_iam_account_settings.iam_account_settings.account_id
+    value    = ibm_resource_instance.cloud_logs.account_id
   }
 
   resource_attributes {
