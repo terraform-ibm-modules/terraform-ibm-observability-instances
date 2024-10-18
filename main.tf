@@ -18,6 +18,15 @@ module "activity_tracker" {
   global_event_routing_settings = var.global_event_routing_settings
 }
 
+# IBM Cloud Metrics Routing
+
+module "metric_routing" {
+  source = "./modules/metrics_routing"
+  metric_router_routes = var.metric_router_routes
+  metric_router_settings = var.metric_router_settings
+  metrics_router_targets = var.metric_router_targets
+}
+
 # IBM Cloud Monitoring
 module "cloud_monitoring" {
   count                   = var.cloud_monitoring_provision ? 1 : 0
