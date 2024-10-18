@@ -4,7 +4,7 @@
 
 # metric routing to cloud monitoring s2s auth policy
 resource "ibm_iam_authorization_policy" "metrics_router_cloud_monitoring" {
-  for_each                    = { for target in var.metrics_router_targets : target.target_name => target if !target.skip_mrouter_sysdig_iam_auth_policy}
+  for_each                    = { for target in var.metrics_router_targets : target.target_name => target if !target.skip_mrouter_sysdig_iam_auth_policy }
   source_service_name         = "metrics-router"
   target_service_name         = "sysdig-monitor"
   target_resource_instance_id = regex(".*:(.*)::", each.value.instance_id)[0]
@@ -13,35 +13,35 @@ resource "ibm_iam_authorization_policy" "metrics_router_cloud_monitoring" {
 }
 
 resource "ibm_metrics_router_target" "metrics_router_targets" {
-  for_each = {for target in var.metrics_router_targets : target.target_name => target }
+  for_each        = { for target in var.metrics_router_targets : target.target_name => target }
   destination_crn = each.value.destination_crn
-  name = each.key
-  region = each.value.target_region
+  name            = each.key
+  region          = each.value.target_region
 }
 
 resource "ibm_metrics_router_route" "metrics_router_routes" {
   for_each = { for route in var.metric_router_routes : route.route_name => route }
-    name = each.key
-    dynamic "rules" {
-      for_each = each.value.rules
-      content {
-        action = rules.value.action
-        dynamic "targets" {
-          for_each = rules.value.targets
-          content {
-            id = targets.value.id
-          }
+  name     = each.key
+  dynamic "rules" {
+    for_each = each.value.rules
+    content {
+      action = rules.value.action
+      dynamic "targets" {
+        for_each = rules.value.targets
+        content {
+          id = targets.value.id
         }
-        dynamic "inclusion_filters" {
-          for_each = rules.value.inclusion_filters
-          content {
-            operand = inclusion_filters.value.operand
-            operator = inclusion_filters.value.operator
-            values = inclusion_filters.value.values
-          }
+      }
+      dynamic "inclusion_filters" {
+        for_each = rules.value.inclusion_filters
+        content {
+          operand  = inclusion_filters.value.operand
+          operator = inclusion_filters.value.operator
+          values   = inclusion_filters.value.values
         }
       }
     }
+  }
 }
 
 ########################################################################
