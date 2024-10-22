@@ -14,9 +14,9 @@ variable "metric_router_routes" {
     name = string
     rules = list(object({
       action = string
-      targets = list(object({
-        id = string
-      }))
+      targets = optional(list(object({
+        id = optional(string)
+      })), [])
       inclusion_filters = list(object({
         operand  = string
         operator = string
@@ -35,14 +35,14 @@ variable "metric_router_routes" {
 
 variable "metric_router_settings" {
   type = object({
-    default_targets = list(object({
-      id = string
-    }))
     permitted_target_regions  = list(string)
     primary_metadata_region   = string
     backup_metadata_region    = string
     private_api_endpoint_only = bool
+    default_targets            = optional(list(object({
+      id = string
+    })), [])
   })
-  description = "Global settings for event routing"
+  description = "Global settings for metrics routing"
   default     = null
 }

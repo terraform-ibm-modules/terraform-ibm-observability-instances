@@ -7,9 +7,9 @@ resource "ibm_iam_authorization_policy" "metrics_router_cloud_monitoring" {
   for_each                    = { for target in var.metrics_router_targets : target.target_name => target if !target.skip_mrouter_sysdig_iam_auth_policy }
   source_service_name         = "metrics-router"
   target_service_name         = "sysdig-monitor"
-  target_resource_instance_id = regex(".*:(.*)::", each.value.instance_id)[0]
+  target_resource_instance_id = regex(".*:(.*)::", each.value.destination_crn)[0]
   roles                       = ["Supertenant Metrics Publisher"]
-  description                 = "Permit metrics routing service Supertenant Metrics Publisher access to Cloud Monitoring instance ${each.value.instance_id}"
+  description                 = "Permit metrics routing service Supertenant Metrics Publisher access to Cloud Monitoring instance ${each.value.destination_crn}"
 }
 
 resource "ibm_metrics_router_target" "metrics_router_targets" {
@@ -20,14 +20,14 @@ resource "ibm_metrics_router_target" "metrics_router_targets" {
 }
 
 resource "ibm_metrics_router_route" "metrics_router_routes" {
-  for_each = { for route in var.metric_router_routes : route.route_name => route }
+  for_each = { for route in var.metric_router_routes : route.name => route }
   name     = each.key
   dynamic "rules" {
     for_each = each.value.rules
     content {
       action = rules.value.action
       dynamic "targets" {
-        for_each = rules.value.targets
+        for_each = length(rules.value.targets) > 0 ? rules.value.targets : []
         content {
           id = targets.value.id
         }
@@ -49,6 +49,7 @@ resource "ibm_metrics_router_route" "metrics_router_routes" {
 #########################################################################
 
 resource "ibm_metrics_router_settings" "metrics_router_settings" {
+  count     = length(var.metric_router_settings == null ? [] : [1])
   dynamic "default_targets" {
     for_each = var.metric_router_settings.default_targets
     content {

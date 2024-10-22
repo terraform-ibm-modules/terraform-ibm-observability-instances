@@ -165,9 +165,6 @@ locals {
     module.observability_instances.activity_tracker_targets[local.es_target_name].id,
     module.observability_instances.activity_tracker_targets[local.icl_target_name].id
   ]
-  metric_routing_target_ids = [
-    module.observability_instances.metric_router_targets[local.mr_target_name].id
-  ]
 }
 
 module "observability_instances" {
@@ -264,26 +261,32 @@ module "observability_instances" {
     }
   ]
 
-  metric_router_routes = [
-    {
-      name   = "metric-routing-route"
-      action = "send"
-      rules = {
-        target_ids = module.observability_instances.metric_router_targets[local.mr_target_name].id
-      }
-      inclusion_filters = {
-        operand  = "location"
-        operator = "is"
-        values   = ["us-south"]
-      }
-    }
-  ]
+  # metric_router_routes = [
+  #   {
+  #     name   = "metric-routing-route"
+  #     rules = [
+  #       {
+  #         action = "send"
+  #         targets = [{
+  #           id = module.observability_instances.metrics_router_targets[local.mr_target_name].id
+  #         }]
+  #         inclusion_filters = {
+  #           operand  = "location"
+  #           operator = "is"
+  #           values   = ["us-south"]
+  #         }
+  #       }
+  #     ]
+  #   }
+  # ]
 
   metric_router_settings = {
-    default_targets           = local.metric_routing_target_ids
-    permitted_target_regions  = ["us-south"]
-    primary_metadata_region   = ["us-south"]
-    backup_metadata_region    = ["us-east"]
+    default_targets = [{
+      id = module.observability_instances.metrics_router_targets[local.mr_target_name].id
+    }]
+    permitted_target_regions  = ["us-south", "eu-de", "us-east", "eu-es", "eu-gb", "au-syd", "br-sao", "ca-tor", "jp-tok", "jp-osa"]
+    primary_metadata_region   = "us-south"
+    backup_metadata_region    = "us-east"
     private_api_endpoint_only = false
   }
 }
