@@ -34,11 +34,11 @@ resource "ibm_resource_tag" "cloud_logs_tag" {
 ##############################################################################
 
 # If logs or metrics data is enabled, parse details from it
-module "cos_crn_parser" {
-  count   = (var.data_storage.logs_data.enabled || var.data_storage.metrics_data.enabled) ? 1 : 0
+module "cos_bucket_crn_parser" {
+  for_each = { for index, bucket in var.data_storage : index => bucket if bucket.enabled && !bucket.skip_cos_auth_policy }
   source  = "terraform-ibm-modules/common-utilities/ibm//modules/crn-parser"
   version = "1.1.0"
-  crn     = var.data_storage.logs_data.enabled ? var.data_storage.logs_data.bucket_crn : (var.data_storage.metrics_data.enabled ? var.data_storage.metrics_data.bucket_crn : null)
+  crn     = each.value.bucket_crn
 }
 
 resource "ibm_iam_authorization_policy" "cos_policy" {
@@ -57,7 +57,7 @@ resource "ibm_iam_authorization_policy" "cos_policy" {
   resource_attributes {
     name     = "accountId"
     operator = "stringEquals"
-    value    = module.cos_crn_parser[0].account_id
+    value    = module.cos_bucket_crn_parser[each.key].account_id
   }
 
   resource_attributes {
