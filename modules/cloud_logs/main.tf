@@ -1,5 +1,5 @@
 locals {
-  instance_name = var.instance_name != null ? var.instance_name : "cloud-logs-${var.region}"
+  instance_name = var.instance_name != null ? var.instance_name : "sm-cloud-logs-${var.region}"
 }
 
 
@@ -168,6 +168,54 @@ resource "ibm_logs_router_tenant" "logs_router_tenant_instances" {
     parameters {
       host = ibm_resource_instance.cloud_logs.extensions.external_ingress
       port = 443
+    }
+  }
+}
+
+##############################################################################
+# Configure Logs Policies
+##############################################################################
+
+locals {
+  logs_policy_name = var.logs_policy_name != null ? var.logs_policy_name : "cloud-logs-${var.region}-policy"
+}
+
+resource "ibm_logs_policy" "logs_policy_instance" {
+  count         = var.create_ibm_logs_policy ? 1 : 0
+  instance_id   = ibm_resource_instance.cloud_logs.guid
+  region        = ibm_resource_instance.cloud_logs.location
+  endpoint_type = ibm_resource_instance.cloud_logs.service_endpoints
+  name          = local.logs_policy_name
+  description   = var.logs_policy_description
+  priority      = var.logs_policy_priority
+
+  dynamic "archive_retention" {
+    for_each = var.archive_retention
+    content {
+      id = archive_retention.value["id"]
+    }
+  }
+
+  dynamic "application_rule" {
+    for_each = var.application_rules
+    content {
+      name         = application_rule.value["name"]
+      rule_type_id = application_rule.value["rule_type_id"]
+    }
+  }
+
+  dynamic "log_rules" {
+    for_each = var.log_rules
+    content {
+      severities = log_rules.value["severities"]
+    }
+  }
+
+  dynamic "subsystem_rule" {
+    for_each = var.subsystem_rules
+    content {
+      name         = subsystem_rule.value["name"]
+      rule_type_id = subsystem_rule.value["rule_type_id"]
     }
   }
 }

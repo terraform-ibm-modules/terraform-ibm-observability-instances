@@ -51,4 +51,12 @@ module "cloud_logs" {
   skip_logs_routing_auth_policy = var.skip_logs_routing_auth_policy
   logs_routing_tenant_regions   = var.logs_routing_tenant_regions
   enable_platform_logs          = var.enable_platform_logs
+  create_ibm_logs_policy        = var.create_ibm_logs_policy
+  logs_policy_name              = var.logs_policy_name
+  logs_policy_description       = var.logs_policy_description
+  logs_policy_priority          = var.logs_policy_priority
+  application_rules             = var.application_rules
+  log_rules                     = var.log_rules
+  subsystem_rules               = var.subsystem_rules
+  archive_retention             = var.archive_retention
 }
