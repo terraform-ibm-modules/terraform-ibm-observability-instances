@@ -29,16 +29,16 @@ output "ingress_private_endpoint" {
 }
 
 output "logs_policy_id" {
-  value       = ibm_logs_policy.logs_policy_instance[0].policy_id
+  value       = var.create_ibm_logs_policy ? ibm_logs_policy.logs_policy_instance[0].policy_id : null
   description = "The id of the Cloud logs policy created."
 }
 
 output "logs_policy_status" {
-  value       = ibm_logs_policy.logs_policy_instance[0].enabled
+  value       = var.create_ibm_logs_policy ? ibm_logs_policy.logs_policy_instance[0].enabled : null
   description = "The status of the Cloud logs policy created."
 }
 
 output "logs_policy_order" {
-  value       = ibm_logs_policy.logs_policy_instance[0].order
+  value       = var.create_ibm_logs_policy ? ibm_logs_policy.logs_policy_instance[0].order : null
   description = "The order of the policy created in relation to the other policies."
 }

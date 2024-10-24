@@ -178,6 +178,7 @@ resource "ibm_logs_router_tenant" "logs_router_tenant_instances" {
 
 locals {
   logs_policy_name = var.logs_policy_name != null ? var.logs_policy_name : "cloud-logs-${var.region}-policy"
+  # validate_logs_policy_input = var.create_ibm_logs_policy ? (var.log_rules == [] ? tobool("logRules.severities must contain at least 1 items") : true) : true
 }
 
 resource "ibm_logs_policy" "logs_policy_instance" {
