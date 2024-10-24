@@ -88,3 +88,22 @@ output "cloud_logs_ingress_private_endpoint" {
   value       = length(module.cloud_logs) > 0 ? module.cloud_logs[0].ingress_private_endpoint : null
   description = "The private ingress endpoint of the provisioned Cloud Logs instance."
 }
+
+########################################################################
+# Metrics Routing
+#########################################################################
+
+output "metrics_router_targets" {
+  value       = module.metric_routing.metric_router_targets
+  description = "The created metrics routing targets."
+}
+
+output "metrics_router_settings" {
+  value       = module.metric_routing.metric_router_settings
+  description = "The global metrics routing settings."
+}
+
+output "metrics_router_routes" {
+  value       = module.metric_routing.metric_router_routes
+  description = "The created metrics routing routes."
+}

@@ -68,7 +68,7 @@ func TestRunAdvanceExampleInSchematics(t *testing.T) {
 			"modules/activity_tracker/*.tf",
 			"modules/cloud_logs/*.tf",
 			"modules/cloud_monitoring/*.tf",
-			"modules/log_analysis/*.tf",
+			"modules/metrics_routing/*.tf",
 		},
 		ResourceGroup:          resourceGroup,
 		TemplateFolder:         advanceExampleTerraformDir,
