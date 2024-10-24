@@ -135,7 +135,7 @@ variable "existing_en_instances" {
 variable "enable_platform_logs" {
   type        = bool
   description = "Setting this to true will create a tenant in the same region that the Cloud Logs instance is provisioned to enable platform logs for that region. To send platform logs from other regions, you can explicitially specify a list of regions using the `logs_routing_tenant_regions` input. NOTE: You can only have 1 tenant per region in an account."
-  default     = true
+  default     = false #true
 }
 
 variable "logs_routing_tenant_regions" {
@@ -149,4 +149,76 @@ variable "skip_logs_routing_auth_policy" {
   description = "Whether to create an IAM authorization policy that permits the Logs Routing server 'Sender' access to the IBM Cloud Logs instance created by this module."
   type        = bool
   default     = false
+}
+
+##############################################################################
+# Logs Policy
+##############################################################################
+
+variable "create_ibm_logs_policy" {
+  type        = bool
+  description = "Set it to true if need to create Cloud Logs policy"
+  default     = true
+}
+
+variable "logs_policy_name" {
+  type        = string
+  description = "The name of the IBM Cloud Logs policy to create. Defaults to 'cloud-logs-<region>-policy'"
+  default     = null
+
+  validation {
+    condition     = var.logs_policy_name != null && length(var.logs_policy_name) <= 4096
+    error_message = "Maximum length of logs_policy_name allowed is 4096 chars."
+  }
+}
+
+variable "logs_policy_description" {
+  type        = string
+  description = "Description of the IBM Cloud Logs policy to create."
+  default     = null
+}
+
+variable "logs_policy_priority" {
+  type        = string
+  description = "Assign priority levels to applications"
+  default     = "type_medium"
+
+  validation {
+    condition     = contains(["type_unspecified", "type_block", "type_low", "type_medium", "type_high"], var.logs_policy_priority)
+    error_message = "The specified priority for logs policy is not a valid selection."
+  }
+}
+
+variable "application_rules" {
+  type = list(object({
+    name         = string
+    rule_type_id = string
+  }))
+  description = "Define rules for matching with application"
+  default     = []
+}
+
+variable "log_rules" {
+  type = list(object({
+    severities = list(any)
+  }))
+  description = "Define logs rules"
+  default     = []
+}
+
+variable "subsystem_rules" {
+  type = list(object({
+    name         = string
+    rule_type_id = string
+  }))
+  description = "Define subsystem rules for matching with application"
+  default     = []
+}
+
+variable "archive_retention" {
+  type = list(object({
+    id = string
+  }))
+  description = "Define archive retention"
+  default     = []
 }
