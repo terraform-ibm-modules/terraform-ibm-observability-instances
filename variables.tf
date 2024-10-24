@@ -111,12 +111,14 @@ variable "at_cos_targets" {
 # Event Streams Targets
 variable "at_eventstreams_targets" {
   type = list(object({
-    instance_id   = string
-    brokers       = list(string)
-    topic         = string
-    api_key       = string # pragma: allowlist secret
-    target_region = optional(string)
-    target_name   = string
+    instance_id                      = string
+    brokers                          = list(string)
+    topic                            = string
+    api_key                          = optional(string)
+    service_to_service_enabled       = optional(bool, true)
+    skip_atracker_es_iam_auth_policy = optional(bool, false)
+    target_region                    = optional(string)
+    target_name                      = string
   }))
   default     = []
   description = "List of event streams target to be created"

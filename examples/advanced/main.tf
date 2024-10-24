@@ -21,7 +21,7 @@ locals {
 
 module "key_protect" {
   source            = "terraform-ibm-modules/kms-all-inclusive/ibm"
-  version           = "4.16.1"
+  version           = "4.16.4"
   resource_group_id = module.resource_group.resource_group_id
   region            = var.region
   resource_tags     = var.resource_tags
@@ -42,11 +42,22 @@ module "key_protect" {
 # Event Notification
 ##############################################################################
 
-module "event_notification" {
+module "event_notification_1" {
   source            = "terraform-ibm-modules/event-notifications/ibm"
-  version           = "1.10.23"
+  version           = "1.13.0"
   resource_group_id = module.resource_group.resource_group_id
-  name              = "${var.prefix}-en"
+  name              = "${var.prefix}-en-1"
+  tags              = var.resource_tags
+  plan              = "standard"
+  service_endpoints = "public"
+  region            = var.region
+}
+
+module "event_notification_2" {
+  source            = "terraform-ibm-modules/event-notifications/ibm"
+  version           = "1.13.0"
+  resource_group_id = module.resource_group.resource_group_id
+  name              = "${var.prefix}-en-2"
   tags              = var.resource_tags
   plan              = "standard"
   service_endpoints = "public"
@@ -82,21 +93,13 @@ module "event_streams" {
   }, ]
 }
 
-# TODO: Remove this resource and create service key when https://github.com/terraform-ibm-modules/terraform-ibm-event-streams/issues/307 is complete
-# Resource key used to add an Event Streams Activity Tracker target
-resource "ibm_resource_key" "es_resource_key" {
-  name                 = "${var.prefix}-eventstreams-service-key"
-  resource_instance_id = module.event_streams.id
-  role                 = "Writer"
-}
-
 ##############################################################################
-# COS instance + bucket (used for logdna + AT archiving + AT target)
+# COS instance + bucket (used for cloud logs and AT target)
 ##############################################################################
 
 module "cos" {
   source            = "terraform-ibm-modules/cos/ibm"
-  version           = "8.11.16"
+  version           = "8.13.2"
   resource_group_id = module.resource_group.resource_group_id
   cos_instance_name = "${var.prefix}-cos"
   cos_tags          = var.resource_tags
@@ -111,7 +114,7 @@ locals {
 
 module "buckets" {
   source  = "terraform-ibm-modules/cos/ibm//modules/buckets"
-  version = "8.11.16"
+  version = "8.13.2"
   bucket_configs = [
     {
       bucket_name                   = local.logs_bucket_name
@@ -197,10 +200,17 @@ module "observability_instances" {
       bucket_endpoint = module.buckets.buckets[local.metrics_bucket_name].s3_endpoint_direct
     }
   }
+  # integrate with multiple Event Notifcations instances
+  # (NOTE: This may fail due known issue https://github.com/IBM-Cloud/terraform-provider-ibm/issues/5734)
   cloud_logs_existing_en_instances = [{
-    en_instance_id      = module.event_notification.guid
+    en_instance_id      = module.event_notification_1.guid
     en_region           = var.region
-    en_integration_name = "${var.prefix}-en"
+    en_integration_name = "${var.prefix}-en-1"
+    },
+    {
+      en_instance_id      = module.event_notification_2.guid
+      en_region           = var.region
+      en_integration_name = "${var.prefix}-en-2"
   }]
 
   # Activity Tracker targets
@@ -224,12 +234,13 @@ module "observability_instances" {
   ]
   at_eventstreams_targets = [
     {
-      api_key       = ibm_resource_key.es_resource_key.credentials.apikey
-      instance_id   = module.event_streams.id
-      brokers       = [module.event_streams.kafka_brokers_sasl[0]]
-      topic         = local.topic_name
-      target_region = var.region
-      target_name   = local.es_target_name
+      instance_id                      = module.event_streams.id
+      brokers                          = [module.event_streams.kafka_brokers_sasl[0]]
+      topic                            = local.topic_name
+      target_region                    = var.region
+      target_name                      = local.es_target_name
+      service_to_service_enabled       = true
+      skip_atracker_es_iam_auth_policy = false
     }
   ]
 
