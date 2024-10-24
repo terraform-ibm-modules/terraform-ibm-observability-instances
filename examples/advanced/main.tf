@@ -21,7 +21,7 @@ locals {
 
 module "key_protect" {
   source            = "terraform-ibm-modules/kms-all-inclusive/ibm"
-  version           = "4.16.3"
+  version           = "4.16.4"
   resource_group_id = module.resource_group.resource_group_id
   region            = var.region
   resource_tags     = var.resource_tags
@@ -42,11 +42,22 @@ module "key_protect" {
 # Event Notification
 ##############################################################################
 
-module "event_notification" {
+module "event_notification_1" {
   source            = "terraform-ibm-modules/event-notifications/ibm"
   version           = "1.13.0"
   resource_group_id = module.resource_group.resource_group_id
-  name              = "${var.prefix}-en"
+  name              = "${var.prefix}-en-1"
+  tags              = var.resource_tags
+  plan              = "standard"
+  service_endpoints = "public"
+  region            = var.region
+}
+
+module "event_notification_2" {
+  source            = "terraform-ibm-modules/event-notifications/ibm"
+  version           = "1.13.0"
+  resource_group_id = module.resource_group.resource_group_id
+  name              = "${var.prefix}-en-2"
   tags              = var.resource_tags
   plan              = "standard"
   service_endpoints = "public"
@@ -88,7 +99,7 @@ module "event_streams" {
 
 module "cos" {
   source            = "terraform-ibm-modules/cos/ibm"
-  version           = "8.13.1"
+  version           = "8.13.2"
   resource_group_id = module.resource_group.resource_group_id
   cos_instance_name = "${var.prefix}-cos"
   cos_tags          = var.resource_tags
@@ -103,7 +114,7 @@ locals {
 
 module "buckets" {
   source  = "terraform-ibm-modules/cos/ibm//modules/buckets"
-  version = "8.13.1"
+  version = "8.13.2"
   bucket_configs = [
     {
       bucket_name                   = local.logs_bucket_name
@@ -188,10 +199,17 @@ module "observability_instances" {
       bucket_endpoint = module.buckets.buckets[local.metrics_bucket_name].s3_endpoint_direct
     }
   }
+  # integrate with multiple Event Notifcations instances
+  # (NOTE: This may fail due known issue https://github.com/IBM-Cloud/terraform-provider-ibm/issues/5734)
   cloud_logs_existing_en_instances = [{
-    en_instance_id      = module.event_notification.guid
+    en_instance_id      = module.event_notification_1.guid
     en_region           = var.region
-    en_integration_name = "${var.prefix}-en"
+    en_integration_name = "${var.prefix}-en-1"
+    },
+    {
+      en_instance_id      = module.event_notification_2.guid
+      en_region           = var.region
+      en_integration_name = "${var.prefix}-en-2"
   }]
 
   # Activity Tracker targets
