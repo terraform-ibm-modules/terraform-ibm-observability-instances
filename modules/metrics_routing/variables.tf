@@ -39,7 +39,7 @@ variable "metric_router_settings" {
     primary_metadata_region   = string
     backup_metadata_region    = string
     private_api_endpoint_only = bool
-    default_targets            = optional(list(object({
+    default_targets = optional(list(object({
       id = string
     })), [])
   })

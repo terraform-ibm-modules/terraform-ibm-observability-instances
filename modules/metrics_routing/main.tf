@@ -49,7 +49,7 @@ resource "ibm_metrics_router_route" "metrics_router_routes" {
 #########################################################################
 
 resource "ibm_metrics_router_settings" "metrics_router_settings" {
-  count     = length(var.metric_router_settings == null ? [] : [1])
+  count = length(var.metric_router_settings == null ? [] : [1])
   dynamic "default_targets" {
     for_each = var.metric_router_settings.default_targets
     content {

@@ -19,6 +19,6 @@ output "metric_router_routes" {
 # Metric Routing Global Settings
 
 output "metric_router_settings" {
-  value = ibm_metrics_router_settings.metrics_router_settings
+  value       = ibm_metrics_router_settings.metrics_router_settings
   description = "The global metrics routing settings."
 }
