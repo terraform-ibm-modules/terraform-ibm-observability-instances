@@ -306,7 +306,7 @@ variable "metric_router_routes" {
     }))
   }))
   default     = []
-  description = "List of routes for IBM metrics router"
+  description = "List of routes for IBM Metrics Router."
 }
 
 variable "metric_router_settings" {
@@ -319,6 +319,6 @@ variable "metric_router_settings" {
     backup_metadata_region    = string
     private_api_endpoint_only = bool
   })
-  description = "Global settings for event routing"
+  description = "Global settings for Metrics Routing."
   default     = null
 }

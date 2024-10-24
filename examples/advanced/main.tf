@@ -272,24 +272,24 @@ module "observability_instances" {
     }
   ]
 
-  # metric_router_routes = [
-  #   {
-  #     name   = "metric-routing-route"
-  #     rules = [
-  #       {
-  #         action = "send"
-  #         targets = [{
-  #           id = module.observability_instances.metrics_router_targets[local.mr_target_name].id
-  #         }]
-  #         inclusion_filters = {
-  #           operand  = "location"
-  #           operator = "is"
-  #           values   = ["us-south"]
-  #         }
-  #       }
-  #     ]
-  #   }
-  # ]
+  metric_router_routes = [
+    {
+      name = "${var.prefix}-metric-routing-route"
+      rules = [
+        {
+          action = "send"
+          targets = [{
+            id = module.observability_instances.metrics_router_targets[local.mr_target_name].id
+          }]
+          inclusion_filters = [{
+            operand  = "location"
+            operator = "is"
+            values   = ["us-south"]
+          }]
+        }
+      ]
+    }
+  ]
 
   metric_router_settings = {
     default_targets = [{

@@ -25,7 +25,7 @@ variable "metric_router_routes" {
     }))
   }))
   default     = []
-  description = "List of routes for IBM metrics router"
+  description = "List of routes for IBM Metrics Router"
 
   validation {
     condition     = length(var.metric_router_routes) <= 4
@@ -43,6 +43,6 @@ variable "metric_router_settings" {
       id = string
     })), [])
   })
-  description = "Global settings for metrics routing"
+  description = "Global settings for Metrics Routing"
   default     = null
 }
