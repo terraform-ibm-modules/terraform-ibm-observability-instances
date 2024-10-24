@@ -5,3 +5,4 @@ Example that configures:
 - Monitoring instance
 - Activity Tracker target for the Cloud Logs instance
 - Activity Tracker route to the Cloud Logs target
+- Cloud Logs Policy
