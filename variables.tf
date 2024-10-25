@@ -21,7 +21,7 @@ variable "resource_group_id" {
 variable "cloud_monitoring_provision" {
   description = "Provision a IBM cloud monitoring instance?"
   type        = bool
-  default     = false #true
+  default     = true
 }
 
 variable "cloud_monitoring_instance_name" {

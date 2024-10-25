@@ -1,5 +1,5 @@
 locals {
-  instance_name = var.instance_name != null ? var.instance_name : "sm-cloud-logs-${var.region}"
+  instance_name = var.instance_name != null ? var.instance_name : "cloud-logs-${var.region}"
 }
 
 
@@ -178,10 +178,11 @@ resource "ibm_logs_router_tenant" "logs_router_tenant_instances" {
 
 locals {
   logs_policy_name = var.logs_policy_name != null ? var.logs_policy_name : "cloud-logs-${var.region}-policy"
-  # validate_logs_policy_input = var.create_ibm_logs_policy ? (var.log_rules == [] ? tobool("logRules.severities must contain at least 1 items") : true) : true
+  # tflint-ignore: terraform_unused_declarations
+  validate_logs_policy_input = var.create_ibm_logs_policy ? (length(var.log_rules) == 0 ? tobool("log_rules must contain at least 1 item") : true) : true
 }
 
-resource "ibm_logs_policy" "logs_policy_instance" {
+resource "ibm_logs_policy" "logs_policy" {
   count         = var.create_ibm_logs_policy ? 1 : 0
   instance_id   = ibm_resource_instance.cloud_logs.guid
   region        = ibm_resource_instance.cloud_logs.location

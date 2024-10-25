@@ -59,8 +59,9 @@ module "buckets" {
 ##############################################################################
 
 locals {
-  target_name      = "${var.prefix}-icl-target"
-  logs_policy_name = "${var.prefix}-logs-policy"
+  target_name              = "${var.prefix}-icl-target"
+  cloud_logs_instance_name = "${var.prefix}-cloud-logs"
+  logs_policy_name         = "${var.prefix}-logs-policy-1"
 }
 
 module "observability_instances" {
@@ -73,9 +74,11 @@ module "observability_instances" {
   enable_platform_logs         = false
   enable_platform_metrics      = false
   cloud_monitoring_tags        = var.resource_tags
-  cloud_logs_tags              = var.resource_tags
   cloud_monitoring_access_tags = var.access_tags
-  cloud_logs_access_tags       = var.access_tags
+  # Cloud Logs instance
+  cloud_logs_instance_name = local.cloud_logs_instance_name
+  cloud_logs_tags          = var.resource_tags
+  cloud_logs_access_tags   = var.access_tags
   cloud_logs_data_storage = {
     # logs and metrics buckets must be different
     logs_data = {
@@ -103,18 +106,19 @@ module "observability_instances" {
       route_name = "${var.prefix}-icl-route"
     }
   ]
+  # Cloud Logs policy
   create_ibm_logs_policy = true
   logs_policy_name       = local.logs_policy_name
-  logs_policy_priority   = "type_medium"
-  # application_rules = [{
-  #   name         = "otel-links-test"
-  #   rule_type_id = "start_with"
-  # }]
+  logs_policy_priority   = "type_unspecified"
+  application_rules = [{
+    name         = "test-system-app"
+    rule_type_id = "start_with"
+  }]
   log_rules = [{
     severities = ["info"]
   }]
-  # subsystem_rules = [{
-  #   name         = "otel-links-test"
-  #   rule_type_id = "start_with"
-  # }]
+  subsystem_rules = [{
+    name         = "test-sub-system"
+    rule_type_id = "start_with"
+  }]
 }

@@ -46,6 +46,21 @@ module "cloud_logs" {
       bucket_endpoint = "s3.direct.us-south.cloud-object-storage.appdomain.cloud"
     }
   }
+  # Create log policy
+  create_ibm_logs_policy = true
+  logs_policy_name       = local.logs_policy_name
+  logs_policy_priority   = "type_medium"
+  application_rules = [{
+    name         = "test-system-app"
+    rule_type_id = "start_with"
+  }]
+  log_rules = [{
+    severities = ["info"]
+  }]
+  subsystem_rules = [{
+    name         = "test-sub-system"
+    rule_type_id = "start_with"
+  }]
 }
 ```
 
@@ -87,7 +102,7 @@ No modules.
 | [ibm_iam_authorization_policy.en_policy](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/iam_authorization_policy) | resource |
 | [ibm_iam_authorization_policy.logs_routing_policy](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/iam_authorization_policy) | resource |
 | [ibm_logs_outgoing_webhook.en_integration](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/logs_outgoing_webhook) | resource |
-| [ibm_logs_policy.logs_policy_instance](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/logs_policy) | resource |
+| [ibm_logs_policy.logs_policy](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/logs_policy) | resource |
 | [ibm_logs_router_tenant.logs_router_tenant_instances](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/logs_router_tenant) | resource |
 | [ibm_resource_instance.cloud_logs](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/resource_instance) | resource |
 | [ibm_resource_tag.cloud_logs_tag](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/resource_tag) | resource |
@@ -101,26 +116,26 @@ No modules.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_access_tags"></a> [access\_tags](#input\_access\_tags) | A list of access tags to apply to the IBM Cloud Logs instance created by the module. For more information, see https://cloud.ibm.com/docs/account?topic=account-access-tags-tutorial. | `list(string)` | `[]` | no |
-| <a name="input_application_rules"></a> [application\_rules](#input\_application\_rules) | Define rules for matching with application | <pre>list(object({<br/>    name         = string<br/>    rule_type_id = string<br/>  }))</pre> | `[]` | no |
-| <a name="input_archive_retention"></a> [archive\_retention](#input\_archive\_retention) | Define archive retention | <pre>list(object({<br/>    id = string<br/>  }))</pre> | `[]` | no |
-| <a name="input_create_ibm_logs_policy"></a> [create\_ibm\_logs\_policy](#input\_create\_ibm\_logs\_policy) | Set it to true if need to create Cloud Logs policy | `bool` | `true` | no |
+| <a name="input_application_rules"></a> [application\_rules](#input\_application\_rules) | Define rules for matching applications to include in the policy configuration. | <pre>list(object({<br/>    name         = string<br/>    rule_type_id = string<br/>  }))</pre> | `[]` | no |
+| <a name="input_archive_retention"></a> [archive\_retention](#input\_archive\_retention) | Define archive retention. | <pre>list(object({<br/>    id = string<br/>  }))</pre> | `[]` | no |
+| <a name="input_create_ibm_logs_policy"></a> [create\_ibm\_logs\_policy](#input\_create\_ibm\_logs\_policy) | Set it to true if need to create Cloud Logs policy. | `bool` | `true` | no |
 | <a name="input_data_storage"></a> [data\_storage](#input\_data\_storage) | A logs data bucket and a metrics bucket in IBM Cloud Object Storage to store your IBM Cloud Logs data for long term storage, search, analysis and alerting. | <pre>object({<br/>    logs_data = optional(object({<br/>      enabled              = optional(bool, false)<br/>      bucket_crn           = optional(string)<br/>      bucket_endpoint      = optional(string)<br/>      skip_cos_auth_policy = optional(bool, false)<br/>    }), {})<br/>    metrics_data = optional(object({<br/>      enabled              = optional(bool, false)<br/>      bucket_crn           = optional(string)<br/>      bucket_endpoint      = optional(string)<br/>      skip_cos_auth_policy = optional(bool, false)<br/>    }), {})<br/>    }<br/>  )</pre> | <pre>{<br/>  "logs_data": null,<br/>  "metrics_data": null<br/>}</pre> | no |
-| <a name="input_enable_platform_logs"></a> [enable\_platform\_logs](#input\_enable\_platform\_logs) | Setting this to true will create a tenant in the same region that the Cloud Logs instance is provisioned to enable platform logs for that region. To send platform logs from other regions, you can explicitially specify a list of regions using the `logs_routing_tenant_regions` input. NOTE: You can only have 1 tenant per region in an account. | `bool` | `false` | no |
-| <a name="input_existing_en_instances"></a> [existing\_en\_instances](#input\_existing\_en\_instances) | List of Event Notifications instance details for routing critical events that occur in your IBM Cloud Logs | <pre>list(object({<br/>    en_instance_id      = string<br/>    en_region           = string<br/>    en_integration_name = optional(string)<br/>    skip_en_auth_policy = optional(bool, false)<br/>  }))</pre> | `[]` | no |
+| <a name="input_enable_platform_logs"></a> [enable\_platform\_logs](#input\_enable\_platform\_logs) | Setting this to true will create a tenant in the same region that the Cloud Logs instance is provisioned to enable platform logs for that region. To send platform logs from other regions, you can explicitially specify a list of regions using the `logs_routing_tenant_regions` input. NOTE: You can only have 1 tenant per region in an account. | `bool` | `true` | no |
+| <a name="input_existing_en_instances"></a> [existing\_en\_instances](#input\_existing\_en\_instances) | List of Event Notifications instance details for routing critical events that occur in your IBM Cloud Logs. | <pre>list(object({<br/>    en_instance_id      = string<br/>    en_region           = string<br/>    en_integration_name = optional(string)<br/>    skip_en_auth_policy = optional(bool, false)<br/>  }))</pre> | `[]` | no |
 | <a name="input_instance_name"></a> [instance\_name](#input\_instance\_name) | The name of the IBM Cloud Logs instance to create. Defaults to 'cloud-logs-<region>' | `string` | `null` | no |
-| <a name="input_log_rules"></a> [log\_rules](#input\_log\_rules) | Define logs rules | <pre>list(object({<br/>    severities = list(any)<br/>  }))</pre> | `[]` | no |
+| <a name="input_log_rules"></a> [log\_rules](#input\_log\_rules) | Define the log severities to include in the policy configuration. | <pre>list(object({<br/>    severities = list(any)<br/>  }))</pre> | `[]` | no |
 | <a name="input_logs_policy_description"></a> [logs\_policy\_description](#input\_logs\_policy\_description) | Description of the IBM Cloud Logs policy to create. | `string` | `null` | no |
-| <a name="input_logs_policy_name"></a> [logs\_policy\_name](#input\_logs\_policy\_name) | The name of the IBM Cloud Logs policy to create. Defaults to 'cloud-logs-<region>-policy' | `string` | `null` | no |
-| <a name="input_logs_policy_priority"></a> [logs\_policy\_priority](#input\_logs\_policy\_priority) | Assign priority levels to applications | `string` | `"type_medium"` | no |
+| <a name="input_logs_policy_name"></a> [logs\_policy\_name](#input\_logs\_policy\_name) | The name of the IBM Cloud Logs policy to create. Defaults to 'cloud-logs-<region>-policy'. | `string` | `null` | no |
+| <a name="input_logs_policy_priority"></a> [logs\_policy\_priority](#input\_logs\_policy\_priority) | Select priority to determine the pipeline fro the logs. High (priority value) sent to 'Priority insights' (TCO pipleine), Medium to 'Analyze and alert', Low to 'Store and search', Blocked are not sent to any pipeline. | `string` | `"type_medium"` | no |
 | <a name="input_logs_routing_tenant_regions"></a> [logs\_routing\_tenant\_regions](#input\_logs\_routing\_tenant\_regions) | Pass a list of regions to create a tenant for that is targetted to the Cloud Logs instance created by this module. To manage platform logs that are generated by IBM Cloud® services in a region of IBM Cloud, you must create a tenant in each region that you operate. Leave the list empty if you don't want to create any tenants. NOTE: You can only have 1 tenant per region in an account. | `list(any)` | `[]` | no |
 | <a name="input_plan"></a> [plan](#input\_plan) | The IBM Cloud Logs plan to provision. Available: standard | `string` | `"standard"` | no |
 | <a name="input_region"></a> [region](#input\_region) | The IBM Cloud region where Cloud logs instance will be created. | `string` | `"us-south"` | no |
 | <a name="input_resource_group_id"></a> [resource\_group\_id](#input\_resource\_group\_id) | The id of the IBM Cloud resource group where the instance will be created. | `string` | `null` | no |
 | <a name="input_resource_tags"></a> [resource\_tags](#input\_resource\_tags) | Tags associated with the IBM Cloud Logs instance (Optional, array of strings). | `list(string)` | `[]` | no |
 | <a name="input_retention_period"></a> [retention\_period](#input\_retention\_period) | The number of days IBM Cloud Logs will retain the logs data in Priority insights. Allowed values: 7, 14, 30, 60, 90. | `number` | `7` | no |
-| <a name="input_service_endpoints"></a> [service\_endpoints](#input\_service\_endpoints) | The type of the service endpoint that will be set for the IBM Cloud Logs instance. Allowed values: public-and-private | `string` | `"public-and-private"` | no |
+| <a name="input_service_endpoints"></a> [service\_endpoints](#input\_service\_endpoints) | The type of the service endpoint that will be set for the IBM Cloud Logs instance. Allowed values: public-and-private. | `string` | `"public-and-private"` | no |
 | <a name="input_skip_logs_routing_auth_policy"></a> [skip\_logs\_routing\_auth\_policy](#input\_skip\_logs\_routing\_auth\_policy) | Whether to create an IAM authorization policy that permits the Logs Routing server 'Sender' access to the IBM Cloud Logs instance created by this module. | `bool` | `false` | no |
-| <a name="input_subsystem_rules"></a> [subsystem\_rules](#input\_subsystem\_rules) | Define subsystem rules for matching with application | <pre>list(object({<br/>    name         = string<br/>    rule_type_id = string<br/>  }))</pre> | `[]` | no |
+| <a name="input_subsystem_rules"></a> [subsystem\_rules](#input\_subsystem\_rules) | Define subsystem rules for matching applications to include in the policy configuration. | <pre>list(object({<br/>    name         = string<br/>    rule_type_id = string<br/>  }))</pre> | `[]` | no |
 
 ### Outputs
 
