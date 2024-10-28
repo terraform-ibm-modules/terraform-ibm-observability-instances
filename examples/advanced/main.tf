@@ -186,7 +186,6 @@ module "observability_instances" {
   enable_platform_logs   = false
   cloud_logs_tags        = var.resource_tags
   cloud_logs_access_tags = var.access_tags
-  create_ibm_logs_policy = false
   cloud_logs_data_storage = {
     # logs and metrics buckets must be different
     logs_data = {

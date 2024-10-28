@@ -28,17 +28,7 @@ output "ingress_private_endpoint" {
   description = "The private ingress endpoint of the provisioned Cloud Logs instance."
 }
 
-output "logs_policy_id" {
-  value       = var.create_ibm_logs_policy ? ibm_logs_policy.logs_policy[0].policy_id : null
-  description = "The id of the Cloud logs policy created."
-}
-
-output "logs_policy_status" {
-  value       = var.create_ibm_logs_policy ? ibm_logs_policy.logs_policy[0].enabled : null
-  description = "The status of the Cloud logs policy created."
-}
-
-output "logs_policy_order" {
-  value       = var.create_ibm_logs_policy ? ibm_logs_policy.logs_policy[0].order : null
-  description = "The order of the policy created in relation to the other policies."
+output "logs_policies_details" {
+  value       = length(var.logs_policies_config) > 0 ? ibm_logs_policy.logs_policies : null
+  description = "The details of the Cloud logs policies created."
 }

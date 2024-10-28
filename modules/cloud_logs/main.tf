@@ -181,30 +181,20 @@ resource "ibm_logs_router_tenant" "logs_router_tenant_instances" {
 # Configure Logs Policies
 ##############################################################################
 
-locals {
-  logs_policy_name = var.logs_policy_name != null ? var.logs_policy_name : "cloud-logs-${var.region}-policy"
-  # tflint-ignore: terraform_unused_declarations
-  validate_logs_policy_input = var.create_ibm_logs_policy ? (length(var.log_rules) == 0 ? tobool("log_rules must contain at least 1 item") : true) : true
-}
-
-resource "ibm_logs_policy" "logs_policy" {
-  count         = var.create_ibm_logs_policy ? 1 : 0
+resource "ibm_logs_policy" "logs_policies" {
+  for_each = {
+    for policy in var.logs_policies_config :
+    policy.logs_policy_name => policy
+  }
   instance_id   = ibm_resource_instance.cloud_logs.guid
   region        = ibm_resource_instance.cloud_logs.location
   endpoint_type = ibm_resource_instance.cloud_logs.service_endpoints
-  name          = local.logs_policy_name
-  description   = var.logs_policy_description
-  priority      = var.logs_policy_priority
-
-  dynamic "archive_retention" {
-    for_each = var.archive_retention
-    content {
-      id = archive_retention.value["id"]
-    }
-  }
+  name          = each.value.logs_policy_name #local.logs_policy_name
+  description   = each.value.logs_policy_description
+  priority      = each.value.logs_policy_priority
 
   dynamic "application_rule" {
-    for_each = var.application_rules
+    for_each = each.value.application_rule != null ? each.value.application_rule : []
     content {
       name         = application_rule.value["name"]
       rule_type_id = application_rule.value["rule_type_id"]
@@ -212,17 +202,24 @@ resource "ibm_logs_policy" "logs_policy" {
   }
 
   dynamic "log_rules" {
-    for_each = var.log_rules
+    for_each = each.value.log_rules
     content {
       severities = log_rules.value["severities"]
     }
   }
 
   dynamic "subsystem_rule" {
-    for_each = var.subsystem_rules
+    for_each = each.value.subsystem_rule != null ? each.value.subsystem_rule : []
     content {
       name         = subsystem_rule.value["name"]
       rule_type_id = subsystem_rule.value["rule_type_id"]
+    }
+  }
+
+  dynamic "archive_retention" {
+    for_each = each.value.archive_retention != null ? each.value.archive_retention : []
+    content {
+      id = archive_retention.value["id"]
     }
   }
 }

@@ -17,17 +17,7 @@ output "cloud_logs_guid" {
   description = "The name of the provisioned Cloud Logs instance."
 }
 
-output "logs_policy_id" {
-  value       = module.observability_instances.logs_policy_id
-  description = "The id of the Cloud logs policy created."
-}
-
-output "logs_policy_status" {
-  value       = module.observability_instances.logs_policy_status
-  description = "The status of the Cloud logs policy created."
-}
-
-output "logs_policy_order" {
-  value       = module.observability_instances.logs_policy_order
-  description = "The order of the policy created in relation to the other policies."
+output "logs_policies_details" {
+  value       = module.observability_instances.logs_policies_details
+  description = "The details of the Cloud logs policies created."
 }

@@ -279,72 +279,27 @@ variable "logs_routing_tenant_regions" {
 # Cloud Logs Policies - TCO Optimizer
 #########################################################################
 
-variable "create_ibm_logs_policy" {
-  type        = bool
-  description = "Set it to true if need to create Cloud Logs policy"
-  default     = true
-}
-
-variable "logs_policy_name" {
-  type        = string
-  description = "The name of the IBM Cloud Logs policy to create. Defaults to 'cloud-logs-<region>-policy'"
-  default     = "logs-policy"
-
-  validation {
-    condition     = length(var.logs_policy_name) <= 4096
-    error_message = "Maximum length of logs_policy_name allowed is 4096 chars."
-  }
-}
-
-variable "logs_policy_description" {
-  type        = string
-  description = "Description of the IBM Cloud Logs policy to create."
-  default     = null
-}
-
-variable "logs_policy_priority" {
-  type        = string
-  description = "Assign priority levels to applications"
-  default     = "type_medium"
-
-  validation {
-    condition     = contains(["type_unspecified", "type_block", "type_low", "type_medium", "type_high"], var.logs_policy_priority)
-    error_message = "The specified priority for logs policy is not a valid selection."
-  }
-}
-
-variable "application_rules" {
+variable "logs_policies_config" {
   type = list(object({
-    name         = string
-    rule_type_id = string
+    logs_policy_name        = string
+    logs_policy_description = optional(string, null)
+    logs_policy_priority    = string
+    application_rule = optional(list(object({
+      name         = string
+      rule_type_id = optional(string, "unspecified")
+    })))
+    subsystem_rule = optional(list(object({
+      name         = string
+      rule_type_id = optional(string, "unspecified")
+    })))
+    log_rules = optional(list(object({
+      severities = list(string)
+    })))
+    archive_retention = optional(list(object({
+      id = string
+    })))
   }))
-  description = "Define rules for matching with application"
+  description = "Configuration of Cloud Logs policies."
   default     = []
 }
-
-variable "log_rules" {
-  type = list(object({
-    severities = list(any)
-  }))
-  description = "Define logs rules"
-  default     = []
-}
-
-variable "subsystem_rules" {
-  type = list(object({
-    name         = string
-    rule_type_id = string
-  }))
-  description = "Define subsystem rules for matching with application"
-  default     = []
-}
-
-variable "archive_retention" {
-  type = list(object({
-    id = string
-  }))
-  description = "Define archive retention"
-  default     = []
-}
-
 ##############################################################################

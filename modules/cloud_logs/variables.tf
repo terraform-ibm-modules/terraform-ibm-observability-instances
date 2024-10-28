@@ -155,100 +155,130 @@ variable "skip_logs_routing_auth_policy" {
 # Logs Policy
 ##############################################################################
 
-variable "create_ibm_logs_policy" {
-  type        = bool
-  description = "Set it to true if need to create Cloud Logs policy."
-  default     = true
-}
-
-variable "logs_policy_name" {
-  type        = string
-  description = "The name of the IBM Cloud Logs policy to create. Defaults to 'cloud-logs-<region>-policy'."
-  default     = null
-
-  validation {
-    condition     = length(var.logs_policy_name) <= 4096
-    error_message = "Maximum length of logs_policy_name allowed is 4096 chars."
-  }
-}
-
-variable "logs_policy_description" {
-  type        = string
-  description = "Description of the IBM Cloud Logs policy to create."
-  default     = null
-}
-
-variable "logs_policy_priority" {
-  type        = string
-  description = "Select priority to determine the pipeline fro the logs. High (priority value) sent to 'Priority insights' (TCO pipleine), Medium to 'Analyze and alert', Low to 'Store and search', Blocked are not sent to any pipeline."
-  default     = "type_medium"
+variable "logs_policies_config" {
+  type = list(object({
+    logs_policy_name        = string
+    logs_policy_description = optional(string, null)
+    logs_policy_priority    = string
+    application_rule = optional(list(object({
+      name         = string
+      rule_type_id = optional(string, "unspecified")
+    })))
+    subsystem_rule = optional(list(object({
+      name         = optional(string, null)
+      rule_type_id = optional(string, "unspecified")
+    })))
+    log_rules = optional(list(object({
+      severities = list(string)
+    })))
+    archive_retention = optional(list(object({
+      id = optional(string, null)
+    })))
+  }))
+  description = "Configuration of Cloud Logs policies."
+  default     = []
 
   validation {
-    condition     = contains(["type_unspecified", "type_block", "type_low", "type_medium", "type_high"], var.logs_policy_priority)
+    condition     = alltrue([for config in var.logs_policies_config : contains(["type_unspecified", "type_block", "type_low", "type_medium", "type_high"], config.logs_policy_priority)])
     error_message = "The specified priority for logs policy is not a valid selection."
   }
+
+  # ([for rule in var.log_rules : alltrue([for severity in rule["severities"] : contains(["unspecified", "debug", "verbose", "info", "warning", "error", "critical"], severity)])])
+
+  #   validation {
+  #     condition     = alltrue([for config in var.logs_policies_config : alltrue([for rule in config["application_rule"] : contains(["unspecified", "is", "is_not", "start_with", "includes"], rule.rule_type_id)])])
+  #     error_message = "Identifier of application rule 'rule_type_id' is not a valid selection. Allowed values are: unspecified, is, is_not, start_with, includes."
+  #   }
 }
 
-variable "application_rules" {
-  type = list(object({
-    name         = string
-    rule_type_id = string
-  }))
-  description = "Define rules for matching applications to include in the policy configuration."
-  default     = []
+# variable "logs_policy_name" {
+#   type        = string
+#   description = "The name of the IBM Cloud Logs policy to create. Defaults to 'cloud-logs-<region>-policy'."
+#   default     = null
 
-  validation {
-    condition     = alltrue([for rule in var.application_rules : contains(["unspecified", "is", "is_not", "start_with", "includes"], rule.rule_type_id)])
-    error_message = "Identifier of rule 'rule_type_id' is not a valid selection. Allowed values are: unspecified, is, is_not, start_with, includes."
-  }
+#   validation {
+#     condition     = length(var.logs_policy_name) <= 4096
+#     error_message = "Maximum length of logs_policy_name allowed is 4096 chars."
+#   }
+# }
 
-  validation {
-    condition     = alltrue([for rule in var.application_rules : can(regex("^[\\p{L}\\p{N}\\p{P}\\p{Z}\\p{S}\\p{M}]+$", rule.name)) && length(rule.name) <= 4096 && length(rule.name) > 1])
-    error_message = "application_rule name does not meet the required criteria"
-  }
-}
+# variable "logs_policy_description" {
+#   type        = string
+#   description = "Description of the IBM Cloud Logs policy to create."
+#   default     = null
+# }
 
-variable "log_rules" {
-  type = list(object({
-    severities = list(any)
-  }))
-  description = "Define the log severities to include in the policy configuration."
-  default     = []
+# variable "logs_policy_priority" {
+#   type        = string
+#   description = "Select priority to determine the pipeline fro the logs. High (priority value) sent to 'Priority insights' (TCO pipleine), Medium to 'Analyze and alert', Low to 'Store and search', Blocked are not sent to any pipeline."
+#   default     = "type_medium"
 
-  validation {
-    condition     = alltrue([for rule in var.log_rules : alltrue([for severity in rule["severities"] : contains(["unspecified", "debug", "verbose", "info", "warning", "error", "critical"], severity)])])
-    error_message = "'severities' of log_rules is not a valid selection. Allowed values are: unspecified, debug, verbose, info, warning, error, critical."
-  }
-}
+#   validation {
+#     condition     = contains(["type_unspecified", "type_block", "type_low", "type_medium", "type_high"], var.logs_policy_priority)
+#     error_message = "The specified priority for logs policy is not a valid selection."
+#   }
+# }
 
-variable "subsystem_rules" {
-  type = list(object({
-    name         = string
-    rule_type_id = string
-  }))
-  description = "Define subsystem rules for matching applications to include in the policy configuration."
-  default     = []
+# variable "application_rules" {
+#   type = list(object({
+#     name         = string
+#     rule_type_id = string
+#   }))
+#   description = "Define rules for matching applications to include in the policy configuration."
+#   default     = []
 
-  validation {
-    condition     = alltrue([for rule in var.subsystem_rules : contains(["unspecified", "is", "is_not", "start_with", "includes"], rule.rule_type_id)])
-    error_message = "Identifier of rule ''rule_type_id is not a valid selection. Allowed values are: unspecified, is, is_not, start_with, includes."
-  }
+#   validation {
+#     condition     = alltrue([for rule in var.application_rules : contains(["unspecified", "is", "is_not", "start_with", "includes"], rule.rule_type_id)])
+#     error_message = "Identifier of rule 'rule_type_id' is not a valid selection. Allowed values are: unspecified, is, is_not, start_with, includes."
+#   }
 
-  validation {
-    condition     = alltrue([for rule in var.subsystem_rules : can(regex("^[\\p{L}\\p{N}\\p{P}\\p{Z}\\p{S}\\p{M}]+$", rule.name)) && length(rule.name) <= 4096 && length(rule.name) > 1])
-    error_message = "subsytem_rule name does not meet the required criteria."
-  }
-}
+#   validation {
+#     condition     = alltrue([for rule in var.application_rules : can(regex("^[\\p{L}\\p{N}\\p{P}\\p{Z}\\p{S}\\p{M}]+$", rule.name)) && length(rule.name) <= 4096 && length(rule.name) > 1])
+#     error_message = "application_rule name does not meet the required criteria"
+#   }
+# }
 
-variable "archive_retention" {
-  type = list(object({
-    id = string
-  }))
-  description = "Define archive retention."
-  default     = []
+# variable "log_rules" {
+#   type = list(object({
+#     severities = list(any)
+#   }))
+#   description = "Define the log severities to include in the policy configuration."
+#   default     = []
 
-  validation {
-    condition     = alltrue([for rule in var.archive_retention : can(regex("^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$", rule.id))])
-    error_message = "archive_retention id does not meet the required criteria."
-  }
-}
+#   validation {
+#     condition     = alltrue([for rule in var.log_rules : alltrue([for severity in rule["severities"] : contains(["unspecified", "debug", "verbose", "info", "warning", "error", "critical"], severity)])])
+#     error_message = "'severities' of log_rules is not a valid selection. Allowed values are: unspecified, debug, verbose, info, warning, error, critical."
+#   }
+# }
+
+# variable "subsystem_rules" {
+#   type = list(object({
+#     name         = string
+#     rule_type_id = string
+#   }))
+#   description = "Define subsystem rules for matching applications to include in the policy configuration."
+#   default     = []
+
+#   validation {
+#     condition     = alltrue([for rule in var.subsystem_rules : contains(["unspecified", "is", "is_not", "start_with", "includes"], rule.rule_type_id)])
+#     error_message = "Identifier of rule ''rule_type_id is not a valid selection. Allowed values are: unspecified, is, is_not, start_with, includes."
+#   }
+
+#   validation {
+#     condition     = alltrue([for rule in var.subsystem_rules : can(regex("^[\\p{L}\\p{N}\\p{P}\\p{Z}\\p{S}\\p{M}]+$", rule.name)) && length(rule.name) <= 4096 && length(rule.name) > 1])
+#     error_message = "subsytem_rule name does not meet the required criteria."
+#   }
+# }
+
+# variable "archive_retention" {
+#   type = list(object({
+#     id = string
+#   }))
+#   description = "Define archive retention."
+#   default     = []
+
+#   validation {
+#     condition     = alltrue([for rule in var.archive_retention : can(regex("^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$", rule.id))])
+#     error_message = "archive_retention id does not meet the required criteria."
+#   }
+# }
