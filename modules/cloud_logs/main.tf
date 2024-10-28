@@ -178,7 +178,7 @@ resource "ibm_logs_router_tenant" "logs_router_tenant_instances" {
 }
 
 ##############################################################################
-# Configure Logs Policies
+# Configure Logs Policies - TCO Optimizer
 ##############################################################################
 
 resource "ibm_logs_policy" "logs_policies" {

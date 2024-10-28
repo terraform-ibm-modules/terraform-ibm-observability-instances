@@ -47,15 +47,14 @@ module "cloud_logs" {
     }
   }
   # Create log policy
-  create_ibm_logs_policy = true
-  logs_policy_name       = local.logs_policy_name
+  logs_policy_name       = "logs_policy_name"
   logs_policy_priority   = "type_medium"
   application_rules = [{
     name         = "test-system-app"
     rule_type_id = "start_with"
   }]
   log_rules = [{
-    severities = ["info"]
+    severities = ["info", "debug"]
   }]
   subsystem_rules = [{
     name         = "test-sub-system"
