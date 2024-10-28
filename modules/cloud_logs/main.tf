@@ -189,7 +189,7 @@ resource "ibm_logs_policy" "logs_policies" {
   instance_id   = ibm_resource_instance.cloud_logs.guid
   region        = ibm_resource_instance.cloud_logs.location
   endpoint_type = ibm_resource_instance.cloud_logs.service_endpoints
-  name          = each.value.logs_policy_name #local.logs_policy_name
+  name          = each.value.logs_policy_name
   description   = each.value.logs_policy_description
   priority      = each.value.logs_policy_priority
 
