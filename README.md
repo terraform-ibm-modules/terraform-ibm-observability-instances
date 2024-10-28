@@ -62,6 +62,7 @@ provider "ibm" {
 # - Cloud Logs instance
 # - Monitoring instance
 # - Activity Tracker route to the Cloud Logs target
+# - Metrics Routing to Cloud Monitoring target
 module "observability_instances" {
   source    = "terraform-ibm-modules/observability-instances/ibm"
   version   = "X.Y.Z" # Replace "X.X.X" with a release version to lock into a specific release
@@ -92,6 +93,32 @@ module "observability_instances" {
       locations  = ["*", "global"]
       target_ids = [module.observability_instances.activity_tracker_targets["my-icl-target"].id]
       route_name = "my-icl-route"
+    }
+  ]
+  metric_router_targets = [
+    {
+      # ID of the Cloud logs instance
+      destination_crn   = module.observability_instances.cloud_monitoring_crn
+      target_region = "us-south"
+      target_name   = "my-mr-target"
+    }
+  ]
+  metric_router_routes = [
+    {
+        name = "my-mr-route"
+        rules = [
+            {
+                action = "send"
+                targets = [{
+                    id = module.observability_instances.metrics_router_targets["my-mr-target].id
+                }]
+                inclusion_filters = [{
+                    operand = "location"
+                    operator = "is"
+                    values = ["us-south"]
+                }]
+            }
+        ]
     }
   ]
 }
