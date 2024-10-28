@@ -9,7 +9,7 @@ variable "metrics_router_targets" {
   description = "List of Metrics Router targets to be created."
 }
 
-variable "metric_router_routes" {
+variable "metrics_router_routes" {
   type = list(object({
     name = string
     rules = list(object({
@@ -28,12 +28,12 @@ variable "metric_router_routes" {
   description = "List of routes for IBM Metrics Router"
 
   validation {
-    condition     = length(var.metric_router_routes) <= 4
-    error_message = "Number of routes should be less than or equal to 4"
+    condition     = length(var.metrics_router_routes) == 0 || alltrue([for route in var.metrics_router_routes : length(route.rules) <= 4])
+    error_message = "The metrics_router_routes list can be empty or each route can have a maximum of 4 rules."
   }
 }
 
-variable "metric_router_settings" {
+variable "metrics_router_settings" {
   type = object({
     permitted_target_regions  = list(string)
     primary_metadata_region   = string

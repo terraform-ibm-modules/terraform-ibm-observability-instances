@@ -21,10 +21,10 @@ module "activity_tracker" {
 # IBM Cloud Metrics Routing
 
 module "metric_routing" {
-  source                 = "./modules/metrics_routing"
-  metric_router_routes   = var.metric_router_routes
-  metric_router_settings = var.metric_router_settings
-  metrics_router_targets = var.metric_router_targets
+  source                  = "./modules/metrics_routing"
+  metrics_router_routes   = var.metrics_router_routes
+  metrics_router_settings = var.metrics_router_settings
+  metrics_router_targets  = var.metrics_router_targets
 }
 
 # IBM Cloud Monitoring

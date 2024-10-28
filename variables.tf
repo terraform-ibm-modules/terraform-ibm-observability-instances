@@ -279,7 +279,7 @@ variable "logs_routing_tenant_regions" {
 # IBM Cloud Metrics Routing
 #########################################################################
 
-variable "metric_router_targets" {
+variable "metrics_router_targets" {
   type = list(object({
     destination_crn                     = string
     target_name                         = string
@@ -290,7 +290,7 @@ variable "metric_router_targets" {
   description = "List of Metrics Router targets to be created."
 }
 
-variable "metric_router_routes" {
+variable "metrics_router_routes" {
   type = list(object({
     name = string
     rules = list(object({
@@ -309,7 +309,7 @@ variable "metric_router_routes" {
   description = "List of routes for IBM Metrics Router."
 }
 
-variable "metric_router_settings" {
+variable "metrics_router_settings" {
   type = object({
     default_targets = list(object({
       id = string

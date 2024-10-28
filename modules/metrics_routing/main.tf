@@ -20,7 +20,7 @@ resource "ibm_metrics_router_target" "metrics_router_targets" {
 }
 
 resource "ibm_metrics_router_route" "metrics_router_routes" {
-  for_each = { for route in var.metric_router_routes : route.name => route }
+  for_each = { for route in var.metrics_router_routes : route.name => route }
   name     = each.key
   dynamic "rules" {
     for_each = each.value.rules
@@ -49,17 +49,17 @@ resource "ibm_metrics_router_route" "metrics_router_routes" {
 #########################################################################
 
 resource "ibm_metrics_router_settings" "metrics_router_settings" {
-  count = length(var.metric_router_settings == null ? [] : [1])
+  count = length(var.metrics_router_settings == null ? [] : [1])
   dynamic "default_targets" {
-    for_each = var.metric_router_settings.default_targets
+    for_each = var.metrics_router_settings.default_targets
     content {
       id = default_targets.value.id
     }
   }
-  permitted_target_regions  = var.metric_router_settings.permitted_target_regions
-  primary_metadata_region   = var.metric_router_settings.primary_metadata_region
-  backup_metadata_region    = var.metric_router_settings.backup_metadata_region
-  private_api_endpoint_only = var.metric_router_settings.private_api_endpoint_only
+  permitted_target_regions  = var.metrics_router_settings.permitted_target_regions
+  primary_metadata_region   = var.metrics_router_settings.primary_metadata_region
+  backup_metadata_region    = var.metrics_router_settings.backup_metadata_region
+  private_api_endpoint_only = var.metrics_router_settings.private_api_endpoint_only
 
   lifecycle {
     create_before_destroy = true

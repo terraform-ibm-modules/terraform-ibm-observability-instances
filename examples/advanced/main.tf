@@ -264,7 +264,7 @@ module "observability_instances" {
 
   # Metric Routing
 
-  metric_router_targets = [
+  metrics_router_targets = [
     {
       destination_crn = module.observability_instances.cloud_monitoring_crn
       target_name     = local.mr_target_name
@@ -272,7 +272,7 @@ module "observability_instances" {
     }
   ]
 
-  metric_router_routes = [
+  metrics_router_routes = [
     {
       name = "${var.prefix}-metric-routing-route"
       rules = [
@@ -291,7 +291,7 @@ module "observability_instances" {
     }
   ]
 
-  metric_router_settings = {
+  metrics_router_settings = {
     default_targets = [{
       id = module.observability_instances.metrics_router_targets[local.mr_target_name].id
     }]
