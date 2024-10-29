@@ -275,4 +275,31 @@ variable "logs_routing_tenant_regions" {
   nullable    = false
 }
 
+########################################################################
+# Cloud Logs Policies - TCO Optimizer
+#########################################################################
+
+variable "cloud_logs_policies" {
+  type = list(object({
+    logs_policy_name        = string
+    logs_policy_description = optional(string, null)
+    logs_policy_priority    = string
+    application_rule = optional(list(object({
+      name         = string
+      rule_type_id = optional(string, "unspecified")
+    })))
+    subsystem_rule = optional(list(object({
+      name         = string
+      rule_type_id = optional(string, "unspecified")
+    })))
+    log_rules = optional(list(object({
+      severities = list(string)
+    })))
+    archive_retention = optional(list(object({
+      id = string
+    })))
+  }))
+  description = "Configuration of Cloud Logs policies."
+  default     = []
+}
 ##############################################################################

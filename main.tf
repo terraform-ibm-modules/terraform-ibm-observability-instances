@@ -51,4 +51,5 @@ module "cloud_logs" {
   skip_logs_routing_auth_policy = var.skip_logs_routing_auth_policy
   logs_routing_tenant_regions   = var.logs_routing_tenant_regions
   enable_platform_logs          = var.enable_platform_logs
+  policies                      = var.cloud_logs_policies
 }
