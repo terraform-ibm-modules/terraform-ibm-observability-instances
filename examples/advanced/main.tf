@@ -199,6 +199,22 @@ module "observability_instances" {
       bucket_endpoint = module.buckets.buckets[local.metrics_bucket_name].s3_endpoint_direct
     }
   }
+  # Cloud Logs policies
+  cloud_logs_policies = [{
+    logs_policy_name     = "${var.prefix}-logs-policy-1"
+    logs_policy_priority = "type_low"
+    application_rule = [{
+      name         = "test-system-app"
+      rule_type_id = "start_with"
+    }]
+    log_rules = [{
+      severities = ["info", "debug"]
+    }]
+    subsystem_rule = [{
+      name         = "test-sub-system"
+      rule_type_id = "start_with"
+    }]
+  }]
   # integrate with multiple Event Notifcations instances
   # (NOTE: This may fail due known issue https://github.com/IBM-Cloud/terraform-provider-ibm/issues/5734)
   cloud_logs_existing_en_instances = [{

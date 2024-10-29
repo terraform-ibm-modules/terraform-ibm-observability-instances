@@ -152,7 +152,7 @@ variable "skip_logs_routing_auth_policy" {
 }
 
 #############################################################################################################
-# Logs Policy Configuration
+# Logs Policies Configuration
 #
 # logs_policy_name -The name of the IBM Cloud Logs policy to create.
 # logs_policy_description - Description of the IBM Cloud Logs policy to create.
@@ -163,7 +163,7 @@ variable "skip_logs_routing_auth_policy" {
 # archive_retention - Define archive retention.
 ##############################################################################################################
 
-variable "logs_policies_config" {
+variable "policies" {
   type = list(object({
     logs_policy_name        = string
     logs_policy_description = optional(string, null)
@@ -187,18 +187,18 @@ variable "logs_policies_config" {
   default     = []
 
   validation {
-    condition     = alltrue([for config in var.logs_policies_config : (length(config.logs_policy_name) <= 4096 ? true : false)])
+    condition     = alltrue([for config in var.policies : (length(config.logs_policy_name) <= 4096 ? true : false)])
     error_message = "Maximum length of logs_policy_name allowed is 4096 chars."
   }
 
   validation {
-    condition     = alltrue([for config in var.logs_policies_config : contains(["type_unspecified", "type_block", "type_low", "type_medium", "type_high"], config.logs_policy_priority)])
+    condition     = alltrue([for config in var.policies : contains(["type_unspecified", "type_block", "type_low", "type_medium", "type_high"], config.logs_policy_priority)])
     error_message = "The specified priority for logs policy is not a valid selection. Allowed values are: type_unspecified, type_block, type_low, type_medium, type_high."
   }
 
   validation {
     condition = alltrue(
-      [for config in var.logs_policies_config :
+      [for config in var.policies :
         (config.application_rule != null ?
           (alltrue([for rule in config.application_rule :
           contains(["unspecified", "is", "is_not", "start_with", "includes"], rule.rule_type_id)]))
@@ -209,7 +209,7 @@ variable "logs_policies_config" {
 
   validation {
     condition = alltrue(
-      [for config in var.logs_policies_config :
+      [for config in var.policies :
         (config.application_rule != null ?
           (alltrue([for rule in config.application_rule :
           can(regex("^[\\p{L}\\p{N}\\p{P}\\p{Z}\\p{S}\\p{M}]+$", rule.name)) && length(rule.name) <= 4096 && length(rule.name) > 1]))
@@ -220,7 +220,7 @@ variable "logs_policies_config" {
 
   validation {
     condition = alltrue(
-      [for config in var.logs_policies_config :
+      [for config in var.policies :
         (config.log_rules != null && length(config.log_rules) > 0 ? true : false)
     ])
     error_message = "The log_rules can not be empty and must contain at least 1 item."
@@ -228,7 +228,7 @@ variable "logs_policies_config" {
 
   validation {
     condition = alltrue(
-      [for config in var.logs_policies_config :
+      [for config in var.policies :
         (config.log_rules != null ?
           (alltrue([for rule in config.log_rules :
             alltrue([for severity in rule["severities"] :
@@ -240,7 +240,7 @@ variable "logs_policies_config" {
 
   validation {
     condition = alltrue(
-      [for config in var.logs_policies_config :
+      [for config in var.policies :
         (config.subsystem_rule != null ?
           (alltrue([for rule in config.subsystem_rule :
           contains(["unspecified", "is", "is_not", "start_with", "includes"], rule.rule_type_id)]))
@@ -251,7 +251,7 @@ variable "logs_policies_config" {
 
   validation {
     condition = alltrue(
-      [for config in var.logs_policies_config :
+      [for config in var.policies :
         (config.subsystem_rule != null ?
           (alltrue([for rule in config.subsystem_rule :
           can(regex("^[\\p{L}\\p{N}\\p{P}\\p{Z}\\p{S}\\p{M}]+$", rule.name)) && length(rule.name) <= 4096 && length(rule.name) > 1]))
@@ -262,7 +262,7 @@ variable "logs_policies_config" {
 
   validation {
     condition = alltrue(
-      [for config in var.logs_policies_config :
+      [for config in var.policies :
         (config.archive_retention != null ?
           (alltrue(
             [for rule in config.archive_retention : can(regex("^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$", rule.id))]

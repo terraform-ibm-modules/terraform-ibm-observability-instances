@@ -107,20 +107,4 @@ module "observability_instances" {
       route_name = "${var.prefix}-icl-route"
     }
   ]
-  # Cloud Logs policy
-  logs_policies_config = [{
-    logs_policy_name     = "${var.prefix}-logs-policy-1"
-    logs_policy_priority = "type_low"
-    application_rule = [{
-      name         = "test-system-app"
-      rule_type_id = "start_with"
-    }]
-    log_rules = [{
-      severities = ["info", "debug"]
-    }]
-    subsystem_rule = [{
-      name         = "test-sub-system"
-      rule_type_id = "start_with"
-    }]
-  }]
 }

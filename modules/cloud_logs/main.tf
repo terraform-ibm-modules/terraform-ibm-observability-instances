@@ -183,7 +183,7 @@ resource "ibm_logs_router_tenant" "logs_router_tenant_instances" {
 
 resource "ibm_logs_policy" "logs_policies" {
   for_each = {
-    for policy in var.logs_policies_config :
+    for policy in var.policies :
     policy.logs_policy_name => policy
   }
   instance_id   = ibm_resource_instance.cloud_logs.guid

@@ -279,7 +279,7 @@ variable "logs_routing_tenant_regions" {
 # Cloud Logs Policies - TCO Optimizer
 #########################################################################
 
-variable "logs_policies_config" {
+variable "cloud_logs_policies" {
   type = list(object({
     logs_policy_name        = string
     logs_policy_description = optional(string, null)
