@@ -59,7 +59,9 @@ module "buckets" {
 ##############################################################################
 
 locals {
-  target_name = "${var.prefix}-icl-target"
+  target_name                    = "${var.prefix}-icl-target"
+  cloud_monitoring_instance_name = "${var.prefix}-cloud-monitoring"
+  cloud_logs_instance_name       = "${var.prefix}-cloud-logs"
 }
 
 module "observability_instances" {
@@ -67,14 +69,17 @@ module "observability_instances" {
   # delete line above and use below syntax to pull module source from hashicorp when consuming this module
   # source    = "terraform-ibm-modules/observability-instances/ibm"
   # version   = "X.Y.Z" # Replace "X.X.X" with a release version to lock into a specific release
-  resource_group_id            = module.resource_group.resource_group_id
-  region                       = var.region
-  enable_platform_logs         = false
-  enable_platform_metrics      = false
-  cloud_monitoring_tags        = var.resource_tags
-  cloud_logs_tags              = var.resource_tags
-  cloud_monitoring_access_tags = var.access_tags
-  cloud_logs_access_tags       = var.access_tags
+  resource_group_id              = module.resource_group.resource_group_id
+  region                         = var.region
+  enable_platform_logs           = false
+  enable_platform_metrics        = false
+  cloud_monitoring_instance_name = local.cloud_monitoring_instance_name
+  cloud_monitoring_tags          = var.resource_tags
+  cloud_monitoring_access_tags   = var.access_tags
+  # Cloud Logs instance
+  cloud_logs_instance_name = local.cloud_logs_instance_name
+  cloud_logs_tags          = var.resource_tags
+  cloud_logs_access_tags   = var.access_tags
   cloud_logs_data_storage = {
     # logs and metrics buckets must be different
     logs_data = {

@@ -4,6 +4,7 @@ Example that configures:
 
 - COS instance and KMS encrypted COS buckets
 - Cloud Logs with Event Notifications integration
+- Cloud Logs policies
 - Cloud Monitoring
 - Key Protect instance and root key
 - Event Streams instance, topic and resource key

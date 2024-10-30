@@ -89,6 +89,11 @@ output "cloud_logs_ingress_private_endpoint" {
   description = "The private ingress endpoint of the provisioned Cloud Logs instance."
 }
 
+output "logs_policies_details" {
+  value       = length(module.cloud_logs) > 0 ? module.cloud_logs[0].logs_policies_details : null
+  description = "The details of the Cloud logs policies created."
+}
+
 ########################################################################
 # Metrics Routing
 #########################################################################
