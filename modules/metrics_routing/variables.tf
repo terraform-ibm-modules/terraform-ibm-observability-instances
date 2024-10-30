@@ -28,8 +28,15 @@ variable "metrics_router_routes" {
   description = "List of routes for IBM Metrics Router"
 
   validation {
-    condition     = length(var.metrics_router_routes) == 0 || alltrue([for route in var.metrics_router_routes : length(route.rules) <= 4])
-    error_message = "The metrics_router_routes list can be empty or each route can have a maximum of 4 rules."
+    condition = length(var.metrics_router_routes) == 0 || alltrue([
+      for route in var.metrics_router_routes : (
+        length(route.rules) <= 4 &&
+        alltrue([
+          for rule in route.rules : length(rule.inclusion_filters) <= 5
+        ])
+      )
+    ])
+    error_message = "The metrics_router_routes list can be empty or contain routes with up to 4 rules, and each rule's inclusion_filters must have less than 5 items."
   }
 }
 
