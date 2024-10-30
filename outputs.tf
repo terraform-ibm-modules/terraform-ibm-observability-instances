@@ -93,3 +93,22 @@ output "logs_policies_details" {
   value       = length(module.cloud_logs) > 0 ? module.cloud_logs[0].logs_policies_details : null
   description = "The details of the Cloud logs policies created."
 }
+
+########################################################################
+# Metrics Routing
+#########################################################################
+
+output "metrics_router_targets" {
+  value       = module.metric_routing.metrics_router_targets
+  description = "The created metrics routing targets."
+}
+
+output "metrics_router_settings" {
+  value       = module.metric_routing.metrics_router_settings
+  description = "The global metrics routing settings."
+}
+
+output "metrics_router_routes" {
+  value       = module.metric_routing.metrics_router_routes
+  description = "The created metrics routing routes."
+}

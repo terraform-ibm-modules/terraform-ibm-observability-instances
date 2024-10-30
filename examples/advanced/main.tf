@@ -162,6 +162,7 @@ locals {
   icl_target_name = "${var.prefix}-icl-target"
   es_target_name  = "${var.prefix}-es-target"
   cos_target_name = "${var.prefix}-cos-target"
+  mr_target_name  = "${var.prefix}-cloud-monitoring-target"
   target_ids = [
     module.observability_instances.activity_tracker_targets[local.cos_target_name].id,
     module.observability_instances.activity_tracker_targets[local.es_target_name].id,
@@ -274,6 +275,45 @@ module "observability_instances" {
     permitted_target_regions  = ["us-south", "eu-de", "us-east", "eu-es", "eu-gb", "au-syd", "br-sao", "ca-tor", "eu-es", "jp-tok", "jp-osa", "in-che", "eu-fr2"]
     metadata_region_primary   = "us-south"
     metadata_region_backup    = "eu-de"
+    private_api_endpoint_only = false
+  }
+
+  # Metric Routing
+
+  metrics_router_targets = [
+    {
+      destination_crn = module.observability_instances.cloud_monitoring_crn
+      target_name     = local.mr_target_name
+      target_region   = var.region
+    }
+  ]
+
+  metrics_router_routes = [
+    {
+      name = "${var.prefix}-metric-routing-route"
+      rules = [
+        {
+          action = "send"
+          targets = [{
+            id = module.observability_instances.metrics_router_targets[local.mr_target_name].id
+          }]
+          inclusion_filters = [{
+            operand  = "location"
+            operator = "is"
+            values   = ["us-south"]
+          }]
+        }
+      ]
+    }
+  ]
+
+  metrics_router_settings = {
+    default_targets = [{
+      id = module.observability_instances.metrics_router_targets[local.mr_target_name].id
+    }]
+    permitted_target_regions  = ["us-south", "eu-de", "us-east", "eu-es", "eu-gb", "au-syd", "br-sao", "ca-tor", "jp-tok", "jp-osa"]
+    primary_metadata_region   = "us-south"
+    backup_metadata_region    = "us-east"
     private_api_endpoint_only = false
   }
 }

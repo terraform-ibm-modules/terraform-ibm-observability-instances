@@ -10,4 +10,6 @@ Example that configures:
 - Event Streams instance, topic and resource key
 - Activity Tracker targets for COS, Event Streams and Cloud Logs
 - Activity Tracker routing
-- Global Event Routing configuration
+- Global Event Routing and  Metrics Routing configuration
+- Metrics Router targets for Cloud Monitoring
+- Metrics Routing
