@@ -77,6 +77,7 @@ You need the following permissions to run this module.
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0.0 |
 | <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | >= 1.69.2, < 2.0.0 |
+| <a name="requirement_time"></a> [time](#requirement\_time) | >= 0.9.1, < 1.0.0 |
 
 ### Modules
 
@@ -90,6 +91,7 @@ No modules.
 | [ibm_metrics_router_route.metrics_router_routes](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/metrics_router_route) | resource |
 | [ibm_metrics_router_settings.metrics_router_settings](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/metrics_router_settings) | resource |
 | [ibm_metrics_router_target.metrics_router_targets](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/metrics_router_target) | resource |
+| [time_sleep.wait_for_cloud_monitoring_auth_policy](https://registry.terraform.io/providers/hashicorp/time/latest/docs/resources/sleep) | resource |
 
 ### Inputs
 

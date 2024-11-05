@@ -12,7 +12,13 @@ resource "ibm_iam_authorization_policy" "metrics_router_cloud_monitoring" {
   description                 = "Permit metrics routing service Supertenant Metrics Publisher access to Cloud Monitoring instance ${each.value.destination_crn}"
 }
 
+resource "time_sleep" "wait_for_cloud_monitoring_auth_policy" {
+  depends_on      = [ibm_iam_authorization_policy.metrics_router_cloud_monitoring]
+  create_duration = "30s"
+}
+
 resource "ibm_metrics_router_target" "metrics_router_targets" {
+  depends_on      = [time_sleep.wait_for_cloud_monitoring_auth_policy]
   for_each        = { for target in var.metrics_router_targets : target.target_name => target }
   destination_crn = each.value.destination_crn
   name            = each.key
