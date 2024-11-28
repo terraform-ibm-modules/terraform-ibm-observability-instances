@@ -10,6 +10,12 @@ variable "resource_group_id" {
   default     = null
 }
 
+variable "existing_cl_instance" {
+  type        = string
+  description = "(Optional) CRN of existing cloud logs instance. Set `cloud_logs_provision` to false if you wish to pass an existing cloud logs instance."
+  default     = null
+}
+
 variable "instance_name" {
   type        = string
   description = "The name of the IBM Cloud Logs instance to create. Defaults to 'cloud-logs-<region>'"

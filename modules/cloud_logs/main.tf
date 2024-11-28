@@ -1,10 +1,21 @@
 locals {
-  instance_name = var.instance_name != null ? var.instance_name : "cloud-logs-${var.region}"
+  instance_name  = var.instance_name != null ? var.instance_name : "cloud-logs-${var.region}"
+  cloud_logs_crn = var.existing_cl_instance != null ? var.existing_cl_instance : ibm_resource_instance.cloud_logs[0].crn
 }
 
+module "cloud_logs_crn_parser" {
+  source  = "terraform-ibm-modules/common-utilities/ibm//modules/crn-parser"
+  version = "1.1.0"
+  crn     = local.cloud_logs_crn
+}
+
+data "ibm_resource_instance" "cloud_logs_instance" {
+  identifier = module.cloud_logs_crn_parser.service_instance
+}
 
 # Cloud Logs
 resource "ibm_resource_instance" "cloud_logs" {
+  count             = var.existing_cl_instance != null ? 0 : 1
   depends_on        = [time_sleep.wait_for_cos_authorization_policy]
   name              = local.instance_name
   resource_group_id = var.resource_group_id
@@ -24,7 +35,7 @@ resource "ibm_resource_instance" "cloud_logs" {
 
 resource "ibm_resource_tag" "cloud_logs_tag" {
   count       = length(var.access_tags) == 0 ? 0 : 1
-  resource_id = ibm_resource_instance.cloud_logs.crn
+  resource_id = local.cloud_logs_crn
   tags        = var.access_tags
   tag_type    = "access"
 }
@@ -94,11 +105,11 @@ resource "time_sleep" "wait_for_cos_authorization_policy" {
 resource "ibm_iam_authorization_policy" "en_policy" {
   for_each                    = { for idx, en in var.existing_en_instances : idx => en if !en.skip_en_auth_policy }
   source_service_name         = "logs"
-  source_resource_instance_id = ibm_resource_instance.cloud_logs.guid
+  source_resource_instance_id = module.cloud_logs_crn_parser.service_instance
   target_service_name         = "event-notifications"
   target_resource_instance_id = each.value.en_instance_id
   roles                       = ["Event Source Manager"]
-  description                 = "Allow Cloud Logs with instance ID ${ibm_resource_instance.cloud_logs.guid} 'Event Source Manager' role access on the Event Notification instance GUID ${each.value.en_instance_id}"
+  description                 = "Allow Cloud Logs with instance ID ${module.cloud_logs_crn_parser.service_instance} 'Event Source Manager' role access on the Event Notification instance GUID ${each.value.en_instance_id}"
 }
 
 resource "time_sleep" "wait_for_en_authorization_policy" {
@@ -109,7 +120,7 @@ resource "time_sleep" "wait_for_en_authorization_policy" {
 resource "ibm_logs_outgoing_webhook" "en_integration" {
   depends_on  = [time_sleep.wait_for_en_authorization_policy]
   for_each    = { for idx, en in var.existing_en_instances : idx => en }
-  instance_id = ibm_resource_instance.cloud_logs.guid
+  instance_id = module.cloud_logs_crn_parser.service_instance
   region      = var.region
   name        = each.value.en_integration_name == null ? "${local.instance_name}-en-integration-${each.key}" : each.value.en_integration_name
   type        = "ibm_event_notifications"
@@ -129,7 +140,7 @@ resource "ibm_iam_authorization_policy" "logs_routing_policy" {
   count               = !var.skip_logs_routing_auth_policy ? 1 : 0
   source_service_name = "logs-router"
   roles               = ["Sender"]
-  description         = "Allow Logs Routing `Sender` access to the IBM Cloud Logs with ID ${ibm_resource_instance.cloud_logs.guid}."
+  description         = "Allow Logs Routing `Sender` access to the IBM Cloud Logs with ID ${module.cloud_logs_crn_parser.service_instance}."
 
   resource_attributes {
     name     = "serviceName"
@@ -140,13 +151,13 @@ resource "ibm_iam_authorization_policy" "logs_routing_policy" {
   resource_attributes {
     name     = "accountId"
     operator = "stringEquals"
-    value    = ibm_resource_instance.cloud_logs.account_id
+    value    = module.cloud_logs_crn_parser.account_id
   }
 
   resource_attributes {
     name     = "serviceInstance"
     operator = "stringEquals"
-    value    = ibm_resource_instance.cloud_logs.guid
+    value    = module.cloud_logs_crn_parser.service_instance
   }
 }
 
@@ -168,10 +179,10 @@ resource "ibm_logs_router_tenant" "logs_router_tenant_instances" {
   name     = "${each.key}-${random_string.random_tenant_suffix.result}"
   region   = each.key
   targets {
-    log_sink_crn = ibm_resource_instance.cloud_logs.crn
+    log_sink_crn = local.cloud_logs_crn
     name         = local.instance_name
     parameters {
-      host = ibm_resource_instance.cloud_logs.extensions.external_ingress
+      host = data.ibm_resource_instance.cloud_logs_instance.extensions.external_ingress
       port = 443
     }
   }
@@ -186,9 +197,9 @@ resource "ibm_logs_policy" "logs_policies" {
     for policy in var.policies :
     policy.logs_policy_name => policy
   }
-  instance_id   = ibm_resource_instance.cloud_logs.guid
-  region        = ibm_resource_instance.cloud_logs.location
-  endpoint_type = ibm_resource_instance.cloud_logs.service_endpoints
+  instance_id   = module.cloud_logs_crn_parser.service_instance
+  region        = module.cloud_logs_crn_parser.region
+  endpoint_type = module.cloud_logs_crn_parser.ctype
   name          = each.value.logs_policy_name
   description   = each.value.logs_policy_description
   priority      = each.value.logs_policy_priority
