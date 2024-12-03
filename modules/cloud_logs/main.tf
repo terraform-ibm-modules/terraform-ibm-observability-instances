@@ -199,7 +199,7 @@ resource "ibm_logs_policy" "logs_policies" {
   }
   instance_id   = module.cloud_logs_crn_parser.service_instance
   region        = module.cloud_logs_crn_parser.region
-  endpoint_type = module.cloud_logs_crn_parser.ctype
+  endpoint_type = module.cloud_logs_crn_parser.ctype == "public" ? "public-and-private" : "private"
   name          = each.value.logs_policy_name
   description   = each.value.logs_policy_description
   priority      = each.value.logs_policy_priority
