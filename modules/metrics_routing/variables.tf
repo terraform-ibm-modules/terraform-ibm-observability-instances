@@ -39,7 +39,7 @@ variable "metrics_router_routes" {
     error_message = "The 'metrics_router_routes' list can be empty or contain routes with up to 4 rules, and each rule's 'inclusion_filters' must have less than 5 items."
   }
   validation {
-    condition = alltrue([
+    condition = length(var.metrics_router_routes) == 0 || alltrue([
       for route in var.metrics_router_routes : alltrue([
         for rule in route.rules :
         rule.action != "send" || length(rule.targets) > 0

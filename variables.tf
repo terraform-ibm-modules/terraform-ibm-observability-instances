@@ -323,7 +323,7 @@ variable "metrics_router_routes" {
     rules = list(object({
       action = optional(string, "send")
       targets = list(object({
-        id = optional(string)
+        id = string
       }))
       inclusion_filters = list(object({
         operand  = string
