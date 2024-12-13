@@ -284,7 +284,7 @@ module "observability_instances" {
     {
       destination_crn = module.observability_instances.cloud_monitoring_crn
       target_name     = local.mr_target_name
-      target_region   = var.region
+      target_region   = "us-east"
     }
   ]
 

@@ -29,14 +29,11 @@ variable "metrics_router_routes" {
 
   validation {
     condition = length(var.metrics_router_routes) == 0 || alltrue([
-      for route in var.metrics_router_routes : (
-        length(route.rules) <= 10 &&
-        alltrue([
-          for rule in route.rules : length(rule.inclusion_filters) <= 5
-        ])
-      )
+      for route in var.metrics_router_routes : alltrue([
+        for rule in route.rules : length(rule.inclusion_filters) <= 5
+      ])
     ])
-    error_message = "The 'metrics_router_routes' list can be empty or contain routes with up to 10 rules, and each rule's 'inclusion_filters' must have less than 5 items."
+    error_message = "The 'metrics_router_routes' list can be empty or contain routes with rules, and each rule's 'inclusion_filters' must have less than 5 items."
   }
   validation {
     condition = length(var.metrics_router_routes) == 0 || alltrue([
