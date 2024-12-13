@@ -14,9 +14,9 @@ variable "metrics_router_routes" {
     name = string
     rules = list(object({
       action = optional(string, "send")
-      targets = list(object({
+      targets = optional(list(object({
         id = string
-      }))
+      })))
       inclusion_filters = list(object({
         operand  = string
         operator = string
