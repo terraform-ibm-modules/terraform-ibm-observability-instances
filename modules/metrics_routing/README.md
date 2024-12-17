@@ -50,7 +50,7 @@ module "metric_router" {
             {
                 action = "send"
                 targets = [{
-                    id = "c3af557f-fb0e-4476-85c3-0889e7fe7bc4"
+                    id = module.metric_router.metric_router_targets["my-mr-target"].id
                 }]
                 inclusion_filters = [{
                     operand = "location"

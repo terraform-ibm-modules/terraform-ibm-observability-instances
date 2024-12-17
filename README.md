@@ -99,25 +99,24 @@ module "observability_instances" {
   ]
   metric_router_targets = [
     {
-      # ID of the Cloud logs instance
       destination_crn   = module.observability_instances.cloud_monitoring_crn
-      target_region = "us-south"
-      target_name   = "my-mr-target"
+      target_region     = "us-south"
+      target_name       = "cloud-monitoring-target"
     }
   ]
-  metric_router_routes = [
+  metric_router_routes  = [
     {
-        name = "my-mr-route"
+        name  = "metric-router-route"
         rules = [
             {
-                action = "send"
+                action  = "send"
                 targets = [{
-                    id = module.observability_instances.metrics_router_targets["my-mr-target"].id
+                    id  = module.observability_instances.metrics_router_targets["cloud-monitoring-target"].id
                 }]
                 inclusion_filters = [{
-                    operand = "location"
-                    operator = "is"
-                    values = ["us-south"]
+                    operand       = "location"
+                    operator      = "is"
+                    values        = ["us-south"]
                 }]
             }
         ]
