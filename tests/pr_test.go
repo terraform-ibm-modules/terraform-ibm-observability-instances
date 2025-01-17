@@ -57,6 +57,8 @@ func setupOptions(t *testing.T, prefix string, dir string) *testhelper.TestOptio
 	return options
 }
 func TestRunAdvanceExampleInSchematics(t *testing.T) {
+	// https://github.ibm.com/GoldenEye/issues/issues/12223
+	// Avoid t.Parallel() to avoid test clashes
 
 	options := testschematic.TestSchematicOptionsDefault(&testschematic.TestSchematicOptions{
 		Testing: t,
@@ -89,6 +91,8 @@ func TestRunAdvanceExampleInSchematics(t *testing.T) {
 }
 
 func TestRunUpgradeExample(t *testing.T) {
+	// https://github.ibm.com/GoldenEye/issues/issues/12223
+	// Avoid t.Parallel() to avoid test clashes
 
 	options := setupOptions(t, "obs-upg", advanceExampleTerraformDir)
 	output, err := options.RunTestUpgrade()
