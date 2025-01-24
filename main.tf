@@ -45,10 +45,11 @@ module "cloud_monitoring" {
 
 # IBM Cloud Logs
 module "cloud_logs" {
-  count                         = var.cloud_logs_provision ? 1 : 0
+  count                         = var.cloud_logs_provision || var.existing_cl_instance != null ? 1 : 0
   source                        = "./modules/cloud_logs"
   region                        = var.region
   resource_group_id             = var.resource_group_id
+  existing_cl_instance          = var.existing_cl_instance
   instance_name                 = var.cloud_logs_instance_name
   plan                          = var.cloud_logs_plan
   resource_tags                 = var.cloud_logs_tags
