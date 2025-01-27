@@ -97,8 +97,8 @@ resource "ibm_iam_authorization_policy" "en_policy" {
   source_resource_instance_id = ibm_resource_instance.cloud_logs.guid
   target_service_name         = "event-notifications"
   target_resource_instance_id = each.value.en_instance_id
-  roles                       = ["Event Source Manager"]
-  description                 = "Allow Cloud Logs with instance ID ${ibm_resource_instance.cloud_logs.guid} 'Event Source Manager' role access on the Event Notification instance GUID ${each.value.en_instance_id}"
+  roles                       = ["Event Source Manager", "Viewer"]
+  description                 = "Allow Cloud Logs with instance ID ${ibm_resource_instance.cloud_logs.guid} 'Event Source Manager' and 'Viewer' role access on the Event Notification instance GUID ${each.value.en_instance_id}"
 }
 
 resource "time_sleep" "wait_for_en_authorization_policy" {
