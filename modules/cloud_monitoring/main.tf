@@ -65,7 +65,7 @@ module "cbr_rule" {
       },
       {
         name     = "serviceInstance"
-        value    = ibm_resource_instance.cloud_monitoring.guid
+        value    = ibm_resource_instance.cloud_monitoring[count.index].guid
         operator = "stringEquals"
       }
     ]

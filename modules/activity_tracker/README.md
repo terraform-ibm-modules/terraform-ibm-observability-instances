@@ -54,10 +54,10 @@ module "activity_tracker" {
 
 You need the following permissions to run this module.
 
-- Service
-    - **Activity Tracker Event Routing** (Required if creating AT routes and targets)
-        - `Editor` platform access
-        - `Manager` service access
+* Service
+  * **Activity Tracker Event Routing** (Required if creating AT routes and targets)
+    * `Editor` platform access
+    * `Manager` service access
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ### Requirements

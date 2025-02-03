@@ -147,6 +147,29 @@ module "buckets" {
 }
 
 ##############################################################################
+# Create CBR Zone
+##############################################################################
+
+data "ibm_iam_account_settings" "iam_account_settings" {
+}
+
+# A network zone with Service reference to schematics
+module "cbr_zone" {
+  source           = "terraform-ibm-modules/cbr/ibm//modules/cbr-zone-module"
+  version          = "1.29.0"
+  name             = "${var.prefix}-network-zone"
+  zone_description = "CBR Network zone for schematics"
+  account_id       = data.ibm_iam_account_settings.iam_account_settings.account_id
+  addresses = [{
+    type = "serviceRef"
+    ref = {
+      account_id   = data.ibm_iam_account_settings.iam_account_settings.account_id
+      service_name = "schematics"
+    }
+  }]
+}
+
+##############################################################################
 # Observability:
 # - Cloud Logs instance
 # - Monitoring instance
@@ -318,4 +341,60 @@ module "observability_instances" {
     backup_metadata_region    = "us-east"
     private_api_endpoint_only = false
   }
+
+  # CBR
+  cbr_rules_icl = [{
+    description      = "${var.prefix}-icl access"
+    account_id       = data.ibm_iam_account_settings.iam_account_settings.account_id
+    enforcement_mode = "report"
+    rule_contexts = [{
+      attributes = [
+        {
+          "name" : "endpointType",
+          "value" : "private"
+        },
+        {
+          name  = "networkZoneId"
+          value = module.cbr_zone.zone_id
+        }
+      ]
+    }]
+  }]
+
+  cbr_rules_sysdig = [{
+    description      = "${var.prefix}-cloud-monitoring access"
+    account_id       = data.ibm_iam_account_settings.iam_account_settings.account_id
+    enforcement_mode = "report"
+    rule_contexts = [{
+      attributes = [
+        {
+          "name" : "endpointType",
+          "value" : "private"
+        },
+        {
+          name  = "networkZoneId"
+          value = module.cbr_zone.zone_id
+        }
+      ]
+    }]
+  }]
+
+  cbr_rules_at = [{
+    description       = "${var.prefix}-at-event-routing access"
+    account_id        = data.ibm_iam_account_settings.iam_account_settings.account_id
+    resource_group_id = module.resource_group.resource_group_id
+    enforcement_mode  = "report"
+    rule_contexts = [{
+      attributes = [
+        {
+          "name" : "endpointType",
+          "value" : "private"
+        },
+        {
+          name  = "networkZoneId"
+          value = module.cbr_zone.zone_id
+        }
+      ]
+    }]
+  }]
 }
