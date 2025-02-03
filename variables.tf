@@ -370,7 +370,7 @@ variable "cbr_rules_at" {
       }))
     })))
   }))
-  description = "(Optional, list) List of context-based restrictions rules to create"
+  description = "(Optional, list) List of context-based restrictions rules to create for AT event routing."
   default     = []
 }
 
@@ -390,7 +390,7 @@ variable "cbr_rules_icl" {
       }))
     })))
   }))
-  description = "(Optional, list) List of context-based restrictions rules to create"
+  description = "(Optional, list) List of context-based restrictions rules to create for IBM cloud log instance."
   default     = []
 }
 
@@ -410,6 +410,6 @@ variable "cbr_rules_sysdig" {
       }))
     })))
   }))
-  description = "(Optional, list) List of context-based restrictions rules to create"
+  description = "(Optional, list) List of context-based restrictions rules to create for IBM cloud monitoring instance."
   default     = []
 }
