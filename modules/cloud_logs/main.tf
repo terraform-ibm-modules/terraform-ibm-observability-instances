@@ -161,7 +161,7 @@ resource "random_string" "random_tenant_suffix" {
 locals {
   # If 'enable_platform_logs' is true, create a tenant in the same region as the ICL instance along with any region passed in the 'logs_routing_tenant_regions' list
   logs_routing_tenant_regions     = var.enable_platform_logs ? setunion([var.region], var.logs_routing_tenant_regions) : var.logs_routing_tenant_regions
-  logs_routing_tenant_target_name = replace(substr("${local.instance_name}-${random_string.random_tenant_suffix.result}-l-r-target", 0, 32), "/[^a-zA-Z0-9]+$/", "")
+  logs_routing_tenant_target_name = replace(substr("${local.instance_name}-l-r-target", 0, 32), "/[^a-zA-Z0-9]+$/", "")
 }
 
 resource "ibm_logs_router_tenant" "logs_router_tenant_instances" {
