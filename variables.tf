@@ -316,7 +316,7 @@ variable "metrics_router_targets" {
   type = list(object({
     destination_crn                     = string
     target_name                         = string
-    target_region                       = string
+    target_region                       = optional(string)
     skip_mrouter_sysdig_iam_auth_policy = optional(bool, false)
   }))
   default     = []
@@ -327,10 +327,10 @@ variable "metrics_router_routes" {
   type = list(object({
     name = string
     rules = list(object({
-      action = string
-      targets = list(object({
+      action = optional(string, "send")
+      targets = optional(list(object({
         id = string
-      }))
+      })))
       inclusion_filters = list(object({
         operand  = string
         operator = string
@@ -344,13 +344,13 @@ variable "metrics_router_routes" {
 
 variable "metrics_router_settings" {
   type = object({
-    default_targets = list(object({
+    default_targets = optional(list(object({
       id = string
-    }))
-    permitted_target_regions  = list(string)
-    primary_metadata_region   = string
-    backup_metadata_region    = string
-    private_api_endpoint_only = bool
+    })))
+    permitted_target_regions  = optional(list(string))
+    primary_metadata_region   = optional(string)
+    backup_metadata_region    = optional(string)
+    private_api_endpoint_only = optional(bool, false)
   })
   description = "Global settings for Metrics Routing."
   default     = null

@@ -21,7 +21,7 @@ locals {
 
 module "key_protect" {
   source            = "terraform-ibm-modules/kms-all-inclusive/ibm"
-  version           = "4.16.4"
+  version           = "4.19.2"
   resource_group_id = module.resource_group.resource_group_id
   region            = var.region
   resource_tags     = var.resource_tags
@@ -44,7 +44,7 @@ module "key_protect" {
 
 module "event_notification_1" {
   source            = "terraform-ibm-modules/event-notifications/ibm"
-  version           = "1.13.0"
+  version           = "1.15.14"
   resource_group_id = module.resource_group.resource_group_id
   name              = "${var.prefix}-en-1"
   tags              = var.resource_tags
@@ -55,7 +55,7 @@ module "event_notification_1" {
 
 module "event_notification_2" {
   source            = "terraform-ibm-modules/event-notifications/ibm"
-  version           = "1.13.0"
+  version           = "1.15.14"
   resource_group_id = module.resource_group.resource_group_id
   name              = "${var.prefix}-en-2"
   tags              = var.resource_tags
@@ -182,6 +182,8 @@ module "observability_instances" {
   enable_platform_metrics      = false
   cloud_monitoring_tags        = var.resource_tags
   cloud_monitoring_access_tags = var.access_tags
+  cloud_monitoring_plan        = "graduated-tier"
+
 
   # Cloud Logs
   enable_platform_logs   = false
