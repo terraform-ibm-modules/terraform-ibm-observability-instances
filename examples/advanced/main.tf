@@ -91,6 +91,24 @@ module "event_streams" {
       "segment.bytes"   = "536870912" # 512 MB
     }
   }, ]
+  cbr_rules = [
+    {
+      description      = "${var.prefix}-event streams access"
+      enforcement_mode = "report"
+      account_id       = data.ibm_iam_account_settings.iam_account_settings.account_id
+      rule_contexts = [{
+        attributes = [
+          {
+            "name" : "endpointType",
+            "value" : "private"
+          },
+          {
+            name  = "networkZoneId"
+            value = module.cbr_zone.zone_id
+        }]
+      }]
+    }
+  ]
 }
 
 ##############################################################################
@@ -124,6 +142,22 @@ module "buckets" {
       kms_guid                      = module.key_protect.kms_guid
       kms_key_crn                   = module.key_protect.keys["${local.key_ring_name}.${local.key_name}"].crn
       skip_iam_authorization_policy = false
+      cbr_rules = [{
+        description      = "CBR rule for ICL logs bucket"
+        enforcement_mode = "report"
+        account_id       = data.ibm_iam_account_settings.iam_account_settings.account_id
+        rule_contexts = [{
+          attributes = [
+            {
+              "name" : "endpointType",
+              "value" : "private"
+            },
+            {
+              name  = "networkZoneId"
+              value = module.cbr_zone_schematics.zone_id
+          }]
+        }]
+      }]
     },
     {
       bucket_name                   = local.metrics_bucket_name
@@ -133,6 +167,22 @@ module "buckets" {
       kms_guid                      = module.key_protect.kms_guid
       kms_key_crn                   = module.key_protect.keys["${local.key_ring_name}.${local.key_name}"].crn
       skip_iam_authorization_policy = true # Auth policy created in first bucket
+      cbr_rules = [{
+        description      = "CBR rule for ICL metrics bucket"
+        enforcement_mode = "report"
+        account_id       = data.ibm_iam_account_settings.iam_account_settings.account_id
+        rule_contexts = [{
+          attributes = [
+            {
+              "name" : "endpointType",
+              "value" : "private"
+            },
+            {
+              name  = "networkZoneId"
+              value = module.cbr_zone_schematics.zone_id
+          }]
+        }]
+      }]
     },
     {
       bucket_name                   = local.at_bucket_name
@@ -142,27 +192,73 @@ module "buckets" {
       kms_guid                      = module.key_protect.kms_guid
       kms_key_crn                   = module.key_protect.keys["${local.key_ring_name}.${local.key_name}"].crn
       skip_iam_authorization_policy = true # Auth policy created in first bucket
+      cbr_rules = [{
+        description      = "CBR rule for AT event routing bucket"
+        enforcement_mode = "report"
+        account_id       = data.ibm_iam_account_settings.iam_account_settings.account_id
+        rule_contexts = [{
+          attributes = [
+            {
+              "name" : "endpointType",
+              "value" : "private"
+            },
+            {
+              name  = "networkZoneId"
+              value = module.cbr_zone.zone_id
+          }]
+          }, {
+          attributes = [
+            {
+              "name" : "endpointType",
+              "value" : "private"
+            },
+            {
+              name  = "networkZoneId"
+              value = module.cbr_zone_schematics.zone_id
+            }
+          ]
+        }]
+      }]
     }
   ]
+}
+
+##############################################################################
+# Get Cloud Account ID
+##############################################################################
+
+data "ibm_iam_account_settings" "iam_account_settings" {
 }
 
 ##############################################################################
 # Create CBR Zone
 ##############################################################################
 
-data "ibm_iam_account_settings" "iam_account_settings" {
-}
-
-# A network zone with Service reference to schematics
 module "cbr_zone" {
   source           = "terraform-ibm-modules/cbr/ibm//modules/cbr-zone-module"
   version          = "1.29.0"
-  name             = "${var.prefix}-network-zone"
-  zone_description = "CBR Network zone for schematics"
+  name             = "${var.prefix}-atracker-zone-all-regions"
+  zone_description = "Activity Tracker Event Routing For All regions"
   account_id       = data.ibm_iam_account_settings.iam_account_settings.account_id
   addresses = [{
     type = "serviceRef"
     ref = {
+      account_id   = data.ibm_iam_account_settings.iam_account_settings.account_id
+      service_name = "atracker"
+    }
+  }]
+}
+
+module "cbr_zone_schematics" {
+  source           = "terraform-ibm-modules/cbr/ibm//modules/cbr-zone-module"
+  version          = "1.29.0"
+  name             = "${var.prefix}-schematics"
+  zone_description = "CBR Network zone containing Schematics"
+  account_id       = data.ibm_iam_account_settings.iam_account_settings.account_id
+  addresses = [{
+    type = "serviceRef", # to bind a schematics to the zone
+    ref = {
+      # Allow all schematics instances from all geographies
       account_id   = data.ibm_iam_account_settings.iam_account_settings.account_id
       service_name = "schematics"
     }
@@ -344,10 +440,21 @@ module "observability_instances" {
 
   # CBR
   cbr_rules_icl = [{
-    description      = "${var.prefix}-icl access"
+    description      = "${var.prefix}-icl access from schematics and allow atracker-zone-all-regions to access the cloud logs instance."
     account_id       = data.ibm_iam_account_settings.iam_account_settings.account_id
     enforcement_mode = "report"
     rule_contexts = [{
+      attributes = [
+        {
+          "name" : "endpointType",
+          "value" : "private"
+        },
+        {
+          name  = "networkZoneId"
+          value = module.cbr_zone_schematics.zone_id
+        }
+      ]
+      }, {
       attributes = [
         {
           "name" : "endpointType",
@@ -362,7 +469,7 @@ module "observability_instances" {
   }]
 
   cbr_rules_sysdig = [{
-    description      = "${var.prefix}-cloud-monitoring access"
+    description      = "${var.prefix}-cloud-monitoring access from schematics."
     account_id       = data.ibm_iam_account_settings.iam_account_settings.account_id
     enforcement_mode = "report"
     rule_contexts = [{
@@ -373,7 +480,7 @@ module "observability_instances" {
         },
         {
           name  = "networkZoneId"
-          value = module.cbr_zone.zone_id
+          value = module.cbr_zone_schematics.zone_id
         }
       ]
     }]
@@ -393,6 +500,17 @@ module "observability_instances" {
         {
           name  = "networkZoneId"
           value = module.cbr_zone.zone_id
+        }
+      ]
+      }, {
+      attributes = [
+        {
+          "name" : "endpointType",
+          "value" : "private"
+        },
+        {
+          name  = "networkZoneId"
+          value = module.cbr_zone_schematics.zone_id
         }
       ]
     }]
