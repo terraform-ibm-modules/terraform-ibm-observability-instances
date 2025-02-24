@@ -104,7 +104,7 @@ module "event_streams" {
           },
           {
             name  = "networkZoneId"
-            value = module.cbr_zone.zone_id
+            value = module.cbr_zone_atracker.zone_id
         }]
       }]
     }
@@ -154,7 +154,7 @@ module "buckets" {
             },
             {
               name  = "networkZoneId"
-              value = module.cbr_zone_schematics.zone_id
+              value = module.cbr_zone_icl.zone_id
           }]
         }]
       }]
@@ -179,7 +179,7 @@ module "buckets" {
             },
             {
               name  = "networkZoneId"
-              value = module.cbr_zone_schematics.zone_id
+              value = module.cbr_zone_icl.zone_id
           }]
         }]
       }]
@@ -204,7 +204,7 @@ module "buckets" {
             },
             {
               name  = "networkZoneId"
-              value = module.cbr_zone.zone_id
+              value = module.cbr_zone_atracker.zone_id
           }]
           }, {
           attributes = [
@@ -214,7 +214,7 @@ module "buckets" {
             },
             {
               name  = "networkZoneId"
-              value = module.cbr_zone_schematics.zone_id
+              value = module.cbr_zone_icl.zone_id
             }
           ]
         }]
@@ -234,11 +234,11 @@ data "ibm_iam_account_settings" "iam_account_settings" {
 # Create CBR Zone
 ##############################################################################
 
-module "cbr_zone" {
+module "cbr_zone_atracker" {
   source           = "terraform-ibm-modules/cbr/ibm//modules/cbr-zone-module"
   version          = "1.29.0"
-  name             = "${var.prefix}-atracker-zone-all-regions"
-  zone_description = "Activity Tracker Event Routing For All regions"
+  name             = "${var.prefix}-atracker-zone"
+  zone_description = "Activity Tracker Event Routing zone"
   account_id       = data.ibm_iam_account_settings.iam_account_settings.account_id
   addresses = [{
     type = "serviceRef"
@@ -249,7 +249,23 @@ module "cbr_zone" {
   }]
 }
 
-module "cbr_zone_schematics" {
+module "cbr_zone_icl" {
+  source           = "terraform-ibm-modules/cbr/ibm//modules/cbr-zone-module"
+  version          = "1.29.0"
+  name             = "${var.prefix}-schematics"
+  zone_description = "CBR Network zone containing ICL"
+  account_id       = data.ibm_iam_account_settings.iam_account_settings.account_id
+  addresses = [{
+    type = "serviceRef", # to bind a schematics to the zone
+    ref = {
+      # Allow all schematics instances from all geographies
+      account_id   = data.ibm_iam_account_settings.iam_account_settings.account_id
+      service_name = "logs"
+    }
+  }]
+
+}
+module "cbr_zone_monitoring" {
   source           = "terraform-ibm-modules/cbr/ibm//modules/cbr-zone-module"
   version          = "1.29.0"
   name             = "${var.prefix}-schematics"
@@ -394,8 +410,8 @@ module "observability_instances" {
   global_event_routing_settings = {
     default_targets           = local.target_ids
     permitted_target_regions  = ["us-south", "eu-de", "us-east", "eu-es", "eu-gb", "au-syd", "br-sao", "ca-tor", "eu-es", "jp-tok", "jp-osa", "in-che", "eu-fr2"]
-    metadata_region_primary   = "eu-de"
-    metadata_region_backup    = "us-east"
+    metadata_region_primary   = "us-south"
+    metadata_region_backup    = "eu-de"
     private_api_endpoint_only = false
   }
 
@@ -433,14 +449,14 @@ module "observability_instances" {
       id = module.observability_instances.metrics_router_targets[local.mr_target_name].id
     }]
     permitted_target_regions  = ["us-south", "eu-de", "us-east", "eu-es", "eu-gb", "au-syd", "br-sao", "ca-tor", "jp-tok", "jp-osa"]
-    primary_metadata_region   = "eu-de"
-    backup_metadata_region    = "us-south"
+    primary_metadata_region   = "us-south"
+    backup_metadata_region    = "us-east"
     private_api_endpoint_only = false
   }
 
   # CBR
   cbr_rules_icl = [{
-    description      = "${var.prefix}-icl access from schematics and allow atracker-zone-all-regions to access the cloud logs instance."
+    description      = "${var.prefix}-icl access from network zone to access the cloud logs instance."
     account_id       = data.ibm_iam_account_settings.iam_account_settings.account_id
     enforcement_mode = "report"
     rule_contexts = [{
@@ -451,7 +467,7 @@ module "observability_instances" {
         },
         {
           name  = "networkZoneId"
-          value = module.cbr_zone_schematics.zone_id
+          value = module.cbr_zone_icl.zone_id
         }
       ]
       }, {
@@ -462,14 +478,14 @@ module "observability_instances" {
         },
         {
           name  = "networkZoneId"
-          value = module.cbr_zone.zone_id
+          value = module.cbr_zone_atracker.zone_id
         }
       ]
     }]
   }]
 
   cbr_rules_sysdig = [{
-    description      = "${var.prefix}-cloud-monitoring access from schematics."
+    description      = "${var.prefix}-cloud-monitoring access from network zone."
     account_id       = data.ibm_iam_account_settings.iam_account_settings.account_id
     enforcement_mode = "report"
     rule_contexts = [{
@@ -480,14 +496,14 @@ module "observability_instances" {
         },
         {
           name  = "networkZoneId"
-          value = module.cbr_zone_schematics.zone_id
+          value = module.cbr_zone_monitoring.zone_id
         }
       ]
     }]
   }]
 
   cbr_rules_at = [{
-    description       = "${var.prefix}-at-event-routing access"
+    description       = "${var.prefix}-at-event-routing access from network zones."
     account_id        = data.ibm_iam_account_settings.iam_account_settings.account_id
     resource_group_id = module.resource_group.resource_group_id
     enforcement_mode  = "report"
@@ -499,7 +515,7 @@ module "observability_instances" {
         },
         {
           name  = "networkZoneId"
-          value = module.cbr_zone.zone_id
+          value = module.cbr_zone_atracker.zone_id
         }
       ]
       }, {
@@ -510,7 +526,7 @@ module "observability_instances" {
         },
         {
           name  = "networkZoneId"
-          value = module.cbr_zone_schematics.zone_id
+          value = module.cbr_zone_icl.zone_id
         }
       ]
     }]
