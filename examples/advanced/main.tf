@@ -394,8 +394,8 @@ module "observability_instances" {
   global_event_routing_settings = {
     default_targets           = local.target_ids
     permitted_target_regions  = ["us-south", "eu-de", "us-east", "eu-es", "eu-gb", "au-syd", "br-sao", "ca-tor", "eu-es", "jp-tok", "jp-osa", "in-che", "eu-fr2"]
-    metadata_region_primary   = "us-south"
-    metadata_region_backup    = "eu-de"
+    metadata_region_primary   = "eu-de"
+    metadata_region_backup    = "us-east"
     private_api_endpoint_only = false
   }
 
@@ -433,8 +433,8 @@ module "observability_instances" {
       id = module.observability_instances.metrics_router_targets[local.mr_target_name].id
     }]
     permitted_target_regions  = ["us-south", "eu-de", "us-east", "eu-es", "eu-gb", "au-syd", "br-sao", "ca-tor", "jp-tok", "jp-osa"]
-    primary_metadata_region   = "us-south"
-    backup_metadata_region    = "us-east"
+    primary_metadata_region   = "eu-de"
+    backup_metadata_region    = "us-south"
     private_api_endpoint_only = false
   }
 
