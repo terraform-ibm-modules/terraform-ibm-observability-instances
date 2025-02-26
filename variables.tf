@@ -262,12 +262,6 @@ variable "skip_logs_routing_auth_policy" {
   default     = false
 }
 
-variable "enable_platform_logs" {
-  type        = bool
-  description = "Setting this to true will create a tenant in the same region that the Cloud Logs instance is provisioned to enable platform logs for that region. To send platform logs from other regions, you can explicitially specify a list of regions using the `logs_routing_tenant_regions` input. NOTE: You can only have 1 tenant per region in an account."
-  default     = true
-}
-
 variable "logs_routing_tenant_regions" {
   type        = list(any)
   default     = []

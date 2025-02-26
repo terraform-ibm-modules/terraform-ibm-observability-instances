@@ -71,7 +71,6 @@ module "observability_instances" {
   # version   = "X.Y.Z" # Replace "X.X.X" with a release version to lock into a specific release
   resource_group_id              = module.resource_group.resource_group_id
   region                         = var.region
-  enable_platform_logs           = false
   enable_platform_metrics        = false
   cloud_monitoring_instance_name = local.cloud_monitoring_instance_name
   cloud_monitoring_tags          = var.resource_tags

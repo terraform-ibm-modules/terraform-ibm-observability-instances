@@ -186,7 +186,6 @@ module "observability_instances" {
 
 
   # Cloud Logs
-  enable_platform_logs   = false
   cloud_logs_tags        = var.resource_tags
   cloud_logs_access_tags = var.access_tags
   cloud_logs_data_storage = {
