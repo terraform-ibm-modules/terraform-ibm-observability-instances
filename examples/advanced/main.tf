@@ -252,13 +252,12 @@ module "cbr_zone_atracker" {
 module "cbr_zone_icl" {
   source           = "terraform-ibm-modules/cbr/ibm//modules/cbr-zone-module"
   version          = "1.29.0"
-  name             = "${var.prefix}-schematics"
+  name             = "${var.prefix}-icl-zone"
   zone_description = "CBR Network zone containing ICL"
   account_id       = data.ibm_iam_account_settings.iam_account_settings.account_id
   addresses = [{
-    type = "serviceRef", # to bind a schematics to the zone
+    type = "serviceRef",
     ref = {
-      # Allow all schematics instances from all geographies
       account_id   = data.ibm_iam_account_settings.iam_account_settings.account_id
       service_name = "logs"
     }
@@ -268,13 +267,12 @@ module "cbr_zone_icl" {
 module "cbr_zone_monitoring" {
   source           = "terraform-ibm-modules/cbr/ibm//modules/cbr-zone-module"
   version          = "1.29.0"
-  name             = "${var.prefix}-schematics"
-  zone_description = "CBR Network zone containing Schematics"
+  name             = "${var.prefix}-monitoring-zone"
+  zone_description = "CBR Network zone containing monitoring"
   account_id       = data.ibm_iam_account_settings.iam_account_settings.account_id
   addresses = [{
-    type = "serviceRef", # to bind a schematics to the zone
+    type = "serviceRef",
     ref = {
-      # Allow all schematics instances from all geographies
       account_id   = data.ibm_iam_account_settings.iam_account_settings.account_id
       service_name = "schematics"
     }
