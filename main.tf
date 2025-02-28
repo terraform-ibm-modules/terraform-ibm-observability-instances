@@ -61,7 +61,6 @@ module "cloud_logs" {
   existing_en_instances         = var.cloud_logs_existing_en_instances
   skip_logs_routing_auth_policy = var.skip_logs_routing_auth_policy
   logs_routing_tenant_regions   = var.logs_routing_tenant_regions
-  enable_platform_logs          = var.enable_platform_logs
   policies                      = var.cloud_logs_policies
   cbr_rules_icl                 = var.cbr_rules_icl
 }

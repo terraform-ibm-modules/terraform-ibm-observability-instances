@@ -16,7 +16,7 @@ module "resource_group" {
 
 module "cos" {
   source            = "terraform-ibm-modules/cos/ibm"
-  version           = "8.13.2"
+  version           = "8.19.3"
   resource_group_id = module.resource_group.resource_group_id
   cos_instance_name = "${var.prefix}-cos"
   cos_tags          = var.resource_tags
@@ -34,7 +34,7 @@ locals {
 
 module "buckets" {
   source  = "terraform-ibm-modules/cos/ibm//modules/buckets"
-  version = "8.13.2"
+  version = "8.19.3"
   bucket_configs = [
     {
       bucket_name            = local.logs_bucket_name
@@ -71,7 +71,6 @@ module "observability_instances" {
   # version   = "X.Y.Z" # Replace "X.X.X" with a release version to lock into a specific release
   resource_group_id              = module.resource_group.resource_group_id
   region                         = var.region
-  enable_platform_logs           = false
   enable_platform_metrics        = false
   cloud_monitoring_instance_name = local.cloud_monitoring_instance_name
   cloud_monitoring_tags          = var.resource_tags
