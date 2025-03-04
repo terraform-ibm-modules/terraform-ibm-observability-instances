@@ -16,6 +16,7 @@ module "activity_tracker" {
   eventstreams_targets          = var.at_eventstreams_targets
   cloud_logs_targets            = var.at_cloud_logs_targets
   global_event_routing_settings = var.global_event_routing_settings
+  cbr_rules_at                  = var.cbr_rules_at
 }
 
 # IBM Cloud Metrics Routing
@@ -41,6 +42,7 @@ module "cloud_monitoring" {
   access_tags             = var.cloud_monitoring_access_tags
   enable_platform_metrics = var.enable_platform_metrics
   service_endpoints       = var.cloud_monitoring_service_endpoints
+  cbr_rules_sysdig        = var.cbr_rules_sysdig
 }
 
 # IBM Cloud Logs
@@ -60,4 +62,5 @@ module "cloud_logs" {
   skip_logs_routing_auth_policy = var.skip_logs_routing_auth_policy
   logs_routing_tenant_regions   = var.logs_routing_tenant_regions
   policies                      = var.cloud_logs_policies
+  cbr_rules_icl                 = var.cbr_rules_icl
 }
