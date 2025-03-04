@@ -280,11 +280,11 @@ variable "cbr_rules_icl" {
         value = string
     }))) }))
     enforcement_mode = string
-    operations = optional(list(object({
-      api_types = list(object({
-        api_type_id = string
-      }))
-    })))
+    # operations = optional(list(object({
+    #   api_types = list(object({
+    #     api_type_id = string
+    #   }))
+    # })))
   }))
   description = "(Optional, list) List of context-based restrictions rules to create"
   default     = []

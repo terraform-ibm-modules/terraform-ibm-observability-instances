@@ -100,7 +100,7 @@ module "event_streams" {
         attributes = [
           {
             "name" : "endpointType",
-            "value" : "private"
+            "value" : "public"
           },
           {
             name  = "networkZoneId"
@@ -150,7 +150,7 @@ module "buckets" {
           attributes = [
             {
               "name" : "endpointType",
-              "value" : "private"
+              "value" : "public"
             },
             {
               name  = "networkZoneId"
@@ -175,7 +175,7 @@ module "buckets" {
           attributes = [
             {
               "name" : "endpointType",
-              "value" : "private"
+              "value" : "public"
             },
             {
               name  = "networkZoneId"

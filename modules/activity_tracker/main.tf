@@ -164,16 +164,6 @@ locals {
 # Context Based Restrictions
 #########################################################################
 
-locals {
-  default_operations = [{
-    api_types = [
-      {
-        "api_type_id" : "crn:v1:bluemix:public:context-based-restrictions::::api-type:"
-      }
-    ]
-  }]
-}
-
 module "cbr_rule" {
   count            = length(var.cbr_rules_at)
   source           = "terraform-ibm-modules/cbr/ibm//modules/cbr-rule-module"
@@ -193,5 +183,5 @@ module "cbr_rule" {
       }
     ]
   }]
-  operations = var.cbr_rules_at[count.index].operations == null ? local.default_operations : var.cbr_rules_at[count.index].operations
+  # operations = var.cbr_rules_at[count.index].operations
 }
