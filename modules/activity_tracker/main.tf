@@ -183,5 +183,4 @@ module "cbr_rule" {
       }
     ]
   }]
-  # operations = var.cbr_rules_at[count.index].operations
 }
