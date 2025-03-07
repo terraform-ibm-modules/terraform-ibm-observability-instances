@@ -274,7 +274,7 @@ module "cbr_zone_monitoring" {
     type = "serviceRef",
     ref = {
       account_id   = data.ibm_iam_account_settings.iam_account_settings.account_id
-      service_name = "schematics"
+      service_name = "sysdig-monitor"
     }
   }]
 }
