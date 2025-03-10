@@ -127,3 +127,9 @@ variable "cbr_rules_at" {
   default     = []
   # Validation happens in the rule module
 }
+
+variable "cbr_rule_at_region" {
+  type        = string
+  description = "The region where to scope the activity tracker event routing CBR rule."
+  default     = null
+}

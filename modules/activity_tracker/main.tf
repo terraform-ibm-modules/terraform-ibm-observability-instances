@@ -180,6 +180,10 @@ module "cbr_rule" {
       {
         name  = "serviceName"
         value = "atracker"
+      },
+      {
+        name  = "region"
+        value = var.cbr_rule_at_region
       }
     ]
   }]
