@@ -482,7 +482,7 @@ module "observability_instances" {
     }]
   }]
 
-  cbr_rules_sysdig = [{
+  cbr_rules_cloud_monitoring = [{
     description      = "${var.prefix}-cloud-monitoring access from network zone."
     account_id       = data.ibm_iam_account_settings.iam_account_settings.account_id
     enforcement_mode = "report"

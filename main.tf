@@ -31,19 +31,19 @@ module "metric_routing" {
 
 # IBM Cloud Monitoring
 module "cloud_monitoring" {
-  count                   = var.cloud_monitoring_provision ? 1 : 0
-  source                  = "./modules/cloud_monitoring"
-  region                  = var.region
-  resource_group_id       = var.resource_group_id
-  instance_name           = var.cloud_monitoring_instance_name
-  plan                    = var.cloud_monitoring_plan
-  manager_key_name        = var.cloud_monitoring_manager_key_name
-  manager_key_tags        = var.cloud_monitoring_manager_key_tags
-  tags                    = var.cloud_monitoring_tags
-  access_tags             = var.cloud_monitoring_access_tags
-  enable_platform_metrics = var.enable_platform_metrics
-  service_endpoints       = var.cloud_monitoring_service_endpoints
-  cbr_rules_sysdig        = var.cbr_rules_sysdig
+  count                      = var.cloud_monitoring_provision ? 1 : 0
+  source                     = "./modules/cloud_monitoring"
+  region                     = var.region
+  resource_group_id          = var.resource_group_id
+  instance_name              = var.cloud_monitoring_instance_name
+  plan                       = var.cloud_monitoring_plan
+  manager_key_name           = var.cloud_monitoring_manager_key_name
+  manager_key_tags           = var.cloud_monitoring_manager_key_tags
+  tags                       = var.cloud_monitoring_tags
+  access_tags                = var.cloud_monitoring_access_tags
+  enable_platform_metrics    = var.enable_platform_metrics
+  service_endpoints          = var.cloud_monitoring_service_endpoints
+  cbr_rules_cloud_monitoring = var.cbr_rules_cloud_monitoring
 }
 
 # IBM Cloud Logs

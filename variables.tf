@@ -394,7 +394,7 @@ variable "cbr_rules_icl" {
   default     = []
 }
 
-variable "cbr_rules_sysdig" {
+variable "cbr_rules_cloud_monitoring" {
   type = list(object({
     description = string
     account_id  = string
