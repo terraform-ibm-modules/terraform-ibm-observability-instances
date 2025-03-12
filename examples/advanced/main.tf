@@ -452,6 +452,7 @@ module "observability_instances" {
   }
 
   # CBR
+  cbr_rule_at_region = var.region
   cbr_rules_icl = [{
     description      = "${var.prefix}-icl access from network zone to access the cloud logs instance."
     account_id       = data.ibm_iam_account_settings.iam_account_settings.account_id

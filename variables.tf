@@ -162,7 +162,7 @@ variable "global_event_routing_settings" {
 }
 
 variable "cbr_rule_at_region" {
-  type        = optional(string)
+  type        = string
   description = "The region where to scope the activity tracker event routing CBR rule."
   default     = null
 }
