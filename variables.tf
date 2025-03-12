@@ -161,6 +161,12 @@ variable "global_event_routing_settings" {
   default     = null
 }
 
+variable "cbr_rule_at_region" {
+  type        = string
+  description = "The region where to scope the activity tracker event routing CBR rule."
+  default     = null
+}
+
 ##############################################################################
 
 # IBM Cloud Logs

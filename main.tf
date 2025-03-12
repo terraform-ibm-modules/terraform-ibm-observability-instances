@@ -17,7 +17,7 @@ module "activity_tracker" {
   cloud_logs_targets            = var.at_cloud_logs_targets
   global_event_routing_settings = var.global_event_routing_settings
   cbr_rules_at                  = var.cbr_rules_at
-  cbr_rule_at_region            = var.region
+  cbr_rule_at_region            = var.cbr_rule_at_region
 }
 
 # IBM Cloud Metrics Routing
