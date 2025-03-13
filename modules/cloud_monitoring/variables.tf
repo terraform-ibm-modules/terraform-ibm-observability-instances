@@ -65,3 +65,23 @@ variable "service_endpoints" {
     error_message = "The specified service_endpoints is not a valid selection"
   }
 }
+
+##############################################################
+# Context-based restriction (CBR)
+##############################################################
+
+variable "cbr_rules_cloud_monitoring" {
+  type = list(object({
+    description = string
+    account_id  = string
+    rule_contexts = list(object({
+      attributes = optional(list(object({
+        name  = string
+        value = string
+    }))) }))
+    enforcement_mode = string
+  }))
+  description = "(Optional, list) List of context-based restrictions rules to create"
+  default     = []
+  # Validation happens in the rule module
+}

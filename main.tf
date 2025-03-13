@@ -16,6 +16,8 @@ module "activity_tracker" {
   eventstreams_targets          = var.at_eventstreams_targets
   cloud_logs_targets            = var.at_cloud_logs_targets
   global_event_routing_settings = var.global_event_routing_settings
+  cbr_rules_at                  = var.cbr_rules_at
+  cbr_rule_at_region            = var.cbr_rule_at_region
 }
 
 # IBM Cloud Metrics Routing
@@ -29,18 +31,19 @@ module "metric_routing" {
 
 # IBM Cloud Monitoring
 module "cloud_monitoring" {
-  count                   = var.cloud_monitoring_provision ? 1 : 0
-  source                  = "./modules/cloud_monitoring"
-  region                  = var.region
-  resource_group_id       = var.resource_group_id
-  instance_name           = var.cloud_monitoring_instance_name
-  plan                    = var.cloud_monitoring_plan
-  manager_key_name        = var.cloud_monitoring_manager_key_name
-  manager_key_tags        = var.cloud_monitoring_manager_key_tags
-  tags                    = var.cloud_monitoring_tags
-  access_tags             = var.cloud_monitoring_access_tags
-  enable_platform_metrics = var.enable_platform_metrics
-  service_endpoints       = var.cloud_monitoring_service_endpoints
+  count                      = var.cloud_monitoring_provision ? 1 : 0
+  source                     = "./modules/cloud_monitoring"
+  region                     = var.region
+  resource_group_id          = var.resource_group_id
+  instance_name              = var.cloud_monitoring_instance_name
+  plan                       = var.cloud_monitoring_plan
+  manager_key_name           = var.cloud_monitoring_manager_key_name
+  manager_key_tags           = var.cloud_monitoring_manager_key_tags
+  tags                       = var.cloud_monitoring_tags
+  access_tags                = var.cloud_monitoring_access_tags
+  enable_platform_metrics    = var.enable_platform_metrics
+  service_endpoints          = var.cloud_monitoring_service_endpoints
+  cbr_rules_cloud_monitoring = var.cbr_rules_cloud_monitoring
 }
 
 # IBM Cloud Logs
@@ -60,4 +63,5 @@ module "cloud_logs" {
   skip_logs_routing_auth_policy = var.skip_logs_routing_auth_policy
   logs_routing_tenant_regions   = var.logs_routing_tenant_regions
   policies                      = var.cloud_logs_policies
+  cbr_rules_icl                 = var.cbr_rules_icl
 }
