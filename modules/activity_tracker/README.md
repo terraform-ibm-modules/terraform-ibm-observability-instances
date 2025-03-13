@@ -54,10 +54,10 @@ module "activity_tracker" {
 
 You need the following permissions to run this module.
 
-- Service
-    - **Activity Tracker Event Routing** (Required if creating AT routes and targets)
-        - `Editor` platform access
-        - `Manager` service access
+* Service
+  * **Activity Tracker Event Routing** (Required if creating AT routes and targets)
+    * `Editor` platform access
+    * `Manager` service access
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ### Requirements
@@ -70,7 +70,9 @@ You need the following permissions to run this module.
 
 ### Modules
 
-No modules.
+| Name | Source | Version |
+|------|--------|---------|
+| <a name="module_cbr_rule"></a> [cbr\_rule](#module\_cbr\_rule) | terraform-ibm-modules/cbr/ibm//modules/cbr-rule-module | 1.29.0 |
 
 ### Resources
 
@@ -93,6 +95,8 @@ No modules.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_activity_tracker_routes"></a> [activity\_tracker\_routes](#input\_activity\_tracker\_routes) | List of routes to be created, maximum four routes are allowed | <pre>list(object({<br/>    locations  = list(string)<br/>    target_ids = list(string)<br/>    route_name = string<br/>  }))</pre> | `[]` | no |
+| <a name="input_cbr_rule_at_region"></a> [cbr\_rule\_at\_region](#input\_cbr\_rule\_at\_region) | The region where to scope the activity tracker event routing CBR rule. | `string` | `null` | no |
+| <a name="input_cbr_rules_at"></a> [cbr\_rules\_at](#input\_cbr\_rules\_at) | (Optional, list) List of context-based restrictions rules to create | <pre>list(object({<br/>    description = string<br/>    account_id  = string<br/>    rule_contexts = list(object({<br/>      attributes = optional(list(object({<br/>        name  = string<br/>        value = string<br/>    }))) }))<br/>    enforcement_mode = string<br/>  }))</pre> | `[]` | no |
 | <a name="input_cloud_logs_targets"></a> [cloud\_logs\_targets](#input\_cloud\_logs\_targets) | List of Cloud Logs targets to be created | <pre>list(object({<br/>    instance_id                              = string<br/>    target_region                            = optional(string)<br/>    target_name                              = string<br/>    skip_atracker_cloud_logs_iam_auth_policy = optional(bool, false)<br/>  }))</pre> | `[]` | no |
 | <a name="input_cos_targets"></a> [cos\_targets](#input\_cos\_targets) | List of cos target to be created | <pre>list(object({<br/>    endpoint                          = string<br/>    bucket_name                       = string<br/>    instance_id                       = string<br/>    api_key                           = optional(string)<br/>    service_to_service_enabled        = optional(bool, true)<br/>    target_region                     = optional(string)<br/>    target_name                       = string<br/>    skip_atracker_cos_iam_auth_policy = optional(bool, false)<br/>  }))</pre> | `[]` | no |
 | <a name="input_eventstreams_targets"></a> [eventstreams\_targets](#input\_eventstreams\_targets) | List of event streams target to be created | <pre>list(object({<br/>    instance_id                      = string<br/>    brokers                          = list(string)<br/>    topic                            = string<br/>    api_key                          = optional(string)<br/>    service_to_service_enabled       = optional(bool, true)<br/>    target_region                    = optional(string)<br/>    target_name                      = string<br/>    skip_atracker_es_iam_auth_policy = optional(bool, false)<br/>  }))</pre> | `[]` | no |
