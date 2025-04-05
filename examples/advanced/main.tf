@@ -4,7 +4,7 @@
 
 module "resource_group" {
   source  = "terraform-ibm-modules/resource-group/ibm"
-  version = "1.1.6"
+  version = "1.2.0"
   # if an existing resource group is not set (null) create a new one using prefix
   resource_group_name          = var.resource_group == null ? "${var.prefix}-resource-group" : null
   existing_resource_group_name = var.resource_group
@@ -21,7 +21,7 @@ locals {
 
 module "key_protect" {
   source            = "terraform-ibm-modules/kms-all-inclusive/ibm"
-  version           = "4.21.3"
+  version           = "4.21.5"
   resource_group_id = module.resource_group.resource_group_id
   region            = var.region
   resource_tags     = var.resource_tags
@@ -44,7 +44,7 @@ module "key_protect" {
 
 module "event_notification_1" {
   source            = "terraform-ibm-modules/event-notifications/ibm"
-  version           = "1.19.8"
+  version           = "1.19.11"
   resource_group_id = module.resource_group.resource_group_id
   name              = "${var.prefix}-en-1"
   tags              = var.resource_tags
@@ -55,7 +55,7 @@ module "event_notification_1" {
 
 module "event_notification_2" {
   source            = "terraform-ibm-modules/event-notifications/ibm"
-  version           = "1.19.8"
+  version           = "1.19.11"
   resource_group_id = module.resource_group.resource_group_id
   name              = "${var.prefix}-en-2"
   tags              = var.resource_tags
@@ -75,7 +75,7 @@ locals {
 
 module "event_streams" {
   source            = "terraform-ibm-modules/event-streams/ibm"
-  version           = "3.4.0"
+  version           = "3.4.2"
   es_name           = "${var.prefix}-eventsteams-instance"
   tags              = var.resource_tags
   region            = var.region
@@ -117,7 +117,7 @@ module "event_streams" {
 
 module "cos" {
   source            = "terraform-ibm-modules/cos/ibm"
-  version           = "8.21.6"
+  version           = "8.21.8"
   resource_group_id = module.resource_group.resource_group_id
   cos_instance_name = "${var.prefix}-cos"
   cos_tags          = var.resource_tags
@@ -132,7 +132,7 @@ locals {
 
 module "buckets" {
   source  = "terraform-ibm-modules/cos/ibm//modules/buckets"
-  version = "8.21.6"
+  version = "8.21.8"
   bucket_configs = [
     {
       bucket_name                   = local.logs_bucket_name
