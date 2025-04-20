@@ -230,7 +230,7 @@ resource "ibm_logs_policy" "logs_policies" {
 module "cbr_rule" {
   count            = length(var.cbr_rules_icl)
   source           = "terraform-ibm-modules/cbr/ibm//modules/cbr-rule-module"
-  version          = "1.29.0"
+  version          = "1.30.0"
   rule_description = var.cbr_rules_icl[count.index].description
   enforcement_mode = var.cbr_rules_icl[count.index].enforcement_mode
   rule_contexts    = var.cbr_rules_icl[count.index].rule_contexts
