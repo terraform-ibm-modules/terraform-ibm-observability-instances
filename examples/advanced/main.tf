@@ -21,7 +21,7 @@ locals {
 
 module "key_protect" {
   source            = "terraform-ibm-modules/kms-all-inclusive/ibm"
-  version           = "4.21.10"
+  version           = "4.22.0"
   resource_group_id = module.resource_group.resource_group_id
   region            = var.region
   resource_tags     = var.resource_tags
@@ -44,7 +44,7 @@ module "key_protect" {
 
 module "event_notification_1" {
   source            = "terraform-ibm-modules/event-notifications/ibm"
-  version           = "1.19.18"
+  version           = "1.19.21"
   resource_group_id = module.resource_group.resource_group_id
   name              = "${var.prefix}-en-1"
   tags              = var.resource_tags
@@ -55,7 +55,7 @@ module "event_notification_1" {
 
 module "event_notification_2" {
   source            = "terraform-ibm-modules/event-notifications/ibm"
-  version           = "1.19.18"
+  version           = "1.19.21"
   resource_group_id = module.resource_group.resource_group_id
   name              = "${var.prefix}-en-2"
   tags              = var.resource_tags
@@ -117,7 +117,7 @@ module "event_streams" {
 
 module "cos" {
   source            = "terraform-ibm-modules/cos/ibm"
-  version           = "8.21.13"
+  version           = "8.21.17"
   resource_group_id = module.resource_group.resource_group_id
   cos_instance_name = "${var.prefix}-cos"
   cos_tags          = var.resource_tags
@@ -132,7 +132,7 @@ locals {
 
 module "buckets" {
   source  = "terraform-ibm-modules/cos/ibm//modules/buckets"
-  version = "8.21.13"
+  version = "8.21.17"
   bucket_configs = [
     {
       bucket_name                   = local.logs_bucket_name
@@ -236,7 +236,7 @@ data "ibm_iam_account_settings" "iam_account_settings" {
 
 module "cbr_zone_atracker" {
   source           = "terraform-ibm-modules/cbr/ibm//modules/cbr-zone-module"
-  version          = "1.30.0"
+  version          = "1.31.0"
   name             = "${var.prefix}-atracker-zone"
   zone_description = "Activity Tracker Event Routing zone"
   account_id       = data.ibm_iam_account_settings.iam_account_settings.account_id
@@ -251,7 +251,7 @@ module "cbr_zone_atracker" {
 
 module "cbr_zone_icl" {
   source           = "terraform-ibm-modules/cbr/ibm//modules/cbr-zone-module"
-  version          = "1.30.0"
+  version          = "1.31.0"
   name             = "${var.prefix}-icl-zone"
   zone_description = "CBR Network zone containing ICL"
   account_id       = data.ibm_iam_account_settings.iam_account_settings.account_id
@@ -266,7 +266,7 @@ module "cbr_zone_icl" {
 }
 module "cbr_zone_monitoring" {
   source           = "terraform-ibm-modules/cbr/ibm//modules/cbr-zone-module"
-  version          = "1.30.0"
+  version          = "1.31.0"
   name             = "${var.prefix}-monitoring-zone"
   zone_description = "CBR Network zone containing monitoring"
   account_id       = data.ibm_iam_account_settings.iam_account_settings.account_id
