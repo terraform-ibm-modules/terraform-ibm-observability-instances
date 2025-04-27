@@ -39,7 +39,7 @@ resource "ibm_resource_key" "resource_key" {
 module "cbr_rule" {
   count            = length(var.cbr_rules_cloud_monitoring)
   source           = "terraform-ibm-modules/cbr/ibm//modules/cbr-rule-module"
-  version          = "1.30.0"
+  version          = "1.31.0"
   rule_description = var.cbr_rules_cloud_monitoring[count.index].description
   enforcement_mode = var.cbr_rules_cloud_monitoring[count.index].enforcement_mode
   rule_contexts    = var.cbr_rules_cloud_monitoring[count.index].rule_contexts
