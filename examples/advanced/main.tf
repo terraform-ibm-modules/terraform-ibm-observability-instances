@@ -21,7 +21,7 @@ locals {
 
 module "key_protect" {
   source            = "terraform-ibm-modules/kms-all-inclusive/ibm"
-  version           = "4.22.0"
+  version           = "5.0.2"
   resource_group_id = module.resource_group.resource_group_id
   region            = var.region
   resource_tags     = var.resource_tags
