@@ -440,7 +440,7 @@ module "observability_instances" {
     }
   ]
 
-  /* 
+  /*
   Removing the metrics routing settings block to resolve test clashes in the pipeline - https://github.ibm.com/GoldenEye/issues/issues/12223
   metrics_router_settings = {
     default_targets = [{
