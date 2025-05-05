@@ -440,6 +440,8 @@ module "observability_instances" {
     }
   ]
 
+  /* 
+  Removing the metrics routing settings block to resolve test clashes in the pipeline - https://github.ibm.com/GoldenEye/issues/issues/12223
   metrics_router_settings = {
     default_targets = [{
       id = module.observability_instances.metrics_router_targets[local.mr_target_name].id
@@ -448,6 +450,7 @@ module "observability_instances" {
     primary_metadata_region   = var.region
     private_api_endpoint_only = false
   }
+  */
 
   # CBR
   cbr_rule_at_region = var.region
