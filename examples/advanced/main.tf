@@ -440,6 +440,8 @@ module "observability_instances" {
     }
   ]
 
+  /*
+  Uncomment below to set metrics router settings. A `primary_metadata_region` is required to be set before metrics routing can be configured.
   metrics_router_settings = {
     default_targets = [{
       id = module.observability_instances.metrics_router_targets[local.mr_target_name].id
@@ -448,6 +450,7 @@ module "observability_instances" {
     primary_metadata_region   = var.region
     private_api_endpoint_only = false
   }
+  */
 
   # CBR
   cbr_rule_at_region = var.region
