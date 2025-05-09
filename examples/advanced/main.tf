@@ -441,7 +441,7 @@ module "observability_instances" {
   ]
 
   /*
-  Removing the metrics routing settings block to resolve test clashes in the pipeline - https://github.ibm.com/GoldenEye/issues/issues/12223
+  Uncomment below to set metrics router settings. A `primary_metadata_region` is required to be set before metrics routing can be configured.
   metrics_router_settings = {
     default_targets = [{
       id = module.observability_instances.metrics_router_targets[local.mr_target_name].id
