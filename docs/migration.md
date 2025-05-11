@@ -27,22 +27,22 @@ module "cloud_logs" {
 }
 
 module "cloud_monitoring" {
-  source            = "terraform-ibm-modules/cloud-monitoring/ibm"
-  version           = "1.2.2"
+  source  = "terraform-ibm-modules/cloud-monitoring/ibm"
+  version = "1.2.2"
   ...
   ...
 }
 
 module "metrics_router" {
-  source    = "terraform-ibm-modules/cloud-monitoring/ibm//modules/metrics_routing"
-  version   = "1.2.2"
+  source   = "terraform-ibm-modules/cloud-monitoring/ibm//modules/metrics_routing"
+  version  = "1.2.2"
   ...
   ...
 }
 
 module "activity_tracker" {
-  source            = "terraform-ibm-modules/activity-tracker/ibm"
-  version           = "1.0.0"
+  source  = "terraform-ibm-modules/activity-tracker/ibm"
+  version = "1.0.0"
   ...
   ...
 }
